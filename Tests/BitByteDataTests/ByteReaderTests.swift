@@ -5,11 +5,11 @@
 
 import XCTest
 import BitByteData
- 
+
 class ByteReaderTests: XCTestCase {
 
     private static let data = Data(bytes: [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])
-	
+
     func testByte() {
         let byteReader = ByteReader(data: ByteReaderTests.data)
 
@@ -47,5 +47,5 @@ class ByteReaderTests: XCTestCase {
         let num = byteReader.uint16()
         XCTAssertEqual(num, 0x0100)
     }
-    
+
 }

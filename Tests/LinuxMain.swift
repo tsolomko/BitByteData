@@ -7,7 +7,7 @@ import XCTest
 @testable import BitByteDataTests
 
 extension ByteReaderTests {
-	static var allTests : [(String, ByteReaderTests -> () throws -> Void)] {
+	static var allTests: [(String, ByteReaderTests -> () throws -> Void)] {
 		return [
 			("testByte", testByte),
 			("testAtTheEnd", testAtTheEnd),
@@ -20,5 +20,5 @@ extension ByteReaderTests {
 }
 
 XCTMain([
-    testCase(ByteReaderTests.allTests),
+    testCase(ByteReaderTests.allTests)
 ])
