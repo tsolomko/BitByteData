@@ -19,6 +19,34 @@ extension ByteReaderTests {
 	}
 }
 
+extension LsbBitReaderTests {
+	static var allTests: [(String, (LsbBitReaderTests) -> () throws -> Void)] {
+		return [
+			("testBits", testBits),
+			("testIntFromBits", testIntFromBits),
+			("testIsAligned", testIsAligned),
+			("testBitReaderByte", testBitReaderByte),
+			("testBitReaderBytes", testBitReaderBytes),
+			("testBitReaderUint16", testBitReaderUint16)
+		]
+	}
+}
+
+extension MsbBitReaderTests {
+	static var allTests: [(String, (MsbBitReaderTests) -> () throws -> Void)] {
+		return [
+			("testBits", testBits),
+			("testIntFromBits", testIntFromBits),
+			("testIsAligned", testIsAligned),
+			("testBitReaderByte", testBitReaderByte),
+			("testBitReaderBytes", testBitReaderBytes),
+			("testBitReaderUint16", testBitReaderUint16)
+		]
+	}
+}
+
 XCTMain([
-    testCase(ByteReaderTests.allTests)
+    testCase(ByteReaderTests.allTests),
+	testCase(LsbBitReaderTests.allTests),
+	testCase(MsbBitReaderTests.allTests)
 ])
