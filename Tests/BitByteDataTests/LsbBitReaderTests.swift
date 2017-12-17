@@ -44,4 +44,36 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertTrue(bitReader.isAligned)
     }
 
+    func testBitReaderByte() {
+        let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
+
+        var byte = bitReader.byte()
+        XCTAssertEqual(byte, 0x5A)
+        XCTAssertTrue(bitReader.isAligned)
+        XCTAssertFalse(bitReader.isAtTheEnd)
+
+        byte = bitReader.byte()
+        XCTAssertEqual(byte, 0xD6)
+        XCTAssertTrue(bitReader.isAligned)
+        XCTAssertTrue(bitReader.isAtTheEnd)
+    }
+
+    func testBitReaderBytes() {
+        let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
+
+        let bytes = bitReader.bytes(count: 2)
+        XCTAssertEqual(bytes, [0x5A, 0xD6])
+        XCTAssertTrue(bitReader.isAligned)
+        XCTAssertTrue(bitReader.isAtTheEnd)
+    }
+
+    func testBitReaderUint16() {
+        let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
+
+        let num = bitReader.uint16()
+        XCTAssertEqual(num, 54874)
+        XCTAssertTrue(bitReader.isAligned)
+        XCTAssertTrue(bitReader.isAtTheEnd)
+    }
+
 }
