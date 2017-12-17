@@ -3,8 +3,17 @@ matrix:
     - language: objective-c
       osx_image: xcode9.2
       before_deploy:
+      - brew update
+      - brew install sourcekitten
+      # `brew outdated` is necessary to prevent build error when there is no updates for Carthage.
+      - brew outdated carthage || brew upgrade carthage
+      # Update jazzy.
+      - gem update
+      - gem cleanup
+      # Generate documentation.
       - sourcekitten doc --spm-module BitByteData > docs.json
       - jazzy
+      # Build Carthage package.
       - swift package generate-xcodeproj
       - carthage build --no-skip-current
       - carthage archive BitByteData
