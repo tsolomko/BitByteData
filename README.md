@@ -36,7 +36,7 @@ More details you can find in [Swift Package Manager's Documentation](https://git
 
 TBD.
 
-### Documentation
+## Documentation
 
 Every function or type of BitByteData's public API is documented.
 This documentation can be found at its own [website](http://tsolomko.github.io/BitByteData).
