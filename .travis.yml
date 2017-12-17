@@ -1,0 +1,31 @@
+matrix:
+    include:
+    - language: objective-c
+      osx_image: xcode9.2
+      before_deploy:
+      - sourcekitten doc --spm-module BitByteData > docs.json
+      - jazzy
+      script:
+      - swift build
+      - swift test
+      - swift build -c release # Check building in release configuration just in case.
+      deploy:
+      - provider: pages
+        skip_cleanup: true
+        github_token:
+          secure: AyKeaGgdr+B0uwM4qMqi7ywFaDFlCubjBoPdLUEU681SYlhyJPhF5UiAC4DWxE4UrjWYPB4+XcRiZC+dxogQBSuAu8NwlIXHbJML+cjC+6SOS3AmJuo6Yh4nNvqsOMl8mH1PxH+vgO5zHB0OSKFgytpThN4pgzOmBMPaBBnpO7doPWzKWuOxqtjH+5X0lg40fy6e84bo6+6t7r7S6cjD5NUQe5YR+Zz3/69rb43+TnDWeYl2tCCkw+HzhqDiBWxzu1Fyu6XL8/lqXO07Np1uN9ZzlhZEns+uMrqJGMif6lqVRfHP0hdfkNQFYsSB/pJzmqSA2Tp5obfCRqHm/bOpDVVCQK/sgz6u8OKdDgAO0P5jmiRJLiKqC1+0NA1BRAsV5ZtgdemV8RLLy78MHvkJrlcTMCCPic3Udl36c0n9MVEgtae5IrbISFPF1eaVaX2h3ihAmjPHKOOXCMFL5XMmLR5Zarevn8yTDjXJ1J0+Ae3UoCIOvLBnNCz0Bu7zFG+a6zk+1or1Dul3nxvGd62WgpQn/59llKQbyCPrq+VAPXLnYKgbpAmnRwbFgXiJHaAhEIAhql2YlLgrU7rcAMmdkUREopXlE/lPzlc8lPG1YKNOPrgHO0HdGBQL50Aep39kpl2cgyBhGQFWPjmPeoCV2m0ZjOZuhtKsqFh4ovktdYc=
+        local_dir: docs
+        on:
+          tags: true
+    - language: generic
+      os: linux
+      sudo: required
+      dist: trusty
+      install:
+      - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
+      script:
+      - swift build
+      - swift test
+      - swift build -c release # Check building in release configuration just in case.
+notifications:
+  email: false
