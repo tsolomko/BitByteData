@@ -13,14 +13,14 @@ matrix:
       # Generate documentation.
       - sourcekitten doc --spm-module BitByteData > docs.json
       - jazzy 
-      # Build Carthage package.
+      # Build Carthage archive.
       - swift package generate-xcodeproj
       - carthage build --no-skip-current
       - carthage archive BitByteData
       script:
       - swift build
       - swift test
-      - swift build -c release # Check building in release configuration just in case.
+      - swift build -c release # Check Release build just in case.
       deploy:
       - provider: releases
         skip_cleanup: true
@@ -36,8 +36,8 @@ matrix:
         local_dir: docs
         on:
           tags: true
-          # Uncomment to not upload documentation if it is a test release.
-          # condition: $(git describe) != *"test"*
+          # Don't upload documentation if it is a test release.
+          condition: $(git describe) != *"test"*
     - language: generic
       os: linux
       sudo: required
@@ -47,6 +47,6 @@ matrix:
       script:
       - swift build
       - swift test
-      - swift build -c release # Check building in release configuration just in case.
+      - swift build -c release # Check Release build just in case.
 notifications:
   email: false
