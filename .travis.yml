@@ -1,3 +1,6 @@
+env:
+  global:
+    secure: fmKQgrPRx2iisNPzxDhOTfXPsnQMJxDgIMItVNjl1AKByraOpiDAGVESySvy+vwQqITCB/BfvdkW7smAPcvFJxIPRx1v4J0VY9kGHdnafMw35XY0Vj9soYkzNS4zrUebxY2gWkGM6Q6dgLOGT/9MSEyWqXBTtVz9sLwA7yr3ZI72yZDbcSz3XGa1fFZRVfwv3I+bmuozG7dq7tyqcSKgRZnHg1VvaRdxcaGqSGSUsNu0YLzmNedujNcU+gTXcxMdrXA1eaheHc2pwNA0TDf3KkefJpaVMXrA/Un8e9MaJ1lMnPlIiEI3dPTuogtQY7p59vgulBNBPEJovTHI0jCaNyLUkTkHgGcUuOwHqwUIKZCEiiqM1j12sdLo4O2tAdNaNHDtd8D3bCakrdJxXlUWVfjrCwvBB555gd0drRirQgYX+5gGFwnTQE8tOcjK4qUvJaOAouHsnm/DmW+fLJPX76KoU6QOtGJt6PQ92yBgKRhaSg/sQ28WPuCmF2p7BuUSuULxcM2LU5eA5aFxayoZvR2E9uvfFxnFh01iV6clcZo25U03AuxJmuI7Mhl83amj8bm5CRBbuRw5sIljXfBujFUel+kz/HXalS7lStqH9iPyiQvh24WkPzHKNQdjRI7v3kyrVSXJ3Xl6+fopXqr/25MwqD4bt57QgglJ2IQtnLM=
 matrix:
     include:
     - language: objective-c
@@ -24,15 +27,13 @@ matrix:
       deploy:
       - provider: releases
         skip_cleanup: true
-        api_key:
-          secure: O4qjMPmPw9s+cV8W0iAdJr+kSkLd0y2VDzFbAUuqSMQcc5yN2Spyfe+Wm+IWSSJda5mqVoO9KYr4qvMD7YT/oysHV8RAVuDqPe85tqsEUO5TSHUPPOKHcGuxmtIJTdddAGGuDxV4F1Ow2W97clPdzi8NM87D6zRSt0eG6Di8NfWFuG/QSDjEjIs2fMPxS+NUQtxF/T4jqNxXmAVbFxnwJXeIJWiAHEFME3H3J2MpfmwzxSakmtBUrNE2oknHps7qq/isyyAjeo96LpZl3NqRtLz7o5YTOOQYsGdNGE4IjUcDUNNmntNTNFf5b+M6mMBaQ5fpb13hBZ3brpb7ajKgS9HyfPbgIgBVldjz1StwbJcnxTUrV3jgw1pHtYstIP9p8gZZtHowDGh5xGIvb6NVryASBHi6DGK/rC774G/BfhhjTXqRuogrRAuuWB9Vfe8wDTDdkUWLpcchPkneEW/LhGokWVoeJYMJP7UgIoX9Ws0fDKwUg0X4aDhdN56yc969bDvXaGVCQW79hu1AUHKaSrPAKKD5tkt5ZNZCALzxHfOJsXxOe6WkmqC4q3AR53RIxXXxwZW4/Dlbl/r38N+uldvK915tvPVAOaEMxkdmY9VsHxGjohHWeoMs61QCjWGZmQ3qDUxclk+lyXH7jrtBfGTR+S9VmVt0+bqzONPlbHQ=
+        api_key: $GITHUB_TOKEN
         file: "BitByteData.framework.zip"
         on:
           tags: true
       - provider: pages
         skip_cleanup: true
-        github_token:
-          secure: IPkYDJ7ZSXoXUUPLmOxpLVOTO+egxcHSIeIwE+/IUjErvE8HhJ+DeIFD3tVyeaAu1IEkpsNX/kunNHDMJu0Zo3cMeqVsBlJ4lziApOP7RBDYOV9jJjeWKbXvXpxN4cvFbfSzMCxdhilXX282uxm+3MbipLayU68OTzMFKZYjGNzga88Dydqk3bN1akJ5WlbsdppvEnEXJSA8uXNDAan41sxcCfgLwypjyQyRaQclujZw8go4+nw3xazXwKtcmakUJRWuEkds5SYDedGBoP70T3amQu3OAAX2E3P8yHnv7q9+8/uG+y0d1cBuJcSfEL0covqEJcKjJOQO61NH+o7eSLWsAdfgFuOTfAMeg1jOAb6IUfBqtNtjQZPAcm7fWdKrMuG8V/sqkeFhpoYPDr3schTwFx2BMq/x5ag+Mc7OBBglQMefI7AdcBV8/m6QqQBym1W62UJp5OvaKQg+4D4msR0Tf4AFvO9K8SnV1RsaMOeq4ZuHtTkDjp0Fr1zuI0pAjKsQ19IPUvDyqblVZsteKFmkIPWs6bqwua+eVae5ZIN7/9vahQiwz/trIS2ZjxmZKiDGErFeou9AAUs707xRmD7SUy7ygrp+KvdaqIu+OpJNFjWf/b7G1JW7bkSw1cUzARtkaBP7MfI27DrzicMd6QtIkGmZQq/LdG8sCs72a+Q=
+        github_token: $GITHUB_TOKEN
         local_dir: docs
         on:
           tags: true
