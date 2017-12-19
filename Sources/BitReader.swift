@@ -21,4 +21,14 @@ public protocol BitReader: class {
 
     func align()
 
+    func byte() -> UInt8
+
+    func bytes(count: Int) -> [UInt8]
+
+    func uint64() -> UInt64
+
+    func uint32() -> UInt32
+
+    func uint16() -> UInt16
+
 }
