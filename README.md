@@ -4,11 +4,12 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/tsolomko/BitByteData/master/LICENSE)
 [![Build Status](https://travis-ci.org/tsolomko/BitByteData.svg?branch=develop)](https://travis-ci.org/tsolomko/BitByteData)
 
-A Swift framework with classes for reading bytes and bits consequently.
+A Swift framework with classes for reading and writing bytes and bits.
 
 ## Installation
 
 Right now only Swift Package manager is supported.
+(Carthage and CocoaPods will be available at the 1.0 release).
 To install using SPM, add BitByteData to you package dependencies
 and specify it as a dependency for your target, e.g.:
 
@@ -45,8 +46,5 @@ This documentation can be found at its own [website](http://tsolomko.github.io/B
 
 Whether you find a bug, have a suggestion, idea or something else,
 please [create an issue](https://github.com/tsolomko/BitByteData/issues) on GitHub.
-
-In case you have encoutered a bug, it would be especially helpful if you attach a file (archive, etc.)
-that caused the bug to happen.
 
 If you'd like to contribute code, please [create a pull request](https://github.com/tsolomko/BitByteData/pulls) on GitHub.
