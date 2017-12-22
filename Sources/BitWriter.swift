@@ -13,7 +13,7 @@ public protocol BitWriter {
     init()
 
     // TODO: isAligned OR bitMask?
-    
+
     func write(bit: UInt8)
 
     func write(bits: [UInt8])
