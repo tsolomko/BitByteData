@@ -7,6 +7,7 @@ import Foundation
 
 public protocol BitReader: class {
 
+    // TODO: Should this be part of public API?
     var bitMask: UInt8 { get }
 
     var isAligned: Bool { get }
@@ -15,6 +16,7 @@ public protocol BitReader: class {
 
     func bits(count: Int) -> [UInt8]
 
+    // TODO: Rename?
     func intFromBits(count: Int) -> Int
 
     func bit() -> Int
