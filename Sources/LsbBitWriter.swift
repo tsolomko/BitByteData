@@ -11,6 +11,8 @@ public final class LsbBitWriter: BitWriter {
     private var bitMask: UInt8 = 1
     private var currentByte: UInt8 = 0
 
+    public init() { }
+
     public func write(bit: UInt8) {
         precondition(bit <= 1, "A bit must be either 0 or 1.")
 
