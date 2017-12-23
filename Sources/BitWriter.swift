@@ -7,8 +7,7 @@ import Foundation
 
 public protocol BitWriter {
 
-    // TODO: Replace with `data`?
-    var buffer: [UInt8] { get }
+    var data: Data { get }
 
     init()
 

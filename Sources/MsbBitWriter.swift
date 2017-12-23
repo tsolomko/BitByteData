@@ -7,7 +7,8 @@ import Foundation
 
 public final class MsbBitWriter: BitWriter {
 
-    public private(set) var buffer: [UInt8] = []
+    public private(set) var data: Data = Data()
+
     private var bitMask: UInt8 = 128
     private var currentByte: UInt8 = 0
 
@@ -20,7 +21,7 @@ public final class MsbBitWriter: BitWriter {
 
         if self.bitMask == 1 {
             self.bitMask = 128
-            self.buffer.append(self.currentByte)
+            self.data.append(self.currentByte)
             self.currentByte = 0
         } else {
             self.bitMask >>= 1
@@ -35,7 +36,7 @@ public final class MsbBitWriter: BitWriter {
 
             if self.bitMask == 1 {
                 self.bitMask = 128
-                self.buffer.append(self.currentByte)
+                self.data.append(self.currentByte)
                 self.currentByte = 0
             } else {
                 self.bitMask >>= 1
@@ -52,7 +53,7 @@ public final class MsbBitWriter: BitWriter {
     }
 
     public func finish() {
-        self.buffer.append(self.currentByte)
+        self.data.append(self.currentByte)
         self.currentByte = 0
         self.bitMask = 128
     }
