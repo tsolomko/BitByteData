@@ -32,12 +32,6 @@ public final class MsbBitWriter: BitWriter {
         }
     }
 
-    public func write(bits: [UInt8]) {
-        for bit in bits {
-            self.write(bit: bit)
-        }
-    }
-
     public func write(number: Int, bitsCount: Int) {
         var mask = 1 << (bitsCount - 1)
         for _ in 0..<bitsCount {

@@ -27,3 +27,13 @@ public protocol BitWriter {
     func finish()
 
 }
+
+extension BitWriter {
+
+    public func write(bits: [UInt8]) {
+        for bit in bits {
+            self.write(bit: bit)
+        }
+    }
+    
+}
