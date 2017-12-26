@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "BitByteData"
-  s.version      = "1.0.0-test.1"
+  s.version      = "1.0.0-test.2"
   s.summary      = "Read and write bits and bytes from data consequently in Swift."
   
   s.description  = "A Swift framework with functions for reading and writing bytes and bits."
