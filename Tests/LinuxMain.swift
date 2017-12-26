@@ -45,8 +45,36 @@ extension MsbBitReaderTests {
 	}
 }
 
+extension LsbBitWriterTests {
+	static var allTests: [(String, (LsbBitWriterTests) -> () throws -> Void)] {
+		return [
+			("testWriteBit", testWriteBit),
+			("testWriteBitsArray", testWriteBitsArray),
+			("testWriteNumber", testWriteNumber),
+			("testAppendByte", testAppendByte),
+			("testFinish", testFinish),
+			("testIsAligned", testIsAligned)
+		]
+	}
+}
+
+extension MsbBitWriterTests {
+	static var allTests: [(String, (MsbBitWriterTests) -> () throws -> Void)] {
+		return [
+			("testWriteBit", testWriteBit),
+			("testWriteBitsArray", testWriteBitsArray),
+			("testWriteNumber", testWriteNumber),
+			("testAppendByte", testAppendByte),
+			("testFinish", testFinish),
+			("testIsAligned", testIsAligned)
+		]
+	}
+}
+
 XCTMain([
     testCase(ByteReaderTests.allTests),
 	testCase(LsbBitReaderTests.allTests),
-	testCase(MsbBitReaderTests.allTests)
+	testCase(MsbBitReaderTests.allTests),
+	testCase(LsbBitWriterTests.allTests),
+	testCase(MsbBitWriterTests.allTests)
 ])

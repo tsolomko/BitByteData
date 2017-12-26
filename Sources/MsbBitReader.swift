@@ -7,15 +7,10 @@ import Foundation
 
 public final class MsbBitReader: ByteReader, BitReader {
 
-    public private(set) var bitMask: UInt8
+    private var bitMask: UInt8 = 128
 
     public var isAligned: Bool {
         return self.bitMask == 128
-    }
-
-    public override init(data: Data) {
-        self.bitMask = 128
-        super.init(data: data)
     }
 
     public func bits(count: Int) -> [UInt8] {

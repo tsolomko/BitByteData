@@ -2,9 +2,9 @@ Pod::Spec.new do |s|
 
   s.name         = "BitByteData"
   s.version      = "1.0.0-test.1"
-  s.summary      = "Read bits and bytes from data consequently in Swift."
+  s.summary      = "Read and write bits and bytes from data consequently in Swift."
   
-  s.description  = "A Swift framework with functions for reading bytes and bits from Data consequently."
+  s.description  = "A Swift framework with functions for reading and writing bytes and bits."
 
   s.homepage     = "https://github.com/tsolomko/BitByteData"
   s.documentation_url = "http://tsolomko.github.io/BitByteData"
@@ -21,5 +21,9 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/tsolomko/BitByteData.git", :tag => "#{s.version}" }
 
   s.source_files = "Sources/*.swift"
+
+  s.test_spec 'Tests' do |test_spec|
+    test_spec.source_files = 'Tests/BitByteDataTests/*.swift'
+  end
 
 end
