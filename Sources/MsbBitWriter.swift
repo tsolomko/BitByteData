@@ -56,6 +56,11 @@ public final class MsbBitWriter: BitWriter {
         }
     }
 
+    public func append(byte: UInt8) {
+        precondition(isAligned, "BitWriter is not aligned.")
+        self.data.append(byte)
+    }
+
     public func finish() {
         self.data.append(self.currentByte)
         self.currentByte = 0

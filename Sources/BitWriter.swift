@@ -22,6 +22,8 @@ public protocol BitWriter {
     // TODO: Describe, that `number` is processed in the same order as `BitWriter`'s.
     func write(number: Int, bitsCount: Int)
 
+    func append(byte: UInt8)
+
     // TODO: Describe, that it doesn't check if it actually needs to finish.
     func finish()
 
