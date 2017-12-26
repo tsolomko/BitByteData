@@ -7,9 +7,6 @@ import Foundation
 
 public protocol BitReader: class {
 
-    // TODO: Should this be part of public API?
-    var bitMask: UInt8 { get }
-
     var isAligned: Bool { get }
 
     init(data: Data)
@@ -22,6 +19,8 @@ public protocol BitReader: class {
     func bit() -> Int
 
     func align()
+
+    // TODO: Describe preconditions.
 
     func byte() -> UInt8
 

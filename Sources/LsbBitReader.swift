@@ -7,7 +7,7 @@ import Foundation
 
 public final class LsbBitReader: ByteReader, BitReader {
 
-    public private(set) var bitMask: UInt8 = 1
+    private var bitMask: UInt8 = 1
 
     public var isAligned: Bool {
         return self.bitMask == 1

@@ -7,7 +7,7 @@ import Foundation
 
 public final class MsbBitReader: ByteReader, BitReader {
 
-    public private(set) var bitMask: UInt8 = 128
+    private var bitMask: UInt8 = 128
 
     public var isAligned: Bool {
         return self.bitMask == 128
