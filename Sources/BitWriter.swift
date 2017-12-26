@@ -11,7 +11,8 @@ public protocol BitWriter {
 
     init()
 
-    // TODO: isAligned OR bitMask?
+    // TODO: bitMask?
+    var isAligned: Bool { get }
 
     func write(bit: UInt8)
 

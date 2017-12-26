@@ -12,6 +12,10 @@ public final class MsbBitWriter: BitWriter {
     private var bitMask: UInt8 = 128
     private var currentByte: UInt8 = 0
 
+    public var isAligned: Bool {
+        return self.bitMask == 128
+    }
+
     public init() { }
 
     public func write(bit: UInt8) {

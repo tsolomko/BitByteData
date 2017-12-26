@@ -12,6 +12,10 @@ public final class LsbBitWriter: BitWriter {
     private var bitMask: UInt8 = 1
     private var currentByte: UInt8 = 0
 
+    public var isAligned: Bool {
+        return self.bitMask == 1
+    }
+
     public init() { }
 
     public func write(bit: UInt8) {
