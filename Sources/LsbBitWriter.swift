@@ -45,7 +45,7 @@ public final class LsbBitWriter: BitWriter {
         self.data.append(byte)
     }
 
-    public func finish() {
+    public func align() {
         self.data.append(self.currentByte)
         self.currentByte = 0
         self.bitMask = 1

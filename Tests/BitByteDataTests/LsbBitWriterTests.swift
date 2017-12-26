@@ -16,7 +16,7 @@ class LsbBitWriterTests: XCTestCase {
         bitWriter.write(bit: 0)
         bitWriter.write(bit: 1)
         bitWriter.write(bit: 1)
-        bitWriter.finish()
+        bitWriter.align()
         XCTAssertEqual(bitWriter.data, Data(bytes: [26]))
     }
 
@@ -24,7 +24,7 @@ class LsbBitWriterTests: XCTestCase {
         let bitWriter = LsbBitWriter()
 
         bitWriter.write(bits: [1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1])
-        bitWriter.finish()
+        bitWriter.align()
         XCTAssertEqual(bitWriter.data, Data(bytes: [83, 6]))
     }
 
@@ -37,7 +37,7 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(bitWriter.data, Data(bytes: [255]))
         bitWriter.write(number: 103, bitsCount: 7)
         XCTAssertEqual(bitWriter.data, Data(bytes: [255, 62]))
-        bitWriter.finish()
+        bitWriter.align()
         XCTAssertEqual(bitWriter.data, Data(bytes: [255, 62, 3]))
     }
 
@@ -51,7 +51,7 @@ class LsbBitWriterTests: XCTestCase {
     func testFinish() {
         let bitWriter = LsbBitWriter()
 
-        bitWriter.finish()
+        bitWriter.align()
         XCTAssertEqual(bitWriter.data, Data(bytes: [0]))
         XCTAssertTrue(bitWriter.isAligned)
     }
@@ -66,7 +66,7 @@ class LsbBitWriterTests: XCTestCase {
 
         bitWriter.write(bit: 0)
         XCTAssertFalse(bitWriter.isAligned)
-        bitWriter.finish()
+        bitWriter.align()
         XCTAssertTrue(bitWriter.isAligned)
     }
 

@@ -23,8 +23,8 @@ public protocol BitWriter {
 
     func append(byte: UInt8)
 
-    // TODO: Describe, that it doesn't check if it actually needs to finish.
-    func finish()
+    // TODO: Describe, that it doesn't check if it actually needs to align.
+    func align()
 
 }
 
@@ -35,5 +35,5 @@ extension BitWriter {
             self.write(bit: bit)
         }
     }
-    
+
 }
