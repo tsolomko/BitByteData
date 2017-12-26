@@ -17,7 +17,7 @@ jobs:
       - swift test
       - swift build -c release # Check Release build just in case.
     - stage: deploy
-      if: env(TRAVIS_TAG) IS present
+      if: tag IS present
       language: objective-c
       osx_image: xcode9.2
       env:
@@ -33,6 +33,7 @@ jobs:
       - gem install jazzy
       before_deploy:
       - swift package generate-xcodeproj
+      - swift build
       # Build Carthage archive.
       - carthage build --no-skip-current
       - carthage archive BitByteData
