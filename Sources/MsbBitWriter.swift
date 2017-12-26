@@ -34,17 +34,7 @@ public final class MsbBitWriter: BitWriter {
 
     public func write(bits: [UInt8]) {
         for bit in bits {
-            precondition(bit <= 1, "A bit must be either 0 or 1.")
-
-            self.currentByte += self.bitMask * bit
-
-            if self.bitMask == 1 {
-                self.bitMask = 128
-                self.data.append(self.currentByte)
-                self.currentByte = 0
-            } else {
-                self.bitMask >>= 1
-            }
+            self.write(bit: bit)
         }
     }
 
