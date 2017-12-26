@@ -41,6 +41,13 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(bitWriter.data, Data(bytes: [255, 62, 3]))
     }
 
+    func testAppendByte() {
+        let bitWriter = LsbBitWriter()
+
+        bitWriter.append(byte: 0xCA)
+        XCTAssertEqual(bitWriter.data, Data(bytes: [0xCA]))
+    }
+
     func testFinish() {
         let bitWriter = LsbBitWriter()
 
