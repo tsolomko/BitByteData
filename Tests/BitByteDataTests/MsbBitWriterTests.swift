@@ -51,7 +51,7 @@ class MsbBitWriterTests: XCTestCase {
         XCTAssertEqual(bitWriter.data, Data(bytes: [0xCA]))
     }
 
-    func testFinish() {
+    func testAlign() {
         let bitWriter = MsbBitWriter()
 
         bitWriter.align()

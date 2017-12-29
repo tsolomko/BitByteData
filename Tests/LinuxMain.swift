@@ -52,7 +52,7 @@ extension LsbBitWriterTests {
 			("testWriteBitsArray", testWriteBitsArray),
 			("testWriteNumber", testWriteNumber),
 			("testAppendByte", testAppendByte),
-			("testFinish", testFinish),
+			("testAlign", testAlign),
 			("testIsAligned", testIsAligned)
 		]
 	}
@@ -65,7 +65,7 @@ extension MsbBitWriterTests {
 			("testWriteBitsArray", testWriteBitsArray),
 			("testWriteNumber", testWriteNumber),
 			("testAppendByte", testAppendByte),
-			("testFinish", testFinish),
+			("testAlign", testAlign),
 			("testIsAligned", testIsAligned)
 		]
 	}
