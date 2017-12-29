@@ -10,6 +10,24 @@ class LsbBitReaderTests: XCTestCase {
 
     private static let data = Data(bytes: [0x5A, 0xD6])
 
+    func testBit() {
+        let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
+
+        XCTAssertEqual(bitReader.bit(), 0)
+        XCTAssertEqual(bitReader.bit(), 1)
+        XCTAssertEqual(bitReader.bit(), 0)
+        XCTAssertEqual(bitReader.bit(), 1)
+        XCTAssertEqual(bitReader.bit(), 1)
+        XCTAssertEqual(bitReader.bit(), 0)
+        XCTAssertEqual(bitReader.bit(), 1)
+        XCTAssertEqual(bitReader.bit(), 0)
+        XCTAssertEqual(bitReader.bit(), 0)
+        XCTAssertEqual(bitReader.bit(), 1)
+        XCTAssertEqual(bitReader.bit(), 1)
+
+        XCTAssertFalse(bitReader.isAligned)
+    }
+
     func testBits() {
         let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
 

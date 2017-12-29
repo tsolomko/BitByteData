@@ -18,6 +18,7 @@ public protocol BitReader: class {
 
     func bit() -> Int
 
+    // TODO: Describe, that it doesn't check for the end.
     func align()
 
     // TODO: Describe preconditions.
