@@ -62,6 +62,21 @@ class MsbBitReaderTests: XCTestCase {
         XCTAssertTrue(bitReader.isAligned)
     }
 
+    func testAlign() {
+        let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
+
+        _ = bitReader.bits(count: 6)
+        XCTAssertFalse(bitReader.isAligned)
+
+        bitReader.align()
+        XCTAssertTrue(bitReader.isAligned)
+
+        _ = bitReader.byte()
+
+        bitReader.align()
+        XCTAssertTrue(bitReader.isAligned)
+    }
+
     func testBitReaderByte() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
 
