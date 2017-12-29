@@ -22,9 +22,11 @@ extension ByteReaderTests {
 extension LsbBitReaderTests {
 	static var allTests: [(String, (LsbBitReaderTests) -> () throws -> Void)] {
 		return [
+			("testBit", testBit),
 			("testBits", testBits),
 			("testIntFromBits", testIntFromBits),
 			("testIsAligned", testIsAligned),
+			("testAlign", testAlign),
 			("testBitReaderByte", testBitReaderByte),
 			("testBitReaderBytes", testBitReaderBytes),
 			("testBitReaderUint16", testBitReaderUint16)
@@ -35,9 +37,11 @@ extension LsbBitReaderTests {
 extension MsbBitReaderTests {
 	static var allTests: [(String, (MsbBitReaderTests) -> () throws -> Void)] {
 		return [
+			("testBit", testBit),
 			("testBits", testBits),
 			("testIntFromBits", testIntFromBits),
 			("testIsAligned", testIsAligned),
+			("testAlign", testAlign),
 			("testBitReaderByte", testBitReaderByte),
 			("testBitReaderBytes", testBitReaderBytes),
 			("testBitReaderUint16", testBitReaderUint16)
