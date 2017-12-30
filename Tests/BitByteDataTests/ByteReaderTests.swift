@@ -15,13 +15,13 @@ class ByteReaderTests: XCTestCase {
 
         let byte = byteReader.byte()
         XCTAssertEqual(byte, 0)
-        XCTAssertFalse(byteReader.isAtTheEnd)
+        XCTAssertFalse(byteReader.isFinished)
     }
 
-    func testAtTheEnd() {
+    func testIsFinished() {
         let byteReader = ByteReader(data: ByteReaderTests.data)
         byteReader.offset = 9
-        XCTAssertTrue(byteReader.isAtTheEnd)
+        XCTAssertTrue(byteReader.isFinished)
     }
 
     func testBytes() {

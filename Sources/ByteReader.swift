@@ -11,8 +11,7 @@ public class ByteReader {
     public let data: Data
     public var offset: Int
 
-    // TODO: Rename?
-    public var isAtTheEnd: Bool {
+    public var isFinished: Bool {
         return self.data.endIndex == self.offset
     }
 
