@@ -56,8 +56,8 @@ public final class LsbBitReader: ByteReader, BitReader {
         return result
     }
 
-    public func bit() -> Int {
-        let bit = self.data[self.offset] & self.bitMask > 0 ? 1 : 0
+    public func bit() -> UInt8 {
+        let bit: UInt8 = self.data[self.offset] & self.bitMask > 0 ? 1 : 0
 
         if self.bitMask == 128 {
             self.offset += 1
