@@ -39,7 +39,6 @@ public protocol BitWriter {
 
 extension BitWriter {
 
-    /// Writes `bits`, advancing by `bits.count` BIT positions.
     public func write(bits: [UInt8]) {
         for bit in bits {
             self.write(bit: bit)

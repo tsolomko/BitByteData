@@ -48,8 +48,6 @@ public protocol BitReader: class {
 extension BitReader {
 
     /**
-     Reads `count` bits and returns them as an array of `UInt8`, advancing by `count` BIT positions.
-
      - Warning: Doesn't check if there is any data left.
      */
     public func bits(count: Int) -> [UInt8] {
