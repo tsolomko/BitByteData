@@ -10,7 +10,7 @@ extension ByteReaderTests {
 	static var allTests: [(String, (ByteReaderTests) -> () throws -> Void)] {
 		return [
 			("testByte", testByte),
-			("testAtTheEnd", testAtTheEnd),
+			("testIsFinished", testIsFinished),
 			("testBytes", testBytes),
 			("testUint64", testUint64),
 			("testUint32", testUint32),
