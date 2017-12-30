@@ -12,7 +12,7 @@ public class ByteReader {
     public var offset: Int
 
     public var isFinished: Bool {
-        return self.data.endIndex == self.offset
+        return self.data.endIndex <= self.offset
     }
 
     public init(data: Data) {
