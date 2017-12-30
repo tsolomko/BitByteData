@@ -13,6 +13,19 @@ public final class LsbBitReader: ByteReader, BitReader {
         return self.bitMask == 1
     }
 
+    public func bit() -> UInt8 {
+        let bit: UInt8 = self.data[self.offset] & self.bitMask > 0 ? 1 : 0
+
+        if self.bitMask == 128 {
+            self.offset += 1
+            self.bitMask = 1
+        } else {
+            self.bitMask <<= 1
+        }
+
+        return bit
+    }
+
     public func intFromBits(count: Int) -> Int {
         guard count > 0 else {
             return 0
@@ -36,19 +49,6 @@ public final class LsbBitReader: ByteReader, BitReader {
         return result
     }
 
-    public func bit() -> UInt8 {
-        let bit: UInt8 = self.data[self.offset] & self.bitMask > 0 ? 1 : 0
-
-        if self.bitMask == 128 {
-            self.offset += 1
-            self.bitMask = 1
-        } else {
-            self.bitMask <<= 1
-        }
-
-        return bit
-    }
-
     public func align() {
         guard self.bitMask != 1 else {
             return
@@ -56,6 +56,8 @@ public final class LsbBitReader: ByteReader, BitReader {
         self.bitMask = 1
         self.offset += 1
     }
+
+    // MARK: ByteReader's methods.
 
     public override func byte() -> UInt8 {
         precondition(isAligned, "BitReader is not aligned.")

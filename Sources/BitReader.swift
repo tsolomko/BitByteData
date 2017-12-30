@@ -11,16 +11,17 @@ public protocol BitReader: class {
 
     init(data: Data)
 
+    func bit() -> UInt8
+
     func bits(count: Int) -> [UInt8]
 
     // TODO: Rename?
     func intFromBits(count: Int) -> Int
 
-    func bit() -> UInt8
-
     // TODO: Describe, that it doesn't check for the end.
     func align()
 
+    // MARK: ByteReader's methods.
     // TODO: Describe preconditions.
 
     func byte() -> UInt8
