@@ -37,7 +37,8 @@ public class ByteReader {
     /**
      Reads byte and returns it, advancing by one position.
 
-     - Warning: Doesn't check for potential out of bounds error, i.e. doesn't check if `isFinished` is true.
+     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
+     to check if the end is reached.
      */
     public func byte() -> UInt8 {
         self.offset += 1
@@ -47,8 +48,8 @@ public class ByteReader {
     /**
      Reads `count` bytes and returns them as an array of `UInt8`, advancing by `count` positions.
 
-     - Warning: Doesn't check for potential out of bounds errors, i.e. doesn't check if `isFinished` will be true
-     at any point during the reading of these bytes.
+     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
+     to check if the end is reached.
      */
     public func bytes(count: Int) -> [UInt8] {
         let result = self.data[self.offset..<self.offset + count].toArray(type: UInt8.self, count: count)
@@ -59,8 +60,8 @@ public class ByteReader {
     /**
      Reads 8 bytes and returns them as a `UInt64` number, advancing by 8 positions.
 
-     - Warning: Doesn't check for potential out of bounds errors, i.e. doesn't check if `isFinished` will be true
-     at any point during the reading of this number.
+     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
+     to check if the end is reached.
      */
     public func uint64() -> UInt64 {
         let result = self.data[self.offset..<self.offset + 8].to(type: UInt64.self)
@@ -71,8 +72,8 @@ public class ByteReader {
     /**
      Reads 4 bytes and returns them as a `UInt32` number, advancing by 4 positions.
 
-     - Warning: Doesn't check for potential out of bounds errors, i.e. doesn't check if `isFinished` will be true
-     at any point during the reading of this number.
+     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
+     to check if the end is reached.
      */
     public func uint32() -> UInt32 {
         let result = self.data[self.offset..<self.offset + 4].to(type: UInt32.self)
@@ -83,8 +84,8 @@ public class ByteReader {
     /**
      Reads 2 bytes and returns them as a `UInt16` number, advancing by 2 positions.
 
-     - Warning: Doesn't check for potential out of bounds errors, i.e. doesn't check if `isFinished` will be true
-     at any point during the reading of this number.
+     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
+     to check if the end is reached.
      */
     public func uint16() -> UInt16 {
         let result = self.data[self.offset..<self.offset + 2].to(type: UInt16.self)
