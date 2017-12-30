@@ -26,10 +26,9 @@ public final class MsbBitReader: ByteReader, BitReader {
         return bit
     }
 
-    public func intFromBits(count: Int) -> Int {
-        guard count > 0 else {
-            return 0
-        }
+    public func int(fromBits count: Int) -> Int {
+        guard count > 0
+            else { return 0 }
 
         var result = 0
         for i in 0..<count {
@@ -50,9 +49,9 @@ public final class MsbBitReader: ByteReader, BitReader {
     }
 
     public func align() {
-        guard self.bitMask != 128 else {
-            return
-        }
+        guard self.bitMask != 128
+            else { return }
+
         self.bitMask = 128
         self.offset += 1
     }

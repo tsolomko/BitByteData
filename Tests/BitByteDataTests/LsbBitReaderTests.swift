@@ -43,10 +43,10 @@ class LsbBitReaderTests: XCTestCase {
     func testIntFromBits() {
         let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
 
-        var num = bitReader.intFromBits(count: 3)
+        var num = bitReader.int(fromBits: 3)
         XCTAssertEqual(num, 2)
 
-        num = bitReader.intFromBits(count: 8)
+        num = bitReader.int(fromBits: 8)
         XCTAssertEqual(num, 203)
 
         XCTAssertFalse(bitReader.isAligned)

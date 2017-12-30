@@ -15,8 +15,7 @@ public protocol BitReader: class {
 
     func bits(count: Int) -> [UInt8]
 
-    // TODO: Rename?
-    func intFromBits(count: Int) -> Int
+    func int(fromBits count: Int) -> Int
 
     // TODO: Describe, that it doesn't check for the end.
     func align()
