@@ -72,6 +72,9 @@ public final class MsbBitWriter: BitWriter {
      - Note: If writer is already aligned, then does nothing.
      */
     public func align() {
+        guard self.bitMask != 128
+            else { return }
+
         self.data.append(self.currentByte)
         self.currentByte = 0
         self.bitMask = 128

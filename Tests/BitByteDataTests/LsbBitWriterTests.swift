@@ -52,7 +52,7 @@ class LsbBitWriterTests: XCTestCase {
         let bitWriter = LsbBitWriter()
 
         bitWriter.align()
-        XCTAssertEqual(bitWriter.data, Data(bytes: [0]))
+        XCTAssertEqual(bitWriter.data, Data())
         XCTAssertTrue(bitWriter.isAligned)
     }
 
