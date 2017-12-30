@@ -57,7 +57,8 @@ extension LsbBitWriterTests {
 			("testWriteNumber", testWriteNumber),
 			("testAppendByte", testAppendByte),
 			("testAlign", testAlign),
-			("testIsAligned", testIsAligned)
+			("testIsAligned", testIsAligned),
+			("testNamingConsistency", testNamingConsistency)
 		]
 	}
 }
@@ -70,7 +71,8 @@ extension MsbBitWriterTests {
 			("testWriteNumber", testWriteNumber),
 			("testAppendByte", testAppendByte),
 			("testAlign", testAlign),
-			("testIsAligned", testIsAligned)
+			("testIsAligned", testIsAligned),
+			("testNamingConsistency", testNamingConsistency)
 		]
 	}
 }
