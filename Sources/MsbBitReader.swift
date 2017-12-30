@@ -18,16 +18,10 @@ public final class MsbBitReader: ByteReader, BitReader {
             return []
         }
 
-        var array: [UInt8] = Array(repeating: 0, count: count)
-        for i in 0..<count {
-            array[i] = self.data[self.offset] & self.bitMask > 0 ? 1 : 0
-
-            if self.bitMask == 1 {
-                self.offset += 1
-                self.bitMask = 128
-            } else {
-                self.bitMask >>= 1
-            }
+        var array = [UInt8]()
+        array.reserveCapacity(count)
+        for _ in 0..<count {
+            array.append(self.bit())
         }
 
         return array
