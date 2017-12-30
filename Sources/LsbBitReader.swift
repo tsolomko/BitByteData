@@ -13,20 +13,6 @@ public final class LsbBitReader: ByteReader, BitReader {
         return self.bitMask == 1
     }
 
-    public func bits(count: Int) -> [UInt8] {
-        guard count > 0 else {
-            return []
-        }
-
-        var array = [UInt8]()
-        array.reserveCapacity(count)
-        for _ in 0..<count {
-            array.append(self.bit())
-        }
-
-        return array
-    }
-
     public func intFromBits(count: Int) -> Int {
         guard count > 0 else {
             return 0
