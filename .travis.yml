@@ -32,7 +32,6 @@ jobs:
       - brew install sourcekitten
       - gem install jazzy
       before_deploy:
-      - swift package generate-xcodeproj
       # Necessary for correct SourceKitten processing.
       - swift build
       # Build Carthage archive.
