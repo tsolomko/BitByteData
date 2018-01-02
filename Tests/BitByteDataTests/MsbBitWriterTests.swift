@@ -51,11 +51,11 @@ class MsbBitWriterTests: XCTestCase {
         XCTAssertEqual(bitWriter.data, Data(bytes: [0xCA]))
     }
 
-    func testFinish() {
+    func testAlign() {
         let bitWriter = MsbBitWriter()
 
         bitWriter.align()
-        XCTAssertEqual(bitWriter.data, Data(bytes: [0]))
+        XCTAssertEqual(bitWriter.data, Data())
         XCTAssertTrue(bitWriter.isAligned)
     }
 
@@ -71,6 +71,15 @@ class MsbBitWriterTests: XCTestCase {
         XCTAssertFalse(bitWriter.isAligned)
         bitWriter.align()
         XCTAssertTrue(bitWriter.isAligned)
+    }
+
+    func testNamingConsistency() {
+        let bitWriter = MsbBitWriter()
+        bitWriter.write(number: 14582, bitsCount: 14)
+        bitWriter.align()
+
+        let bitReader = MsbBitReader(data: bitWriter.data)
+        XCTAssertEqual(bitReader.int(fromBits: 14), 14582)
     }
 
 }
