@@ -2,9 +2,9 @@ Pod::Spec.new do |s|
 
   s.name         = "BitByteData"
   s.version      = "1.0.0-test.3"
-  s.summary      = "Read and write bits and bytes from data consequently in Swift."
+  s.summary      = "Read and write bits and bytes in Swift."
   
-  s.description  = "A Swift framework with functions for reading and writing bytes and bits."
+  s.description  = "A Swift framework with classes for reading and writing bits and bytes."
 
   s.homepage     = "https://github.com/tsolomko/BitByteData"
   s.documentation_url = "http://tsolomko.github.io/BitByteData"
