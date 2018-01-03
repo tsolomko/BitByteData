@@ -19,9 +19,4 @@ extension Data {
         }
     }
 
-    @inline(__always)
-    func toArray<T>(type: T.Type) -> [T] {
-        return self.toArray(type: type, count: self.count / MemoryLayout<T>.size)
-    }
-
 }
