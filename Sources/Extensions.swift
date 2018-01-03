@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Timofey Solomko
+// Copyright (c) 2018 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -17,11 +17,6 @@ extension Data {
         return self.withUnsafeBytes {
             [T](UnsafeBufferPointer(start: $0, count: count))
         }
-    }
-
-    @inline(__always)
-    func toArray<T>(type: T.Type) -> [T] {
-        return self.toArray(type: type, count: self.count / MemoryLayout<T>.size)
     }
 
 }

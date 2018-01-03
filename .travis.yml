@@ -1,43 +1,57 @@
-matrix:
-    include:
-    - language: objective-c
+jobs:
+  include:
+    - stage: test
+      language: objective-c
       osx_image: xcode9.2
-      before_deploy:
-      - sourcekitten doc --spm-module BitByteData > docs.json
-      - jazzy
-      - swift package generate-xcodeproj
-      - carthage build --no-skip-current
-      - carthage archive BitByteData
       script:
       - swift build
       - swift test
-      - swift build -c release # Check building in release configuration just in case.
-      deploy:
-      - provider: releases
-        skip_cleanup: true
-        api_key:
-          secure: lhJi7BsAuhGo9T4rgD/UWlVRnfrO5xLIF3BUuPHb21045tEXk/BGEHgc9a9CTFm2/iR3SmP/GDsmqfJlMzWLvuTlyV5i8otIodwIp5NYstFhyA2JaEVglmnzlkf/2FkNb5KKJDyGM1KuecYmPRTUUzYThVXl59GZ2esgfiCN26pDeDgwRyJt34jeUj0VzK9JDmEJ/ODG/hvuUWyZp0zni+m6WTPZ7dILeazFEc81WATBfMo5oa8ZBChSM6lDKaW8XyKZWrMXjsK6dKfQTcVwnvrplfw2TqfPVA+YfePcq1os5Do5CELnhrUZMSI6qvOmPauzGStjsAVFTiMaYO6HdHO03mn5L9SUuyhhKqHmh2pAkM1zKxbtfKbk6oi4zJJgvbTjIO4K2X5SUwHFgjULijW9JJeCFjsLfwODvFNFHeLeql3jaKNo6kRn2VvT/uNuT3aZa+r+WeFL0HgD6Z/EEkQW5yI6DocjetRP6y9B0rpA+YyALbd0SkVIqvoywztSfxWwp7eKhQHbG/FTIfWlmMbtLq5xULQb6TyjVHO94iSfsDV2rjAeDJY73P+rPsvej4Y9LFS8VOHcsrFhFlbR9E0NjCO2CH2TZcjXPOdLu4gfapPdiqQIdgWjC6ECUwsq+Ux6jJ6QIrGC2TI/Fw58mtLf1G8SdqBRXo+Kw0IAB4g=
-        file: "BitByteData.framework.zip"
-        on:
-          tags: true
-      - provider: pages
-        skip_cleanup: true
-        github_token:
-          secure: AyKeaGgdr+B0uwM4qMqi7ywFaDFlCubjBoPdLUEU681SYlhyJPhF5UiAC4DWxE4UrjWYPB4+XcRiZC+dxogQBSuAu8NwlIXHbJML+cjC+6SOS3AmJuo6Yh4nNvqsOMl8mH1PxH+vgO5zHB0OSKFgytpThN4pgzOmBMPaBBnpO7doPWzKWuOxqtjH+5X0lg40fy6e84bo6+6t7r7S6cjD5NUQe5YR+Zz3/69rb43+TnDWeYl2tCCkw+HzhqDiBWxzu1Fyu6XL8/lqXO07Np1uN9ZzlhZEns+uMrqJGMif6lqVRfHP0hdfkNQFYsSB/pJzmqSA2Tp5obfCRqHm/bOpDVVCQK/sgz6u8OKdDgAO0P5jmiRJLiKqC1+0NA1BRAsV5ZtgdemV8RLLy78MHvkJrlcTMCCPic3Udl36c0n9MVEgtae5IrbISFPF1eaVaX2h3ihAmjPHKOOXCMFL5XMmLR5Zarevn8yTDjXJ1J0+Ae3UoCIOvLBnNCz0Bu7zFG+a6zk+1or1Dul3nxvGd62WgpQn/59llKQbyCPrq+VAPXLnYKgbpAmnRwbFgXiJHaAhEIAhql2YlLgrU7rcAMmdkUREopXlE/lPzlc8lPG1YKNOPrgHO0HdGBQL50Aep39kpl2cgyBhGQFWPjmPeoCV2m0ZjOZuhtKsqFh4ovktdYc=
-        local_dir: docs
-        on:
-          tags: true
-          # Uncomment to not upload documentation if it is a test release.
-          # condition: $(git describe) != *"test"*
+      - swift build -c release # Check Release build just in case.
     - language: generic
       os: linux
-      sudo: required
       dist: trusty
       install:
       - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
       script:
       - swift build
       - swift test
-      - swift build -c release # Check building in release configuration just in case.
-notifications:
-  email: false
+      - swift build -c release # Check Release build just in case.
+    - stage: deploy
+      if: tag IS present
+      language: objective-c
+      osx_image: xcode9.2
+      env:
+        secure: fmKQgrPRx2iisNPzxDhOTfXPsnQMJxDgIMItVNjl1AKByraOpiDAGVESySvy+vwQqITCB/BfvdkW7smAPcvFJxIPRx1v4J0VY9kGHdnafMw35XY0Vj9soYkzNS4zrUebxY2gWkGM6Q6dgLOGT/9MSEyWqXBTtVz9sLwA7yr3ZI72yZDbcSz3XGa1fFZRVfwv3I+bmuozG7dq7tyqcSKgRZnHg1VvaRdxcaGqSGSUsNu0YLzmNedujNcU+gTXcxMdrXA1eaheHc2pwNA0TDf3KkefJpaVMXrA/Un8e9MaJ1lMnPlIiEI3dPTuogtQY7p59vgulBNBPEJovTHI0jCaNyLUkTkHgGcUuOwHqwUIKZCEiiqM1j12sdLo4O2tAdNaNHDtd8D3bCakrdJxXlUWVfjrCwvBB555gd0drRirQgYX+5gGFwnTQE8tOcjK4qUvJaOAouHsnm/DmW+fLJPX76KoU6QOtGJt6PQ92yBgKRhaSg/sQ28WPuCmF2p7BuUSuULxcM2LU5eA5aFxayoZvR2E9uvfFxnFh01iV6clcZo25U03AuxJmuI7Mhl83amj8bm5CRBbuRw5sIljXfBujFUel+kz/HXalS7lStqH9iPyiQvh24WkPzHKNQdjRI7v3kyrVSXJ3Xl6+fopXqr/25MwqD4bt57QgglJ2IQtnLM=
+      before_install:
+      - brew update
+      install:
+      # Update Carthage.
+      # `brew outdated` is necessary to prevent build error when there is no updates for Carthage.
+      - brew outdated carthage || brew upgrade carthage
+      # Install SourceKitten and Jazzy.
+      - brew install sourcekitten
+      - gem install -N jazzy
+      before_deploy:
+      # Necessary for correct SourceKitten processing.
+      - swift build
+      # Build Carthage archive.
+      - carthage build --no-skip-current
+      - carthage archive BitByteData
+      # Generate documentation.
+      - sourcekitten doc --spm-module BitByteData > docs.json
+      - jazzy
+      deploy:
+      - provider: releases
+        skip_cleanup: true
+        api_key: $GITHUB_TOKEN
+        file: "BitByteData.framework.zip"
+        on:
+          tags: true
+      - provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN
+        local_dir: docs
+        on:
+          tags: true
+          # Don't upload documentation if it is a test release.
+          condition: $(git describe) != *"test"*
