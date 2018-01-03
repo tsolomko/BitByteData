@@ -1,0 +1,57 @@
+jobs:
+  include:
+    - stage: test
+      language: objective-c
+      osx_image: xcode9.2
+      script:
+      - swift build
+      - swift test
+      - swift build -c release # Check Release build just in case.
+    - language: generic
+      os: linux
+      dist: trusty
+      install:
+      - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
+      script:
+      - swift build
+      - swift test
+      - swift build -c release # Check Release build just in case.
+    - stage: deploy
+      if: tag IS present
+      language: objective-c
+      osx_image: xcode9.2
+      env:
+        secure: fmKQgrPRx2iisNPzxDhOTfXPsnQMJxDgIMItVNjl1AKByraOpiDAGVESySvy+vwQqITCB/BfvdkW7smAPcvFJxIPRx1v4J0VY9kGHdnafMw35XY0Vj9soYkzNS4zrUebxY2gWkGM6Q6dgLOGT/9MSEyWqXBTtVz9sLwA7yr3ZI72yZDbcSz3XGa1fFZRVfwv3I+bmuozG7dq7tyqcSKgRZnHg1VvaRdxcaGqSGSUsNu0YLzmNedujNcU+gTXcxMdrXA1eaheHc2pwNA0TDf3KkefJpaVMXrA/Un8e9MaJ1lMnPlIiEI3dPTuogtQY7p59vgulBNBPEJovTHI0jCaNyLUkTkHgGcUuOwHqwUIKZCEiiqM1j12sdLo4O2tAdNaNHDtd8D3bCakrdJxXlUWVfjrCwvBB555gd0drRirQgYX+5gGFwnTQE8tOcjK4qUvJaOAouHsnm/DmW+fLJPX76KoU6QOtGJt6PQ92yBgKRhaSg/sQ28WPuCmF2p7BuUSuULxcM2LU5eA5aFxayoZvR2E9uvfFxnFh01iV6clcZo25U03AuxJmuI7Mhl83amj8bm5CRBbuRw5sIljXfBujFUel+kz/HXalS7lStqH9iPyiQvh24WkPzHKNQdjRI7v3kyrVSXJ3Xl6+fopXqr/25MwqD4bt57QgglJ2IQtnLM=
+      before_install:
+      - brew update
+      install:
+      # Update Carthage.
+      # `brew outdated` is necessary to prevent build error when there is no updates for Carthage.
+      - brew outdated carthage || brew upgrade carthage
+      # Install SourceKitten and Jazzy.
+      - brew install sourcekitten
+      - gem install -N jazzy
+      before_deploy:
+      # Necessary for correct SourceKitten processing.
+      - swift build
+      # Build Carthage archive.
+      - carthage build --no-skip-current
+      - carthage archive BitByteData
+      # Generate documentation.
+      - sourcekitten doc --spm-module BitByteData > docs.json
+      - jazzy
+      deploy:
+      - provider: releases
+        skip_cleanup: true
+        api_key: $GITHUB_TOKEN
+        file: "BitByteData.framework.zip"
+        on:
+          tags: true
+      - provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN
+        local_dir: docs
+        on:
+          tags: true
+          # Don't upload documentation if it is a test release.
+          condition: $(git describe) != *"test"*
