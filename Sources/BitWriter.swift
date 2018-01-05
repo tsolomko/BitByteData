@@ -14,7 +14,7 @@ public protocol BitWriter {
     /// True, if writer's BIT pointer is aligned with the BYTE border.
     var isAligned: Bool { get }
 
-    /// Creates an instance for writing.
+    /// Creates an instance for writing bits (and bytes).
     init()
 
     /// Writes `bit`, advancing by one BIT position.

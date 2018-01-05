@@ -11,7 +11,7 @@ public protocol BitReader: class {
     /// True, if reader's BIT pointer is aligned with the BYTE border.
     var isAligned: Bool { get }
 
-    /// Creates an instance for reading `data`.
+    /// Creates an instance for reading bits (and bytes) from `data`.
     init(data: Data)
 
     /// Reads bit and returns it, advancing by one BIT position.

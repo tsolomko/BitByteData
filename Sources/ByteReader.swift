@@ -27,7 +27,7 @@ public class ByteReader {
         return self.data.endIndex <= self.offset
     }
 
-    /// Creates an instance for reading `data`.
+    /// Creates an instance for reading bytes from `data`.
     public init(data: Data) {
         self.size = data.count
         self.data = data

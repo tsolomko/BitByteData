@@ -22,7 +22,7 @@ public final class MsbBitWriter: BitWriter {
         return self.bitMask == 128
     }
 
-    /// Creates an instance for writing.
+    /// Creates an instance for writing bits (and bytes).
     public init() { }
 
     /// Writes `bit`, advancing by one BIT position.
