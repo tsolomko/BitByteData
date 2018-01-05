@@ -12,6 +12,17 @@ import Foundation
 public final class MsbBitReader: ByteReader, BitReader {
 
     private var bitMask: UInt8 = 128
+    private var currentByte: UInt8
+
+    /// Creates an instance for reading bits (and bytes) from `data`.
+    public override init(data: Data) {
+        if data.count > 0 {
+            self.currentByte = data[0]
+        } else {
+            self.currentByte = 0
+        }
+        super.init(data: data)
+    }
 
     /// True, if reader's BIT pointer is aligned with the BYTE border.
     public var isAligned: Bool {
@@ -25,7 +36,7 @@ public final class MsbBitReader: ByteReader, BitReader {
      to check if the end is reached.
      */
     public func bit() -> UInt8 {
-        let bit: UInt8 = self.data[self.offset] & self.bitMask > 0 ? 1 : 0
+        let bit: UInt8 = self.currentByte & self.bitMask > 0 ? 1 : 0
 
         if self.bitMask == 1 {
             self.offset += 1
@@ -49,10 +60,8 @@ public final class MsbBitReader: ByteReader, BitReader {
 
         var result = 0
         for i in 0..<count {
-            let power = count - i - 1
-
-            let bit = self.data[self.offset] & self.bitMask > 0 ? 1 : 0
-            result += (1 << power) * bit
+            let bit = self.currentByte & self.bitMask > 0 ? 1 : 0
+            result += (1 << (count - i - 1)) * bit
 
             if self.bitMask == 1 {
                 self.offset += 1
@@ -81,6 +90,15 @@ public final class MsbBitReader: ByteReader, BitReader {
     }
 
     // MARK: ByteReader's methods.
+
+    /// Offset to the byte in `data` which will be read next.
+    public override var offset: Int {
+        didSet {
+            if !self.isFinished {
+                self.currentByte = self.data[self.offset]
+            }
+        }
+    }
 
     /**
      Reads byte and returns it, advancing by one BYTE position.
