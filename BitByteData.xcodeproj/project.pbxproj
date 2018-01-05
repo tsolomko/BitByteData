@@ -76,14 +76,14 @@
 		06F065561FFAEA1F00312A82 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				06F065571FFAEA1F00312A82 /* LsbBitReader.swift */,
-				06F065581FFAEA1F00312A82 /* BitReader.swift */,
-				06F065591FFAEA1F00312A82 /* ByteReader.swift */,
-				06F0655A1FFAEA1F00312A82 /* MsbBitReader.swift */,
 				06F0655B1FFAEA1F00312A82 /* Extensions.swift */,
-				06F0655C1FFAEA1F00312A82 /* MsbBitWriter.swift */,
+				06F065591FFAEA1F00312A82 /* ByteReader.swift */,
+				06F065581FFAEA1F00312A82 /* BitReader.swift */,
+				06F065571FFAEA1F00312A82 /* LsbBitReader.swift */,
+				06F0655A1FFAEA1F00312A82 /* MsbBitReader.swift */,
 				06F0655D1FFAEA1F00312A82 /* BitWriter.swift */,
 				06F0655E1FFAEA1F00312A82 /* LsbBitWriter.swift */,
+				06F0655C1FFAEA1F00312A82 /* MsbBitWriter.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -100,11 +100,11 @@
 		06F065611FFAEA1F00312A82 /* BitByteDataTests */ = {
 			isa = PBXGroup;
 			children = (
-				06F065621FFAEA1F00312A82 /* MsbBitWriterTests.swift */,
+				06F065661FFAEA1F00312A82 /* ByteReaderTests.swift */,
+				06F065651FFAEA1F00312A82 /* LsbBitReaderTests.swift */,
 				06F065631FFAEA1F00312A82 /* MsbBitReaderTests.swift */,
 				06F065641FFAEA1F00312A82 /* LsbBitWriterTests.swift */,
-				06F065651FFAEA1F00312A82 /* LsbBitReaderTests.swift */,
-				06F065661FFAEA1F00312A82 /* ByteReaderTests.swift */,
+				06F065621FFAEA1F00312A82 /* MsbBitWriterTests.swift */,
 			);
 			path = BitByteDataTests;
 			sourceTree = "<group>";
