@@ -11,7 +11,7 @@ public protocol BitReader: class {
     /// True, if reader's BIT pointer is aligned with the BYTE border.
     var isAligned: Bool { get }
 
-    /// Creates an instance for reading `data`.
+    /// Creates an instance for reading bits (and bytes) from `data`.
     init(data: Data)
 
     /// Reads bit and returns it, advancing by one BIT position.
@@ -42,25 +42,5 @@ public protocol BitReader: class {
 
     /// Reads 2 bytes and returns them as a `UInt16` number, advancing by 2 BYTE positions.
     func uint16() -> UInt16
-
-}
-
-extension BitReader {
-
-    /**
-     - Warning: Doesn't check if there is any data left.
-     */
-    public func bits(count: Int) -> [UInt8] {
-        guard count > 0
-            else { return [] }
-
-        var array = [UInt8]()
-        array.reserveCapacity(count)
-        for _ in 0..<count {
-            array.append(self.bit())
-        }
-
-        return array
-    }
 
 }

@@ -32,14 +32,18 @@ jobs:
       - brew install sourcekitten
       - gem install -N jazzy
       before_deploy:
-      # Necessary for correct SourceKitten processing.
-      - swift build
-      # Build Carthage archive.
-      - carthage build --no-skip-current
-      - carthage archive BitByteData
-      # Generate documentation.
-      - sourcekitten doc --spm-module BitByteData > docs.json
-      - jazzy
+      - >
+        if ! [ "$BEFORE_DEPLOY_RUN" ]; then
+          export BEFORE_DEPLOY_RUN=1;
+          # Necessary for correct SourceKitten processing.
+          swift build
+          # Build Carthage archive.
+          carthage build --no-skip-current
+          carthage archive BitByteData
+          # Generate documentation.
+          sourcekitten doc --spm-module BitByteData > docs.json
+          jazzy
+        fi
       deploy:
       - provider: releases
         skip_cleanup: true

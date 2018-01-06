@@ -76,14 +76,14 @@
 		06F065561FFAEA1F00312A82 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				06F065571FFAEA1F00312A82 /* LsbBitReader.swift */,
-				06F065581FFAEA1F00312A82 /* BitReader.swift */,
-				06F065591FFAEA1F00312A82 /* ByteReader.swift */,
-				06F0655A1FFAEA1F00312A82 /* MsbBitReader.swift */,
 				06F0655B1FFAEA1F00312A82 /* Extensions.swift */,
-				06F0655C1FFAEA1F00312A82 /* MsbBitWriter.swift */,
+				06F065591FFAEA1F00312A82 /* ByteReader.swift */,
+				06F065581FFAEA1F00312A82 /* BitReader.swift */,
+				06F065571FFAEA1F00312A82 /* LsbBitReader.swift */,
+				06F0655A1FFAEA1F00312A82 /* MsbBitReader.swift */,
 				06F0655D1FFAEA1F00312A82 /* BitWriter.swift */,
 				06F0655E1FFAEA1F00312A82 /* LsbBitWriter.swift */,
+				06F0655C1FFAEA1F00312A82 /* MsbBitWriter.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -100,11 +100,11 @@
 		06F065611FFAEA1F00312A82 /* BitByteDataTests */ = {
 			isa = PBXGroup;
 			children = (
-				06F065621FFAEA1F00312A82 /* MsbBitWriterTests.swift */,
+				06F065661FFAEA1F00312A82 /* ByteReaderTests.swift */,
+				06F065651FFAEA1F00312A82 /* LsbBitReaderTests.swift */,
 				06F065631FFAEA1F00312A82 /* MsbBitReaderTests.swift */,
 				06F065641FFAEA1F00312A82 /* LsbBitWriterTests.swift */,
-				06F065651FFAEA1F00312A82 /* LsbBitReaderTests.swift */,
-				06F065661FFAEA1F00312A82 /* ByteReaderTests.swift */,
+				06F065621FFAEA1F00312A82 /* MsbBitWriterTests.swift */,
 			);
 			path = BitByteDataTests;
 			sourceTree = "<group>";
@@ -248,7 +248,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -290,7 +290,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -318,7 +318,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 4;
+				DYLIB_CURRENT_VERSION = 5;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = BitByteData.xcodeproj/BitByteData.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -337,7 +337,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 4;
+				DYLIB_CURRENT_VERSION = 5;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = BitByteData.xcodeproj/BitByteData.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

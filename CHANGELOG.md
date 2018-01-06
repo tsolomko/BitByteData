@@ -1,6 +1,12 @@
 # Changelog
 
-## v1.0.0
+## 1.0.1
+
+- Increased performance of `bit()`, `bits(count:)` and `int(fromBits:)` functions for both `LsbBitReader` and `MsbBitReader`.
+- More consistent behaviour (precondition failures) for situtations when there is not enough data left.
+- Small updates to documentation.
+
+## 1.0.0
 
 - `ByteReader` class for reading bytes.
 - `BitReader` protocol, `LsbBitReader` and `MsbBitReader` classes for reading bits (and bytes).
