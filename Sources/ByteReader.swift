@@ -37,7 +37,7 @@ public class ByteReader {
     /**
      Reads byte and returns it, advancing by one position.
 
-     - Precondition: There MUST be enough data left (`offset < size`).
+     - Precondition: There MUST be enough data left.
      */
     public func byte() -> UInt8 {
         precondition(self.offset < self.size)
@@ -48,7 +48,7 @@ public class ByteReader {
     /**
      Reads `count` bytes and returns them as an array of `UInt8`, advancing by `count` positions.
 
-     - Precondition: There MUST be enough data left (`offset + count <= size`).
+     - Precondition: There MUST be enough data left.
      - Precondition: Parameter `count` MUST not be less than 0.
      */
     public func bytes(count: Int) -> [UInt8] {
@@ -64,7 +64,7 @@ public class ByteReader {
     /**
      Reads 8 bytes and returns them as a `UInt64` number, advancing by 8 positions.
 
-     - Precondition: There MUST be enough data left to read (`offset + 8 <= size`).
+     - Precondition: There MUST be enough data left.
      */
     public func uint64() -> UInt64 {
         precondition(self.offset + 8 <= self.size)
@@ -76,7 +76,7 @@ public class ByteReader {
     /**
      Reads 4 bytes and returns them as a `UInt32` number, advancing by 4 positions.
 
-     - Precondition: There MUST be enough data left to read (`offset + 4 <= size`).
+     - Precondition: There MUST be enough data left.
      */
     public func uint32() -> UInt32 {
         precondition(self.offset + 4 <= self.size)
@@ -88,7 +88,7 @@ public class ByteReader {
     /**
      Reads 2 bytes and returns them as a `UInt16` number, advancing by 2 positions.
 
-     - Precondition: There MUST be enough data left to read (`offset + 2 <= size`).
+     - Precondition: There MUST be enough data left.
      */
     public func uint16() -> UInt16 {
         precondition(self.offset + 2 <= self.size)
