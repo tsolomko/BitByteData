@@ -37,10 +37,10 @@ public class ByteReader {
     /**
      Reads byte and returns it, advancing by one position.
 
-     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
-     to check if the end is reached.
+     - Precondition: There MUST be enough data left (`offset < size`).
      */
     public func byte() -> UInt8 {
+        precondition(self.offset < self.size)
         self.offset += 1
         return self.data[self.offset - 1]
     }
@@ -48,10 +48,14 @@ public class ByteReader {
     /**
      Reads `count` bytes and returns them as an array of `UInt8`, advancing by `count` positions.
 
-     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
-     to check if the end is reached.
+     - Precondition: There MUST be enough data left (`offset + count <= size`).
+     - Precondition: Parameter `count` MUST not be less than 0.
      */
     public func bytes(count: Int) -> [UInt8] {
+        precondition(count >= 0)
+        guard count > 0
+            else { return [] }
+        precondition(self.offset + count <= self.size)
         let result = self.data[self.offset..<self.offset + count].toArray(type: UInt8.self, count: count)
         self.offset += count
         return result
@@ -60,10 +64,10 @@ public class ByteReader {
     /**
      Reads 8 bytes and returns them as a `UInt64` number, advancing by 8 positions.
 
-     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
-     to check if the end is reached.
+     - Precondition: There MUST be enough data left to read (`offset + 8 <= size`).
      */
     public func uint64() -> UInt64 {
+        precondition(self.offset + 8 <= self.size)
         let result = self.data[self.offset..<self.offset + 8].to(type: UInt64.self)
         self.offset += 8
         return result
@@ -72,10 +76,10 @@ public class ByteReader {
     /**
      Reads 4 bytes and returns them as a `UInt32` number, advancing by 4 positions.
 
-     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
-     to check if the end is reached.
+     - Precondition: There MUST be enough data left to read (`offset + 4 <= size`).
      */
     public func uint32() -> UInt32 {
+        precondition(self.offset + 4 <= self.size)
         let result = self.data[self.offset..<self.offset + 4].to(type: UInt32.self)
         self.offset += 4
         return result
@@ -84,10 +88,10 @@ public class ByteReader {
     /**
      Reads 2 bytes and returns them as a `UInt16` number, advancing by 2 positions.
 
-     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
-     to check if the end is reached.
+     - Precondition: There MUST be enough data left to read (`offset + 2 <= size`).
      */
     public func uint16() -> UInt16 {
+        precondition(self.offset + 2 <= self.size)
         let result = self.data[self.offset..<self.offset + 2].to(type: UInt16.self)
         self.offset += 2
         return result
