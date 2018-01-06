@@ -48,8 +48,8 @@ public class ByteReader {
     /**
      Reads `count` bytes and returns them as an array of `UInt8`, advancing by `count` positions.
 
-     - Precondition: There MUST be enough data left.
      - Precondition: Parameter `count` MUST not be less than 0.
+     - Precondition: There MUST be enough data left.
      */
     public func bytes(count: Int) -> [UInt8] {
         precondition(count >= 0)

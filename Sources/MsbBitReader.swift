@@ -57,7 +57,28 @@ public final class MsbBitReader: ByteReader, BitReader {
     }
 
     /**
-     Reads `count` bits and returns them as a `Int` number, advancing by `count` BIT positions.
+     Reads `count` bits and returns them as an array of `UInt8`, advancing by `count` BIT positions.
+
+     - Precondition: Parameter `count` MUST not be less than 0.
+     - Precondition: There MUST be enough data left.
+     */
+    public func bits(count: Int) -> [UInt8] {
+        precondition(count >= 0)
+        guard count > 0
+            else { return [] }
+        precondition(bitsLeft >= count)
+
+        var array = [UInt8]()
+        array.reserveCapacity(count)
+        for _ in 0..<count {
+            array.append(self.bit())
+        }
+
+        return array
+    }
+
+    /**
+     Reads `fromBits` bits and returns them as a `Int` number, advancing by `count` BIT positions.
 
      - Precondition: Parameter `fromBits` MUST not be less than 0.
      - Precondition: There MUST be enough data left.

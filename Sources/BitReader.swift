@@ -44,23 +44,3 @@ public protocol BitReader: class {
     func uint16() -> UInt16
 
 }
-
-extension BitReader {
-
-    /**
-     - Warning: Doesn't check if there is any data left.
-     */
-    public func bits(count: Int) -> [UInt8] {
-        guard count > 0
-            else { return [] }
-
-        var array = [UInt8]()
-        array.reserveCapacity(count)
-        for _ in 0..<count {
-            array.append(self.bit())
-        }
-
-        return array
-    }
-
-}
