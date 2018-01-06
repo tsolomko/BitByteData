@@ -40,10 +40,10 @@ public final class MsbBitReader: ByteReader, BitReader {
     /**
      Reads bit and returns it, advancing by one BIT position.
 
-     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
-     to check if the end is reached.
+     - Precondition: There MUST be enough data left.
      */
     public func bit() -> UInt8 {
+        precondition(bitsLeft >= 1)
         let bit: UInt8 = self.currentByte & self.bitMask > 0 ? 1 : 0
 
         if self.bitMask == 1 {
@@ -59,12 +59,14 @@ public final class MsbBitReader: ByteReader, BitReader {
     /**
      Reads `count` bits and returns them as a `Int` number, advancing by `count` BIT positions.
 
-     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` BEFORE calling this method
-     to check if the end is reached.
+     - Precondition: There MUST be enough data left.
+     - Precondition: Parameter `fromBits` MUST not be less than 0.
      */
     public func int(fromBits count: Int) -> Int {
+        precondition(count >= 0)
         guard count > 0
             else { return 0 }
+        precondition(bitsLeft >= count)
 
         var result = 0
         for i in 0..<count {
