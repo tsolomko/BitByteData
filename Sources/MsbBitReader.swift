@@ -14,6 +14,14 @@ public final class MsbBitReader: ByteReader, BitReader {
     private var bitMask: UInt8 = 128
     private var currentByte: UInt8
 
+    private var bitsLeft: Int {
+        if isFinished {
+            return 0
+        } else {
+            return (self.size - self.offset) * 8 + 8 - bitMask.leadingZeroBitCount
+        }
+    }
+
     /// Creates an instance for reading bits (and bytes) from `data`.
     public override init(data: Data) {
         if data.count > 0 {
