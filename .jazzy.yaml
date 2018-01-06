@@ -3,11 +3,11 @@ sourcekitten_sourcefile: docs.json
 clean: true
 author: Timofey Solomko
 module: BitByteData
-module_version: 1.0.0
+module_version: 1.0.1
 copyright: '© 2018 Timofey Solomko'
 readme: README.md
 github_url: https://github.com/tsolomko/BitByteData
-github_file_prefix: https://github.com/tsolomko/BitByteData/tree/1.0.0
+github_file_prefix: https://github.com/tsolomko/BitByteData/tree/1.0.1
 theme: fullwidth
 
 custom_categories:
