@@ -24,11 +24,7 @@ public final class LsbBitReader: ByteReader, BitReader {
 
     /// Creates an instance for reading bits (and bytes) from `data`.
     public override init(data: Data) {
-        if data.count > 0 {
-            self.currentByte = data[0]
-        } else {
-            self.currentByte = 0
-        }
+        self.currentByte = data.first ?? 0
         super.init(data: data)
     }
 
