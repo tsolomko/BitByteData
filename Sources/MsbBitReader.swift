@@ -18,7 +18,7 @@ public final class MsbBitReader: ByteReader, BitReader {
         if isFinished {
             return 0
         } else {
-            return (self.size - self.offset) * 8 + 8 - bitMask.leadingZeroBitCount
+            return (self.data.endIndex - self.offset) * 8 + 8 - bitMask.leadingZeroBitCount
         }
     }
 

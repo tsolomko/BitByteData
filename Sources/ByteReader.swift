@@ -40,7 +40,7 @@ public class ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func byte() -> UInt8 {
-        precondition(self.offset < self.size)
+        precondition(self.offset < self.data.endIndex)
         self.offset += 1
         return self.data[self.offset - 1]
     }
@@ -55,7 +55,7 @@ public class ByteReader {
         precondition(count >= 0)
         guard count > 0
             else { return [] }
-        precondition(self.offset + count <= self.size)
+        precondition(self.offset + count <= self.data.endIndex)
         let result = self.data[self.offset..<self.offset + count].toArray(type: UInt8.self, count: count)
         self.offset += count
         return result
@@ -67,7 +67,7 @@ public class ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint64() -> UInt64 {
-        precondition(self.offset + 8 <= self.size)
+        precondition(self.offset + 8 <= self.data.endIndex)
         let result = self.data[self.offset..<self.offset + 8].to(type: UInt64.self)
         self.offset += 8
         return result
@@ -79,7 +79,7 @@ public class ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint32() -> UInt32 {
-        precondition(self.offset + 4 <= self.size)
+        precondition(self.offset + 4 <= self.data.endIndex)
         let result = self.data[self.offset..<self.offset + 4].to(type: UInt32.self)
         self.offset += 4
         return result
@@ -91,7 +91,7 @@ public class ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint16() -> UInt16 {
-        precondition(self.offset + 2 <= self.size)
+        precondition(self.offset + 2 <= self.data.endIndex)
         let result = self.data[self.offset..<self.offset + 2].to(type: UInt16.self)
         self.offset += 2
         return result
