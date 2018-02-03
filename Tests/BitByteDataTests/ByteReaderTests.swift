@@ -48,4 +48,12 @@ class ByteReaderTests: XCTestCase {
         XCTAssertEqual(num, 0x0100)
     }
 
+    func testNonZeroStartIndex() {
+        let byteReader = ByteReader(data: ByteReaderTests.data[1...])
+        XCTAssertEqual(byteReader.uint16(), 0x0201)
+        XCTAssertEqual(byteReader.uint32(), 0x06050403)
+        XCTAssertEqual(byteReader.byte(), 0x07)
+        XCTAssertEqual(byteReader.bytes(count: 1), [0x08])
+    }
+
 }
