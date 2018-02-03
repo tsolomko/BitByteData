@@ -37,7 +37,7 @@ More details you can find in [Swift Package Manager's Documentation](https://git
 
 ### CocoaPods
 
-Add `pod 'BitByteData', '~> 1.0'` and `use_frameworks!` lines to your Podfile.
+Add `pod 'BitByteData', '~> 1.0'` and `use_frameworks!` to your Podfile.
 
 To complete installation, run `pod install`.
 

@@ -18,17 +18,13 @@ public final class MsbBitReader: ByteReader, BitReader {
         if isFinished {
             return 0
         } else {
-            return (self.size - self.offset) * 8 + 8 - bitMask.leadingZeroBitCount
+            return (self.data.endIndex - self.offset) * 8 + 8 - bitMask.leadingZeroBitCount
         }
     }
 
     /// Creates an instance for reading bits (and bytes) from `data`.
     public override init(data: Data) {
-        if data.count > 0 {
-            self.currentByte = data[0]
-        } else {
-            self.currentByte = 0
-        }
+        self.currentByte = data.first ?? 0
         super.init(data: data)
     }
 

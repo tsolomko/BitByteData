@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2
+
+- Fix several problems causing incorrect preconditions failures.
+
 ## 1.0.1
 
 - Increased performance of `bit()`, `bits(count:)` and `int(fromBits:)` functions for both `LsbBitReader` and `MsbBitReader`.

@@ -31,6 +31,7 @@ jobs:
       # Install SourceKitten and Jazzy.
       - brew install sourcekitten
       - gem install -N jazzy
+      - gem update -N cocoapods
       before_deploy:
       - >
         if ! [ "$BEFORE_DEPLOY_RUN" ]; then
