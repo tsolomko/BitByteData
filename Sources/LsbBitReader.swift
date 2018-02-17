@@ -5,10 +5,7 @@
 
 import Foundation
 
-/**
- A type that contains functions for reading `Data` bit-by-bit and byte-by-byte,
- assuming "LSB 0" bit numbering scheme.
- */
+/// A type that contains functions for reading `Data` bit-by-bit and byte-by-byte, assuming "LSB0" bit numbering scheme.
 public final class LsbBitReader: ByteReader, BitReader {
 
     private var bitMask: UInt8 = 1
@@ -26,6 +23,16 @@ public final class LsbBitReader: ByteReader, BitReader {
     public override init(data: Data) {
         self.currentByte = data.first ?? 0
         super.init(data: data)
+    }
+
+    /**
+     Converts a `ByteReader` instance into `LsbBitReader`, enabling bits reading capabilities.
+     Current `offset` value in `byteReader` is preserved.
+     */
+    public init(_ byteReader: ByteReader) {
+        self.currentByte = byteReader.offset < byteReader.data.endIndex ? byteReader.data[byteReader.offset] : 0
+        super.init(data: byteReader.data)
+        self.offset = byteReader.offset
     }
 
     /// True, if reader's BIT pointer is aligned with the BYTE border.

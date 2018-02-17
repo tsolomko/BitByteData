@@ -14,6 +14,8 @@ public protocol BitReader: class {
     /// Creates an instance for reading bits (and bytes) from `data`.
     init(data: Data)
 
+    // TODO: Add `init(_ byteReader: ByteReader)`?
+
     /// Reads bit and returns it, advancing by one BIT position.
     func bit() -> UInt8
 
