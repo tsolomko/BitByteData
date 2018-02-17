@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0-test
+
+- Add converting (from `ByteReader`) initializers to `LsbBitReader` and `MsbBitReader`.
+
 ## 1.0.2
 
 - Fix several problems causing incorrect preconditions failures.
