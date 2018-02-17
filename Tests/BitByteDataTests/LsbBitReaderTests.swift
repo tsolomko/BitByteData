@@ -120,4 +120,12 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertEqual(bitReader.int(fromBits: 4), 13)
     }
 
+    func testConvertedByteReader() {
+        let byteReader = ByteReader(data: LsbBitReaderTests.data)
+        _ = byteReader.byte()
+        let bitReader = LsbBitReader(byteReader)
+        XCTAssertEqual(bitReader.bits(count: 4), [0, 1, 1, 0])
+        XCTAssertEqual(bitReader.int(fromBits: 4), 13)
+    }
+
 }
