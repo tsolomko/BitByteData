@@ -14,6 +14,9 @@ public protocol BitReader: class {
     // Amount of bits left to read.
     var bitsLeft: Int { get }
 
+    // Amount of bits that were already read.
+    var bitsRead: Int { get }
+
     /// Creates an instance for reading bits (and bytes) from `data`.
     init(data: Data)
 

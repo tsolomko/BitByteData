@@ -25,6 +25,16 @@ public final class MsbBitReader: ByteReader, BitReader {
         }
     }
 
+    // Amount of bits that were already read.
+    public var bitsRead: Int {
+        if self.isFinished {
+            return 8 * self.size
+        } else {
+            return (self.offset - self.data.startIndex) * 8 + self.bitMask.leadingZeroBitCount
+        }
+
+    }
+
     /// Creates an instance for reading bits (and bytes) from `data`.
     public override init(data: Data) {
         self.currentByte = data.first ?? 0
