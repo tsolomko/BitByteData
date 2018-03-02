@@ -128,4 +128,32 @@ class MsbBitReaderTests: XCTestCase {
         XCTAssertEqual(bitReader.int(fromBits: 4), 6)
     }
 
+    func testBitsLeft() {
+        let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
+
+        XCTAssertEqual(bitReader.bitsLeft, 16)
+        _ = bitReader.bits(count: 4)
+        XCTAssertEqual(bitReader.bitsLeft, 12)
+        _ = bitReader.bits(count: 4)
+        XCTAssertEqual(bitReader.bitsLeft, 8)
+        _ = bitReader.bits(count: 2)
+        XCTAssertEqual(bitReader.bitsLeft, 6)
+        _ = bitReader.bits(count: 6)
+        XCTAssertEqual(bitReader.bitsLeft, 0)
+    }
+
+    func testBitsRead() {
+        let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
+
+        XCTAssertEqual(bitReader.bitsRead, 0)
+        _ = bitReader.bits(count: 4)
+        XCTAssertEqual(bitReader.bitsRead, 4)
+        _ = bitReader.bits(count: 4)
+        XCTAssertEqual(bitReader.bitsRead, 8)
+        _ = bitReader.bits(count: 2)
+        XCTAssertEqual(bitReader.bitsRead, 10)
+        _ = bitReader.bits(count: 6)
+        XCTAssertEqual(bitReader.bitsRead, 16)
+    }
+
 }
