@@ -11,12 +11,28 @@ public final class LsbBitReader: ByteReader, BitReader {
     private var bitMask: UInt8 = 1
     private var currentByte: UInt8
 
-    private var bitsLeft: Int {
-        if isFinished {
+    /// True, if reader's BIT pointer is aligned with the BYTE border.
+    public var isAligned: Bool {
+        return self.bitMask == 1
+    }
+
+    // Amount of bits left to read.
+    public var bitsLeft: Int {
+        if self.isFinished {
             return 0
         } else {
-            return (self.data.endIndex - self.offset) * 8 + 8 - bitMask.trailingZeroBitCount
+            return (self.data.endIndex - self.offset) * 8 - self.bitMask.trailingZeroBitCount
         }
+    }
+
+    // Amount of bits that were already read.
+    public var bitsRead: Int {
+        if self.isFinished {
+            return 8 * self.size
+        } else {
+            return (self.offset - self.data.startIndex) * 8 + self.bitMask.trailingZeroBitCount
+        }
+
     }
 
     /// Creates an instance for reading bits (and bytes) from `data`.
@@ -26,18 +42,13 @@ public final class LsbBitReader: ByteReader, BitReader {
     }
 
     /**
-     Converts a `ByteReader` instance into `LsbBitReader`, enabling bits reading capabilities.
-     Current `offset` value in `byteReader` is preserved.
+     Converts a `ByteReader` instance into `LsbBitReader`, enabling bit reading capabilities. Current `offset` value of
+     `byteReader` is preserved.
      */
     public init(_ byteReader: ByteReader) {
         self.currentByte = byteReader.offset < byteReader.data.endIndex ? byteReader.data[byteReader.offset] : 0
         super.init(data: byteReader.data)
         self.offset = byteReader.offset
-    }
-
-    /// True, if reader's BIT pointer is aligned with the BYTE border.
-    public var isAligned: Bool {
-        return self.bitMask == 1
     }
 
     /**
