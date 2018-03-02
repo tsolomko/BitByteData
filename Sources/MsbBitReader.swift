@@ -11,7 +11,13 @@ public final class MsbBitReader: ByteReader, BitReader {
     private var bitMask: UInt8 = 128
     private var currentByte: UInt8
 
-    private var bitsLeft: Int {
+    /// True, if reader's BIT pointer is aligned with the BYTE border.
+    public var isAligned: Bool {
+        return self.bitMask == 128
+    }
+
+    // Amount of bits left to read.
+    public var bitsLeft: Int {
         if isFinished {
             return 0
         } else {
@@ -27,17 +33,12 @@ public final class MsbBitReader: ByteReader, BitReader {
 
     /**
      Converts a `ByteReader` instance into `MsbBitReader`, enabling bit reading capabilities.
-     Current `offset` value in `byteReader` is preserved.
+     Current `offset` value of `byteReader` is preserved.
      */
     public init(_ byteReader: ByteReader) {
         self.currentByte = byteReader.offset < byteReader.data.endIndex ? byteReader.data[byteReader.offset] : 0
         super.init(data: byteReader.data)
         self.offset = byteReader.offset
-    }
-
-    /// True, if reader's BIT pointer is aligned with the BYTE border.
-    public var isAligned: Bool {
-        return self.bitMask == 128
     }
 
     /**
