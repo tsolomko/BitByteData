@@ -1,3 +1,5 @@
+excluded:
+  - .build/
 opt_in_rules:
   - array_init
   - block_based_kvo
@@ -5,6 +7,7 @@ opt_in_rules:
   - contains_over_first_not_nil
   - discouraged_direct_init
   - discouraged_object_literal
+  - discouraged_optional_boolean
   - explicit_init
   - fatal_error_message
   - first_where

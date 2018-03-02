@@ -120,4 +120,40 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertEqual(bitReader.int(fromBits: 4), 13)
     }
 
+    func testConvertedByteReader() {
+        let byteReader = ByteReader(data: LsbBitReaderTests.data)
+        _ = byteReader.byte()
+        let bitReader = LsbBitReader(byteReader)
+        XCTAssertEqual(bitReader.bits(count: 4), [0, 1, 1, 0])
+        XCTAssertEqual(bitReader.int(fromBits: 4), 13)
+    }
+
+    func testBitsLeft() {
+        let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
+
+        XCTAssertEqual(bitReader.bitsLeft, 16)
+        _ = bitReader.bits(count: 4)
+        XCTAssertEqual(bitReader.bitsLeft, 12)
+        _ = bitReader.bits(count: 4)
+        XCTAssertEqual(bitReader.bitsLeft, 8)
+        _ = bitReader.bits(count: 2)
+        XCTAssertEqual(bitReader.bitsLeft, 6)
+        _ = bitReader.bits(count: 6)
+        XCTAssertEqual(bitReader.bitsLeft, 0)
+    }
+
+    func testBitsRead() {
+        let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
+
+        XCTAssertEqual(bitReader.bitsRead, 0)
+        _ = bitReader.bits(count: 4)
+        XCTAssertEqual(bitReader.bitsRead, 4)
+        _ = bitReader.bits(count: 4)
+        XCTAssertEqual(bitReader.bitsRead, 8)
+        _ = bitReader.bits(count: 2)
+        XCTAssertEqual(bitReader.bitsRead, 10)
+        _ = bitReader.bits(count: 6)
+        XCTAssertEqual(bitReader.bitsRead, 16)
+    }
+
 }
