@@ -42,8 +42,8 @@ public final class MsbBitReader: ByteReader, BitReader {
     }
 
     /**
-     Converts a `ByteReader` instance into `MsbBitReader`, enabling bit reading capabilities.
-     Current `offset` value of `byteReader` is preserved.
+     Converts a `ByteReader` instance into `MsbBitReader`, enabling bit reading capabilities. Current `offset` value of
+     `byteReader` is preserved.
      */
     public init(_ byteReader: ByteReader) {
         self.currentByte = byteReader.offset < byteReader.data.endIndex ? byteReader.data[byteReader.offset] : 0
