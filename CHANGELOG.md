@@ -1,8 +1,10 @@
 # Changelog
 
-## 1.1.0-test
+## 1.1.0
 
-- Add converting (from `ByteReader`) initializers to `LsbBitReader` and `MsbBitReader`.
+- Added converting from `ByteReader` initializers to `LsbBitReader` and `MsbBitReader`, as well as `BitReader` protocol.
+- Added `bitsLeft` and `bitsRead` computed properties to `LsbBitReader` and `MsbBitReader`, as well as `BitReader`
+  protocol.
 
 ## 1.0.2
 
