@@ -18,10 +18,10 @@ public final class LsbBitReader: ByteReader, BitReader {
 
     // Amount of bits left to read.
     public var bitsLeft: Int {
-        if isFinished {
+        if self.isFinished {
             return 0
         } else {
-            return (self.data.endIndex - self.offset) * 8 + 8 - bitMask.trailingZeroBitCount
+            return (self.data.endIndex - self.offset) * 8 - self.bitMask.trailingZeroBitCount
         }
     }
 
