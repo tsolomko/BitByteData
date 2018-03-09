@@ -46,6 +46,9 @@ public protocol BitReader: class {
     /// Reads `count` bytes and returns them as an array of `UInt8`, advancing by `count` BYTE positions.
     func bytes(count: Int) -> [UInt8]
 
+    /// Reads `fromBytes` bytes and returns them as an `Int` number, advancing by `fromBytes` BYTE positions.
+    func int(fromBytes count: Int) -> Int
+
     /// Reads 8 bytes and returns them as a `UInt64` number, advancing by 8 BYTE positions.
     func uint64() -> UInt64
 

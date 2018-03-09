@@ -168,6 +168,18 @@ public final class LsbBitReader: ByteReader, BitReader {
     }
 
     /**
+     Reads `fromBytes` bytes and returns them as an `Int` number, advancing by `fromBytes` BYTE positions.
+
+     - Precondition: Reader MUST be aligned.
+     - Precondition: Parameter `fromBytes` MUST not be less than 0.
+     - Precondition: There MUST be enough data left.
+     */
+    public override func int(fromBytes count: Int) -> Int {
+        precondition(isAligned, "BitReader is not aligned.")
+        return super.int(fromBytes: count)
+    }
+
+    /**
      Reads 8 bytes and returns them as a `UInt64` number, advancing by 8 BYTE positions.
 
      - Precondition: Reader MUST be aligned.
