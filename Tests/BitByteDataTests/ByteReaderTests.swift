@@ -30,6 +30,14 @@ class ByteReaderTests: XCTestCase {
         XCTAssertEqual(bytes, [0x00, 0x01, 0x02, 0x03])
     }
 
+    func testIntFromBytes() {
+        let byteReader = ByteReader(data: ByteReaderTests.data)
+        XCTAssertEqual(byteReader.int(fromBytes: 3), 131328)
+        XCTAssertEqual(byteReader.int(fromBytes: 2), 1027)
+        XCTAssertEqual(byteReader.int(fromBytes: 4), 134678021)
+        XCTAssertTrue(byteReader.isFinished)
+    }
+
     func testUint64() {
         let byteReader = ByteReader(data: ByteReaderTests.data)
         let num = byteReader.uint64()
