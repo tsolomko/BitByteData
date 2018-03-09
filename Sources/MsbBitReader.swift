@@ -92,7 +92,7 @@ public final class MsbBitReader: ByteReader, BitReader {
     }
 
     /**
-     Reads `fromBits` bits and returns them as a `Int` number, advancing by `count` BIT positions.
+     Reads `fromBits` bits and returns them as an `Int` number, advancing by `fromBits` BIT positions.
 
      - Precondition: Parameter `fromBits` MUST not be less than 0.
      - Precondition: There MUST be enough data left.

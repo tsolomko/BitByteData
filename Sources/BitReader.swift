@@ -32,7 +32,7 @@ public protocol BitReader: class {
     /// Reads `count` bits and returns them as an array of `UInt8`, advancing by `count` BIT positions.
     func bits(count: Int) -> [UInt8]
 
-    /// Reads `count` bits and returns them as a `Int` number, advancing by `count` BIT positions.
+    /// Reads `fromBits` bits and returns them as an `Int` number, advancing by `fromBits` BIT positions.
     func int(fromBits count: Int) -> Int
 
     /// Aligns reader's BIT pointer to the BYTE border, i.e. moves BIT pointer to the first BIT of the next BYTE.
