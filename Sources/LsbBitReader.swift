@@ -121,10 +121,94 @@ public final class LsbBitReader: ByteReader, BitReader {
     }
 
     /**
+     Reads `fromBits` bits and returns them as an `UInt16` number, advancing by `fromBits` BIT positions.
+
+     - Precondition: Parameter `fromBits` MUST be from `0..<16` range.
+     - Precondition: There MUST be enough data left.
+     */
+    public func uint16(fromBits count: Int) -> UInt16 {
+        precondition(0..<16 ~= count)
+        guard count > 0
+            else { return 0 }
+        precondition(bitsLeft >= count)
+
+        var result = 0 as UInt16
+        for i in 0..<count {
+            let bit: UInt16 = self.currentByte & self.bitMask > 0 ? 1 : 0
+            result += (1 << i) * bit
+
+            if self.bitMask == 128 {
+                self.offset += 1
+                self.bitMask = 1
+            } else {
+                self.bitMask <<= 1
+            }
+        }
+
+        return result
+    }
+
+    /**
+     Reads `fromBits` bits and returns them as an `UInt32` number, advancing by `fromBits` BIT positions.
+
+     - Precondition: Parameter `fromBits` MUST be from `0..<32` range.
+     - Precondition: There MUST be enough data left.
+     */
+    public func uint32(fromBits count: Int) -> UInt32 {
+        precondition(0..<32 ~= count)
+        guard count > 0
+            else { return 0 }
+        precondition(bitsLeft >= count)
+
+        var result = 0 as UInt32
+        for i in 0..<count {
+            let bit: UInt32 = self.currentByte & self.bitMask > 0 ? 1 : 0
+            result += (1 << i) * bit
+
+            if self.bitMask == 128 {
+                self.offset += 1
+                self.bitMask = 1
+            } else {
+                self.bitMask <<= 1
+            }
+        }
+
+        return result
+    }
+
+    /**
+     Reads `fromBits` bits and returns them as an `UInt64` number, advancing by `fromBits` BIT positions.
+
+     - Precondition: Parameter `fromBits` MUST be from `0..<64` range.
+     - Precondition: There MUST be enough data left.
+     */
+    public func uint64(fromBits count: Int) -> UInt64 {
+        precondition(0..<64 ~= count)
+        guard count > 0
+            else { return 0 }
+        precondition(bitsLeft >= count)
+
+        var result = 0 as UInt64
+        for i in 0..<count {
+            let bit: UInt64 = self.currentByte & self.bitMask > 0 ? 1 : 0
+            result += (1 << i) * bit
+
+            if self.bitMask == 128 {
+                self.offset += 1
+                self.bitMask = 1
+            } else {
+                self.bitMask <<= 1
+            }
+        }
+
+        return result
+    }
+
+    /**
      Aligns reader's BIT pointer to the BYTE border, i.e. moves BIT pointer to the first BIT of the next BYTE.
 
      - Note: If reader is already aligned, then does nothing.
-     - Warning: Doesn't check if there is any data left. It is advisable to use `isFinished` AFTER calling this method
+     - Warning: Doesn't check if there is any data left. It is advised to use `isFinished` AFTER calling this method
      to check if the end was reached.
      */
     public func align() {
