@@ -94,11 +94,12 @@ public final class LsbBitReader: ByteReader, BitReader {
     /**
      Reads `fromBits` bits and returns them as an `Int` number, advancing by `fromBits` BIT positions.
 
-     - Precondition: Parameter `fromBits` MUST not be less than 0.
+     - Precondition: Parameter `fromBits` MUST be from `0..<Int.bitWidth` range, i.e. it MUST not exceed maximum bit
+     width of `Int` type on the current platform.
      - Precondition: There MUST be enough data left.
      */
     public func int(fromBits count: Int) -> Int {
-        precondition(count >= 0)
+        precondition(0..<Int.bitWidth ~= count)
         guard count > 0
             else { return 0 }
         precondition(bitsLeft >= count)
