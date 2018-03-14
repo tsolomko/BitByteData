@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0-test
+
+- Added `uint16(fromBits:)`, `uint32(fromBits:)` and `uint64(fromBits:)` functions to `LsbBitReader` and `MsbBitReader`,
+  as well as `BitReader` protocol.
+- Added `int(fromBytes:)` function to `ByteReader`, `LsbBitReader` and `MsbBitReader`, as well as `BitReader` protocol.
+- `int(fromBits:)` function now checks in precondition that its argument doesn't exceed `Int` bit width.
+
 ## 1.1.1
 
 - Added missing documentation for `bitsLeft` and `bitsRead` computed properties.
