@@ -7,7 +7,7 @@ import XCTest
 @testable import BitByteDataTests
 
 extension ByteReaderTests {
-	static var allTests: [(String, (ByteReaderTests) -> () throws -> Void)] {
+	static var allTests: [(String, (ByteReaderTests) -> () -> Void)] {
 		return [
 			("testByte", testByte),
 			("testIsFinished", testIsFinished),
@@ -22,7 +22,7 @@ extension ByteReaderTests {
 }
 
 extension LsbBitReaderTests {
-	static var allTests: [(String, (LsbBitReaderTests) -> () throws -> Void)] {
+	static var allTests: [(String, (LsbBitReaderTests) -> () -> Void)] {
 		return [
 			("testBit", testBit),
 			("testBits", testBits),
@@ -42,7 +42,7 @@ extension LsbBitReaderTests {
 }
 
 extension MsbBitReaderTests {
-	static var allTests: [(String, (MsbBitReaderTests) -> () throws -> Void)] {
+	static var allTests: [(String, (MsbBitReaderTests) -> () -> Void)] {
 		return [
 			("testBit", testBit),
 			("testBits", testBits),
@@ -62,7 +62,7 @@ extension MsbBitReaderTests {
 }
 
 extension LsbBitWriterTests {
-	static var allTests: [(String, (LsbBitWriterTests) -> () throws -> Void)] {
+	static var allTests: [(String, (LsbBitWriterTests) -> () -> Void)] {
 		return [
 			("testWriteBit", testWriteBit),
 			("testWriteBitsArray", testWriteBitsArray),
@@ -76,7 +76,7 @@ extension LsbBitWriterTests {
 }
 
 extension MsbBitWriterTests {
-	static var allTests: [(String, (MsbBitWriterTests) -> () throws -> Void)] {
+	static var allTests: [(String, (MsbBitWriterTests) -> () -> Void)] {
 		return [
 			("testWriteBit", testWriteBit),
 			("testWriteBitsArray", testWriteBitsArray),
