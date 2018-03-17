@@ -8,7 +8,7 @@ import BitByteData
 
 class LsbBitReaderTests: XCTestCase {
 
-    private static let data = Data(bytes: [0x5A, 0xD6])
+    private static let data = Data(bytes: [0x5A, 0xD6, 0x57, 0x14, 0xAB, 0xCC, 0x2D, 0x88, 0xEA, 0x00])
 
     func testBit() {
         let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
@@ -124,7 +124,7 @@ class LsbBitReaderTests: XCTestCase {
         byte = bitReader.byte()
         XCTAssertEqual(byte, 0xD6)
         XCTAssertTrue(bitReader.isAligned)
-        XCTAssertTrue(bitReader.isFinished)
+        XCTAssertFalse(bitReader.isFinished)
     }
 
     func testBitReaderBytes() {
@@ -133,14 +133,14 @@ class LsbBitReaderTests: XCTestCase {
         let bytes = bitReader.bytes(count: 2)
         XCTAssertEqual(bytes, [0x5A, 0xD6])
         XCTAssertTrue(bitReader.isAligned)
-        XCTAssertTrue(bitReader.isFinished)
+        XCTAssertFalse(bitReader.isFinished)
     }
 
     func testBitReaderIntFromBytes() {
         let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
         XCTAssertEqual(bitReader.int(fromBytes: 2), 54874)
         XCTAssertTrue(bitReader.isAligned)
-        XCTAssertTrue(bitReader.isFinished)
+        XCTAssertFalse(bitReader.isFinished)
     }
 
     func testBitReaderUint16() {
@@ -149,7 +149,7 @@ class LsbBitReaderTests: XCTestCase {
         let num = bitReader.uint16()
         XCTAssertEqual(num, 54874)
         XCTAssertTrue(bitReader.isAligned)
-        XCTAssertTrue(bitReader.isFinished)
+        XCTAssertFalse(bitReader.isFinished)
     }
 
     func testBitReaderNonZeroStartIndex() {
@@ -174,14 +174,16 @@ class LsbBitReaderTests: XCTestCase {
     func testBitsLeft() {
         let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
 
-        XCTAssertEqual(bitReader.bitsLeft, 16)
+        XCTAssertEqual(bitReader.bitsLeft, 80)
         _ = bitReader.bits(count: 4)
-        XCTAssertEqual(bitReader.bitsLeft, 12)
+        XCTAssertEqual(bitReader.bitsLeft, 76)
         _ = bitReader.bits(count: 4)
-        XCTAssertEqual(bitReader.bitsLeft, 8)
+        XCTAssertEqual(bitReader.bitsLeft, 72)
         _ = bitReader.bits(count: 2)
-        XCTAssertEqual(bitReader.bitsLeft, 6)
+        XCTAssertEqual(bitReader.bitsLeft, 70)
         _ = bitReader.bits(count: 6)
+        XCTAssertEqual(bitReader.bitsLeft, 64)
+        _ = bitReader.uint64(fromBits: 64)
         XCTAssertEqual(bitReader.bitsLeft, 0)
     }
 
