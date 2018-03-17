@@ -26,6 +26,16 @@ public class ByteReader {
         return self.data.endIndex <= self.offset
     }
 
+    /// Amount of bytes left to read.
+    public var bytesLeft: Int {
+        return self.data.endIndex - self.offset
+    }
+
+    /// Amount of bytes that were already read.
+    public var bytesRead: Int {
+        return self.offset - self.data.startIndex
+    }
+
     /// Creates an instance for reading bytes from `data`.
     public init(data: Data) {
         self.size = data.count
