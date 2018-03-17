@@ -24,6 +24,24 @@ class ByteReaderTests: XCTestCase {
         XCTAssertTrue(byteReader.isFinished)
     }
 
+    func testBytesLeft() {
+        let byteReader = ByteReader(data: ByteReaderTests.data)
+        XCTAssertEqual(byteReader.bytesLeft, 9)
+        _ = byteReader.uint16()
+        XCTAssertEqual(byteReader.bytesLeft, 7)
+        byteReader.offset = byteReader.data.endIndex
+        XCTAssertEqual(byteReader.bytesLeft, 0)
+    }
+
+    func testBytesRead() {
+        let byteReader = ByteReader(data: ByteReaderTests.data)
+        XCTAssertEqual(byteReader.bytesRead, 0)
+        _ = byteReader.uint16()
+        XCTAssertEqual(byteReader.bytesRead, 2)
+        byteReader.offset = byteReader.data.endIndex
+        XCTAssertEqual(byteReader.bytesRead, 9)
+    }
+
     func testBytes() {
         let byteReader = ByteReader(data: ByteReaderTests.data)
         let bytes = byteReader.bytes(count: 4)
