@@ -69,8 +69,6 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public func bits(count: Int) -> [UInt8] {
         precondition(count >= 0)
-        guard count > 0
-            else { return [] }
         precondition(bitsLeft >= count)
 
         var array = [UInt8]()
@@ -91,8 +89,6 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public func int(fromBits count: Int) -> Int {
         precondition(0...Int.bitWidth ~= count)
-        guard count > 0
-            else { return 0 }
         precondition(bitsLeft >= count)
 
         var result = 0
@@ -120,8 +116,6 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public func byte(fromBits count: Int) -> UInt8 {
         precondition(0...8 ~= count)
-        guard count > 0
-            else { return 0 }
         precondition(bitsLeft >= count)
 
         var result = 0 as UInt8
@@ -149,8 +143,6 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public func uint16(fromBits count: Int) -> UInt16 {
         precondition(0...16 ~= count)
-        guard count > 0
-            else { return 0 }
         precondition(bitsLeft >= count)
 
         var result = 0 as UInt16
@@ -178,8 +170,6 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public func uint32(fromBits count: Int) -> UInt32 {
         precondition(0...32 ~= count)
-        guard count > 0
-            else { return 0 }
         precondition(bitsLeft >= count)
 
         var result = 0 as UInt32
@@ -207,8 +197,6 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public func uint64(fromBits count: Int) -> UInt64 {
         precondition(0...64 ~= count)
-        guard count > 0
-            else { return 0 }
         precondition(bitsLeft >= count)
 
         var result = 0 as UInt64
