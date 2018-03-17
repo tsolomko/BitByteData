@@ -14,8 +14,11 @@ extension ByteReaderTests {
 			("testBytes", testBytes),
             ("testIntFromBytes", testIntFromBytes),
 			("testUint64", testUint64),
+            ("testUint64FromBytes", testUint64FromBytes),
 			("testUint32", testUint32),
+            ("testUint32FromBytes", testUint32FromBytes),
 			("testUint16", testUint16),
+            ("testUint16FromBytes", testUint16FromBytes),
 			("testNonZeroStartIndex", testNonZeroStartIndex)
 		]
 	}
@@ -36,6 +39,7 @@ extension LsbBitReaderTests {
 			("testBitReaderBytes", testBitReaderBytes),
             ("testBitReaderIntFromBytes", testBitReaderIntFromBytes),
 			("testBitReaderUint16", testBitReaderUint16),
+            ("testBitReaderUint32FromBytes", testBitReaderUint32FromBytes),
 			("testBitReaderNonZeroStartIndex", testBitReaderNonZeroStartIndex),
             ("testConvertedByteReader", testConvertedByteReader),
             ("testBitsLeft", testBitsLeft),
@@ -59,6 +63,7 @@ extension MsbBitReaderTests {
 			("testBitReaderBytes", testBitReaderBytes),
             ("testBitReaderIntFromBytes", testBitReaderIntFromBytes),
 			("testBitReaderUint16", testBitReaderUint16),
+            ("testBitReaderUint32FromBytes", testBitReaderUint32FromBytes),
             ("testBitReaderNonZeroStartIndex", testBitReaderNonZeroStartIndex),
             ("testConvertedByteReader", testConvertedByteReader),
             ("testBitsLeft", testBitsLeft),
