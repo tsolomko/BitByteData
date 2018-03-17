@@ -62,6 +62,11 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertEqual(num, 203)
 
         XCTAssertFalse(bitReader.isAligned)
+
+        bitReader.align()
+        XCTAssertTrue(bitReader.isAligned)
+
+        XCTAssertEqual(bitReader.uint16(fromBits: 16), 0x14_57)
     }
 
     func testUint32FromBits() {
@@ -74,6 +79,11 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertEqual(num, 203)
 
         XCTAssertFalse(bitReader.isAligned)
+
+        bitReader.align()
+        XCTAssertTrue(bitReader.isAligned)
+
+        XCTAssertEqual(bitReader.uint32(fromBits: 32), 0xCC_AB_14_57)
     }
 
     func testUint64FromBits() {
@@ -86,6 +96,11 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertEqual(num, 203)
 
         XCTAssertFalse(bitReader.isAligned)
+
+        bitReader.align()
+        XCTAssertTrue(bitReader.isAligned)
+
+        XCTAssertEqual(bitReader.uint64(fromBits: 64), 0x00_EA_88_2D_CC_AB_14_57)
     }
 
     func testIsAligned() {
