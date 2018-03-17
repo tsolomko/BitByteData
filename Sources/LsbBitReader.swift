@@ -94,12 +94,12 @@ public final class LsbBitReader: ByteReader, BitReader {
     /**
      Reads `fromBits` bits and returns them as an `Int` number, advancing by `fromBits` BIT positions.
 
-     - Precondition: Parameter `fromBits` MUST be from `0..<Int.bitWidth` range, i.e. it MUST not exceed maximum bit
+     - Precondition: Parameter `fromBits` MUST be from `0...Int.bitWidth` range, i.e. it MUST not exceed maximum bit
      width of `Int` type on the current platform.
      - Precondition: There MUST be enough data left.
      */
     public func int(fromBits count: Int) -> Int {
-        precondition(0..<Int.bitWidth ~= count)
+        precondition(0...Int.bitWidth ~= count)
         guard count > 0
             else { return 0 }
         precondition(bitsLeft >= count)
@@ -123,11 +123,12 @@ public final class LsbBitReader: ByteReader, BitReader {
     /**
      Reads `fromBits` bits and returns them as an `UInt16` number, advancing by `fromBits` BIT positions.
 
-     - Precondition: Parameter `fromBits` MUST be from `0..<16` range.
+     - Precondition: Parameter `fromBits` MUST be from `0...16` range, i.e. it MUST not exceed maximum bit width of
+     `UInt16` type on the current platform.
      - Precondition: There MUST be enough data left.
      */
     public func uint16(fromBits count: Int) -> UInt16 {
-        precondition(0..<16 ~= count)
+        precondition(0...16 ~= count)
         guard count > 0
             else { return 0 }
         precondition(bitsLeft >= count)
@@ -151,11 +152,12 @@ public final class LsbBitReader: ByteReader, BitReader {
     /**
      Reads `fromBits` bits and returns them as an `UInt32` number, advancing by `fromBits` BIT positions.
 
-     - Precondition: Parameter `fromBits` MUST be from `0..<32` range.
+     - Precondition: Parameter `fromBits` MUST be from `0...32` range, i.e. it MUST not exceed maximum bit width of
+     `UInt32` type on the current platform.
      - Precondition: There MUST be enough data left.
      */
     public func uint32(fromBits count: Int) -> UInt32 {
-        precondition(0..<32 ~= count)
+        precondition(0...32 ~= count)
         guard count > 0
             else { return 0 }
         precondition(bitsLeft >= count)
@@ -179,11 +181,12 @@ public final class LsbBitReader: ByteReader, BitReader {
     /**
      Reads `fromBits` bits and returns them as an `UInt64` number, advancing by `fromBits` BIT positions.
 
-     - Precondition: Parameter `fromBits` MUST be from `0..<64` range.
+     - Precondition: Parameter `fromBits` MUST be from `0...64` range, i.e. it MUST not exceed maximum bit width of
+     `UInt64` type on the current platform.
      - Precondition: There MUST be enough data left.
      */
     public func uint64(fromBits count: Int) -> UInt64 {
-        precondition(0..<64 ~= count)
+        precondition(0...64 ~= count)
         guard count > 0
             else { return 0 }
         precondition(bitsLeft >= count)
