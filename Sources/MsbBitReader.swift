@@ -279,6 +279,18 @@ public final class MsbBitReader: ByteReader, BitReader {
     }
 
     /**
+     Reads `fromBytes` bytes and returns them as a `UInt64` number, advancing by `fromBytes` BYTE positions.
+
+     - Precondition: Reader MUST be aligned.
+     - Precondition: Parameter `fromBytes` MUST not be less than 0.
+     - Precondition: There MUST be enough data left.
+     */
+    public override func uint64(fromBytes count: Int) -> UInt64 {
+        precondition(isAligned, "BitReader is not aligned.")
+        return super.uint64(fromBytes: count)
+    }
+
+    /**
      Reads 4 bytes and returns them as a `UInt32` number, advancing by 4 BYTE positions.
 
      - Precondition: Reader MUST be aligned.
@@ -290,6 +302,18 @@ public final class MsbBitReader: ByteReader, BitReader {
     }
 
     /**
+     Reads `fromBytes` bytes and returns them as a `UInt32` number, advancing by `fromBytes` BYTE positions.
+
+     - Precondition: Reader MUST be aligned.
+     - Precondition: Parameter `fromBytes` MUST not be less than 0.
+     - Precondition: There MUST be enough data left.
+     */
+    public override func uint32(fromBytes count: Int) -> UInt32 {
+        precondition(isAligned, "BitReader is not aligned.")
+        return super.uint32(fromBytes: count)
+    }
+
+    /**
      Reads 2 bytes and returns them as a `UInt16` number, advancing by 2 BYTE positions.
 
      - Precondition: Reader MUST be aligned.
@@ -298,6 +322,18 @@ public final class MsbBitReader: ByteReader, BitReader {
     public override func uint16() -> UInt16 {
         precondition(isAligned, "BitReader is not aligned.")
         return super.uint16()
+    }
+
+    /**
+     Reads `fromBytes` bytes and returns them as a `UInt16` number, advancing by `fromBytes` BYTE positions.
+
+     - Precondition: Reader MUST be aligned.
+     - Precondition: Parameter `fromBytes` MUST not be less than 0.
+     - Precondition: There MUST be enough data left.
+     */
+    public override func uint16(fromBytes count: Int) -> UInt16 {
+        precondition(isAligned, "BitReader is not aligned.")
+        return super.uint16(fromBytes: count)
     }
 
 }
