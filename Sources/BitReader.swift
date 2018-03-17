@@ -35,6 +35,9 @@ public protocol BitReader: class {
     /// Reads `fromBits` bits and returns them as an `Int` number, advancing by `fromBits` BIT positions.
     func int(fromBits count: Int) -> Int
 
+    /// Reads `fromBits` bits and returns them as an `UInt8` number, advancing by `fromBits` BIT positions.
+    func byte(fromBits count: Int) -> UInt8
+
     /// Reads `fromBits` bits and returns them as an `UInt16` number, advancing by `fromBits` BIT positions.
     func uint16(fromBits count: Int) -> UInt16
 

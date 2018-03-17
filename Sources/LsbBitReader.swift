@@ -121,6 +121,35 @@ public final class LsbBitReader: ByteReader, BitReader {
     }
 
     /**
+     Reads `fromBits` bits and returns them as an `UInt8` number, advancing by `fromBits` BIT positions.
+
+     - Precondition: Parameter `fromBits` MUST be from `0...8` range, i.e. it MUST not exceed maximum bit width of
+     `UInt8` type on the current platform.
+     - Precondition: There MUST be enough data left.
+     */
+    public func byte(fromBits count: Int) -> UInt8 {
+        precondition(0...8 ~= count)
+        guard count > 0
+            else { return 0 }
+        precondition(bitsLeft >= count)
+
+        var result = 0 as UInt8
+        for i in 0..<count {
+            let bit: UInt8 = self.currentByte & self.bitMask > 0 ? 1 : 0
+            result += (1 << i) * bit
+
+            if self.bitMask == 128 {
+                self.offset += 1
+                self.bitMask = 1
+            } else {
+                self.bitMask <<= 1
+            }
+        }
+
+        return result
+    }
+
+    /**
      Reads `fromBits` bits and returns them as an `UInt16` number, advancing by `fromBits` BIT positions.
 
      - Precondition: Parameter `fromBits` MUST be from `0...16` range, i.e. it MUST not exceed maximum bit width of
