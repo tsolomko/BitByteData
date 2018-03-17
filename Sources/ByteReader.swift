@@ -64,7 +64,7 @@ public class ByteReader {
         precondition(count >= 0)
         guard count > 0
             else { return [] }
-        precondition(self.offset + count <= self.data.endIndex)
+        precondition(bytesLeft >= count)
         defer { self.offset += count }
         return self.data[self.offset..<self.offset + count].toArray(type: UInt8.self, count: count)
     }
@@ -79,7 +79,7 @@ public class ByteReader {
         precondition(count >= 0)
         guard count > 0
             else { return 0 }
-        precondition(self.offset + count <= self.data.endIndex)
+        precondition(bytesLeft >= count)
         // TODO: If uintX() could be force inlined or something in the future than probably it would make sense
         // to use them for `count` == 2, 4 or 8.
         var result = 0
@@ -96,7 +96,7 @@ public class ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint64() -> UInt64 {
-        precondition(self.offset + 8 <= self.data.endIndex)
+        precondition(bytesLeft >= 8)
         defer { self.offset += 8 }
         return self.data[self.offset..<self.offset + 8].to(type: UInt64.self)
     }
@@ -114,7 +114,7 @@ public class ByteReader {
         precondition(0...8 ~= count)
         guard count > 0
             else { return 0 }
-        precondition(self.offset + count <= self.data.endIndex)
+        precondition(bytesLeft >= count)
         var result = 0 as UInt64
         for i in 0..<count {
             result += UInt64(truncatingIfNeeded: self.data[self.offset]) << (8 * i)
@@ -129,7 +129,7 @@ public class ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint32() -> UInt32 {
-        precondition(self.offset + 4 <= self.data.endIndex)
+        precondition(bytesLeft >= 4)
         defer { self.offset += 4 }
         return self.data[self.offset..<self.offset + 4].to(type: UInt32.self)
     }
@@ -147,7 +147,7 @@ public class ByteReader {
         precondition(0...4 ~= count)
         guard count > 0
             else { return 0 }
-        precondition(self.offset + count <= self.data.endIndex)
+        precondition(bytesLeft >= count)
         var result = 0 as UInt32
         for i in 0..<count {
             result += UInt32(truncatingIfNeeded: self.data[self.offset]) << (8 * i)
@@ -162,7 +162,7 @@ public class ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint16() -> UInt16 {
-        precondition(self.offset + 2 <= self.data.endIndex)
+        precondition(bytesLeft >= 2)
         defer { self.offset += 2 }
         return self.data[self.offset..<self.offset + 2].to(type: UInt16.self)
     }
@@ -180,7 +180,7 @@ public class ByteReader {
         precondition(0...2 ~= count)
         guard count > 0
             else { return 0 }
-        precondition(self.offset + count <= self.data.endIndex)
+        precondition(bytesLeft >= count)
         var result = 0 as UInt16
         for i in 0..<count {
             result += UInt16(truncatingIfNeeded: self.data[self.offset]) << (8 * i)
