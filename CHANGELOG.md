@@ -1,6 +1,15 @@
 # Changelog
 
-## 1.2.0-test
+## 1.2.0
+
+### Test 2
+
+- Added `ByteReader.bytesLeft` and `ByteReader.bytesRead` computed properties.
+- Added `uint16(fromBytes:)`, `uint32(fromBytes:)` and `uint64(fromBytes:)` functions to all readers.
+- Added `byte(fromBits:)` function to all __bit__ readers.
+- Fixed introduced in Test 1 incorrect precondition checks related to exceeding maximum type bit width.
+
+### Test 1
 
 - Added `uint16(fromBits:)`, `uint32(fromBits:)` and `uint64(fromBits:)` functions to `LsbBitReader` and `MsbBitReader`,
   as well as `BitReader` protocol.
