@@ -69,7 +69,6 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertEqual(bitReader.byte(fromBits: 8), 0x57)
     }
 
-
     func testUint16FromBits() {
         let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
 

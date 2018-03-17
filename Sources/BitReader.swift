@@ -79,5 +79,4 @@ public protocol BitReader: class {
     /// Reads `fromBytes` bytes and returns them as a `UInt16` number, advancing by 8 BYTE positions.
     func uint16(fromBytes count: Int) -> UInt16
 
-
 }

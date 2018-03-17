@@ -22,7 +22,6 @@ public class ByteReader {
 
      - Note: It generally means that all bytes have been read.
      */
-
     public var isFinished: Bool {
         return self.data.endIndex <= self.offset
     }
