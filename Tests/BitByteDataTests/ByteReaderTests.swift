@@ -44,12 +44,14 @@ class ByteReaderTests: XCTestCase {
 
     func testBytes() {
         let byteReader = ByteReader(data: ByteReaderTests.data)
+        XCTAssertEqual(byteReader.bytes(count: 0), [])
         let bytes = byteReader.bytes(count: 4)
         XCTAssertEqual(bytes, [0x00, 0x01, 0x02, 0x03])
     }
 
     func testIntFromBytes() {
         let byteReader = ByteReader(data: ByteReaderTests.data)
+        XCTAssertEqual(byteReader.int(fromBytes: 0), 0)
         XCTAssertEqual(byteReader.int(fromBytes: 3), 131328)
         XCTAssertEqual(byteReader.int(fromBytes: 2), 1027)
         XCTAssertEqual(byteReader.int(fromBytes: 4), 134678021)
@@ -64,6 +66,7 @@ class ByteReaderTests: XCTestCase {
 
     func testUint64FromBytes() {
         var byteReader = ByteReader(data: ByteReaderTests.data)
+        XCTAssertEqual(byteReader.uint64(fromBytes: 0), 0)
         XCTAssertEqual(byteReader.uint64(fromBytes: 3), 131328)
         XCTAssertFalse(byteReader.isFinished)
 
@@ -80,6 +83,7 @@ class ByteReaderTests: XCTestCase {
 
     func testUint32FromBytes() {
         var byteReader = ByteReader(data: ByteReaderTests.data)
+        XCTAssertEqual(byteReader.uint32(fromBytes: 0), 0)
         XCTAssertEqual(byteReader.uint32(fromBytes: 3), 131328)
         XCTAssertFalse(byteReader.isFinished)
 
@@ -96,6 +100,7 @@ class ByteReaderTests: XCTestCase {
 
     func testUint16FromBytes() {
         let byteReader = ByteReader(data: ByteReaderTests.data)
+        XCTAssertEqual(byteReader.uint16(fromBytes: 0), 0)
         XCTAssertEqual(byteReader.uint16(fromBytes: 2), 256)
         XCTAssertFalse(byteReader.isFinished)
     }

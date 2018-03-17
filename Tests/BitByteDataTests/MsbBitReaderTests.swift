@@ -31,6 +31,7 @@ class MsbBitReaderTests: XCTestCase {
     func testBits() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
 
+        XCTAssertEqual(bitReader.bits(count: 0), [])
         var bits = bitReader.bits(count: 3)
         XCTAssertEqual(bits, [0, 1, 0])
 
@@ -43,6 +44,7 @@ class MsbBitReaderTests: XCTestCase {
     func testIntFromBits() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
 
+        XCTAssertEqual(bitReader.int(fromBits: 0), 0)
         var num = bitReader.int(fromBits: 3)
         XCTAssertEqual(num, 2)
 
@@ -55,6 +57,7 @@ class MsbBitReaderTests: XCTestCase {
     func testByteFromBits() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
 
+        XCTAssertEqual(bitReader.byte(fromBits: 0), 0)
         var num = bitReader.byte(fromBits: 3)
         XCTAssertEqual(num, 2)
 
@@ -72,6 +75,7 @@ class MsbBitReaderTests: XCTestCase {
     func testUint16FromBits() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
 
+        XCTAssertEqual(bitReader.uint16(fromBits: 0), 0)
         var num = bitReader.uint16(fromBits: 3)
         XCTAssertEqual(num, 2)
 
@@ -89,6 +93,7 @@ class MsbBitReaderTests: XCTestCase {
     func testUint32FromBits() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
 
+        XCTAssertEqual(bitReader.uint32(fromBits: 0), 0)
         var num = bitReader.uint32(fromBits: 3)
         XCTAssertEqual(num, 2)
 
@@ -106,6 +111,7 @@ class MsbBitReaderTests: XCTestCase {
     func testUint64FromBits() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
 
+        XCTAssertEqual(bitReader.uint64(fromBits: 0), 0)
         var num = bitReader.uint64(fromBits: 3)
         XCTAssertEqual(num, 2)
 
@@ -196,6 +202,7 @@ class MsbBitReaderTests: XCTestCase {
     func testBitReaderBytes() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
 
+        XCTAssertEqual(bitReader.bytes(count: 0), [])
         let bytes = bitReader.bytes(count: 2)
         XCTAssertEqual(bytes, [0x5A, 0xD6])
         XCTAssertTrue(bitReader.isAligned)
@@ -204,6 +211,7 @@ class MsbBitReaderTests: XCTestCase {
 
     func testBitReaderIntFromBytes() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
+        XCTAssertEqual(bitReader.int(fromBytes: 0), 0)
         XCTAssertEqual(bitReader.int(fromBytes: 2), 54874)
         XCTAssertTrue(bitReader.isAligned)
         XCTAssertFalse(bitReader.isFinished)
@@ -212,6 +220,7 @@ class MsbBitReaderTests: XCTestCase {
     func testBitReaderUint16() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
 
+        XCTAssertEqual(bitReader.uint16(fromBytes: 0), 0)
         let num = bitReader.uint16()
         XCTAssertEqual(num, 54874)
         XCTAssertTrue(bitReader.isAligned)
@@ -221,6 +230,7 @@ class MsbBitReaderTests: XCTestCase {
     func testBitReaderUint32FromBytes() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
 
+        XCTAssertEqual(bitReader.uint32(fromBytes: 0), 0)
         let num = bitReader.uint32(fromBytes: 3)
         XCTAssertEqual(num, 5756506)
         XCTAssertTrue(bitReader.isAligned)
