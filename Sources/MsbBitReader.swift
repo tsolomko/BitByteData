@@ -232,7 +232,11 @@ public final class MsbBitReader: ByteReader, BitReader {
 
     // MARK: ByteReader's methods.
 
-    /// Offset to the byte in `data` which will be read next.
+    /**
+     Offset to the byte in `data` which will be read next.
+
+     - Note: The byte which is currently used for reading bits from is included into `bytesRead`.
+     */
     public override var offset: Int {
         didSet {
             if !self.isFinished {
