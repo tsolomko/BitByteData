@@ -32,8 +32,20 @@ public protocol BitReader: class {
     /// Reads `count` bits and returns them as an array of `UInt8`, advancing by `count` BIT positions.
     func bits(count: Int) -> [UInt8]
 
-    /// Reads `count` bits and returns them as a `Int` number, advancing by `count` BIT positions.
+    /// Reads `fromBits` bits and returns them as an `Int` number, advancing by `fromBits` BIT positions.
     func int(fromBits count: Int) -> Int
+
+    /// Reads `fromBits` bits and returns them as an `UInt8` number, advancing by `fromBits` BIT positions.
+    func byte(fromBits count: Int) -> UInt8
+
+    /// Reads `fromBits` bits and returns them as an `UInt16` number, advancing by `fromBits` BIT positions.
+    func uint16(fromBits count: Int) -> UInt16
+
+    /// Reads `fromBits` bits and returns them as an `UInt32` number, advancing by `fromBits` BIT positions.
+    func uint32(fromBits count: Int) -> UInt32
+
+    /// Reads `fromBits` bits and returns them as an `UInt64` number, advancing by `fromBits` BIT positions.
+    func uint64(fromBits count: Int) -> UInt64
 
     /// Aligns reader's BIT pointer to the BYTE border, i.e. moves BIT pointer to the first BIT of the next BYTE.
     func align()
@@ -46,13 +58,25 @@ public protocol BitReader: class {
     /// Reads `count` bytes and returns them as an array of `UInt8`, advancing by `count` BYTE positions.
     func bytes(count: Int) -> [UInt8]
 
+    /// Reads `fromBytes` bytes and returns them as an `Int` number, advancing by `fromBytes` BYTE positions.
+    func int(fromBytes count: Int) -> Int
+
     /// Reads 8 bytes and returns them as a `UInt64` number, advancing by 8 BYTE positions.
     func uint64() -> UInt64
+
+    /// Reads `fromBytes` bytes and returns them as a `UInt64` number, advancing by 8 BYTE positions.
+    func uint64(fromBytes count: Int) -> UInt64
 
     /// Reads 4 bytes and returns them as a `UInt32` number, advancing by 4 BYTE positions.
     func uint32() -> UInt32
 
+    /// Reads `fromBytes` bytes and returns them as a `UInt32` number, advancing by 8 BYTE positions.
+    func uint32(fromBytes count: Int) -> UInt32
+
     /// Reads 2 bytes and returns them as a `UInt16` number, advancing by 2 BYTE positions.
     func uint16() -> UInt16
+
+    /// Reads `fromBytes` bytes and returns them as a `UInt16` number, advancing by 8 BYTE positions.
+    func uint16(fromBytes count: Int) -> UInt16
 
 }
