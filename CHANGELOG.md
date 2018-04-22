@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.0
+
+- Updated to support Swift 4.1.
+- Added `bytesLeft` and `bytesRead` computed properties to `ByteReader`.
+- Added `int(fromBytes:)`, `uint16(fromBytes:)`, `uint32(fromBytes:)`, and `uint64(fromBytes:)` functions to all readers.
+- Added `byte(fromBits:)`, `uint16(fromBits:)`, `uint32(fromBits:)`, and `uint64(fromBits:)` functions to `LsbBitReader`
+  and `MsbBitReader`, as well as `BitReader` protocol.
+- `int(fromBits:)` function now has a precondition that its argument doesn't exceed `Int` bit width.
+- Reverted "disable symbol stripping" change from 1.1.1 update, since underlying problem in Carthage was fixed.
+- Minor updates to documentation.
+
 ## 1.1.1
 
 - Added missing documentation for `bitsLeft` and `bitsRead` computed properties.
