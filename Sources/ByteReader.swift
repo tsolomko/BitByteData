@@ -76,7 +76,7 @@ public class ByteReader {
     public func int(fromBytes count: Int) -> Int {
         precondition(count >= 0)
         precondition(bytesLeft >= count)
-        // TODO: If uintX() could be force inlined or something in the future than probably it would make sense
+        // TODO: If uintX() could be force inlined or something in the future then probably it would make sense
         // to use them for `count` == 2, 4 or 8.
         var result = 0
         for i in 0..<count {

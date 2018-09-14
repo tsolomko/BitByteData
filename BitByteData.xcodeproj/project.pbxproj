@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06ADF4CB214BB86600B8F0E9 /* ByteReaderBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */; };
 		06F065751FFAEA8700312A82 /* LsbBitReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065571FFAEA1F00312A82 /* LsbBitReader.swift */; };
 		06F065761FFAEA8700312A82 /* BitReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065581FFAEA1F00312A82 /* BitReader.swift */; };
 		06F065771FFAEA8700312A82 /* ByteReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065591FFAEA1F00312A82 /* ByteReader.swift */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		062BE3301FFBB9E300343CAD /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
+		06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReaderBenchmarks.swift; sourceTree = "<group>"; };
 		06F065571FFAEA1F00312A82 /* LsbBitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitReader.swift; sourceTree = "<group>"; };
 		06F065581FFAEA1F00312A82 /* BitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitReader.swift; sourceTree = "<group>"; };
 		06F065591FFAEA1F00312A82 /* ByteReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReader.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				06F065631FFAEA1F00312A82 /* MsbBitReaderTests.swift */,
 				06F065641FFAEA1F00312A82 /* LsbBitWriterTests.swift */,
 				06F065621FFAEA1F00312A82 /* MsbBitWriterTests.swift */,
+				06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */,
 			);
 			path = BitByteDataTests;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06ADF4CB214BB86600B8F0E9 /* ByteReaderBenchmarks.swift in Sources */,
 				06F0658F1FFAEAA900312A82 /* LsbBitReaderTests.swift in Sources */,
 				06F065901FFAEAA900312A82 /* ByteReaderTests.swift in Sources */,
 				06F0658C1FFAEAA900312A82 /* MsbBitWriterTests.swift in Sources */,

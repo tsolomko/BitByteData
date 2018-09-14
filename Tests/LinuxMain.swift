@@ -108,10 +108,27 @@ extension MsbBitWriterTests {
 	}
 }
 
+extension ByteReaderBenchmarks {
+    static var allTests: [(String, (ByteReaderBenchmarks) -> () -> Void)] {
+        return [
+            ("testByte", testByte),
+            ("testBytes", testBytes),
+            ("testIntFromBytes", testIntFromBytes),
+            ("testUint16", testUint16),
+            ("testUint16FromBytes", testUint16FromBytes),
+            ("testUint32", testUint32),
+            ("testUint32FromBytes", testUint32FromBytes),
+            ("testUint64", testUint64),
+            ("testUint64FromBytes", testUint64FromBytes)
+        ]
+    }
+}
+
 XCTMain([
     testCase(ByteReaderTests.allTests),
 	testCase(LsbBitReaderTests.allTests),
 	testCase(MsbBitReaderTests.allTests),
 	testCase(LsbBitWriterTests.allTests),
-	testCase(MsbBitWriterTests.allTests)
+	testCase(MsbBitWriterTests.allTests),
+    testCase(ByteReaderBenchmarks.allTests)
 ])
