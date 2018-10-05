@@ -5,6 +5,7 @@
 
 import XCTest
 @testable import BitByteDataTests
+@testable import BitByteDataBenchmarks
 
 extension ByteReaderTests {
 	static var allTests: [(String, (ByteReaderTests) -> () -> Void)] {
@@ -130,5 +131,6 @@ XCTMain([
 	testCase(MsbBitReaderTests.allTests),
 	testCase(LsbBitWriterTests.allTests),
 	testCase(MsbBitWriterTests.allTests),
+
     testCase(ByteReaderBenchmarks.allTests)
 ])

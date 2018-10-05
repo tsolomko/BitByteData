@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		065DD5E421673BC100704028 /* BitByteData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F0656C1FFAEA4B00312A82 /* BitByteData.framework */; };
 		06ADF4CB214BB86600B8F0E9 /* ByteReaderBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */; };
 		06F065751FFAEA8700312A82 /* LsbBitReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065571FFAEA1F00312A82 /* LsbBitReader.swift */; };
 		06F065761FFAEA8700312A82 /* BitReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065581FFAEA1F00312A82 /* BitReader.swift */; };
@@ -25,6 +26,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		065DD5E521673BC100704028 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 06F065501FFAE9EC00312A82 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 06F0656B1FFAEA4B00312A82;
+			remoteInfo = BitByteData;
+		};
 		06F065871FFAEAA000312A82 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 06F065501FFAE9EC00312A82 /* Project object */;
@@ -36,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		062BE3301FFBB9E300343CAD /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
+		065DD5DF21673BC100704028 /* BitByteDataBenchmarks.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BitByteDataBenchmarks.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReaderBenchmarks.swift; sourceTree = "<group>"; };
 		06F065571FFAEA1F00312A82 /* LsbBitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitReader.swift; sourceTree = "<group>"; };
 		06F065581FFAEA1F00312A82 /* BitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitReader.swift; sourceTree = "<group>"; };
@@ -55,6 +64,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		065DD5DC21673BC100704028 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				065DD5E421673BC100704028 /* BitByteData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06F0657E1FFAEAA000312A82 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -66,6 +83,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		065DD5E021673BC100704028 /* BitByteDataBenchmarks */ = {
+			isa = PBXGroup;
+			children = (
+				06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */,
+			);
+			path = BitByteDataBenchmarks;
+			sourceTree = "<group>";
+		};
 		06F0654F1FFAE9EC00312A82 = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +118,7 @@
 		06F0655F1FFAEA1F00312A82 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				065DD5E021673BC100704028 /* BitByteDataBenchmarks */,
 				06F065611FFAEA1F00312A82 /* BitByteDataTests */,
 				062BE3301FFBB9E300343CAD /* LinuxMain.swift */,
 			);
@@ -107,7 +133,6 @@
 				06F065631FFAEA1F00312A82 /* MsbBitReaderTests.swift */,
 				06F065641FFAEA1F00312A82 /* LsbBitWriterTests.swift */,
 				06F065621FFAEA1F00312A82 /* MsbBitWriterTests.swift */,
-				06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */,
 			);
 			path = BitByteDataTests;
 			sourceTree = "<group>";
@@ -117,6 +142,7 @@
 			children = (
 				06F0656C1FFAEA4B00312A82 /* BitByteData.framework */,
 				06F065811FFAEAA000312A82 /* TestBitByteData.xctest */,
+				065DD5DF21673BC100704028 /* BitByteDataBenchmarks.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,6 +150,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		065DD5DE21673BC100704028 /* BitByteDataBenchmarks */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 065DD5E921673BC100704028 /* Build configuration list for PBXNativeTarget "BitByteDataBenchmarks" */;
+			buildPhases = (
+				065DD5DB21673BC100704028 /* Sources */,
+				065DD5DC21673BC100704028 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				065DD5E621673BC100704028 /* PBXTargetDependency */,
+			);
+			name = BitByteDataBenchmarks;
+			productName = BitByteDataBenchmarks;
+			productReference = 065DD5DF21673BC100704028 /* BitByteDataBenchmarks.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		06F0656B1FFAEA4B00312A82 /* BitByteData */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06F065721FFAEA4C00312A82 /* Build configuration list for PBXNativeTarget "BitByteData" */;
@@ -166,6 +209,9 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Timofey Solomko";
 				TargetAttributes = {
+					065DD5DE21673BC100704028 = {
+						CreatedOnToolsVersion = 10.0;
+					};
 					06F0656B1FFAEA4B00312A82 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
@@ -190,11 +236,19 @@
 			targets = (
 				06F0656B1FFAEA4B00312A82 /* BitByteData */,
 				06F065801FFAEAA000312A82 /* TestBitByteData */,
+				065DD5DE21673BC100704028 /* BitByteDataBenchmarks */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		065DD5DB21673BC100704028 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06F065671FFAEA4B00312A82 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -226,6 +280,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		065DD5E621673BC100704028 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 06F0656B1FFAEA4B00312A82 /* BitByteData */;
+			targetProxy = 065DD5E521673BC100704028 /* PBXContainerItemProxy */;
+		};
 		06F065881FFAEAA000312A82 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 06F0656B1FFAEA4B00312A82 /* BitByteData */;
@@ -234,6 +293,42 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		065DD5E721673BC100704028 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				INFOPLIST_FILE = BitByteData.xcodeproj/BitByteDataBenchmarks.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/Frameworks",
+					"@executable_path/Frameworks",
+					"@loader_path/../Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.tsolomko.BitByteDataBenchmarks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		065DD5E821673BC100704028 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				INFOPLIST_FILE = BitByteData.xcodeproj/BitByteDataBenchmarks.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/Frameworks",
+					"@executable_path/Frameworks",
+					"@loader_path/../Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.tsolomko.BitByteDataBenchmarks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 		06F065541FFAE9EC00312A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -413,6 +508,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		065DD5E921673BC100704028 /* Build configuration list for PBXNativeTarget "BitByteDataBenchmarks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				065DD5E721673BC100704028 /* Debug */,
+				065DD5E821673BC100704028 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		06F065531FFAE9EC00312A82 /* Build configuration list for PBXProject "BitByteData" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
