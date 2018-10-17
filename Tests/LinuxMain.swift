@@ -125,6 +125,54 @@ extension ByteReaderBenchmarks {
     }
 }
 
+extension LsbBitReaderBenchmarks {
+    static var allTests: [(String, (LsbBitReaderBenchmarks) -> () -> Void)] {
+        return [
+            ("testBit", testBit),
+            ("testBits", testBits),
+            ("testIntFromBits", testIntFromBits),
+            ("testByteFromBits", testByteFromBits),
+            ("testUint16FromBits", testUint16FromBits),
+            ("testUint32FromBits", testUint32FromBits),
+            ("testUint64FromBits", testUint64FromBits)
+        ]
+    }
+}
+
+extension MsbBitReaderBenchmarks {
+    static var allTests: [(String, (MsbBitReaderBenchmarks) -> () -> Void)] {
+        return [
+            ("testBit", testBit),
+            ("testBits", testBits),
+            ("testIntFromBits", testIntFromBits),
+            ("testByteFromBits", testByteFromBits),
+            ("testUint16FromBits", testUint16FromBits),
+            ("testUint32FromBits", testUint32FromBits),
+            ("testUint64FromBits", testUint64FromBits)
+        ]
+    }
+}
+
+extension LsbBitWriterBenchmarks {
+    static var allTests: [(String, (LsbBitWriterBenchmarks) -> () -> Void)] {
+        return [
+            ("testWriteBit", testWriteBit),
+            ("testWriteNumberBitsCount", testWriteNumberBitsCount),
+            ("testAppendByte", testAppendByte)
+        ]
+    }
+}
+
+extension MsbBitWriterBenchmarks {
+    static var allTests: [(String, (MsbBitWriterBenchmarks) -> () -> Void)] {
+        return [
+            ("testWriteBit", testWriteBit),
+            ("testWriteNumberBitsCount", testWriteNumberBitsCount),
+            ("testAppendByte", testAppendByte)
+        ]
+    }
+}
+
 XCTMain([
     testCase(ByteReaderTests.allTests),
 	testCase(LsbBitReaderTests.allTests),
@@ -132,5 +180,9 @@ XCTMain([
 	testCase(LsbBitWriterTests.allTests),
 	testCase(MsbBitWriterTests.allTests),
 
-    testCase(ByteReaderBenchmarks.allTests)
+    testCase(ByteReaderBenchmarks.allTests),
+    testCase(LsbBitReaderBenchmarks.allTests),
+    testCase(MsbBitReaderBenchmarks.allTests),
+    testCase(LsbBitWriterBenchmarks.allTests),
+    testCase(MsbBitWriterBenchmarks.allTests)
 ])
