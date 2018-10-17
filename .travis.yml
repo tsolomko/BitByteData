@@ -23,14 +23,14 @@ jobs:
       os: osx
       osx_image: xcode10
       script:
-      - swift test -c release -Xswiftc -enable-testing --filter BitByteDataBenchmarks
+      - swift test -c release -Xswiftc -enable-testing --filter BitByteDataBenchmarks 2>&1 | ./ppbenchmarks.py 
     - language: generic
       os: linux
       dist: trusty
       install:
       - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
       script:
-      - swift test -c release -Xswiftc -enable-testing --filter BitByteDataBenchmarks
+      - swift test -c release -Xswiftc -enable-testing --filter BitByteDataBenchmarks 2>&1 | ./ppbenchmarks.py 
     - stage: deploy
       if: tag IS present
       language: generic
