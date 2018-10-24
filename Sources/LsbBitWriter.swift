@@ -61,7 +61,7 @@ public final class LsbBitWriter: BitWriter {
      - Note: If `bitsCount` is smaller than the actual amount of `number`'s bits than the `number` will be truncated to
      fit into `bitsCount` amount of bits.
      - Note: Bits of `number` are processed using the same bit-numbering scheme as of the writer (i.e. "LSB 0").
-     - Note: this method is specifically useful when needing to write a UInt64 which can overflow and crash if converting to an Int when using the regular `write` method
+     - Note: This method is specifically useful when needing to write a UInt64 which can overflow and crash if converting to an Int when using the regular `write` method
      */
     public func write(unsignedNumber: UInt, bitsCount: Int) {
         var mask: UInt = 1
@@ -70,6 +70,7 @@ public final class LsbBitWriter: BitWriter {
             mask <<= 1
         }
     }
+    
     /**
      Writes `byte`, advancing by one BYTE position.
 
