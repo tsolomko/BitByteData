@@ -29,6 +29,16 @@ class LsbBitWriterBenchmarks: XCTestCase {
         }
     }
 
+    func testWriteUnsignedNumberBitsCount() {
+        self.measure {
+            let bitWriter = LsbBitWriter()
+
+            for _ in 0..<1_000_000 {
+                bitWriter.write(unsignedNumber: 55, bitsCount: 7)
+            }
+        }
+    }
+
     func testAppendByte() {
         self.measure {
             let bitWriter = LsbBitWriter()
