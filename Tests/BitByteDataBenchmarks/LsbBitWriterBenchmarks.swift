@@ -12,7 +12,7 @@ class LsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let bitWriter = LsbBitWriter()
 
-            for _ in 0..<5_000_000 * 4 {
+            for _ in 0..<4_000_000 {
                 bitWriter.write(bit: 0)
                 bitWriter.write(bit: 1)
             }
@@ -23,7 +23,7 @@ class LsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let bitWriter = LsbBitWriter()
 
-            for _ in 0..<5_000_000 {
+            for _ in 0..<1_000_000 {
                 bitWriter.write(number: 55, bitsCount: 7)
             }
         }
@@ -33,7 +33,7 @@ class LsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let bitWriter = LsbBitWriter()
 
-            for _ in 0..<5_000_000 {
+            for _ in 0..<1_000_000 {
                 bitWriter.append(byte: 37)
             }
         }
