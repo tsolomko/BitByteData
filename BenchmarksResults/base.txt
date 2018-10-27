@@ -1,0 +1,40 @@
+ByteReaderBenchmarks:
+    testByte 0.457 2.094%
+    testBytes 0.397 2.203%
+    testIntFromBytes 0.417 3.351%
+    testUint16 0.239 3.205%
+    testUint16FromBytes 0.206 9.280%
+    testUint32 0.122 4.881%
+    testUint32FromBytes 0.103 3.399%
+    testUint64 0.029 11.959%
+    testUint64FromBytes 0.416 1.480%
+
+LsbBitReaderBenchmarks:
+    testBit 2.192 10.594%
+    testBits 3.956 0.858%
+    testByteFromBits 0.917 1.045%
+    testIntFromBits 0.679 1.361%
+    testUint16FromBits 0.821 1.885%
+    testUint32FromBits 0.993 2.142%
+    testUint64FromBits 0.709 1.185%
+
+LsbBitWriterBenchmarks:
+    testAppendByte 1.114 4.319%
+    testWriteBit 1.243 1.516%
+    testWriteNumberBitsCount 1.071 1.721%
+    testWriteUnsignedNumberBitsCount 1.052 1.330%
+
+MsbBitReaderBenchmarks:
+    testBit 2.088 2.183%
+    testBits 3.952 0.516%
+    testByteFromBits 0.944 1.012%
+    testIntFromBits 0.689 1.355%
+    testUint16FromBits 0.835 1.000%
+    testUint32FromBits 1.011 0.947%
+    testUint64FromBits 0.722 2.311%
+
+MsbBitWriterBenchmarks:
+    testAppendByte 1.364 11.587%
+    testWriteBit 1.301 1.769%
+    testWriteNumberBitsCount 1.050 3.337%
+    testWriteUnsignedNumberBitsCount 1.108 1.304%
