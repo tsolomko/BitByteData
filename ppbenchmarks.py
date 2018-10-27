@@ -8,7 +8,15 @@ benchmarks = dict()
 for line in sys.stdin:
     line = line.rstrip()
     print(line)
-    p = re.compile("Test Case '-\[BitByteDataBenchmarks\.(.+Benchmarks) (test.+)\]'.+average: (\d+.\d+), relative standard deviation: (\d+.\d+)\%")
+    p = None
+    # Output format of 'swift test' differs between macOS and Linux platforms.
+    if sys.platform == "darwin":
+        p = re.compile("Test Case '-\[BitByteDataBenchmarks\.(.+Benchmarks) (test.+)\]'.+average: (\d+.\d+), relative standard deviation: (\d+.\d+)\%")
+    elif sys.platform == "linux":
+        p = re.compile("Test Case '(.+Benchmarks)\.(test.+)'.+average: (\d+.\d+), relative standard deviation: (\d+.\d+)\%")
+    else:
+        raise Exception("Unknown platform: " + sys.platform) 
+    
     matches = p.findall(line)
     if len(matches) == 1 and len(matches[0]) == 4:
         benchmark_name = matches[0][0]
