@@ -42,6 +42,17 @@ public final class MsbBitReader: ByteReader, BitReader {
         self.offset = byteReader.offset
     }
 
+    public func advance(by count: Int = 1) {
+        for _ in 0..<count {
+            if self.bitMask == 1 {
+                self.offset += 1
+                self.bitMask = 128
+            } else {
+                self.bitMask >>= 1
+            }
+        }
+    }
+
     /**
      Reads bit and returns it, advancing by one BIT position.
 
