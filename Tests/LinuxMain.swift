@@ -30,6 +30,7 @@ extension ByteReaderTests {
 extension LsbBitReaderTests {
 	static var allTests: [(String, (LsbBitReaderTests) -> () -> Void)] {
 		return [
+            ("testAdvance", testAdvance),
             ("testBit", testBit),
 			("testBits", testBits),
 			("testIntFromBits", testIntFromBits),
@@ -57,6 +58,7 @@ extension LsbBitReaderTests {
 extension MsbBitReaderTests {
 	static var allTests: [(String, (MsbBitReaderTests) -> () -> Void)] {
 		return [
+            ("testAdvance", testAdvance),
 			("testBit", testBit),
 			("testBits", testBits),
 			("testIntFromBits", testIntFromBits),
@@ -130,6 +132,7 @@ extension ByteReaderBenchmarks {
 extension LsbBitReaderBenchmarks {
     static var allTests: [(String, (LsbBitReaderBenchmarks) -> () -> Void)] {
         return [
+            ("testAdvance", testAdvance),
             ("testBit", testBit),
             ("testBits", testBits),
             ("testIntFromBits", testIntFromBits),
@@ -144,6 +147,7 @@ extension LsbBitReaderBenchmarks {
 extension MsbBitReaderBenchmarks {
     static var allTests: [(String, (MsbBitReaderBenchmarks) -> () -> Void)] {
         return [
+            ("testAdvance", testAdvance),
             ("testBit", testBit),
             ("testBits", testBits),
             ("testIntFromBits", testIntFromBits),

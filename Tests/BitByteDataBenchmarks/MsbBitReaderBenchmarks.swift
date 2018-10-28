@@ -8,6 +8,16 @@ import BitByteData
 
 class MsbBitReaderBenchmarks: XCTestCase {
 
+    func testAdvance() {
+        self.measure {
+            let bitReader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+
+            for _ in 0..<5_000_000 * 8 {
+                bitReader.advance()
+            }
+        }
+    }
+
     func testBit() {
         self.measure {
             let bitReader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
