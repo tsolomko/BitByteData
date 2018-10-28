@@ -30,7 +30,7 @@ extension ByteReaderTests {
 extension LsbBitReaderTests {
 	static var allTests: [(String, (LsbBitReaderTests) -> () -> Void)] {
 		return [
-			("testBit", testBit),
+            ("testBit", testBit),
 			("testBits", testBits),
 			("testIntFromBits", testIntFromBits),
             ("testByteFromBits", testByteFromBits),
@@ -87,7 +87,8 @@ extension LsbBitWriterTests {
 			("testWriteBit", testWriteBit),
 			("testWriteBitsArray", testWriteBitsArray),
 			("testWriteNumber", testWriteNumber),
-			("testAppendByte", testAppendByte),
+            ("testWriteUnsignedNumber", testWriteUnsignedNumber),
+            ("testAppendByte", testAppendByte),
 			("testAlign", testAlign),
 			("testIsAligned", testIsAligned),
 			("testNamingConsistency", testNamingConsistency)
@@ -100,7 +101,8 @@ extension MsbBitWriterTests {
 		return [
 			("testWriteBit", testWriteBit),
 			("testWriteBitsArray", testWriteBitsArray),
-			("testWriteNumber", testWriteNumber),
+            ("testWriteNumber", testWriteNumber),
+            ("testWriteUnsignedNumber", testWriteUnsignedNumber),
 			("testAppendByte", testAppendByte),
 			("testAlign", testAlign),
 			("testIsAligned", testIsAligned),
@@ -158,6 +160,7 @@ extension LsbBitWriterBenchmarks {
         return [
             ("testWriteBit", testWriteBit),
             ("testWriteNumberBitsCount", testWriteNumberBitsCount),
+            ("testWriteUnsignedNumberBitsCount", testWriteUnsignedNumberBitsCount),
             ("testAppendByte", testAppendByte)
         ]
     }
@@ -168,6 +171,7 @@ extension MsbBitWriterBenchmarks {
         return [
             ("testWriteBit", testWriteBit),
             ("testWriteNumberBitsCount", testWriteNumberBitsCount),
+            ("testWriteUnsignedNumberBitsCount", testWriteUnsignedNumberBitsCount),
             ("testAppendByte", testAppendByte)
         ]
     }
