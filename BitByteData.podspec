@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "BitByteData"
-  s.version      = "1.2.0"
+  s.version      = "1.3.0"
   s.summary      = "Read and write bits and bytes in Swift."
   
   s.description  = "A Swift framework with classes for reading and writing bits and bytes."
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = "9.0"
   s.watchos.deployment_target = "2.0"
 
-  s.swift_version = "4.1"
+  s.swift_version = "4.2"
 
   s.source_files = "Sources/*.swift"
 

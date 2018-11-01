@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0
+
+- Updated to support Swift 4.2.
+- Added `advance(by:)` function to both `LsbBitReader` and `MsbBitReader`.
+- Added `write(unsignedNumber:bitsCount:)` function to both `LsbBitWriter` and `MsbBitWriter` (PR #1 by @cowgp).
+
 ## 1.2.0
 
 - Updated to support Swift 4.1.
