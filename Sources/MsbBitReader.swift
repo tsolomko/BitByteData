@@ -43,6 +43,23 @@ public final class MsbBitReader: ByteReader, BitReader {
     }
 
     /**
+     Advances reader's BIT pointer by specified amount of bits (default is 1).
+
+     - Warning: Doesn't check if there is any data left. It is advised to use `isFinished` AFTER calling this method
+     to check if the end was reached.
+     */
+    public func advance(by count: Int = 1) {
+        for _ in 0..<count {
+            if self.bitMask == 1 {
+                self.offset += 1
+                self.bitMask = 128
+            } else {
+                self.bitMask >>= 1
+            }
+        }
+    }
+
+    /**
      Reads bit and returns it, advancing by one BIT position.
 
      - Precondition: There MUST be enough data left.

@@ -5,6 +5,7 @@
 
 import XCTest
 @testable import BitByteDataTests
+@testable import BitByteDataBenchmarks
 
 extension ByteReaderTests {
 	static var allTests: [(String, (ByteReaderTests) -> () -> Void)] {
@@ -29,7 +30,8 @@ extension ByteReaderTests {
 extension LsbBitReaderTests {
 	static var allTests: [(String, (LsbBitReaderTests) -> () -> Void)] {
 		return [
-			("testBit", testBit),
+            ("testAdvance", testAdvance),
+            ("testBit", testBit),
 			("testBits", testBits),
 			("testIntFromBits", testIntFromBits),
             ("testByteFromBits", testByteFromBits),
@@ -56,6 +58,7 @@ extension LsbBitReaderTests {
 extension MsbBitReaderTests {
 	static var allTests: [(String, (MsbBitReaderTests) -> () -> Void)] {
 		return [
+            ("testAdvance", testAdvance),
 			("testBit", testBit),
 			("testBits", testBits),
 			("testIntFromBits", testIntFromBits),
@@ -86,7 +89,8 @@ extension LsbBitWriterTests {
 			("testWriteBit", testWriteBit),
 			("testWriteBitsArray", testWriteBitsArray),
 			("testWriteNumber", testWriteNumber),
-			("testAppendByte", testAppendByte),
+            ("testWriteUnsignedNumber", testWriteUnsignedNumber),
+            ("testAppendByte", testAppendByte),
 			("testAlign", testAlign),
 			("testIsAligned", testIsAligned),
 			("testNamingConsistency", testNamingConsistency)
@@ -99,7 +103,8 @@ extension MsbBitWriterTests {
 		return [
 			("testWriteBit", testWriteBit),
 			("testWriteBitsArray", testWriteBitsArray),
-			("testWriteNumber", testWriteNumber),
+            ("testWriteNumber", testWriteNumber),
+            ("testWriteUnsignedNumber", testWriteUnsignedNumber),
 			("testAppendByte", testAppendByte),
 			("testAlign", testAlign),
 			("testIsAligned", testIsAligned),
@@ -108,10 +113,84 @@ extension MsbBitWriterTests {
 	}
 }
 
+extension ByteReaderBenchmarks {
+    static var allTests: [(String, (ByteReaderBenchmarks) -> () -> Void)] {
+        return [
+            ("testByte", testByte),
+            ("testBytes", testBytes),
+            ("testIntFromBytes", testIntFromBytes),
+            ("testUint16", testUint16),
+            ("testUint16FromBytes", testUint16FromBytes),
+            ("testUint32", testUint32),
+            ("testUint32FromBytes", testUint32FromBytes),
+            ("testUint64", testUint64),
+            ("testUint64FromBytes", testUint64FromBytes)
+        ]
+    }
+}
+
+extension LsbBitReaderBenchmarks {
+    static var allTests: [(String, (LsbBitReaderBenchmarks) -> () -> Void)] {
+        return [
+            ("testAdvance", testAdvance),
+            ("testBit", testBit),
+            ("testBits", testBits),
+            ("testIntFromBits", testIntFromBits),
+            ("testByteFromBits", testByteFromBits),
+            ("testUint16FromBits", testUint16FromBits),
+            ("testUint32FromBits", testUint32FromBits),
+            ("testUint64FromBits", testUint64FromBits)
+        ]
+    }
+}
+
+extension MsbBitReaderBenchmarks {
+    static var allTests: [(String, (MsbBitReaderBenchmarks) -> () -> Void)] {
+        return [
+            ("testAdvance", testAdvance),
+            ("testBit", testBit),
+            ("testBits", testBits),
+            ("testIntFromBits", testIntFromBits),
+            ("testByteFromBits", testByteFromBits),
+            ("testUint16FromBits", testUint16FromBits),
+            ("testUint32FromBits", testUint32FromBits),
+            ("testUint64FromBits", testUint64FromBits)
+        ]
+    }
+}
+
+extension LsbBitWriterBenchmarks {
+    static var allTests: [(String, (LsbBitWriterBenchmarks) -> () -> Void)] {
+        return [
+            ("testWriteBit", testWriteBit),
+            ("testWriteNumberBitsCount", testWriteNumberBitsCount),
+            ("testWriteUnsignedNumberBitsCount", testWriteUnsignedNumberBitsCount),
+            ("testAppendByte", testAppendByte)
+        ]
+    }
+}
+
+extension MsbBitWriterBenchmarks {
+    static var allTests: [(String, (MsbBitWriterBenchmarks) -> () -> Void)] {
+        return [
+            ("testWriteBit", testWriteBit),
+            ("testWriteNumberBitsCount", testWriteNumberBitsCount),
+            ("testWriteUnsignedNumberBitsCount", testWriteUnsignedNumberBitsCount),
+            ("testAppendByte", testAppendByte)
+        ]
+    }
+}
+
 XCTMain([
     testCase(ByteReaderTests.allTests),
 	testCase(LsbBitReaderTests.allTests),
 	testCase(MsbBitReaderTests.allTests),
 	testCase(LsbBitWriterTests.allTests),
-	testCase(MsbBitWriterTests.allTests)
+	testCase(MsbBitWriterTests.allTests),
+
+    testCase(ByteReaderBenchmarks.allTests),
+    testCase(LsbBitReaderBenchmarks.allTests),
+    testCase(MsbBitReaderBenchmarks.allTests),
+    testCase(LsbBitWriterBenchmarks.allTests),
+    testCase(MsbBitWriterBenchmarks.allTests)
 ])

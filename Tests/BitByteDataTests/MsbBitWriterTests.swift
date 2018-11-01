@@ -44,6 +44,14 @@ class MsbBitWriterTests: XCTestCase {
         XCTAssertEqual(bitWriter.data, Data(bytes: [255, 217, 192]))
     }
 
+    func testWriteUnsignedNumber() {
+        let bitWriter = MsbBitWriter()
+        bitWriter.write(unsignedNumber: UInt(UInt64.max), bitsCount: UInt64.bitWidth)
+
+        let byteReader = ByteReader(data: bitWriter.data)
+        XCTAssertEqual(byteReader.uint64(), UInt64.max)
+    }
+
     func testAppendByte() {
         let bitWriter = LsbBitWriter()
 

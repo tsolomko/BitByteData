@@ -1,6 +1,6 @@
 # BitByteData
 
-[![Swift 4.1](https://img.shields.io/badge/Swift-4.1-blue.svg)](https://developer.apple.com/swift/)
+[![Swift 4.2](https://img.shields.io/badge/Swift-4.2-blue.svg)](https://developer.apple.com/swift/)
 [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/tsolomko/BitByteData/master/LICENSE)
 [![Build Status](https://travis-ci.org/tsolomko/BitByteData.svg?branch=develop)](https://travis-ci.org/tsolomko/BitByteData)
 
@@ -22,7 +22,7 @@ let package = Package(
     name: "PackageName",
     dependencies: [
         .package(url: "https://github.com/tsolomko/BitByteData.git",
-                 from: "1.2.0")
+                 from: "1.3.0")
     ],
     targets: [
         .target(
@@ -37,13 +37,13 @@ More details you can find in [Swift Package Manager's Documentation](https://git
 
 ### CocoaPods
 
-Add `pod 'BitByteData', '~> 1.2'` and `use_frameworks!` to your Podfile.
+Add `pod 'BitByteData', '~> 1.3'` and `use_frameworks!` to your Podfile.
 
 To complete installation, run `pod install`.
 
 ### Carthage
 
-Add to your Cartfile `github "tsolomko/BitByteData" ~> 1.2`.
+Add to your Cartfile `github "tsolomko/BitByteData" ~> 1.3`.
 
 Then run `carthage update`.
 

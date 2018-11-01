@@ -3,10 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060F68322176024400688683 /* LsbBitReaderBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F68312176024400688683 /* LsbBitReaderBenchmarks.swift */; };
+		060F6834217604E800688683 /* MsbBitReaderBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F6833217604E800688683 /* MsbBitReaderBenchmarks.swift */; };
+		065DD5E421673BC100704028 /* BitByteData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F0656C1FFAEA4B00312A82 /* BitByteData.framework */; };
+		06A81B0F2177947600B6B7BB /* LsbBitWriterBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A81B0E2177947600B6B7BB /* LsbBitWriterBenchmarks.swift */; };
+		06A81B112177955600B6B7BB /* MsbBitWriterBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A81B102177955500B6B7BB /* MsbBitWriterBenchmarks.swift */; };
+		06ADF4CB214BB86600B8F0E9 /* ByteReaderBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */; };
 		06F065751FFAEA8700312A82 /* LsbBitReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065571FFAEA1F00312A82 /* LsbBitReader.swift */; };
 		06F065761FFAEA8700312A82 /* BitReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065581FFAEA1F00312A82 /* BitReader.swift */; };
 		06F065771FFAEA8700312A82 /* ByteReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065591FFAEA1F00312A82 /* ByteReader.swift */; };
@@ -24,6 +30,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		065DD5E521673BC100704028 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 06F065501FFAE9EC00312A82 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 06F0656B1FFAEA4B00312A82;
+			remoteInfo = BitByteData;
+		};
 		06F065871FFAEAA000312A82 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 06F065501FFAE9EC00312A82 /* Project object */;
@@ -34,7 +47,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		060F68312176024400688683 /* LsbBitReaderBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitReaderBenchmarks.swift; sourceTree = "<group>"; };
+		060F6833217604E800688683 /* MsbBitReaderBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsbBitReaderBenchmarks.swift; sourceTree = "<group>"; };
 		062BE3301FFBB9E300343CAD /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
+		065DD5DF21673BC100704028 /* BitByteDataBenchmarks.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BitByteDataBenchmarks.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		06A81B0E2177947600B6B7BB /* LsbBitWriterBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitWriterBenchmarks.swift; sourceTree = "<group>"; };
+		06A81B102177955500B6B7BB /* MsbBitWriterBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsbBitWriterBenchmarks.swift; sourceTree = "<group>"; };
+		06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReaderBenchmarks.swift; sourceTree = "<group>"; };
 		06F065571FFAEA1F00312A82 /* LsbBitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitReader.swift; sourceTree = "<group>"; };
 		06F065581FFAEA1F00312A82 /* BitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitReader.swift; sourceTree = "<group>"; };
 		06F065591FFAEA1F00312A82 /* ByteReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReader.swift; sourceTree = "<group>"; };
@@ -53,6 +72,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		065DD5DC21673BC100704028 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				065DD5E421673BC100704028 /* BitByteData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06F0657E1FFAEAA000312A82 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -64,6 +91,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		065DD5E021673BC100704028 /* BitByteDataBenchmarks */ = {
+			isa = PBXGroup;
+			children = (
+				06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */,
+				060F68312176024400688683 /* LsbBitReaderBenchmarks.swift */,
+				060F6833217604E800688683 /* MsbBitReaderBenchmarks.swift */,
+				06A81B0E2177947600B6B7BB /* LsbBitWriterBenchmarks.swift */,
+				06A81B102177955500B6B7BB /* MsbBitWriterBenchmarks.swift */,
+			);
+			path = BitByteDataBenchmarks;
+			sourceTree = "<group>";
+		};
 		06F0654F1FFAE9EC00312A82 = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +130,7 @@
 		06F0655F1FFAEA1F00312A82 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				065DD5E021673BC100704028 /* BitByteDataBenchmarks */,
 				06F065611FFAEA1F00312A82 /* BitByteDataTests */,
 				062BE3301FFBB9E300343CAD /* LinuxMain.swift */,
 			);
@@ -114,6 +154,7 @@
 			children = (
 				06F0656C1FFAEA4B00312A82 /* BitByteData.framework */,
 				06F065811FFAEAA000312A82 /* TestBitByteData.xctest */,
+				065DD5DF21673BC100704028 /* BitByteDataBenchmarks.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,6 +162,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		065DD5DE21673BC100704028 /* BitByteDataBenchmarks */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 065DD5E921673BC100704028 /* Build configuration list for PBXNativeTarget "BitByteDataBenchmarks" */;
+			buildPhases = (
+				065DD5DB21673BC100704028 /* Sources */,
+				065DD5DC21673BC100704028 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				065DD5E621673BC100704028 /* PBXTargetDependency */,
+			);
+			name = BitByteDataBenchmarks;
+			productName = BitByteDataBenchmarks;
+			productReference = 065DD5DF21673BC100704028 /* BitByteDataBenchmarks.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		06F0656B1FFAEA4B00312A82 /* BitByteData */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06F065721FFAEA4C00312A82 /* Build configuration list for PBXNativeTarget "BitByteData" */;
@@ -159,22 +217,28 @@
 		06F065501FFAE9EC00312A82 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				DefaultBuildSystemTypeForWorkspace = Latest;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Timofey Solomko";
 				TargetAttributes = {
+					065DD5DE21673BC100704028 = {
+						CreatedOnToolsVersion = 10.0;
+					};
 					06F0656B1FFAEA4B00312A82 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 					};
 					06F065801FFAEAA000312A82 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 					};
 				};
 			};
 			buildConfigurationList = 06F065531FFAE9EC00312A82 /* Build configuration list for PBXProject "BitByteData" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -187,11 +251,19 @@
 			targets = (
 				06F0656B1FFAEA4B00312A82 /* BitByteData */,
 				06F065801FFAEAA000312A82 /* TestBitByteData */,
+				065DD5DE21673BC100704028 /* BitByteDataBenchmarks */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		065DD5DB21673BC100704028 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06F065671FFAEA4B00312A82 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -211,17 +283,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06A81B112177955600B6B7BB /* MsbBitWriterBenchmarks.swift in Sources */,
+				060F6834217604E800688683 /* MsbBitReaderBenchmarks.swift in Sources */,
+				06ADF4CB214BB86600B8F0E9 /* ByteReaderBenchmarks.swift in Sources */,
 				06F0658F1FFAEAA900312A82 /* LsbBitReaderTests.swift in Sources */,
 				06F065901FFAEAA900312A82 /* ByteReaderTests.swift in Sources */,
 				06F0658C1FFAEAA900312A82 /* MsbBitWriterTests.swift in Sources */,
 				06F0658E1FFAEAA900312A82 /* LsbBitWriterTests.swift in Sources */,
 				06F0658D1FFAEAA900312A82 /* MsbBitReaderTests.swift in Sources */,
+				06A81B0F2177947600B6B7BB /* LsbBitWriterBenchmarks.swift in Sources */,
+				060F68322176024400688683 /* LsbBitReaderBenchmarks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		065DD5E621673BC100704028 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 06F0656B1FFAEA4B00312A82 /* BitByteData */;
+			targetProxy = 065DD5E521673BC100704028 /* PBXContainerItemProxy */;
+		};
 		06F065881FFAEAA000312A82 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 06F0656B1FFAEA4B00312A82 /* BitByteData */;
@@ -230,6 +312,42 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		065DD5E721673BC100704028 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				INFOPLIST_FILE = BitByteData.xcodeproj/BitByteDataBenchmarks.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/Frameworks",
+					"@executable_path/Frameworks",
+					"@loader_path/../Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.tsolomko.BitByteDataBenchmarks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		065DD5E821673BC100704028 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				INFOPLIST_FILE = BitByteData.xcodeproj/BitByteDataBenchmarks.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/Frameworks",
+					"@executable_path/Frameworks",
+					"@loader_path/../Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.tsolomko.BitByteDataBenchmarks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 		06F065541FFAE9EC00312A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -252,7 +370,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -298,7 +416,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -326,7 +444,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 13;
+				DYLIB_CURRENT_VERSION = 15;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = BitByteData.xcodeproj/BitByteData.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -340,7 +458,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.tsolomko.BitByteData;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
@@ -351,7 +469,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 13;
+				DYLIB_CURRENT_VERSION = 15;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = BitByteData.xcodeproj/BitByteData.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -365,7 +483,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.tsolomko.BitByteData;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
@@ -384,7 +502,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.tsolomko.TestBitByteData;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -402,13 +520,22 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.tsolomko.TestBitByteData;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		065DD5E921673BC100704028 /* Build configuration list for PBXNativeTarget "BitByteDataBenchmarks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				065DD5E721673BC100704028 /* Debug */,
+				065DD5E821673BC100704028 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		06F065531FFAE9EC00312A82 /* Build configuration list for PBXProject "BitByteData" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

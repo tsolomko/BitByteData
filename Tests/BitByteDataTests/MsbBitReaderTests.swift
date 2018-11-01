@@ -10,6 +10,21 @@ class MsbBitReaderTests: XCTestCase {
 
     private static let data = Data(bytes: [0x5A, 0xD6, 0x57, 0x14, 0xAB, 0xCC, 0x2D, 0x88, 0xEA, 0x00])
 
+    func testAdvance() {
+        let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
+
+        XCTAssertEqual(bitReader.bit(), 0)
+        bitReader.advance()
+        XCTAssertEqual(bitReader.bit(), 0)
+        bitReader.advance()
+        bitReader.advance()
+        XCTAssertEqual(bitReader.bit(), 0)
+        bitReader.advance(by: 4)
+        XCTAssertEqual(bitReader.bit(), 0)
+
+        XCTAssertFalse(bitReader.isAligned)
+    }
+
     func testBit() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)
 
