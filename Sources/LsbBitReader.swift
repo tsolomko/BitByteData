@@ -42,6 +42,12 @@ public final class LsbBitReader: ByteReader, BitReader {
         self.offset = byteReader.offset
     }
 
+    /**
+     Advances reader's BIT pointer by specified amount of bits (default is 1).
+
+     - Warning: Doesn't check if there is any data left. It is advised to use `isFinished` AFTER calling this method
+     to check if the end was reached.
+     */
     public func advance(by count: Int = 1) {
         for _ in 0..<count {
             if self.bitMask == 128 {
