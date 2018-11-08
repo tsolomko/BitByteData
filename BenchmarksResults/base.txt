@@ -1,40 +1,42 @@
 ByteReaderBenchmarks:
-    testByte 0.457 2.094%
-    testBytes 0.397 2.203%
-    testIntFromBytes 0.417 3.351%
-    testUint16 0.239 3.205%
-    testUint16FromBytes 0.206 9.280%
-    testUint32 0.122 4.881%
-    testUint32FromBytes 0.103 3.399%
-    testUint64 0.029 11.959%
-    testUint64FromBytes 0.416 1.480%
+    testByte 0.274 5.371%
+    testBytes 0.401 4.880%
+    testIntFromBytes 0.218 2.365%
+    testUint16 0.199 3.142%
+    testUint16FromBytes 0.116 3.677%
+    testUint32 0.102 3.573%
+    testUint32FromBytes 0.059 4.866%
+    testUint64 0.024 8.593%
+    testUint64FromBytes 0.215 2.504%
 
 LsbBitReaderBenchmarks:
-    testBit 2.192 10.594%
-    testBits 3.956 0.858%
-    testByteFromBits 0.917 1.045%
-    testIntFromBits 0.679 1.361%
-    testUint16FromBits 0.821 1.885%
-    testUint32FromBits 0.993 2.142%
-    testUint64FromBits 0.709 1.185%
+    testAdvance 0.500 6.255%
+    testBit 1.421 0.816%
+    testBits 3.202 0.807%
+    testByteFromBits 0.719 3.500%
+    testIntFromBits 0.539 1.592%
+    testUint16FromBits 0.664 0.930%
+    testUint32FromBits 0.820 1.346%
+    testUint64FromBits 0.593 2.923%
 
 LsbBitWriterBenchmarks:
-    testAppendByte 1.114 4.319%
-    testWriteBit 1.243 1.516%
-    testWriteNumberBitsCount 1.071 1.721%
-    testWriteUnsignedNumberBitsCount 1.052 1.330%
+    testAppendByte 1.075 2.339%
+    testWriteBit 1.287 2.301%
+    testWriteNumberBitsCount 0.977 2.017%
+    testWriteUnsignedNumberBitsCount 1.093 2.588%
 
 MsbBitReaderBenchmarks:
-    testBit 2.088 2.183%
-    testBits 3.952 0.516%
-    testByteFromBits 0.944 1.012%
-    testIntFromBits 0.689 1.355%
-    testUint16FromBits 0.835 1.000%
-    testUint32FromBits 1.011 0.947%
-    testUint64FromBits 0.722 2.311%
+    testAdvance 0.484 1.542%
+    testBit 1.418 1.365%
+    testBits 3.182 0.701%
+    testByteFromBits 0.735 0.974%
+    testIntFromBits 0.553 1.387%
+    testUint16FromBits 0.695 1.582%
+    testUint32FromBits 0.844 2.019%
+    testUint64FromBits 0.603 2.789%
 
 MsbBitWriterBenchmarks:
-    testAppendByte 1.364 11.587%
-    testWriteBit 1.301 1.769%
-    testWriteNumberBitsCount 1.050 3.337%
-    testWriteUnsignedNumberBitsCount 1.108 1.304%
+    testAppendByte 1.186 2.495%
+    testWriteBit 1.261 2.024%
+    testWriteNumberBitsCount 1.016 1.905%
+    testWriteUnsignedNumberBitsCount 0.985 1.381%

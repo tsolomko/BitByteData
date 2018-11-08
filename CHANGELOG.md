@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1
+
+- Improved performance of `ByteReader`'s functions and properties when compiled with Swift 4.2 compiler.
+
 ## 1.3.0
 
 - Updated to support Swift 4.2.

@@ -11,7 +11,6 @@ opt_in_rules:
   - explicit_init
   - fatal_error_message
   - first_where
-  - implicit_return
   - implicitly_unwrapped_optional
   - joined_default_parameter
   - literal_expression_end_indentation
