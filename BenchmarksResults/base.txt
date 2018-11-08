@@ -1,43 +1,42 @@
 ByteReaderBenchmarks:
-    testByte 0.455 2.416%
-    testBytes 0.447 6.885%
-    testIntFromBytes 0.417 2.067%
-    testUint16 0.238 4.152%
-    testUint16FromBytes 0.194 2.660%
-    testUint32 0.124 4.177%
-    testUint32FromBytes 0.106 3.789%
-    testUint64 0.028 7.570%
-    testUint64FromBytes 0.418 1.418%
+    testByte 0.274 5.371%
+    testBytes 0.401 4.880%
+    testIntFromBytes 0.218 2.365%
+    testUint16 0.199 3.142%
+    testUint16FromBytes 0.116 3.677%
+    testUint32 0.102 3.573%
+    testUint32FromBytes 0.059 4.866%
+    testUint64 0.024 8.593%
+    testUint64FromBytes 0.215 2.504%
 
 LsbBitReaderBenchmarks:
-    testAdvance 0.571 1.137%
-    testBit 2.075 1.810%
-    testBits 4.233 2.555%
-    testByteFromBits 0.929 1.331%
-    testIntFromBits 0.697 2.453%
-    testUint16FromBits 0.822 1.041%
-    testUint32FromBits 1.075 9.265%
-    testUint64FromBits 0.696 1.724%
+    testAdvance 0.500 6.255%
+    testBit 1.421 0.816%
+    testBits 3.202 0.807%
+    testByteFromBits 0.719 3.500%
+    testIntFromBits 0.539 1.592%
+    testUint16FromBits 0.664 0.930%
+    testUint32FromBits 0.820 1.346%
+    testUint64FromBits 0.593 2.923%
 
 LsbBitWriterBenchmarks:
-    testAppendByte 1.091 1.353%
-    testWriteBit 1.154 1.190%
-    testWriteNumberBitsCount 1.119 3.194%
-    testWriteUnsignedNumberBitsCount 1.113 2.867%
+    testAppendByte 1.075 2.339%
+    testWriteBit 1.287 2.301%
+    testWriteNumberBitsCount 0.977 2.017%
+    testWriteUnsignedNumberBitsCount 1.093 2.588%
 
 MsbBitReaderBenchmarks:
-    testAdvance 0.576 8.878%
-    testBit 2.202 3.069%
-    testBits 4.187 0.826%
-    testByteFromBits 0.938 1.439%
-    testIntFromBits 0.700 7.516%
-    testUint16FromBits 0.835 1.054%
-    testUint32FromBits 1.020 1.437%
-    testUint64FromBits 0.733 4.752%
+    testAdvance 0.484 1.542%
+    testBit 1.418 1.365%
+    testBits 3.182 0.701%
+    testByteFromBits 0.735 0.974%
+    testIntFromBits 0.553 1.387%
+    testUint16FromBits 0.695 1.582%
+    testUint32FromBits 0.844 2.019%
+    testUint64FromBits 0.603 2.789%
 
 MsbBitWriterBenchmarks:
-    testAppendByte 1.141 1.387%
-    testWriteBit 1.180 3.333%
-    testWriteNumberBitsCount 1.028 1.278%
-    testWriteUnsignedNumberBitsCount 0.949 2.014%
-
+    testAppendByte 1.186 2.495%
+    testWriteBit 1.261 2.024%
+    testWriteNumberBitsCount 1.016 1.905%
+    testWriteUnsignedNumberBitsCount 0.985 1.381%
