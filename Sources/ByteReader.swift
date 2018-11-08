@@ -25,12 +25,11 @@ public class ByteReader {
     public var isFinished: Bool {
         #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: Int) -> Bool in
-                data.endIndex <= offset
+                return data.endIndex <= offset
             } (self.data, self.offset)
         #else
             return self.data.endIndex <= self.offset
         #endif
-
     }
 
     /// Amount of bytes left to read.
