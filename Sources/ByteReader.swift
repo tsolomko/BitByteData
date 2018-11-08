@@ -23,7 +23,7 @@ public class ByteReader {
      - Note: It generally means that all bytes have been read.
      */
     public var isFinished: Bool {
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: Int) -> Bool in
                 data.endIndex <= offset
             } (self.data, self.offset)
@@ -35,7 +35,7 @@ public class ByteReader {
 
     /// Amount of bytes left to read.
     public var bytesLeft: Int {
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: Int) -> Int in
                 self.data.endIndex - self.offset
             } (self.data, self.offset)
@@ -46,7 +46,7 @@ public class ByteReader {
 
     /// Amount of bytes that were already read.
     public var bytesRead: Int {
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: Int) -> Int in
                 return offset - data.startIndex
             } (self.data, self.offset)
@@ -68,7 +68,7 @@ public class ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func byte() -> UInt8 {
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: inout Int) -> UInt8 in
                 precondition(offset < data.endIndex)
                 defer { offset += 1 }
@@ -90,7 +90,7 @@ public class ByteReader {
     public func bytes(count: Int) -> [UInt8] {
         precondition(count >= 0)
         precondition(bytesLeft >= count)
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: inout Int) -> [UInt8] in
                 defer { offset += count }
                 return data[offset..<offset + count].toArray(type: UInt8.self, count: count)
@@ -112,7 +112,7 @@ public class ByteReader {
         precondition(bytesLeft >= count)
         // TODO: If uintX() could be force inlined or something in the future then probably it would make sense
         // to use them for `count` == 2, 4 or 8.
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: inout Int) -> Int in
                 var result = 0
                 for i in 0..<count {
@@ -138,7 +138,7 @@ public class ByteReader {
      */
     public func uint64() -> UInt64 {
         precondition(bytesLeft >= 8)
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: inout Int) -> UInt64 in
                 defer { offset += 8 }
                 return data[offset..<offset + 8].to(type: UInt64.self)
@@ -161,7 +161,7 @@ public class ByteReader {
     public func uint64(fromBytes count: Int) -> UInt64 {
         precondition(0...8 ~= count)
         precondition(bytesLeft >= count)
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: inout Int) -> UInt64 in
                 var result = 0 as UInt64
                 for i in 0..<count {
@@ -187,7 +187,7 @@ public class ByteReader {
      */
     public func uint32() -> UInt32 {
         precondition(bytesLeft >= 4)
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: inout Int) -> UInt32 in
                 defer { offset += 4 }
                 return data[offset..<offset + 4].to(type: UInt32.self)
@@ -210,7 +210,7 @@ public class ByteReader {
     public func uint32(fromBytes count: Int) -> UInt32 {
         precondition(0...4 ~= count)
         precondition(bytesLeft >= count)
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: inout Int) -> UInt32 in
                 var result = 0 as UInt32
                 for i in 0..<count {
@@ -236,7 +236,7 @@ public class ByteReader {
      */
     public func uint16() -> UInt16 {
         precondition(bytesLeft >= 2)
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: inout Int) -> UInt16 in
                 defer { offset += 2 }
                 return data[offset..<offset + 2].to(type: UInt16.self)
@@ -259,7 +259,7 @@ public class ByteReader {
     public func uint16(fromBytes count: Int) -> UInt16 {
         precondition(0...2 ~= count)
         precondition(bytesLeft >= count)
-        #if swift(>=4.2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: inout Int) -> UInt16 in
                 var result = 0 as UInt16
                 for i in 0..<count {
