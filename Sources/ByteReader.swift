@@ -37,7 +37,7 @@ public class ByteReader {
     public var bytesLeft: Int {
         #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
             return { (data: Data, offset: Int) -> Int in
-                self.data.endIndex - self.offset
+                return data.endIndex - offset
             } (self.data, self.offset)
         #else
             return self.data.endIndex - self.offset
