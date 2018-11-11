@@ -27,6 +27,20 @@ extension LsbBitReaderBenchmarks {
     ]
 }
 
+extension LsbBitReaderByteBenchmarks {
+    static let __allTests = [
+        ("testByte", testByte),
+        ("testBytes", testBytes),
+        ("testIntFromBytes", testIntFromBytes),
+        ("testUint16", testUint16),
+        ("testUint16FromBytes", testUint16FromBytes),
+        ("testUint32", testUint32),
+        ("testUint32FromBytes", testUint32FromBytes),
+        ("testUint64", testUint64),
+        ("testUint64FromBytes", testUint64FromBytes)
+    ]
+}
+
 extension LsbBitWriterBenchmarks {
     static let __allTests = [
         ("testAppendByte", testAppendByte),
@@ -49,6 +63,20 @@ extension MsbBitReaderBenchmarks {
     ]
 }
 
+extension MsbBitReaderByteBenchmarks {
+    static let __allTests = [
+        ("testByte", testByte),
+        ("testBytes", testBytes),
+        ("testIntFromBytes", testIntFromBytes),
+        ("testUint16", testUint16),
+        ("testUint16FromBytes", testUint16FromBytes),
+        ("testUint32", testUint32),
+        ("testUint32FromBytes", testUint32FromBytes),
+        ("testUint64", testUint64),
+        ("testUint64FromBytes", testUint64FromBytes)
+    ]
+}
+
 extension MsbBitWriterBenchmarks {
     static let __allTests = [
         ("testAppendByte", testAppendByte),
@@ -63,8 +91,10 @@ public func __allTests() -> [XCTestCaseEntry] {
     return [
         testCase(ByteReaderBenchmarks.__allTests),
         testCase(LsbBitReaderBenchmarks.__allTests),
+        testCase(LsbBitReaderByteBenchmarks.__allTests),
         testCase(LsbBitWriterBenchmarks.__allTests),
         testCase(MsbBitReaderBenchmarks.__allTests),
+        testCase(MsbBitReaderByteBenchmarks.__allTests),
         testCase(MsbBitWriterBenchmarks.__allTests)
     ]
 }
