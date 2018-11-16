@@ -20,7 +20,7 @@ def action_run(args):
         raise Exception("Unknown platform: " + sys.platform) 
     p = re.compile(regex)
 
-    args = ["swift", "test", "-c", "release", "--filter", "BitByteDataBenchmarks"]
+    args = ["swift", "test", "-c", "release", "--filter", args.filter]
     # macOS version of 'swift test' outputs to stderr instead of stdout.
     process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
@@ -56,7 +56,9 @@ parser = argparse.ArgumentParser(description="A benchmarking tool for BitByteDat
 subparsers = parser.add_subparsers(title="commands", help="a command to perform", required=True, metavar="CMD")
 
 # Parser for 'run' command.
-parser_run = subparsers.add_parser("run", help="run all benchmarks", description="run all benchmarks")
+parser_run = subparsers.add_parser("run", help="run benchmarks", description="run benchmarks")
+parser_run.add_argument('--filter', action="store", default="BitByteDataBenchmarks",
+                        help="filter benchmarks (passed as --filter option to 'swift test')")
 parser_run.set_defaults(func=action_run)
 
 args = parser.parse_args()
