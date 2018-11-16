@@ -23,8 +23,7 @@ jobs:
       os: osx
       osx_image: xcode10.1
       script:
-      # On macOS swift test (i.e. XCTest) outputs to stderr so we need to redirect pipes.
-      - swift test -c release --filter BitByteDataBenchmarks 2>&1 | ./benchmarks.py 
+      - ./benchmarks.py run
     - stage: benchmark
       if: NOT (tag IS present)
       language: generic
@@ -33,8 +32,7 @@ jobs:
       install:
       - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
       script:
-      # On Linux swift test outputs to stdout so we don't need to do anything.
-      - swift test -c release --filter BitByteDataBenchmarks | ./benchmarks.py 
+      - ./benchmarks.py run
     - stage: deploy
       if: tag IS present
       language: generic
