@@ -73,6 +73,8 @@ def action_run(args):
     command = []
     if args.toolchain is not None:
         command += ["xcrun", "-toolchain", args.toolchain]
+    elif args.use_413:
+        command += ["xcrun", "-toolchain", "org.swift.41320180727a"]
     command += ["swift", "test", "-c", "release", "--filter", args.filter]
     # macOS version of 'swift test' outputs to stderr instead of stdout.
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -110,8 +112,15 @@ parser_run = subparsers.add_parser("run", help="run benchmarks", description="ru
 parser_run.add_argument("--filter", action="store", default="BitByteDataBenchmarks",
                         help="filter benchmarks (passed as --filter option to 'swift test')")
 parser_run.add_argument("--save", action="store", metavar="FILE", help="save output in a specified file")
-parser_run.add_argument("--toolchain", action="store", metavar="ID",
-                        help="use swift from the toolchain with specified identifier")
+
+toolchain_option_group = parser_run.add_mutually_exclusive_group()
+toolchain_option_group.add_argument("--toolchain", action="store", metavar="ID",
+                                    help="use swift from the toolchain with specified identifier")
+toolchain_option_group.add_argument("--413", action="store_true", dest="use_413",
+                                    help=("use swift from toolchain with 'org.swift.41320180727a' identifier (this is a "
+                                        "toolchain for Swift 4.1.3 which must already be installed; shortcut for "
+                                        "'--toolchain org.swift.41320180727a')"))
+
 parser_run.set_defaults(func=action_run)
 
 args = parser.parse_args()
