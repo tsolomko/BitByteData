@@ -5,9 +5,43 @@ import re
 import subprocess
 import sys
 
+class BenchmarkResult:
+    def __init__(self, regex_matches):
+        self.group_name = regex_matches[0][0]
+        self.test_name = regex_matches[0][1]
+        self.avg = regex_matches[0][2]
+        self.rel_std_dev = regex_matches[0][3]
+
+    def __str__(self):
+        return self.test_name + " " + self.avg + " " + self.rel_std_dev + "%"
+
+class BenchmarkGroup:
+    def __init__(self, name):
+        self.name = name
+        self.results = []
+
+    def add_result(self, result):
+        self.results.append(result)
+
+class BenchmarkRun:
+    def __init__(self):
+        self.groups = {}
+
+    def __str__(self):
+        output = ""
+        for group_name, group in self.groups.items():
+            output += "\n" + group_name + ":\n"
+            for result in group.results:
+                output += "    " + str(result) + "\n"
+        return output
+
+    def new_result(self, regex_matches):
+        result = BenchmarkResult(regex_matches)
+        group = self.groups.get(result.group_name, BenchmarkGroup(result.group_name))
+        group.add_result(result)
+        self.groups[group.name] = group
+
 def action_run(args):
-    benchmarks = dict()
-        
     # Output format of 'swift test' differs between macOS and Linux platforms.
     regex = ""
     if sys.platform == "darwin":
@@ -24,33 +58,24 @@ def action_run(args):
     # macOS version of 'swift test' outputs to stderr instead of stdout.
     process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
+    run = BenchmarkRun()
+
     while True:
         line = process.stdout.readline().decode()
         if line == "" and process.poll() is not None:
             break
         sys.stdout.write(line)
         sys.stdout.flush()
-        line = line.rstrip()
-        matches = p.findall(line)
+        matches = p.findall(line.rstrip())
         if len(matches) == 1 and len(matches[0]) == 4:
-            benchmark_name = matches[0][0]
-            test_name = matches[0][1]
-            avg = matches[0][2]
-            rel_std_dev = matches[0][3]
-            benchmark = benchmarks.get(benchmark_name, list())
-            benchmark.append(test_name + " " + avg + " " + rel_std_dev + "%")
-            benchmarks[benchmark_name] = benchmark
+            run.new_result(matches)
 
     exit_code = process.returncode
 
     if exit_code != 0:
         raise subprocess.CalledProcessError(exit_code, args)
     
-    for benchmark_name, results in benchmarks.items():
-        print(benchmark_name + ":")
-        for result in results:
-            print("    " + result)
-        print()
+    print(run)
 
 parser = argparse.ArgumentParser(description="A benchmarking tool for BitByteData")
 subparsers = parser.add_subparsers(title="commands", help="a command to perform", required=True, metavar="CMD")
