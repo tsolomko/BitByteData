@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import json
 import re
 import subprocess
 import sys
@@ -41,6 +42,21 @@ class BenchmarkRun:
         group.add_result(result)
         self.groups[group.name] = group
 
+class BenchmarkJSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, BenchmarkRun):
+            run_out = []
+            for group_name, group in o.groups.items():
+                results_out = []
+                for result in group.results:
+                    results_out.append({"name": result.test_name, 
+                                        "avg": result.avg, 
+                                        "rel_std_dev": result.rel_std_dev})
+                group_out = {"group_name": group_name, "results": results_out}
+                run_out.append(group_out)
+            return {"BitByteDataBenchmarks": run_out}
+        return json.JSONEncoder.default(self, o)
+
 def action_run(args):
     # Output format of 'swift test' differs between macOS and Linux platforms.
     regex = ""
@@ -79,8 +95,8 @@ def action_run(args):
     print(output)
 
     if args.save is not None:
-        f = open(args.save,"w+")
-        f.write(output)
+        f = open(args.save, "w+")
+        json.dump(run, f, indent=4, cls=BenchmarkJSONEncoder)
         f.close()
 
 parser = argparse.ArgumentParser(description="A benchmarking tool for BitByteData")
