@@ -54,9 +54,9 @@ def action_run(args):
         raise Exception("Unknown platform: " + sys.platform) 
     p = re.compile(regex)
 
-    args = ["swift", "test", "-c", "release", "--filter", args.filter]
+    command = ["swift", "test", "-c", "release", "--filter", args.filter]
     # macOS version of 'swift test' outputs to stderr instead of stdout.
-    process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
     run = BenchmarkRun()
 
@@ -73,17 +73,24 @@ def action_run(args):
     exit_code = process.returncode
 
     if exit_code != 0:
-        raise subprocess.CalledProcessError(exit_code, args)
+        raise subprocess.CalledProcessError(exit_code, command)
     
-    print(run)
+    output = str(run)
+    print(output)
+
+    if args.save is not None:
+        f = open(args.save,"w+")
+        f.write(output)
+        f.close()
 
 parser = argparse.ArgumentParser(description="A benchmarking tool for BitByteData")
 subparsers = parser.add_subparsers(title="commands", help="a command to perform", required=True, metavar="CMD")
 
 # Parser for 'run' command.
 parser_run = subparsers.add_parser("run", help="run benchmarks", description="run benchmarks")
-parser_run.add_argument('--filter', action="store", default="BitByteDataBenchmarks",
+parser_run.add_argument("--filter", action="store", default="BitByteDataBenchmarks",
                         help="filter benchmarks (passed as --filter option to 'swift test')")
+parser_run.add_argument("--save", action="store", metavar="FILE", help="save output in a specified file")
 parser_run.set_defaults(func=action_run)
 
 args = parser.parse_args()
