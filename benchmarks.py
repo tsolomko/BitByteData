@@ -70,7 +70,10 @@ def action_run(args):
         raise Exception("Unknown platform: " + sys.platform) 
     p = re.compile(regex)
 
-    command = ["swift", "test", "-c", "release", "--filter", args.filter]
+    command = []
+    if args.toolchain is not None:
+        command += ["xcrun", "-toolchain", args.toolchain]
+    command += ["swift", "test", "-c", "release", "--filter", args.filter]
     # macOS version of 'swift test' outputs to stderr instead of stdout.
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
@@ -107,6 +110,8 @@ parser_run = subparsers.add_parser("run", help="run benchmarks", description="ru
 parser_run.add_argument("--filter", action="store", default="BitByteDataBenchmarks",
                         help="filter benchmarks (passed as --filter option to 'swift test')")
 parser_run.add_argument("--save", action="store", metavar="FILE", help="save output in a specified file")
+parser_run.add_argument("--toolchain", action="store", metavar="ID",
+                        help="use swift from the toolchain with specified identifier")
 parser_run.set_defaults(func=action_run)
 
 args = parser.parse_args()
