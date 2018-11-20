@@ -7,11 +7,19 @@ import subprocess
 import sys
 
 class BenchmarkResult:
-    def __init__(self, regex_matches):
-        self.group_name = regex_matches[0][0]
-        self.test_name = regex_matches[0][1]
-        self.avg = regex_matches[0][2]
-        self.rel_std_dev = regex_matches[0][3]
+    def __init__(self, obj):
+        if isinstance(obj, list):
+            self.group_name = obj[0][0]
+            self.test_name = obj[0][1]
+            self.avg = obj[0][2]
+            self.rel_std_dev = obj[0][3]
+        elif isinstance(obj, dict):
+            self.group_name = ""
+            self.test_name = obj["name"]
+            self.avg = obj["avg"]
+            self.rel_std_dev = obj["rel_std_dev"]
+        else:
+            raise ValueError
 
     def __str__(self):
         return self.test_name + " " + self.avg + " " + self.rel_std_dev + "%"
@@ -56,6 +64,25 @@ class BenchmarkJSONEncoder(json.JSONEncoder):
                 run_out.append(group_out)
             return {"BitByteDataBenchmarks": run_out}
         return json.JSONEncoder.default(self, o)
+
+class BenchmarkJSONDecoder(json.JSONDecoder):
+    def __init__(self, *args, **kwargs):
+        json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
+
+    def object_hook(self, obj):
+        if len(obj.items()) == 3 and "name" in obj and "avg" in obj and "rel_std_dev" in obj:
+            return BenchmarkResult(obj)
+        elif len(obj.items()) == 2 and "group_name" in obj:
+            group = BenchmarkGroup(obj["group_name"])
+            for result in obj["results"]:
+                group.add_result(result)
+            return group
+        elif len(obj.items()) == 1 and "BitByteDataBenchmarks" in obj:
+            run = BenchmarkRun()
+            for group in obj["BitByteDataBenchmarks"]:
+                run.groups[group.name] = group
+            return run
+        return obj
 
 def action_run(args):
     # Output format of 'swift test' differs between macOS and Linux platforms.
@@ -104,6 +131,11 @@ def action_run(args):
         json.dump(run, f, indent=4, cls=BenchmarkJSONEncoder)
         f.close()
 
+def action_show(args):
+    f = open(args.file, "r")
+    o = json.load(f, cls=BenchmarkJSONDecoder)
+    print(o)
+
 parser = argparse.ArgumentParser(description="A benchmarking tool for BitByteData")
 subparsers = parser.add_subparsers(title="commands", help="a command to perform", required=True, metavar="CMD")
 
@@ -122,6 +154,12 @@ toolchain_option_group.add_argument("--413", action="store_true", dest="use_413"
                                         "'--toolchain org.swift.41320180727a')"))
 
 parser_run.set_defaults(func=action_run)
+
+# Parser for 'show' command.
+parser_show = subparsers.add_parser("show", help="print saved benchmarks results", description="print saved benchmarks results")
+parser_show.add_argument("file", action="store", metavar="FILE",
+                        help="file with benchmarks results in JSON format")
+parser_show.set_defaults(func=action_show)
 
 args = parser.parse_args()
 args.func(args)
