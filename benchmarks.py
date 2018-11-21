@@ -33,8 +33,9 @@ class BenchmarkGroup:
         self.results.append(result)
 
 class BenchmarkRun:
-    def __init__(self):
+    def __init__(self, swift_ver):
         self.groups = {}
+        self.swift_ver = swift_ver
 
     def __str__(self):
         output = ""
@@ -62,7 +63,7 @@ class BenchmarkJSONEncoder(json.JSONEncoder):
                                         "rel_std_dev": result.rel_std_dev})
                 group_out = {"group_name": group_name, "results": results_out}
                 run_out.append(group_out)
-            return {"BitByteDataBenchmarks": run_out}
+            return {"swift_ver": o.swift_ver, "BitByteDataBenchmarks": run_out}
         return json.JSONEncoder.default(self, o)
 
 class BenchmarkJSONDecoder(json.JSONDecoder):
@@ -77,8 +78,8 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
             for result in obj["results"]:
                 group.add_result(result)
             return group
-        elif len(obj.items()) == 1 and "BitByteDataBenchmarks" in obj:
-            run = BenchmarkRun()
+        elif len(obj.items()) == 2 and "BitByteDataBenchmarks" in obj and "swift_ver" in obj:
+            run = BenchmarkRun(obj["swift_ver"])
             for group in obj["BitByteDataBenchmarks"]:
                 run.groups[group.name] = group
             return run
@@ -97,16 +98,18 @@ def action_run(args):
         raise Exception("Unknown platform: " + sys.platform) 
     p = re.compile(regex)
 
-    command = []
+    swift_command = []
     if args.toolchain is not None:
-        command += ["xcrun", "-toolchain", args.toolchain]
+        swift_command = ["xcrun", "-toolchain", args.toolchain]
     elif args.use_413:
-        command += ["xcrun", "-toolchain", "org.swift.41320180727a"]
-    command += ["swift", "test", "-c", "release", "--filter", args.filter]
+        swift_command = ["xcrun", "-toolchain", "org.swift.41320180727a"]
+    swift_command.append("swift")
+    command = swift_command + ["test", "-c", "release", "--filter", args.filter]
     # macOS version of 'swift test' outputs to stderr instead of stdout.
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-    run = BenchmarkRun()
+    swift_ver = subprocess.run(swift_command + ["--version"], capture_output=True, check=True, universal_newlines=True).stdout
+    run = BenchmarkRun(swift_ver)
 
     while True:
         line = process.stdout.readline().decode()
