@@ -1,0 +1,295 @@
+{
+    "swift_ver": "Apple Swift version 4.2.1 (swiftlang-1000.11.42 clang-1000.11.45.1)\nTarget: x86_64-apple-darwin17.7.0\n",
+    "BitByteDataBenchmarks": [
+        {
+            "group_name": "ByteReaderBenchmarks",
+            "results": [
+                {
+                    "name": "testByte",
+                    "avg": "0.277",
+                    "rel_std_dev": "2.783"
+                },
+                {
+                    "name": "testBytes",
+                    "avg": "0.376",
+                    "rel_std_dev": "1.814"
+                },
+                {
+                    "name": "testIntFromBytes",
+                    "avg": "0.221",
+                    "rel_std_dev": "3.488"
+                },
+                {
+                    "name": "testUint16",
+                    "avg": "0.209",
+                    "rel_std_dev": "3.367"
+                },
+                {
+                    "name": "testUint16FromBytes",
+                    "avg": "0.119",
+                    "rel_std_dev": "4.533"
+                },
+                {
+                    "name": "testUint32",
+                    "avg": "0.104",
+                    "rel_std_dev": "5.105"
+                },
+                {
+                    "name": "testUint32FromBytes",
+                    "avg": "0.059",
+                    "rel_std_dev": "5.216"
+                },
+                {
+                    "name": "testUint64",
+                    "avg": "0.024",
+                    "rel_std_dev": "6.812"
+                },
+                {
+                    "name": "testUint64FromBytes",
+                    "avg": "0.218",
+                    "rel_std_dev": "2.465"
+                }
+            ]
+        },
+        {
+            "group_name": "LsbBitReaderBenchmarks",
+            "results": [
+                {
+                    "name": "testAdvance",
+                    "avg": "0.366",
+                    "rel_std_dev": "0.972"
+                },
+                {
+                    "name": "testBit",
+                    "avg": "1.320",
+                    "rel_std_dev": "2.550"
+                },
+                {
+                    "name": "testBits",
+                    "avg": "3.074",
+                    "rel_std_dev": "0.726"
+                },
+                {
+                    "name": "testByteFromBits",
+                    "avg": "0.566",
+                    "rel_std_dev": "1.763"
+                },
+                {
+                    "name": "testIntFromBits",
+                    "avg": "0.421",
+                    "rel_std_dev": "2.309"
+                },
+                {
+                    "name": "testUint16FromBits",
+                    "avg": "0.514",
+                    "rel_std_dev": "1.844"
+                },
+                {
+                    "name": "testUint32FromBits",
+                    "avg": "0.615",
+                    "rel_std_dev": "1.587"
+                },
+                {
+                    "name": "testUint64FromBits",
+                    "avg": "0.432",
+                    "rel_std_dev": "1.189"
+                }
+            ]
+        },
+        {
+            "group_name": "LsbBitReaderByteBenchmarks",
+            "results": [
+                {
+                    "name": "testByte",
+                    "avg": "0.498",
+                    "rel_std_dev": "2.413"
+                },
+                {
+                    "name": "testBytes",
+                    "avg": "0.409",
+                    "rel_std_dev": "3.766"
+                },
+                {
+                    "name": "testIntFromBytes",
+                    "avg": "0.263",
+                    "rel_std_dev": "3.167"
+                },
+                {
+                    "name": "testUint16",
+                    "avg": "0.243",
+                    "rel_std_dev": "2.691"
+                },
+                {
+                    "name": "testUint16FromBytes",
+                    "avg": "0.207",
+                    "rel_std_dev": "2.008"
+                },
+                {
+                    "name": "testUint32",
+                    "avg": "0.126",
+                    "rel_std_dev": "3.322"
+                },
+                {
+                    "name": "testUint32FromBytes",
+                    "avg": "0.084",
+                    "rel_std_dev": "6.032"
+                },
+                {
+                    "name": "testUint64",
+                    "avg": "0.030",
+                    "rel_std_dev": "11.682"
+                },
+                {
+                    "name": "testUint64FromBytes",
+                    "avg": "0.265",
+                    "rel_std_dev": "2.818"
+                }
+            ]
+        },
+        {
+            "group_name": "LsbBitWriterBenchmarks",
+            "results": [
+                {
+                    "name": "testAppendByte",
+                    "avg": "1.177",
+                    "rel_std_dev": "2.738"
+                },
+                {
+                    "name": "testWriteBit",
+                    "avg": "1.269",
+                    "rel_std_dev": "2.390"
+                },
+                {
+                    "name": "testWriteNumberBitsCount",
+                    "avg": "0.992",
+                    "rel_std_dev": "1.735"
+                },
+                {
+                    "name": "testWriteUnsignedNumberBitsCount",
+                    "avg": "1.018",
+                    "rel_std_dev": "2.741"
+                }
+            ]
+        },
+        {
+            "group_name": "MsbBitReaderBenchmarks",
+            "results": [
+                {
+                    "name": "testAdvance",
+                    "avg": "0.367",
+                    "rel_std_dev": "5.575"
+                },
+                {
+                    "name": "testBit",
+                    "avg": "1.297",
+                    "rel_std_dev": "0.852"
+                },
+                {
+                    "name": "testBits",
+                    "avg": "3.068",
+                    "rel_std_dev": "0.934"
+                },
+                {
+                    "name": "testByteFromBits",
+                    "avg": "0.591",
+                    "rel_std_dev": "1.795"
+                },
+                {
+                    "name": "testIntFromBits",
+                    "avg": "0.433",
+                    "rel_std_dev": "2.296"
+                },
+                {
+                    "name": "testUint16FromBits",
+                    "avg": "0.555",
+                    "rel_std_dev": "7.334"
+                },
+                {
+                    "name": "testUint32FromBits",
+                    "avg": "0.640",
+                    "rel_std_dev": "1.294"
+                },
+                {
+                    "name": "testUint64FromBits",
+                    "avg": "0.481",
+                    "rel_std_dev": "6.147"
+                }
+            ]
+        },
+        {
+            "group_name": "MsbBitReaderByteBenchmarks",
+            "results": [
+                {
+                    "name": "testByte",
+                    "avg": "0.504",
+                    "rel_std_dev": "1.613"
+                },
+                {
+                    "name": "testBytes",
+                    "avg": "0.401",
+                    "rel_std_dev": "2.757"
+                },
+                {
+                    "name": "testIntFromBytes",
+                    "avg": "0.263",
+                    "rel_std_dev": "2.029"
+                },
+                {
+                    "name": "testUint16",
+                    "avg": "0.247",
+                    "rel_std_dev": "2.582"
+                },
+                {
+                    "name": "testUint16FromBytes",
+                    "avg": "0.214",
+                    "rel_std_dev": "5.345"
+                },
+                {
+                    "name": "testUint32",
+                    "avg": "0.124",
+                    "rel_std_dev": "2.270"
+                },
+                {
+                    "name": "testUint32FromBytes",
+                    "avg": "0.082",
+                    "rel_std_dev": "5.583"
+                },
+                {
+                    "name": "testUint64",
+                    "avg": "0.028",
+                    "rel_std_dev": "6.699"
+                },
+                {
+                    "name": "testUint64FromBytes",
+                    "avg": "0.261",
+                    "rel_std_dev": "2.801"
+                }
+            ]
+        },
+        {
+            "group_name": "MsbBitWriterBenchmarks",
+            "results": [
+                {
+                    "name": "testAppendByte",
+                    "avg": "1.124",
+                    "rel_std_dev": "1.859"
+                },
+                {
+                    "name": "testWriteBit",
+                    "avg": "1.117",
+                    "rel_std_dev": "1.302"
+                },
+                {
+                    "name": "testWriteNumberBitsCount",
+                    "avg": "1.045",
+                    "rel_std_dev": "18.600"
+                },
+                {
+                    "name": "testWriteUnsignedNumberBitsCount",
+                    "avg": "1.292",
+                    "rel_std_dev": "10.289"
+                }
+            ]
+        }
+    ]
+}
