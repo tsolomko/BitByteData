@@ -21,9 +21,6 @@ class BenchmarkResult:
         else:
             raise ValueError
 
-    def __str__(self):
-        return self.test_name + " " + self.avg + " " + self.rel_std_dev + "%"
-
 class BenchmarkGroup:
     def __init__(self, name):
         self.name = name
@@ -31,6 +28,14 @@ class BenchmarkGroup:
 
     def add_result(self, result):
         self.results.append(result)
+    
+    def _calc_max_len(self):
+        max_len = {"test_name": 0, "avg": 0, "rsd": 0}
+        for result in self.results:
+            max_len["test_name"] = max(len(result.test_name), max_len["test_name"])
+            max_len["avg"] = max(len(result.avg), max_len["avg"])
+            max_len["rsd"] = max(len(result.rel_std_dev), max_len["rsd"])
+        return max_len
 
 class BenchmarkRun:
     def __init__(self, swift_ver):
@@ -41,8 +46,11 @@ class BenchmarkRun:
         output = ""
         for group_name, group in self.groups.items():
             output += "\n" + group_name + ":\n"
+            max_len = group._calc_max_len()
             for result in group.results:
-                output += "    " + str(result) + "\n"
+                output += ("{test_name: >{test_name_len}} {avg: ^{avg_len}} {rsd: >{rsd_len}}%").format(
+                    test_name=result.test_name, avg=result.avg, rsd=result.rel_std_dev,
+                    test_name_len=max_len["test_name"], avg_len=max_len["avg"], rsd_len=max_len["rsd"]) + "\n"
         return output
 
     def new_result(self, regex_matches):
