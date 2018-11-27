@@ -29,6 +29,12 @@ class BenchmarkGroup:
     def add_result(self, result):
         self.results.append(result)
     
+    def result(self, name):
+        for result in self.results:
+            if result.test_name == name:
+                return result
+        return None
+
     def _calc_max_len(self):
         max_len = {"test_name": 0, "avg": 0, "rsd": 0}
         for result in self.results:
@@ -58,6 +64,45 @@ class BenchmarkRun:
         group = self.groups.get(result.group_name, BenchmarkGroup(result.group_name))
         group.add_result(result)
         self.groups[group.name] = group
+
+    def str_compare(self, base):
+        output = ""
+        for group_name, group in self.groups.items():
+            base_group = base.groups.get(group_name)
+            base_max_len = {}
+            if base_group is None:
+                output += "\n" + group_name + ":\n"
+                output += "warning: " + group_name + " not found in base benchmarks\n"
+            else:
+                output += "\n" + group_name + ": NEW | BASE\n"
+                base_max_len = base_group._calc_max_len()
+            
+            max_len = group._calc_max_len()
+            
+            for result in group.results:
+                output += ("{test_name: >{test_name_len}} {avg: ^{avg_len}} {rsd: >{rsd_len}}%").format(
+                    test_name=result.test_name, avg=result.avg, rsd=result.rel_std_dev,
+                    test_name_len=max_len["test_name"], avg_len=max_len["avg"], rsd_len=max_len["rsd"])
+
+                if base_group is not None:
+                    base_result = base_group.result(result.test_name)
+                    if base_result is not None:
+                        output += (" | {avg: ^{avg_len}} {rsd: >{rsd_len}}%\n").format(
+                            avg=base_result.avg, rsd=base_result.rel_std_dev,
+                            avg_len=base_max_len["avg"], rsd_len=base_max_len["rsd"])
+                    else:
+                        output += " | not found in base\n"
+
+            if base_group is not None:
+                missing_results = []
+                for result in base_group.results:
+                    if group.result(result.test_name) is None:
+                        missing_results.append(result.test_name)
+                if len(missing_results) > 0:
+                    output += "warning: following results were found in base benchmarks but not in new:\n"
+                    output += ", ".join(missing_results)
+                    output += "\n"
+        return output
 
 class BenchmarkJSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -145,7 +190,14 @@ def action_run(args):
 def action_show(args):
     f = open(args.file, "r")
     o = json.load(f, cls=BenchmarkJSONDecoder)
-    print(o)
+    f.close()
+    if args.compare is not None:
+        f_base = open(args.compare, "r")
+        base = json.load(f_base, cls=BenchmarkJSONDecoder)
+        f_base.close()
+        print(o.str_compare(base))
+    else:
+        print(o)
 
 parser = argparse.ArgumentParser(description="A benchmarking tool for BitByteData")
 subparsers = parser.add_subparsers(title="commands", help="a command to perform", required=True, metavar="CMD")
@@ -170,6 +222,7 @@ parser_run.set_defaults(func=action_run)
 parser_show = subparsers.add_parser("show", help="print saved benchmarks results", description="print saved benchmarks results")
 parser_show.add_argument("file", action="store", metavar="FILE",
                         help="file with benchmarks results in JSON format")
+parser_show.add_argument("--compare", action="store", metavar="BASE", help="compare results with base benchmarks")
 parser_show.set_defaults(func=action_show)
 
 args = parser.parse_args()
