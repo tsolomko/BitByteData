@@ -65,7 +65,7 @@ class BenchmarkRun:
         group.add_result(result)
         self.groups[group.name] = group
 
-    def str_compare(self, base):
+    def str_compare(self, base, ignore_missing=False):
         output = ""
         for group_name, group in self.groups.items():
             base_group = base.groups.get(group_name)
@@ -93,7 +93,7 @@ class BenchmarkRun:
                     else:
                         output += " | not found in base\n"
 
-            if base_group is not None:
+            if not ignore_missing and base_group is not None:
                 missing_results = []
                 for result in base_group.results:
                     if group.result(result.test_name) is None:
@@ -179,8 +179,13 @@ def action_run(args):
     if exit_code != 0:
         raise subprocess.CalledProcessError(exit_code, command)
     
-    output = str(run)
-    print(output)
+    if args.compare is not None:
+        f_base = open(args.compare, "r")
+        base = json.load(f_base, cls=BenchmarkJSONDecoder)
+        f_base.close()
+        print(run.str_compare(base, args.filter != "BitByteDataBenchmarks"))
+    else:
+        print(run)
 
     if args.save is not None:
         f = open(args.save, "w+")
@@ -207,6 +212,7 @@ parser_run = subparsers.add_parser("run", help="run benchmarks", description="ru
 parser_run.add_argument("--filter", action="store", default="BitByteDataBenchmarks",
                         help="filter benchmarks (passed as --filter option to 'swift test')")
 parser_run.add_argument("--save", action="store", metavar="FILE", help="save output in a specified file")
+parser_run.add_argument("--compare", action="store", metavar="BASE", help="compare results with base benchmarks")
 
 toolchain_option_group = parser_run.add_mutually_exclusive_group()
 toolchain_option_group.add_argument("--toolchain", action="store", metavar="ID",
