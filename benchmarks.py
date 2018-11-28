@@ -21,6 +21,22 @@ class BenchmarkResult:
         else:
             raise ValueError
 
+    # Standard deviation
+    @property
+    def sd(self):
+        return float(self.avg) * float(self.rel_std_dev) / 100
+
+    # Upper bound of uncertainty interval
+    @property
+    def ub(self):
+        return float(self.avg) + self.sd
+
+    # Lower bound of uncertainty interval
+    @property
+    def lb(self):
+        return float(self.avg) - self.sd
+
+
 class BenchmarkGroup:
     def __init__(self, name):
         self.name = name
@@ -67,6 +83,9 @@ class BenchmarkRun:
 
     def str_compare(self, base, ignore_missing=False):
         output = ""
+        regs = 0
+        imps = 0
+        oks = 0
         for group_name, group in self.groups.items():
             base_group = base.groups.get(group_name)
             base_max_len = {}
@@ -90,6 +109,22 @@ class BenchmarkRun:
                         output += " | {avg: ^{avg_len}} {rsd: >{rsd_len}}% | ".format(
                             avg=base_result.avg, rsd=base_result.rel_std_dev,
                             avg_len=base_max_len["avg"], rsd_len=base_max_len["rsd"])
+
+                        ub = result.ub
+                        lb = result.lb
+                        base_ub = base_result.ub
+                        base_lb = base_result.lb
+                        if (base_lb < ub < base_ub) or (base_lb < lb < base_ub) or (lb < base_ub < ub) or (lb < base_lb < ub):
+                            output += "OK\n"
+                            oks += 1
+                        elif float(result.avg) > float(base_result.avg):
+                            diff = round((lb / base_ub - 1) * 100, 2)
+                            output += "REG +" + str(diff) + "%\n"
+                            regs += 1
+                        else:
+                            diff = round((1 - ub / base_lb) * 100, 2)
+                            output += "IMP -" + str(diff) + "%\n"
+                            imps += 1
                     else:
                         output += " | not found in base\n"
 
@@ -102,6 +137,12 @@ class BenchmarkRun:
                     output += "warning: following results were found in base benchmarks but not in new:\n"
                     output += ", ".join(missing_results)
                     output += "\n"
+        
+        total_results = imps + oks + regs
+        output += "\nOut of all compared results:\n"
+        output += "    " + str(regs) + "/" + str(total_results) + " regressions\n"
+        output += "    " + str(imps) + "/" + str(total_results) + " improvements\n"
+        output += "    " + str(oks) + "/" + str(total_results) + " no significant changes"
         return output
 
 class BenchmarkJSONEncoder(json.JSONEncoder):
