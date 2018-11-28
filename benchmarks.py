@@ -54,7 +54,7 @@ class BenchmarkRun:
             output += "\n" + group_name + ":\n"
             max_len = group._calc_max_len()
             for result in group.results:
-                output += ("{test_name: >{test_name_len}} {avg: ^{avg_len}} {rsd: >{rsd_len}}%").format(
+                output += "{test_name: >{test_name_len}} {avg: ^{avg_len}} {rsd: >{rsd_len}}%".format(
                     test_name=result.test_name, avg=result.avg, rsd=result.rel_std_dev,
                     test_name_len=max_len["test_name"], avg_len=max_len["avg"], rsd_len=max_len["rsd"]) + "\n"
         return output
@@ -80,14 +80,14 @@ class BenchmarkRun:
             max_len = group._calc_max_len()
             
             for result in group.results:
-                output += ("{test_name: >{test_name_len}} {avg: ^{avg_len}} {rsd: >{rsd_len}}%").format(
+                output += "{test_name: >{test_name_len}} {avg: ^{avg_len}} {rsd: >{rsd_len}}%".format(
                     test_name=result.test_name, avg=result.avg, rsd=result.rel_std_dev,
                     test_name_len=max_len["test_name"], avg_len=max_len["avg"], rsd_len=max_len["rsd"])
 
                 if base_group is not None:
                     base_result = base_group.result(result.test_name)
                     if base_result is not None:
-                        output += (" | {avg: ^{avg_len}} {rsd: >{rsd_len}}%\n").format(
+                        output += " | {avg: ^{avg_len}} {rsd: >{rsd_len}}% | ".format(
                             avg=base_result.avg, rsd=base_result.rel_std_dev,
                             avg_len=base_max_len["avg"], rsd_len=base_max_len["rsd"])
                     else:
@@ -143,10 +143,10 @@ def action_run(args):
     regex = ""
     if sys.platform == "darwin":
         regex = (r"Test Case '-\[BitByteDataBenchmarks\.(.+Benchmarks) (test.+)\]'.+average: (\d+.\d+), "
-                r"relative standard deviation: (\d+.\d+)\%")
+                 r"relative standard deviation: (\d+.\d+)\%")
     elif sys.platform == "linux":
         regex = (r"Test Case '(.+Benchmarks)\.(test.+)'.+average: (\d+.\d+), "
-                r"relative standard deviation: (\d+.\d+)\%")
+                 r"relative standard deviation: (\d+.\d+)\%")
     else:
         raise Exception("Unknown platform: " + sys.platform) 
     p = re.compile(regex)
@@ -161,7 +161,8 @@ def action_run(args):
     # macOS version of 'swift test' outputs to stderr instead of stdout.
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-    swift_ver = subprocess.run(swift_command + ["--version"], capture_output=True, check=True, universal_newlines=True).stdout
+    swift_ver = subprocess.run(swift_command + ["--version"], capture_output=True, check=True,
+                               universal_newlines=True).stdout
     run = BenchmarkRun(swift_ver)
 
     while True:
