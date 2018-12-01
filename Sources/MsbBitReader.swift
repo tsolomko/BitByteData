@@ -304,7 +304,7 @@ public final class MsbBitReader: ByteReader, BitReader {
      */
     public override func uint64() -> UInt64 {
         precondition(isAligned, "BitReader is not aligned.")
-        return super.uint64()
+        return super.uint64(fromBytes: 8)
     }
 
     /**
@@ -327,7 +327,7 @@ public final class MsbBitReader: ByteReader, BitReader {
      */
     public override func uint32() -> UInt32 {
         precondition(isAligned, "BitReader is not aligned.")
-        return super.uint32()
+        return super.uint32(fromBytes: 4)
     }
 
     /**
@@ -350,7 +350,7 @@ public final class MsbBitReader: ByteReader, BitReader {
      */
     public override func uint16() -> UInt16 {
         precondition(isAligned, "BitReader is not aligned.")
-        return super.uint16()
+        return super.uint16(fromBytes: 2)
     }
 
     /**
