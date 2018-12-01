@@ -17,16 +17,16 @@ public class ByteReader {
     /// Offset to the byte in `data` which will be read next.
     public var offset: Int {
         get {
-            return self._offset + self.data.startIndex
+            return self._offset + self.dataStartIndex
         }
         set {
-            self._offset = newValue - self.data.startIndex
+            self._offset = newValue - self.dataStartIndex
         }
     }
 
     var _offset: Int
-
     var ptr: UnsafeBufferPointer<UInt8>
+    private let dataStartIndex: Int // For efficient (without access to `data`) implementation of `offset`.
 
     /**
      True, if `offset` points at any position after the last byte in `data`.
@@ -55,6 +55,7 @@ public class ByteReader {
         self.ptr = data.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UnsafeBufferPointer<UInt8> in
             return UnsafeBufferPointer<UInt8>(start: ptr, count: data.count)
         }
+        self.dataStartIndex = data.startIndex
     }
 
     /**
