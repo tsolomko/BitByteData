@@ -34,24 +34,12 @@ public class ByteReader {
      - Note: It generally means that all bytes have been read.
      */
     public var isFinished: Bool {
-        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
-            return { (data: Data, _offset: Int) -> Bool in
-                return data.endIndex <= _offset
-            } (self.data, self._offset)
-        #else
-            return self.data.endIndex <= self._offset
-        #endif
+        return self.size <= self._offset
     }
 
     /// Amount of bytes left to read.
     public var bytesLeft: Int {
-        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
-            return { (data: Data, _offset: Int) -> Int in
-                return data.endIndex - _offset
-            } (self.data, self._offset)
-        #else
-            return self.data.endIndex - self._offset
-        #endif
+        return self.size - self._offset
     }
 
     /// Amount of bytes that were already read.
