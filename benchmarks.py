@@ -202,7 +202,7 @@ def action_run(args):
     # macOS version of 'swift test' outputs to stderr instead of stdout.
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-    swift_ver = subprocess.run(swift_command + ["--version"], capture_output=True, check=True,
+    swift_ver = subprocess.run(swift_command + ["--version"], stdout=subprocess.PIPE, check=True,
                                universal_newlines=True).stdout
     run = BenchmarkRun(swift_ver)
 
@@ -247,7 +247,7 @@ def action_show(args):
         print(o)
 
 parser = argparse.ArgumentParser(description="A benchmarking tool for BitByteData")
-subparsers = parser.add_subparsers(title="commands", help="a command to perform", required=True, metavar="CMD")
+subparsers = parser.add_subparsers(title="commands", help="a command to perform", metavar="CMD")
 
 # Parser for 'run' command.
 parser_run = subparsers.add_parser("run", help="run benchmarks", description="run benchmarks")
