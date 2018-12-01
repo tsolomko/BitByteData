@@ -270,8 +270,9 @@ class MsbBitReaderTests: XCTestCase {
         let byteReader = ByteReader(data: MsbBitReaderTests.data)
         _ = byteReader.byte()
         let bitReader = MsbBitReader(byteReader)
-        XCTAssertEqual(bitReader.bits(count: 4), [1, 1, 0, 1])
-        XCTAssertEqual(bitReader.int(fromBits: 4), 6)
+        XCTAssertEqual(bitReader.byte(), 0xD6)
+        XCTAssertEqual(bitReader.bits(count: 4), [0, 1, 0, 1])
+        XCTAssertEqual(bitReader.int(fromBits: 4), 7)
     }
 
     func testBitsLeft() {
