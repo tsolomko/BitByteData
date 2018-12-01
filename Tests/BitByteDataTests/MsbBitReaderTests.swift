@@ -254,10 +254,13 @@ class MsbBitReaderTests: XCTestCase {
 
     func testBitReaderNonZeroStartIndex() {
         var bitReader = MsbBitReader(data: MsbBitReaderTests.data[1...])
+        XCTAssertEqual(bitReader.offset, 1)
         XCTAssertEqual(bitReader.byte(), 0xD6)
         bitReader = MsbBitReader(data: MsbBitReaderTests.data[1...])
+        XCTAssertEqual(bitReader.offset, 1)
         XCTAssertEqual(bitReader.bytes(count: 1), [0xD6])
         bitReader = MsbBitReader(data: MsbBitReaderTests.data[1...])
+        XCTAssertEqual(bitReader.offset, 1)
         XCTAssertEqual(bitReader.bit(), 1)
         XCTAssertEqual(bitReader.bits(count: 3), [1, 0, 1])
         XCTAssertEqual(bitReader.int(fromBits: 4), 6)
