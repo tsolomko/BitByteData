@@ -15,7 +15,16 @@ public class ByteReader {
     public let data: Data
 
     /// Offset to the byte in `data` which will be read next.
-    public var offset: Int
+    public var offset: Int {
+        get {
+            return self._offset + self.data.startIndex
+        }
+        set {
+            self._offset = newValue - self.data.startIndex
+        }
+    }
+
+    private var _offset: Int
 
     var ptr: UnsafeBufferPointer<UInt8>
 
@@ -26,35 +35,35 @@ public class ByteReader {
      */
     public var isFinished: Bool {
         #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
-            return { (data: Data, offset: Int) -> Bool in
-                return data.endIndex <= offset
-            } (self.data, self.offset)
+            return { (data: Data, _offset: Int) -> Bool in
+                return data.endIndex <= _offset
+            } (self.data, self._offset)
         #else
-            return self.data.endIndex <= self.offset
+            return self.data.endIndex <= self._offset
         #endif
     }
 
     /// Amount of bytes left to read.
     public var bytesLeft: Int {
         #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
-            return { (data: Data, offset: Int) -> Int in
-                return data.endIndex - offset
-            } (self.data, self.offset)
+            return { (data: Data, _offset: Int) -> Int in
+                return data.endIndex - _offset
+            } (self.data, self._offset)
         #else
-            return self.data.endIndex - self.offset
+            return self.data.endIndex - self._offset
         #endif
     }
 
     /// Amount of bytes that were already read.
     public var bytesRead: Int {
-        return self.offset
+        return self._offset
     }
 
     /// Creates an instance for reading bytes from `data`.
     public init(data: Data) {
         self.size = data.count
         self.data = data
-        self.offset = 0
+        self._offset = 0
         self.ptr = data.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UnsafeBufferPointer<UInt8> in
             return UnsafeBufferPointer<UInt8>(start: ptr, count: data.count)
         }
@@ -66,9 +75,9 @@ public class ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func byte() -> UInt8 {
-        precondition(self.offset < self.data.endIndex)
-        defer { self.offset += 1 }
-        return self.ptr[self.offset]
+        precondition(self._offset < self.size)
+        defer { self._offset += 1 }
+        return self.ptr[self._offset]
     }
 
     /**
@@ -83,8 +92,8 @@ public class ByteReader {
         var result = [UInt8]()
         result.reserveCapacity(count)
         for _ in 0..<count {
-            result.append(self.ptr[self.offset])
-            self.offset += 1
+            result.append(self.ptr[self._offset])
+            self._offset += 1
         }
         return result
     }
@@ -101,8 +110,8 @@ public class ByteReader {
         // to use them for `count` == 2, 4 or 8.
         var result = 0
         for i in 0..<count {
-            result += Int(truncatingIfNeeded: self.ptr[self.offset]) << (8 * i)
-            self.offset += 1
+            result += Int(truncatingIfNeeded: self.ptr[self._offset]) << (8 * i)
+            self._offset += 1
         }
         return result
     }
@@ -130,8 +139,8 @@ public class ByteReader {
         precondition(bytesLeft >= count)
         var result = 0 as UInt64
         for i in 0..<count {
-            result += UInt64(truncatingIfNeeded: self.ptr[self.offset]) << (8 * i)
-            self.offset += 1
+            result += UInt64(truncatingIfNeeded: self.ptr[self._offset]) << (8 * i)
+            self._offset += 1
         }
         return result
     }
@@ -159,8 +168,8 @@ public class ByteReader {
         precondition(bytesLeft >= count)
         var result = 0 as UInt32
         for i in 0..<count {
-            result += UInt32(truncatingIfNeeded: self.ptr[self.offset]) << (8 * i)
-            self.offset += 1
+            result += UInt32(truncatingIfNeeded: self.ptr[self._offset]) << (8 * i)
+            self._offset += 1
         }
         return result
     }
@@ -188,8 +197,8 @@ public class ByteReader {
         precondition(bytesLeft >= count)
         var result = 0 as UInt16
         for i in 0..<count {
-            result += UInt16(truncatingIfNeeded: self.ptr[self.offset]) << (8 * i)
-            self.offset += 1
+            result += UInt16(truncatingIfNeeded: self.ptr[self._offset]) << (8 * i)
+            self._offset += 1
         }
         return result
     }
