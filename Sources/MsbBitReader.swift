@@ -257,7 +257,7 @@ public final class MsbBitReader: ByteReader, BitReader {
     public override var offset: Int {
         didSet {
             if !self.isFinished {
-                self.currentByte = self.data[self.offset]
+                self.currentByte = self.ptr[self._offset]
             }
         }
     }

@@ -24,7 +24,7 @@ public class ByteReader {
         }
     }
 
-    private var _offset: Int
+    var _offset: Int
 
     var ptr: UnsafeBufferPointer<UInt8>
 
