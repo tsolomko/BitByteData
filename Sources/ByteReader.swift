@@ -25,6 +25,23 @@ public class ByteReader {
     }
 
     var _offset: Int
+
+    /*
+     Generally speaking, what we are doing here is not really safe: pointer can become invalid if the storage of `data`
+     is non-contiguous, but (unfortunately, in a way) I was unable to produce an example which would cause any issues.
+
+     Despite this, it was still decided to use this implementation strategy because:
+     1. We cannot use `Data.withUnsafeBytes` because it is ridiculously slow.
+     2. We cannot use `Data.copyBytes` because, well, it copies bytes.
+     3. We would like to switch to `UnsafePointer` instead of `Data` to eliminate redundant out of bounds checks
+     (because we check indices ourselves and can guarantee that they are correct), and, thus, significantly improve
+     performance.
+
+     Finally, it is worth mentioning that `NSData` actually has a convenient property `bytes` which provides access
+     to the pointer to the storage, but, for some reason, `Data` doesn't have it. We also cannot convert between `Data`
+     to `NSData` using `as` operator since it is not supposed to work on non-Darwin platforms (but, surprisingly, it
+     works with Swift 4.2).
+    */
     final let ptr: UnsafeBufferPointer<UInt8>
     private final let dataStartIndex: Int // For efficient (without access to `data`) implementation of `offset`.
 
