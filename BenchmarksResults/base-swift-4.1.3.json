@@ -6,48 +6,48 @@
             "results": [
                 {
                     "name": "testByte",
-                    "avg": "0.201",
-                    "rel_std_dev": "1.745"
+                    "avg": "0.020",
+                    "rel_std_dev": "10.798"
                 },
                 {
                     "name": "testBytes",
-                    "avg": "0.472",
-                    "rel_std_dev": "3.686"
+                    "avg": "0.172",
+                    "rel_std_dev": "2.967"
                 },
                 {
                     "name": "testIntFromBytes",
-                    "avg": "0.282",
-                    "rel_std_dev": "1.707"
+                    "avg": "0.029",
+                    "rel_std_dev": "10.454"
                 },
                 {
                     "name": "testUint16",
-                    "avg": "0.137",
-                    "rel_std_dev": "1.700"
+                    "avg": "0.015",
+                    "rel_std_dev": "15.435"
                 },
                 {
                     "name": "testUint16FromBytes",
-                    "avg": "0.089",
-                    "rel_std_dev": "6.631"
+                    "avg": "0.016",
+                    "rel_std_dev": "10.137"
                 },
                 {
                     "name": "testUint32",
-                    "avg": "0.063",
-                    "rel_std_dev": "5.510"
+                    "avg": "0.013",
+                    "rel_std_dev": "12.346"
                 },
                 {
                     "name": "testUint32FromBytes",
-                    "avg": "0.066",
-                    "rel_std_dev": "6.721"
+                    "avg": "0.011",
+                    "rel_std_dev": "17.181"
                 },
                 {
                     "name": "testUint64",
-                    "avg": "0.016",
-                    "rel_std_dev": "17.772"
+                    "avg": "0.007",
+                    "rel_std_dev": "27.161"
                 },
                 {
                     "name": "testUint64FromBytes",
-                    "avg": "0.284",
-                    "rel_std_dev": "4.093"
+                    "avg": "0.027",
+                    "rel_std_dev": "13.575"
                 }
             ]
         },
@@ -56,43 +56,43 @@
             "results": [
                 {
                     "name": "testAdvance",
-                    "avg": "0.386",
-                    "rel_std_dev": "1.295"
+                    "avg": "0.160",
+                    "rel_std_dev": "3.512"
                 },
                 {
                     "name": "testBit",
-                    "avg": "0.486",
-                    "rel_std_dev": "4.801"
+                    "avg": "0.190",
+                    "rel_std_dev": "3.742"
                 },
                 {
                     "name": "testBits",
-                    "avg": "2.205",
-                    "rel_std_dev": "1.271"
+                    "avg": "2.027",
+                    "rel_std_dev": "1.306"
                 },
                 {
                     "name": "testByteFromBits",
-                    "avg": "0.424",
-                    "rel_std_dev": "3.772"
+                    "avg": "0.200",
+                    "rel_std_dev": "4.410"
                 },
                 {
                     "name": "testIntFromBits",
-                    "avg": "0.364",
-                    "rel_std_dev": "2.727"
+                    "avg": "0.153",
+                    "rel_std_dev": "3.759"
                 },
                 {
                     "name": "testUint16FromBits",
-                    "avg": "0.447",
-                    "rel_std_dev": "1.321"
+                    "avg": "0.177",
+                    "rel_std_dev": "2.796"
                 },
                 {
                     "name": "testUint32FromBits",
-                    "avg": "0.592",
-                    "rel_std_dev": "1.936"
+                    "avg": "0.213",
+                    "rel_std_dev": "3.028"
                 },
                 {
                     "name": "testUint64FromBits",
-                    "avg": "0.436",
-                    "rel_std_dev": "1.822"
+                    "avg": "0.173",
+                    "rel_std_dev": "3.489"
                 }
             ]
         },
@@ -101,48 +101,48 @@
             "results": [
                 {
                     "name": "testByte",
-                    "avg": "0.549",
-                    "rel_std_dev": "4.198"
+                    "avg": "0.019",
+                    "rel_std_dev": "16.043"
                 },
                 {
                     "name": "testBytes",
-                    "avg": "0.512",
-                    "rel_std_dev": "3.462"
+                    "avg": "0.183",
+                    "rel_std_dev": "3.890"
                 },
                 {
                     "name": "testIntFromBytes",
-                    "avg": "0.736",
-                    "rel_std_dev": "0.917"
+                    "avg": "0.030",
+                    "rel_std_dev": "8.351"
                 },
                 {
                     "name": "testUint16",
-                    "avg": "0.187",
-                    "rel_std_dev": "2.977"
+                    "avg": "0.015",
+                    "rel_std_dev": "14.180"
                 },
                 {
                     "name": "testUint16FromBytes",
-                    "avg": "0.217",
-                    "rel_std_dev": "2.367"
+                    "avg": "0.018",
+                    "rel_std_dev": "8.858"
                 },
                 {
                     "name": "testUint32",
-                    "avg": "0.096",
-                    "rel_std_dev": "5.246"
+                    "avg": "0.014",
+                    "rel_std_dev": "15.104"
                 },
                 {
                     "name": "testUint32FromBytes",
-                    "avg": "0.163",
-                    "rel_std_dev": "2.475"
+                    "avg": "0.011",
+                    "rel_std_dev": "15.009"
                 },
                 {
                     "name": "testUint64",
-                    "avg": "0.024",
-                    "rel_std_dev": "7.003"
+                    "avg": "0.008",
+                    "rel_std_dev": "42.475"
                 },
                 {
                     "name": "testUint64FromBytes",
-                    "avg": "0.734",
-                    "rel_std_dev": "1.427"
+                    "avg": "0.029",
+                    "rel_std_dev": "7.458"
                 }
             ]
         },
@@ -151,23 +151,23 @@
             "results": [
                 {
                     "name": "testAppendByte",
-                    "avg": "0.650",
-                    "rel_std_dev": "2.140"
+                    "avg": "0.703",
+                    "rel_std_dev": "2.665"
                 },
                 {
                     "name": "testWriteBit",
-                    "avg": "0.776",
-                    "rel_std_dev": "4.739"
+                    "avg": "0.673",
+                    "rel_std_dev": "3.559"
                 },
                 {
                     "name": "testWriteNumberBitsCount",
-                    "avg": "0.596",
-                    "rel_std_dev": "2.219"
+                    "avg": "0.587",
+                    "rel_std_dev": "2.907"
                 },
                 {
                     "name": "testWriteUnsignedNumberBitsCount",
-                    "avg": "0.592",
-                    "rel_std_dev": "1.983"
+                    "avg": "0.617",
+                    "rel_std_dev": "2.001"
                 }
             ]
         },
@@ -176,43 +176,43 @@
             "results": [
                 {
                     "name": "testAdvance",
-                    "avg": "0.394",
-                    "rel_std_dev": "2.044"
-                },
-                {
-                    "name": "testBit",
-                    "avg": "0.442",
-                    "rel_std_dev": "1.899"
-                },
-                {
-                    "name": "testBits",
-                    "avg": "2.241",
-                    "rel_std_dev": "0.940"
-                },
-                {
-                    "name": "testByteFromBits",
-                    "avg": "0.480",
-                    "rel_std_dev": "2.500"
-                },
-                {
-                    "name": "testIntFromBits",
-                    "avg": "0.380",
-                    "rel_std_dev": "1.861"
-                },
-                {
-                    "name": "testUint16FromBits",
-                    "avg": "0.476",
-                    "rel_std_dev": "2.296"
-                },
-                {
-                    "name": "testUint32FromBits",
-                    "avg": "0.634",
+                    "avg": "0.159",
                     "rel_std_dev": "3.072"
                 },
                 {
+                    "name": "testBit",
+                    "avg": "0.168",
+                    "rel_std_dev": "1.859"
+                },
+                {
+                    "name": "testBits",
+                    "avg": "2.062",
+                    "rel_std_dev": "2.149"
+                },
+                {
+                    "name": "testByteFromBits",
+                    "avg": "0.242",
+                    "rel_std_dev": "1.734"
+                },
+                {
+                    "name": "testIntFromBits",
+                    "avg": "0.203",
+                    "rel_std_dev": "3.889"
+                },
+                {
+                    "name": "testUint16FromBits",
+                    "avg": "0.246",
+                    "rel_std_dev": "2.753"
+                },
+                {
+                    "name": "testUint32FromBits",
+                    "avg": "0.310",
+                    "rel_std_dev": "3.584"
+                },
+                {
                     "name": "testUint64FromBits",
-                    "avg": "0.472",
-                    "rel_std_dev": "2.157"
+                    "avg": "0.226",
+                    "rel_std_dev": "2.616"
                 }
             ]
         },
@@ -221,48 +221,48 @@
             "results": [
                 {
                     "name": "testByte",
-                    "avg": "0.562",
-                    "rel_std_dev": "10.601"
+                    "avg": "0.019",
+                    "rel_std_dev": "10.418"
                 },
                 {
                     "name": "testBytes",
-                    "avg": "0.470",
-                    "rel_std_dev": "3.184"
+                    "avg": "0.186",
+                    "rel_std_dev": "4.590"
                 },
                 {
                     "name": "testIntFromBytes",
-                    "avg": "0.768",
-                    "rel_std_dev": "6.702"
+                    "avg": "0.029",
+                    "rel_std_dev": "6.986"
                 },
                 {
                     "name": "testUint16",
-                    "avg": "0.197",
-                    "rel_std_dev": "1.805"
+                    "avg": "0.014",
+                    "rel_std_dev": "13.903"
                 },
                 {
                     "name": "testUint16FromBytes",
-                    "avg": "0.219",
-                    "rel_std_dev": "4.173"
+                    "avg": "0.019",
+                    "rel_std_dev": "11.110"
                 },
                 {
                     "name": "testUint32",
-                    "avg": "0.096",
-                    "rel_std_dev": "3.026"
+                    "avg": "0.013",
+                    "rel_std_dev": "18.223"
                 },
                 {
                     "name": "testUint32FromBytes",
-                    "avg": "0.162",
-                    "rel_std_dev": "2.061"
+                    "avg": "0.011",
+                    "rel_std_dev": "13.786"
                 },
                 {
                     "name": "testUint64",
-                    "avg": "0.024",
-                    "rel_std_dev": "11.226"
+                    "avg": "0.008",
+                    "rel_std_dev": "27.430"
                 },
                 {
                     "name": "testUint64FromBytes",
-                    "avg": "0.753",
-                    "rel_std_dev": "2.832"
+                    "avg": "0.028",
+                    "rel_std_dev": "8.320"
                 }
             ]
         },
@@ -271,23 +271,23 @@
             "results": [
                 {
                     "name": "testAppendByte",
-                    "avg": "0.631",
-                    "rel_std_dev": "1.633"
+                    "avg": "0.678",
+                    "rel_std_dev": "3.517"
                 },
                 {
                     "name": "testWriteBit",
-                    "avg": "0.664",
-                    "rel_std_dev": "2.052"
+                    "avg": "0.736",
+                    "rel_std_dev": "2.885"
                 },
                 {
                     "name": "testWriteNumberBitsCount",
-                    "avg": "0.619",
-                    "rel_std_dev": "2.729"
+                    "avg": "0.598",
+                    "rel_std_dev": "2.220"
                 },
                 {
                     "name": "testWriteUnsignedNumberBitsCount",
-                    "avg": "0.608",
-                    "rel_std_dev": "2.545"
+                    "avg": "0.605",
+                    "rel_std_dev": "3.958"
                 }
             ]
         }
