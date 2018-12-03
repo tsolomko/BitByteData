@@ -25,8 +25,8 @@ public class ByteReader {
     }
 
     var _offset: Int
-    let ptr: UnsafeBufferPointer<UInt8>
-    private let dataStartIndex: Int // For efficient (without access to `data`) implementation of `offset`.
+    final let ptr: UnsafeBufferPointer<UInt8>
+    private final let dataStartIndex: Int // For efficient (without access to `data`) implementation of `offset`.
 
     /**
      True, if `offset` points at any position after the last byte in `data`.
