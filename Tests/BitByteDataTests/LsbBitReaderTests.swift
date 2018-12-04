@@ -269,10 +269,15 @@ class LsbBitReaderTests: XCTestCase {
     func testConvertedByteReader() {
         let byteReader = ByteReader(data: LsbBitReaderTests.data)
         _ = byteReader.byte()
-        let bitReader = LsbBitReader(byteReader)
+
+        var bitReader = LsbBitReader(byteReader)
         XCTAssertEqual(bitReader.byte(), 0xD6)
         XCTAssertEqual(bitReader.bits(count: 4), [1, 1, 1, 0])
         XCTAssertEqual(bitReader.int(fromBits: 4), 5)
+
+        bitReader = LsbBitReader(byteReader)
+        XCTAssertEqual(bitReader.bits(count: 4), [0, 1, 1, 0])
+        XCTAssertEqual(bitReader.int(fromBits: 4), 13)
     }
 
     func testBitsLeft() {
