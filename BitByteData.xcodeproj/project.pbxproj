@@ -14,7 +14,6 @@
 		06F065761FFAEA8700312A82 /* BitReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065581FFAEA1F00312A82 /* BitReader.swift */; };
 		06F065771FFAEA8700312A82 /* ByteReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065591FFAEA1F00312A82 /* ByteReader.swift */; };
 		06F065781FFAEA8700312A82 /* MsbBitReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0655A1FFAEA1F00312A82 /* MsbBitReader.swift */; };
-		06F065791FFAEA8700312A82 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0655B1FFAEA1F00312A82 /* Extensions.swift */; };
 		06F0657A1FFAEA8700312A82 /* MsbBitWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0655C1FFAEA1F00312A82 /* MsbBitWriter.swift */; };
 		06F0657B1FFAEA8700312A82 /* BitWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0655D1FFAEA1F00312A82 /* BitWriter.swift */; };
 		06F0657C1FFAEA8700312A82 /* LsbBitWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0655E1FFAEA1F00312A82 /* LsbBitWriter.swift */; };
@@ -62,7 +61,6 @@
 		06F065581FFAEA1F00312A82 /* BitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitReader.swift; sourceTree = "<group>"; };
 		06F065591FFAEA1F00312A82 /* ByteReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReader.swift; sourceTree = "<group>"; };
 		06F0655A1FFAEA1F00312A82 /* MsbBitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsbBitReader.swift; sourceTree = "<group>"; };
-		06F0655B1FFAEA1F00312A82 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		06F0655C1FFAEA1F00312A82 /* MsbBitWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsbBitWriter.swift; sourceTree = "<group>"; };
 		06F0655D1FFAEA1F00312A82 /* BitWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitWriter.swift; sourceTree = "<group>"; };
 		06F0655E1FFAEA1F00312A82 /* LsbBitWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitWriter.swift; sourceTree = "<group>"; };
@@ -121,7 +119,6 @@
 		06F065561FFAEA1F00312A82 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				06F0655B1FFAEA1F00312A82 /* Extensions.swift */,
 				06F065591FFAEA1F00312A82 /* ByteReader.swift */,
 				06F065581FFAEA1F00312A82 /* BitReader.swift */,
 				06F065571FFAEA1F00312A82 /* LsbBitReader.swift */,
@@ -281,7 +278,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06F065791FFAEA8700312A82 /* Extensions.swift in Sources */,
 				06F0657A1FFAEA8700312A82 /* MsbBitWriter.swift in Sources */,
 				06F0657C1FFAEA8700312A82 /* LsbBitWriter.swift in Sources */,
 				06F0657B1FFAEA8700312A82 /* BitWriter.swift in Sources */,
