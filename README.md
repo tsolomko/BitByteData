@@ -22,7 +22,7 @@ let package = Package(
     name: "PackageName",
     dependencies: [
         .package(url: "https://github.com/tsolomko/BitByteData.git",
-                 from: "1.3.0")
+                 from: "1.4.0")
     ],
     targets: [
         .target(
@@ -37,13 +37,13 @@ More details you can find in [Swift Package Manager's Documentation](https://git
 
 ### CocoaPods
 
-Add `pod 'BitByteData', '~> 1.3'` and `use_frameworks!` to your Podfile.
+Add `pod 'BitByteData', '~> 1.4'` and `use_frameworks!` to your Podfile.
 
 To complete installation, run `pod install`.
 
 ### Carthage
 
-Add to your Cartfile `github "tsolomko/BitByteData" ~> 1.3`.
+Add to your Cartfile `github "tsolomko/BitByteData" ~> 1.4`.
 
 Then run `carthage update`.
 
@@ -78,3 +78,18 @@ If you'd like to contribute code, please [create a pull request](https://github.
 
 __Note:__ If you are considering working on BitByteData, please note that Xcode project (BitByteData.xcodeproj)
 was created manually and you shouldn't use `swift package generate-xcodeproj` command.
+
+### Performance and benchmarks
+
+One of the most important goals of BitByteData's development is high speed performance. To help achieve this goal there
+are benchmarks for every function in the project as well as a handy command-line tool, `benchmarks.py`, which helps to
+run, show, and compare benchmarks and their results.
+
+If you are considering contributing to the project please make sure that:
+
+1. Every new function has also a new benchmark added.
+2. Every other change to any existing function doesn't introduce performance regressions, or, at the very least, these
+   regressions are small and such performance tradeoff is necessary and justifiable.
+
+Finally, please note that any meaningful comparison can be made only between benchmarks run on the same hardware and
+software system.
