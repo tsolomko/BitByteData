@@ -270,7 +270,7 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public override func byte() -> UInt8 {
         precondition(isAligned, "BitReader is not aligned.")
-        defer { self.currentByte = self.ptr[self._offset] }
+        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
         return super.byte()
     }
 
@@ -282,7 +282,7 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public override func bytes(count: Int) -> [UInt8] {
         precondition(isAligned, "BitReader is not aligned.")
-        defer { self.currentByte = self.ptr[self._offset] }
+        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
         return super.bytes(count: count)
     }
 
@@ -295,7 +295,7 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public override func int(fromBytes count: Int) -> Int {
         precondition(isAligned, "BitReader is not aligned.")
-        defer { self.currentByte = self.ptr[self._offset] }
+        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
         return super.int(fromBytes: count)
     }
 
@@ -307,7 +307,7 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public override func uint64() -> UInt64 {
         precondition(isAligned, "BitReader is not aligned.")
-        defer { self.currentByte = self.ptr[self._offset] }
+        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
         return super.uint64(fromBytes: 8)
     }
 
@@ -320,7 +320,7 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public override func uint64(fromBytes count: Int) -> UInt64 {
         precondition(isAligned, "BitReader is not aligned.")
-        defer { self.currentByte = self.ptr[self._offset] }
+        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
         return super.uint64(fromBytes: count)
     }
 
@@ -332,7 +332,7 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public override func uint32() -> UInt32 {
         precondition(isAligned, "BitReader is not aligned.")
-        defer { self.currentByte = self.ptr[self._offset] }
+        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
         return super.uint32(fromBytes: 4)
     }
 
@@ -345,7 +345,7 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public override func uint32(fromBytes count: Int) -> UInt32 {
         precondition(isAligned, "BitReader is not aligned.")
-        defer { self.currentByte = self.ptr[self._offset] }
+        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
         return super.uint32(fromBytes: count)
     }
 
@@ -357,7 +357,7 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public override func uint16() -> UInt16 {
         precondition(isAligned, "BitReader is not aligned.")
-        defer { self.currentByte = self.ptr[self._offset] }
+        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
         return super.uint16(fromBytes: 2)
     }
 
@@ -370,7 +370,7 @@ public final class LsbBitReader: ByteReader, BitReader {
      */
     public override func uint16(fromBytes count: Int) -> UInt16 {
         precondition(isAligned, "BitReader is not aligned.")
-        defer { self.currentByte = self.ptr[self._offset] }
+        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
         return super.uint16(fromBytes: count)
     }
 

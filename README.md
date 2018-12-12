@@ -22,7 +22,7 @@ let package = Package(
     name: "PackageName",
     dependencies: [
         .package(url: "https://github.com/tsolomko/BitByteData.git",
-                 from: "1.3.0")
+                 from: "1.4.0")
     ],
     targets: [
         .target(
@@ -37,13 +37,13 @@ More details you can find in [Swift Package Manager's Documentation](https://git
 
 ### CocoaPods
 
-Add `pod 'BitByteData', '~> 1.3'` and `use_frameworks!` to your Podfile.
+Add `pod 'BitByteData', '~> 1.4'` and `use_frameworks!` to your Podfile.
 
 To complete installation, run `pod install`.
 
 ### Carthage
 
-Add to your Cartfile `github "tsolomko/BitByteData" ~> 1.3`.
+Add to your Cartfile `github "tsolomko/BitByteData" ~> 1.4`.
 
 Then run `carthage update`.
 
