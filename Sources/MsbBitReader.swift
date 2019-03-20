@@ -257,7 +257,13 @@ public final class MsbBitReader: ByteReader, BitReader {
     public override var offset: Int {
         didSet {
             if !self.isFinished {
-                self.currentByte = self.ptr[self._offset]
+                #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+                    { (data: Data, offset: Int, currentByte: inout UInt8) in
+                        currentByte = data[offset]
+                    } (self.data, self.offset, &self.currentByte)
+                #else
+                    self.currentByte = self.data[self.offset]
+                #endif
             }
         }
     }
@@ -269,9 +275,19 @@ public final class MsbBitReader: ByteReader, BitReader {
      - Precondition: There MUST be enough data left.
      */
     public override func byte() -> UInt8 {
-        precondition(isAligned, "BitReader is not aligned.")
-        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
-        return super.byte()
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+            return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt8 in
+                precondition(bitMask == 128, "BitReader is not aligned.")
+                precondition(offset < data.endIndex)
+                defer { offset += 1 }
+                return data[offset]
+            } (self.data, &self.offset, self.bitMask)
+        #else
+            precondition(bitMask == 128, "BitReader is not aligned.")
+            precondition(self.offset < self.data.endIndex)
+            defer { self.offset += 1 }
+            return self.data[self.offset]
+        #endif
     }
 
     /**
@@ -281,9 +297,19 @@ public final class MsbBitReader: ByteReader, BitReader {
      - Precondition: There MUST be enough data left.
      */
     public override func bytes(count: Int) -> [UInt8] {
-        precondition(isAligned, "BitReader is not aligned.")
-        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
-        return super.bytes(count: count)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+            return { (data: Data, offset: inout Int, bitMask: UInt8) -> [UInt8] in
+                precondition(bitMask == 128, "BitReader is not aligned.")
+                precondition(data.endIndex - offset >= count)
+                defer { offset += count }
+                return data[offset..<offset + count].toArray(type: UInt8.self, count: count)
+            } (self.data, &self.offset, self.bitMask)
+        #else
+            precondition(bitMask == 128, "BitReader is not aligned.")
+            precondition(bytesLeft >= count)
+            defer { self.offset += count }
+            return self.data[self.offset..<self.offset + count].toArray(type: UInt8.self, count: count)
+        #endif
     }
 
     /**
@@ -294,9 +320,28 @@ public final class MsbBitReader: ByteReader, BitReader {
      - Precondition: There MUST be enough data left.
      */
     public override func int(fromBytes count: Int) -> Int {
-        precondition(isAligned, "BitReader is not aligned.")
-        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
-        return super.int(fromBytes: count)
+        precondition(count >= 0)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+            return { (data: Data, offset: inout Int, bitMask: UInt8) -> Int in
+                precondition(bitMask == 128, "BitReader is not aligned.")
+                precondition(data.endIndex - offset >= count)
+                var result = 0
+                for i in 0..<count {
+                    result += Int(truncatingIfNeeded: data[offset]) << (8 * i)
+                    offset += 1
+                }
+                return result
+            } (self.data, &self.offset, self.bitMask)
+        #else
+            precondition(bitMask == 128, "BitReader is not aligned.")
+            precondition(bytesLeft >= count)
+            var result = 0
+            for i in 0..<count {
+                result += Int(truncatingIfNeeded: self.data[self.offset]) << (8 * i)
+                self.offset += 1
+            }
+            return result
+        #endif
     }
 
     /**
@@ -306,9 +351,19 @@ public final class MsbBitReader: ByteReader, BitReader {
      - Precondition: There MUST be enough data left.
      */
     public override func uint64() -> UInt64 {
-        precondition(isAligned, "BitReader is not aligned.")
-        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
-        return super.uint64(fromBytes: 8)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+            return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt64 in
+                precondition(bitMask == 128, "BitReader is not aligned.")
+                precondition(data.endIndex - offset >= 8)
+                defer { offset += 8 }
+                return data[offset..<offset + 8].to(type: UInt64.self)
+            } (self.data, &self.offset, self.bitMask)
+        #else
+            precondition(bitMask == 128, "BitReader is not aligned.")
+            precondition(bytesLeft >= 8)
+            defer { self.offset += 8 }
+            return self.data[self.offset..<self.offset + 8].to(type: UInt64.self)
+        #endif
     }
 
     /**
@@ -319,9 +374,28 @@ public final class MsbBitReader: ByteReader, BitReader {
      - Precondition: There MUST be enough data left.
      */
     public override func uint64(fromBytes count: Int) -> UInt64 {
-        precondition(isAligned, "BitReader is not aligned.")
-        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
-        return super.uint64(fromBytes: count)
+        precondition(0...8 ~= count)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+            return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt64 in
+                precondition(bitMask == 128, "BitReader is not aligned.")
+                precondition(data.endIndex - offset >= count)
+                var result = 0 as UInt64
+                for i in 0..<count {
+                    result += UInt64(truncatingIfNeeded: data[offset]) << (8 * i)
+                    offset += 1
+                }
+                return result
+            } (self.data, &self.offset, self.bitMask)
+        #else
+            precondition(bitMask == 128, "BitReader is not aligned.")
+            precondition(bytesLeft >= count)
+            var result = 0 as UInt64
+            for i in 0..<count {
+                result += UInt64(truncatingIfNeeded: self.data[self.offset]) << (8 * i)
+                self.offset += 1
+            }
+            return result
+        #endif
     }
 
     /**
@@ -331,9 +405,19 @@ public final class MsbBitReader: ByteReader, BitReader {
      - Precondition: There MUST be enough data left.
      */
     public override func uint32() -> UInt32 {
-        precondition(isAligned, "BitReader is not aligned.")
-        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
-        return super.uint32(fromBytes: 4)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+            return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt32 in
+                precondition(bitMask == 128, "BitReader is not aligned.")
+                precondition(data.endIndex - offset >= 4)
+                defer { offset += 4 }
+                return data[offset..<offset + 4].to(type: UInt32.self)
+            } (self.data, &self.offset, self.bitMask)
+        #else
+            precondition(bitMask == 128, "BitReader is not aligned.")
+            precondition(bytesLeft >= 4)
+            defer { self.offset += 4 }
+            return self.data[self.offset..<self.offset + 4].to(type: UInt32.self)
+        #endif
     }
 
     /**
@@ -344,9 +428,28 @@ public final class MsbBitReader: ByteReader, BitReader {
      - Precondition: There MUST be enough data left.
      */
     public override func uint32(fromBytes count: Int) -> UInt32 {
-        precondition(isAligned, "BitReader is not aligned.")
-        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
-        return super.uint32(fromBytes: count)
+        precondition(0...4 ~= count)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+            return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt32 in
+                precondition(bitMask == 128, "BitReader is not aligned.")
+                precondition(data.endIndex - offset >= count)
+                var result = 0 as UInt32
+                for i in 0..<count {
+                    result += UInt32(truncatingIfNeeded: data[offset]) << (8 * i)
+                    offset += 1
+                }
+                return result
+            } (self.data, &self.offset, self.bitMask)
+        #else
+            precondition(bitMask == 128, "BitReader is not aligned.")
+            precondition(bytesLeft >= count)
+            var result = 0 as UInt32
+            for i in 0..<count {
+                result += UInt32(truncatingIfNeeded: self.data[self.offset]) << (8 * i)
+                self.offset += 1
+            }
+            return result
+        #endif
     }
 
     /**
@@ -356,9 +459,19 @@ public final class MsbBitReader: ByteReader, BitReader {
      - Precondition: There MUST be enough data left.
      */
     public override func uint16() -> UInt16 {
-        precondition(isAligned, "BitReader is not aligned.")
-        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
-        return super.uint16(fromBytes: 2)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+            return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt16 in
+                precondition(bitMask == 128, "BitReader is not aligned.")
+                precondition(data.endIndex - offset >= 2)
+                defer { offset += 2 }
+                return data[offset..<offset + 2].to(type: UInt16.self)
+            } (self.data, &self.offset, self.bitMask)
+        #else
+            precondition(bitMask == 128, "BitReader is not aligned.")
+            precondition(bytesLeft >= 2)
+            defer { self.offset += 2 }
+            return self.data[self.offset..<self.offset + 2].to(type: UInt16.self)
+        #endif
     }
 
     /**
@@ -369,9 +482,28 @@ public final class MsbBitReader: ByteReader, BitReader {
      - Precondition: There MUST be enough data left.
      */
     public override func uint16(fromBytes count: Int) -> UInt16 {
-        precondition(isAligned, "BitReader is not aligned.")
-        defer { if !self.isFinished { self.currentByte = self.ptr[self._offset] } }
-        return super.uint16(fromBytes: count)
+        precondition(0...2 ~= count)
+        #if swift(>=4.1.50) || (swift(>=3.4) && !swift(>=4.0))
+            return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt16 in
+                precondition(bitMask == 128, "BitReader is not aligned.")
+                precondition(data.endIndex - offset >= count)
+                var result = 0 as UInt16
+                for i in 0..<count {
+                    result += UInt16(truncatingIfNeeded: data[offset]) << (8 * i)
+                    offset += 1
+                }
+                return result
+            } (self.data, &self.offset, self.bitMask)
+        #else
+            precondition(bitMask == 128, "BitReader is not aligned.")
+            precondition(bytesLeft >= count)
+            var result = 0 as UInt16
+            for i in 0..<count {
+                result += UInt16(truncatingIfNeeded: self.data[self.offset]) << (8 * i)
+                self.offset += 1
+            }
+            return result
+        #endif
     }
 
 }
