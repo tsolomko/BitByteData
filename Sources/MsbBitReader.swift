@@ -302,7 +302,7 @@ public final class MsbBitReader: ByteReader, BitReader {
                 precondition(bitMask == 128, "BitReader is not aligned.")
                 precondition(data.endIndex - offset >= count)
                 defer { offset += count }
-                return data[offset..<offset + count].toArray(type: UInt8.self, count: count)
+                return data[offset..<offset + count].toByteArray(count)
             } (self.data, &self.offset, self.bitMask)
         #else
             precondition(bitMask == 128, "BitReader is not aligned.")
