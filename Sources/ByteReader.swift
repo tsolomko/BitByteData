@@ -92,7 +92,7 @@ public class ByteReader {
             return { (data: Data, offset: inout Int) -> [UInt8] in
                 precondition(data.endIndex - offset >= count)
                 defer { offset += count }
-                return data[offset..<offset + count].toArray(type: UInt8.self, count: count)
+                return data[offset..<offset + count].toByteArray(count)
             } (self.data, &self.offset)
         #else
             precondition(bytesLeft >= count)

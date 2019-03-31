@@ -9,14 +9,12 @@ extension Data {
 
     @inline(__always)
     func to<T>(type: T.Type) -> T {
-        return self.withUnsafeBytes { $0.pointee }
+        return self.withUnsafeBytes { $0.bindMemory(to: type)[0] }
     }
 
     @inline(__always)
-    func toArray<T>(type: T.Type, count: Int) -> [T] {
-        return self.withUnsafeBytes {
-            [T](UnsafeBufferPointer(start: $0, count: count))
-        }
+    func toByteArray(_ count: Int) -> [UInt8] {
+        return self.withUnsafeBytes { $0.map { $0 } }
     }
 
 }
