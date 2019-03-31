@@ -198,7 +198,7 @@ def action_run(args):
     elif args.use_413:
         swift_command = ["xcrun", "-toolchain", "org.swift.41320180727a"]
     elif args.use_5:
-        swift_command = ["xcrun", "-toolchain", "org.swift.5020190310a"]
+        swift_command = ["xcrun", "-toolchain", "org.swift.5020190325a"]
     swift_command.append("swift")
     command = swift_command + ["test", "-c", "release", "--filter", args.filter]
     # macOS version of 'swift test' outputs to stderr instead of stdout.

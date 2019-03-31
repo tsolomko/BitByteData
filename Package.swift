@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.0
 import PackageDescription
 
 let package = Package(
@@ -13,5 +13,5 @@ let package = Package(
         .testTarget(name: "BitByteDataTests", dependencies: ["BitByteData"]),
         .testTarget(name: "BitByteDataBenchmarks", dependencies: ["BitByteData"])
     ],
-    swiftLanguageVersions: [4]
+    swiftLanguageVersions: [.v5]
 )
