@@ -142,7 +142,7 @@ public class ByteReader {
             return { (data: Data, offset: inout Int) -> UInt64 in
                 precondition(data.endIndex - offset >= 8)
                 defer { offset += 8 }
-                return data[offset..<offset + 8].to(type: UInt64.self)
+                return data[offset..<offset + 8].toU64()
             } (self.data, &self.offset)
         #else
             precondition(bytesLeft >= 8)
@@ -193,7 +193,7 @@ public class ByteReader {
             return { (data: Data, offset: inout Int) -> UInt32 in
                 precondition(data.endIndex - offset >= 4)
                 defer { offset += 4 }
-                return data[offset..<offset + 4].to(type: UInt32.self)
+                return data[offset..<offset + 4].toU32()
             } (self.data, &self.offset)
         #else
             precondition(bytesLeft >= 4)
@@ -244,7 +244,7 @@ public class ByteReader {
             return { (data: Data, offset: inout Int) -> UInt16 in
                 precondition(data.endIndex - offset >= 2)
                 defer { offset += 2 }
-                return data[offset..<offset + 2].to(type: UInt16.self)
+                return data[offset..<offset + 2].toU16()
             } (self.data, &self.offset)
         #else
             precondition(bytesLeft >= 2)
