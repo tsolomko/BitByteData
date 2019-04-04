@@ -260,9 +260,9 @@ toolchain_option_group = parser_run.add_mutually_exclusive_group()
 toolchain_option_group.add_argument("--toolchain", action="store", metavar="ID",
                                     help="use swift from the toolchain with specified identifier")
 toolchain_option_group.add_argument("--5", action="store_true", dest="use_5",
-                                    help=("use swift from toolchain with 'org.swift.5020190310a' identifier (this is a "
-                                        "toolchain for Swift 5.0 which must already be installed; shortcut for "
-                                        "'--toolchain org.swift.5020190310a')"))
+                                    help=("use swift from the toolchain with 'org.swift.5020190310a' identifier (this is"
+                                        " the release toolchain for Swift 5.0; useful when Xcode with version less than "
+                                        "10.2 is used)"))
 
 parser_run.set_defaults(func=action_run)
 
