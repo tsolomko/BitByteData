@@ -225,6 +225,7 @@ def action_run(args):
         f_base = open(args.compare, "r")
         base = json.load(f_base, cls=BenchmarkJSONDecoder)
         f_base.close()
+        print("BASE: " + args.compare)
         print(run.str_compare(base, args.filter != "BitByteDataBenchmarks"))
     else:
         print(run)
@@ -242,6 +243,8 @@ def action_show(args):
         f_base = open(args.compare, "r")
         base = json.load(f_base, cls=BenchmarkJSONDecoder)
         f_base.close()
+        print("BASE: " + args.compare)
+        print("NEW: " + args.file)
         print(o.str_compare(base))
     else:
         print(o)
