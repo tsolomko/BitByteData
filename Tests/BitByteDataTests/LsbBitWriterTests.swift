@@ -45,7 +45,7 @@ class LsbBitWriterTests: XCTestCase {
         let bitWriter = LsbBitWriter()
         bitWriter.write(unsignedNumber: UInt(UInt64.max), bitsCount: UInt64.bitWidth)
 
-        let byteReader = ByteReader(data: bitWriter.data)
+        let byteReader = LittleEndianByteReader(data: bitWriter.data)
         XCTAssertEqual(byteReader.uint64(), UInt64.max)
     }
 

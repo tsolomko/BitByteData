@@ -5,8 +5,8 @@
 
 import Foundation
 
-/// A type that contains functions for reading `Data` byte-by-byte.
-public class ByteReader {
+/// A type that contains functions for reading `Data` byte-by-byte in the Little endian order.
+public class LittleEndianByteReader {
 
     /// Size of the `data` (in bytes).
     public let size: Int

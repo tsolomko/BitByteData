@@ -6,7 +6,7 @@
 import Foundation
 
 /// A type that contains functions for reading `Data` bit-by-bit and byte-by-byte, assuming "MSB0" bit numbering scheme.
-public final class MsbBitReader: ByteReader, BitReader {
+public final class MsbBitReader: LittleEndianByteReader, BitReader {
 
     private var bitMask: UInt8 = 128
     private var currentByte: UInt8
@@ -36,7 +36,7 @@ public final class MsbBitReader: ByteReader, BitReader {
      Converts a `ByteReader` instance into `MsbBitReader`, enabling bit reading capabilities. Current `offset` value of
      `byteReader` is preserved.
      */
-    public init(_ byteReader: ByteReader) {
+    public init(_ byteReader: LittleEndianByteReader) {
         self.currentByte = byteReader.isFinished ? 0 : byteReader.data[byteReader.offset]
         super.init(data: byteReader.data)
         self.offset = byteReader.offset

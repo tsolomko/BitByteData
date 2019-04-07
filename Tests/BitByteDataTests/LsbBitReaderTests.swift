@@ -267,7 +267,7 @@ class LsbBitReaderTests: XCTestCase {
     }
 
     func testConvertedByteReader() {
-        let byteReader = ByteReader(data: LsbBitReaderTests.data)
+        let byteReader = LittleEndianByteReader(data: LsbBitReaderTests.data)
         _ = byteReader.byte()
 
         var bitReader = LsbBitReader(byteReader)

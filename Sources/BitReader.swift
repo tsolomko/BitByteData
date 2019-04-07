@@ -24,7 +24,7 @@ public protocol BitReader: class {
      Converts a `ByteReader` instance into `BitReader`, enabling bits reading capabilities. Current `offset` value of
      `byteReader` is preserved.
      */
-    init(_ byteReader: ByteReader)
+    init(_ byteReader: LittleEndianByteReader)
 
     /// Reads bit and returns it, advancing by one BIT position.
     func bit() -> UInt8

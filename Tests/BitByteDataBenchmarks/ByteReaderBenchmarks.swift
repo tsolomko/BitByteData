@@ -10,7 +10,7 @@ class ByteReaderBenchmarks: XCTestCase {
 
     func testByte() {
         self.measure {
-            let byteReader = ByteReader(data: Data(count: 10_485_760)) // 10 MB
+            let byteReader = LittleEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<5_000_000 {
                 _ = byteReader.byte()
@@ -20,7 +20,7 @@ class ByteReaderBenchmarks: XCTestCase {
 
     func testBytes() {
         self.measure {
-            let byteReader = ByteReader(data: Data(count: 10_485_760)) // 10 MB
+            let byteReader = LittleEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<500_000 {
                 _ = byteReader.bytes(count: 20)
@@ -30,7 +30,7 @@ class ByteReaderBenchmarks: XCTestCase {
 
     func testIntFromBytes() {
         self.measure {
-            let byteReader = ByteReader(data: Data(count: 10_485_760)) // 10 MB
+            let byteReader = LittleEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = byteReader.int(fromBytes: 7)
@@ -40,7 +40,7 @@ class ByteReaderBenchmarks: XCTestCase {
 
     func testUint16() {
         self.measure {
-            let byteReader = ByteReader(data: Data(count: 10_485_760)) // 10 MB
+            let byteReader = LittleEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = byteReader.uint16()
@@ -50,7 +50,7 @@ class ByteReaderBenchmarks: XCTestCase {
 
     func testUint16FromBytes() {
         self.measure {
-            let byteReader = ByteReader(data: Data(count: 10_485_760)) // 10 MB
+            let byteReader = LittleEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<2_000_000 {
                 _ = byteReader.uint16(fromBytes: 1)
@@ -60,7 +60,7 @@ class ByteReaderBenchmarks: XCTestCase {
 
     func testUint32() {
         self.measure {
-            let byteReader = ByteReader(data: Data(count: 10_485_760)) // 10 MB
+            let byteReader = LittleEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<500_000 {
                 _ = byteReader.uint32()
@@ -70,7 +70,7 @@ class ByteReaderBenchmarks: XCTestCase {
 
     func testUint32FromBytes() {
         self.measure {
-            let byteReader = ByteReader(data: Data(count: 10_485_760)) // 10 MB
+            let byteReader = LittleEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<500_000 {
                 _ = byteReader.uint32(fromBytes: 3)
@@ -80,7 +80,7 @@ class ByteReaderBenchmarks: XCTestCase {
 
     func testUint64() {
         self.measure {
-            let byteReader = ByteReader(data: Data(count: 10_485_760)) // 10 MB
+            let byteReader = LittleEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_00_000 {
                 _ = byteReader.uint64()
@@ -90,7 +90,7 @@ class ByteReaderBenchmarks: XCTestCase {
 
     func testUint64FromBytes() {
         self.measure {
-            let byteReader = ByteReader(data: Data(count: 10_485_760)) // 10 MB
+            let byteReader = LittleEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = byteReader.uint64(fromBytes: 7)
