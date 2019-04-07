@@ -6,7 +6,7 @@
 import XCTest
 import BitByteData
 
-class ByteReaderBenchmarks: XCTestCase {
+class LittleEndianByteReaderBenchmarks: XCTestCase {
 
     func testByte() {
         self.measure {

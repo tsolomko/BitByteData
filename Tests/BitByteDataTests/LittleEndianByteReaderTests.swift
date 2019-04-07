@@ -6,12 +6,12 @@
 import XCTest
 import BitByteData
 
-class ByteReaderTests: XCTestCase {
+class LittleEndianByteReaderTests: XCTestCase {
 
     private static let data = Data([0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])
 
     func testByte() {
-        let byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        let byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
 
         let byte = byteReader.byte()
         XCTAssertEqual(byte, 0)
@@ -19,13 +19,13 @@ class ByteReaderTests: XCTestCase {
     }
 
     func testIsFinished() {
-        let byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        let byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         byteReader.offset = 9
         XCTAssertTrue(byteReader.isFinished)
     }
 
     func testBytesLeft() {
-        let byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        let byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         XCTAssertEqual(byteReader.bytesLeft, 9)
         _ = byteReader.uint16()
         XCTAssertEqual(byteReader.bytesLeft, 7)
@@ -34,7 +34,7 @@ class ByteReaderTests: XCTestCase {
     }
 
     func testBytesRead() {
-        let byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        let byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         XCTAssertEqual(byteReader.bytesRead, 0)
         _ = byteReader.uint16()
         XCTAssertEqual(byteReader.bytesRead, 2)
@@ -43,14 +43,14 @@ class ByteReaderTests: XCTestCase {
     }
 
     func testBytes() {
-        let byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        let byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         XCTAssertEqual(byteReader.bytes(count: 0), [])
         let bytes = byteReader.bytes(count: 4)
         XCTAssertEqual(bytes, [0x00, 0x01, 0x02, 0x03])
     }
 
     func testIntFromBytes() {
-        let byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        let byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         XCTAssertEqual(byteReader.int(fromBytes: 0), 0)
         XCTAssertEqual(byteReader.int(fromBytes: 3), 131328)
         XCTAssertEqual(byteReader.int(fromBytes: 2), 1027)
@@ -59,54 +59,54 @@ class ByteReaderTests: XCTestCase {
     }
 
     func testUint64() {
-        let byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        let byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         let num = byteReader.uint64()
         XCTAssertEqual(num, 0x0706050403020100)
     }
 
     func testUint64FromBytes() {
-        var byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        var byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         XCTAssertEqual(byteReader.uint64(fromBytes: 0), 0)
         XCTAssertEqual(byteReader.uint64(fromBytes: 3), 131328)
         XCTAssertFalse(byteReader.isFinished)
 
-        byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         XCTAssertEqual(byteReader.uint64(fromBytes: 8), 0x0706050403020100)
         XCTAssertFalse(byteReader.isFinished)
     }
 
     func testUint32() {
-        let byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        let byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         let num = byteReader.uint32()
         XCTAssertEqual(num, 0x03020100)
     }
 
     func testUint32FromBytes() {
-        var byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        var byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         XCTAssertEqual(byteReader.uint32(fromBytes: 0), 0)
         XCTAssertEqual(byteReader.uint32(fromBytes: 3), 131328)
         XCTAssertFalse(byteReader.isFinished)
 
-        byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         XCTAssertEqual(byteReader.uint32(fromBytes: 4), 0x03020100)
         XCTAssertFalse(byteReader.isFinished)
     }
 
     func testUint16() {
-        let byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        let byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         let num = byteReader.uint16()
         XCTAssertEqual(num, 0x0100)
     }
 
     func testUint16FromBytes() {
-        let byteReader = LittleEndianByteReader(data: ByteReaderTests.data)
+        let byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data)
         XCTAssertEqual(byteReader.uint16(fromBytes: 0), 0)
         XCTAssertEqual(byteReader.uint16(fromBytes: 2), 256)
         XCTAssertFalse(byteReader.isFinished)
     }
 
     func testNonZeroStartIndex() {
-        let byteReader = LittleEndianByteReader(data: ByteReaderTests.data[1...])
+        let byteReader = LittleEndianByteReader(data: LittleEndianByteReaderTests.data[1...])
         XCTAssertEqual(byteReader.offset, 1)
         XCTAssertEqual(byteReader.uint16(), 0x0201)
         XCTAssertEqual(byteReader.offset, 3)

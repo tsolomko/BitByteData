@@ -24,8 +24,8 @@
 		06F0658D1FFAEAA900312A82 /* MsbBitReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065631FFAEA1F00312A82 /* MsbBitReaderTests.swift */; };
 		06F0658E1FFAEAA900312A82 /* LsbBitWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065641FFAEA1F00312A82 /* LsbBitWriterTests.swift */; };
 		06F0658F1FFAEAA900312A82 /* LsbBitReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065651FFAEA1F00312A82 /* LsbBitReaderTests.swift */; };
-		06F065901FFAEAA900312A82 /* ByteReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065661FFAEA1F00312A82 /* ByteReaderTests.swift */; };
-		06FA0DC121935115009B4DEB /* ByteReaderBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */; };
+		06F065901FFAEAA900312A82 /* LittleEndianByteReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065661FFAEA1F00312A82 /* LittleEndianByteReaderTests.swift */; };
+		06FA0DC121935115009B4DEB /* LittleEndianByteReaderBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ADF4CA214BB86600B8F0E9 /* LittleEndianByteReaderBenchmarks.swift */; };
 		06FA0DC221935115009B4DEB /* LsbBitReaderBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F68312176024400688683 /* LsbBitReaderBenchmarks.swift */; };
 		06FA0DC321935115009B4DEB /* MsbBitReaderBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F6833217604E800688683 /* MsbBitReaderBenchmarks.swift */; };
 		06FA0DC421935115009B4DEB /* LsbBitWriterBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A81B0E2177947600B6B7BB /* LsbBitWriterBenchmarks.swift */; };
@@ -59,7 +59,7 @@
 		069A69902198BE5A00E65630 /* MsbBitReaderByteBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsbBitReaderByteBenchmarks.swift; sourceTree = "<group>"; };
 		06A81B0E2177947600B6B7BB /* LsbBitWriterBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitWriterBenchmarks.swift; sourceTree = "<group>"; };
 		06A81B102177955500B6B7BB /* MsbBitWriterBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsbBitWriterBenchmarks.swift; sourceTree = "<group>"; };
-		06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReaderBenchmarks.swift; sourceTree = "<group>"; };
+		06ADF4CA214BB86600B8F0E9 /* LittleEndianByteReaderBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleEndianByteReaderBenchmarks.swift; sourceTree = "<group>"; };
 		06F065571FFAEA1F00312A82 /* LsbBitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitReader.swift; sourceTree = "<group>"; };
 		06F065581FFAEA1F00312A82 /* BitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitReader.swift; sourceTree = "<group>"; };
 		06F065591FFAEA1F00312A82 /* LittleEndianByteReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleEndianByteReader.swift; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 		06F065631FFAEA1F00312A82 /* MsbBitReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsbBitReaderTests.swift; sourceTree = "<group>"; };
 		06F065641FFAEA1F00312A82 /* LsbBitWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitWriterTests.swift; sourceTree = "<group>"; };
 		06F065651FFAEA1F00312A82 /* LsbBitReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitReaderTests.swift; sourceTree = "<group>"; };
-		06F065661FFAEA1F00312A82 /* ByteReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReaderTests.swift; sourceTree = "<group>"; };
+		06F065661FFAEA1F00312A82 /* LittleEndianByteReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleEndianByteReaderTests.swift; sourceTree = "<group>"; };
 		06F0656C1FFAEA4B00312A82 /* BitByteData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BitByteData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		06F065811FFAEAA000312A82 /* TestBitByteData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestBitByteData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -100,7 +100,7 @@
 		065DD5E021673BC100704028 /* BitByteDataBenchmarks */ = {
 			isa = PBXGroup;
 			children = (
-				06ADF4CA214BB86600B8F0E9 /* ByteReaderBenchmarks.swift */,
+				06ADF4CA214BB86600B8F0E9 /* LittleEndianByteReaderBenchmarks.swift */,
 				060F68312176024400688683 /* LsbBitReaderBenchmarks.swift */,
 				066598C5219616C2001340E4 /* LsbBitReaderByteBenchmarks.swift */,
 				060F6833217604E800688683 /* MsbBitReaderBenchmarks.swift */,
@@ -149,7 +149,7 @@
 		06F065611FFAEA1F00312A82 /* BitByteDataTests */ = {
 			isa = PBXGroup;
 			children = (
-				06F065661FFAEA1F00312A82 /* ByteReaderTests.swift */,
+				06F065661FFAEA1F00312A82 /* LittleEndianByteReaderTests.swift */,
 				06F065651FFAEA1F00312A82 /* LsbBitReaderTests.swift */,
 				06F065631FFAEA1F00312A82 /* MsbBitReaderTests.swift */,
 				06F065641FFAEA1F00312A82 /* LsbBitWriterTests.swift */,
@@ -273,7 +273,7 @@
 				069A69912198BE5A00E65630 /* MsbBitReaderByteBenchmarks.swift in Sources */,
 				06FA0DC521935115009B4DEB /* MsbBitWriterBenchmarks.swift in Sources */,
 				06FA0DC221935115009B4DEB /* LsbBitReaderBenchmarks.swift in Sources */,
-				06FA0DC121935115009B4DEB /* ByteReaderBenchmarks.swift in Sources */,
+				06FA0DC121935115009B4DEB /* LittleEndianByteReaderBenchmarks.swift in Sources */,
 				06FA0DC421935115009B4DEB /* LsbBitWriterBenchmarks.swift in Sources */,
 				066598C6219616C2001340E4 /* LsbBitReaderByteBenchmarks.swift in Sources */,
 				06FA0DC321935115009B4DEB /* MsbBitReaderBenchmarks.swift in Sources */,
@@ -301,7 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06F0658F1FFAEAA900312A82 /* LsbBitReaderTests.swift in Sources */,
-				06F065901FFAEAA900312A82 /* ByteReaderTests.swift in Sources */,
+				06F065901FFAEAA900312A82 /* LittleEndianByteReaderTests.swift in Sources */,
 				06F0658C1FFAEAA900312A82 /* MsbBitWriterTests.swift in Sources */,
 				06F0658E1FFAEAA900312A82 /* LsbBitWriterTests.swift in Sources */,
 				06F0658D1FFAEAA900312A82 /* MsbBitReaderTests.swift in Sources */,
