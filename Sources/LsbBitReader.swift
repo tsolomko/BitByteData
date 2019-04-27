@@ -27,7 +27,7 @@ public final class LsbBitReader: LittleEndianByteReader, BitReader {
     }
 
     /// Creates an instance for reading bits (and bytes) from `data`.
-    public override init(data: Data) {
+    public required init(data: Data) {
         self.currentByte = data.first ?? 0
         super.init(data: data)
     }
