@@ -6,7 +6,7 @@
 import Foundation
 
 /// A type that contains functions for reading `Data` byte-by-byte in the Big Endian order.
-public class BigEndianByteReader {
+public class BigEndianByteReader: ByteReader {
 
     /// Size of the `data` (in bytes).
     public let size: Int
@@ -43,7 +43,7 @@ public class BigEndianByteReader {
     }
 
     /// Creates an instance for reading bytes from `data`.
-    public init(data: Data) {
+    public required init(data: Data) {
         self.size = data.count
         self.data = data
         self.offset = data.startIndex
