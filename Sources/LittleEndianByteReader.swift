@@ -28,20 +28,6 @@ public class LittleEndianByteReader: ByteReader {
         } (self.data, self.offset)
     }
 
-    /// Amount of bytes left to read.
-    public var bytesLeft: Int {
-        return { (data: Data, offset: Int) -> Int in
-            return data.endIndex - offset
-        } (self.data, self.offset)
-    }
-
-    /// Amount of bytes that were already read.
-    public var bytesRead: Int {
-        return { (data: Data, offset: Int) -> Int in
-            return offset - data.startIndex
-        } (self.data, self.offset)
-    }
-
     /// Creates an instance for reading bytes from `data`.
     public required init(data: Data) {
         self.size = data.count

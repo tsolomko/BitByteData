@@ -15,10 +15,6 @@ public protocol ByteReader: AnyObject {
 
     var isFinished: Bool { get }
 
-    var bytesLeft: Int { get }
-
-    var bytesRead: Int { get }
-
     init(data: Data)
 
     func byte() -> UInt8
@@ -33,4 +29,20 @@ public protocol ByteReader: AnyObject {
 
     func uint16(fromBytes count: Int) -> UInt16
 
+}
+
+extension ByteReader {
+
+    public var bytesLeft: Int {
+        return { (data: Data, offset: Int) -> Int in
+            return data.endIndex - offset
+        } (self.data, self.offset)
+    }
+
+    public var bytesRead: Int {
+        return { (data: Data, offset: Int) -> Int in
+            return offset - data.startIndex
+        } (self.data, self.offset)
+    }
+    
 }
