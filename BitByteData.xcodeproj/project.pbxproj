@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0602483C225A0416006143B1 /* ByteReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0602483B225A0416006143B1 /* ByteReader.swift */; };
 		0643449A2259F88C00D8EB57 /* BigEndianByteReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064344992259F88C00D8EB57 /* BigEndianByteReader.swift */; };
 		0643449C2259FB2200D8EB57 /* BigEndianByteReaderBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0643449B2259FB2200D8EB57 /* BigEndianByteReaderBenchmarks.swift */; };
 		0643449E2259FB2F00D8EB57 /* BigEndianByteReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0643449D2259FB2F00D8EB57 /* BigEndianByteReaderTests.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0602483B225A0416006143B1 /* ByteReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReader.swift; sourceTree = "<group>"; };
 		060F68312176024400688683 /* LsbBitReaderBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitReaderBenchmarks.swift; sourceTree = "<group>"; };
 		060F6833217604E800688683 /* MsbBitReaderBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsbBitReaderBenchmarks.swift; sourceTree = "<group>"; };
 		062BE3301FFBB9E300343CAD /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				06F0655B1FFAEA1F00312A82 /* Extensions.swift */,
+				0602483B225A0416006143B1 /* ByteReader.swift */,
 				064344992259F88C00D8EB57 /* BigEndianByteReader.swift */,
 				06F065591FFAEA1F00312A82 /* LittleEndianByteReader.swift */,
 				06F065581FFAEA1F00312A82 /* BitReader.swift */,
@@ -297,6 +300,7 @@
 				06F0657B1FFAEA8700312A82 /* BitWriter.swift in Sources */,
 				06F065771FFAEA8700312A82 /* LittleEndianByteReader.swift in Sources */,
 				0643449A2259F88C00D8EB57 /* BigEndianByteReader.swift in Sources */,
+				0602483C225A0416006143B1 /* ByteReader.swift in Sources */,
 				06F065781FFAEA8700312A82 /* MsbBitReader.swift in Sources */,
 				06F065761FFAEA8700312A82 /* BitReader.swift in Sources */,
 				06F065751FFAEA8700312A82 /* LsbBitReader.swift in Sources */,
