@@ -36,7 +36,7 @@ public final class MsbBitReader: LittleEndianByteReader, BitReader {
      Converts a `ByteReader` instance into `MsbBitReader`, enabling bit reading capabilities. Current `offset` value of
      `byteReader` is preserved.
      */
-    public init(_ byteReader: LittleEndianByteReader) {
+    public init(_ byteReader: ByteReader) {
         self.currentByte = byteReader.isFinished ? 0 : byteReader.data[byteReader.offset]
         super.init(data: byteReader.data)
         self.offset = byteReader.offset
