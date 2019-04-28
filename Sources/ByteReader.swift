@@ -13,8 +13,6 @@ public protocol ByteReader: AnyObject {
 
     var offset: Int { get set }
 
-    var isFinished: Bool { get }
-
     init(data: Data)
 
     func byte() -> UInt8
@@ -44,5 +42,11 @@ extension ByteReader {
             return offset - data.startIndex
         } (self.data, self.offset)
     }
-    
+
+    public var isFinished: Bool {
+        return { (data: Data, offset: Int) -> Bool in
+            return data.endIndex <= offset
+        } (self.data, self.offset)
+    }
+
 }

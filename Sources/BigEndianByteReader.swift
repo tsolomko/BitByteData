@@ -17,17 +17,6 @@ public class BigEndianByteReader: ByteReader {
     /// Offset to the byte in `data` which will be read next.
     public var offset: Int
 
-    /**
-     True, if `offset` points at any position after the last byte in `data`.
-
-     - Note: It generally means that all bytes have been read.
-     */
-    public var isFinished: Bool {
-        return { (data: Data, offset: Int) -> Bool in
-            return data.endIndex <= offset
-        } (self.data, self.offset)
-    }
-
     /// Creates an instance for reading bytes from `data`.
     public required init(data: Data) {
         self.size = data.count
