@@ -6,7 +6,7 @@
 import Foundation
 
 /// A type that contains functions for reading `Data` byte-by-byte in the Little endian order.
-public class LittleEndianByteReader: ByteReader {
+public final class LittleEndianByteReader: ByteReader {
 
     /// Size of the `data` (in bytes).
     public let size: Int
@@ -18,7 +18,7 @@ public class LittleEndianByteReader: ByteReader {
     public var offset: Int
 
     /// Creates an instance for reading bytes from `data`.
-    public required init(data: Data) {
+    public init(data: Data) {
         self.size = data.count
         self.data = data
         self.offset = data.startIndex
