@@ -5,11 +5,36 @@
 
 import Foundation
 
-/// A type that contains functions for reading `Data` bit-by-bit and byte-by-byte, assuming "LSB0" bit numbering scheme.
-public final class LsbBitReader: LittleEndianByteReader, BitReader {
+/**
+ A type that contains functions for reading `Data` bit-by-bit using "LSB0" bit numbering scheme and byte-by-byte in the
+ Little endian order.
+ */
+public final class LsbBitReader: BitReader {
 
     private var bitMask: UInt8 = 1
     private var currentByte: UInt8
+
+    /// Size of the `data` (in bytes).
+    public let size: Int
+
+    /// Data which is being read.
+    public let data: Data
+
+    // TODO: These two sentences kinda contradict each other.
+    /**
+     Offset to the byte in `data` which will be read next.
+
+     - Note: The byte which is currently used for reading bits from is included into `bytesRead`.
+     */
+    public var offset: Int {
+        didSet {
+            if !self.isFinished {
+                { (data: Data, offset: Int, currentByte: inout UInt8) in
+                    currentByte = data[offset]
+                } (self.data, self.offset, &self.currentByte)
+            }
+        }
+    }
 
     /// True, if reader's BIT pointer is aligned with the BYTE border.
     public var isAligned: Bool {
@@ -28,17 +53,19 @@ public final class LsbBitReader: LittleEndianByteReader, BitReader {
 
     /// Creates an instance for reading bits (and bytes) from `data`.
     public required init(data: Data) {
+        self.size = data.count
+        self.data = data
+        self.offset = data.startIndex
         self.currentByte = data.first ?? 0
-        super.init(data: data)
     }
 
     /**
      Converts a `ByteReader` instance into `LsbBitReader`, enabling bit reading capabilities. Current `offset` value of
      `byteReader` is preserved.
      */
-    public init(_ byteReader: ByteReader) {
+    public convenience init(_ byteReader: ByteReader) {
+        self.init(data: byteReader.data)
         self.currentByte = byteReader.isFinished ? 0 : byteReader.data[byteReader.offset]
-        super.init(data: byteReader.data)
         self.offset = byteReader.offset
     }
 
@@ -246,30 +273,13 @@ public final class LsbBitReader: LittleEndianByteReader, BitReader {
         }
     }
 
-    // MARK: ByteReader's methods.
-
-    /**
-     Offset to the byte in `data` which will be read next.
-
-     - Note: The byte which is currently used for reading bits from is included into `bytesRead`.
-     */
-    public override var offset: Int {
-        didSet {
-            if !self.isFinished {
-                { (data: Data, offset: Int, currentByte: inout UInt8) in
-                    currentByte = data[offset]
-                } (self.data, self.offset, &self.currentByte)
-            }
-        }
-    }
-
     /**
      Reads byte and returns it, advancing by one BYTE position.
 
      - Precondition: Reader MUST be aligned.
      - Precondition: There MUST be enough data left.
      */
-    public override func byte() -> UInt8 {
+    public func byte() -> UInt8 {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt8 in
             precondition(bitMask == 1, "BitReader is not aligned.")
             defer { offset += 1 }
@@ -283,7 +293,7 @@ public final class LsbBitReader: LittleEndianByteReader, BitReader {
      - Precondition: Reader MUST be aligned.
      - Precondition: There MUST be enough data left.
      */
-    public override func bytes(count: Int) -> [UInt8] {
+    public func bytes(count: Int) -> [UInt8] {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> [UInt8] in
             precondition(bitMask == 1, "BitReader is not aligned.")
             defer { offset += count }
@@ -298,7 +308,7 @@ public final class LsbBitReader: LittleEndianByteReader, BitReader {
      - Precondition: Parameter `fromBytes` MUST not be less than 0.
      - Precondition: There MUST be enough data left.
      */
-    public override func int(fromBytes count: Int) -> Int {
+    public func int(fromBytes count: Int) -> Int {
         precondition(count >= 0)
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> Int in
             precondition(bitMask == 1, "BitReader is not aligned.")
@@ -317,7 +327,7 @@ public final class LsbBitReader: LittleEndianByteReader, BitReader {
      - Precondition: Reader MUST be aligned.
      - Precondition: There MUST be enough data left.
      */
-    public override func uint64() -> UInt64 {
+    public func uint64() -> UInt64 {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt64 in
             precondition(bitMask == 1, "BitReader is not aligned.")
             defer { offset += 8 }
@@ -332,7 +342,7 @@ public final class LsbBitReader: LittleEndianByteReader, BitReader {
      - Precondition: Parameter `fromBytes` MUST not be less than 0.
      - Precondition: There MUST be enough data left.
      */
-    public override func uint64(fromBytes count: Int) -> UInt64 {
+    public func uint64(fromBytes count: Int) -> UInt64 {
         precondition(0...8 ~= count)
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt64 in
             precondition(bitMask == 1, "BitReader is not aligned.")
@@ -351,7 +361,7 @@ public final class LsbBitReader: LittleEndianByteReader, BitReader {
      - Precondition: Reader MUST be aligned.
      - Precondition: There MUST be enough data left.
      */
-    public override func uint32() -> UInt32 {
+    public func uint32() -> UInt32 {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt32 in
             precondition(bitMask == 1, "BitReader is not aligned.")
             defer { offset += 4 }
@@ -366,7 +376,7 @@ public final class LsbBitReader: LittleEndianByteReader, BitReader {
      - Precondition: Parameter `fromBytes` MUST not be less than 0.
      - Precondition: There MUST be enough data left.
      */
-    public override func uint32(fromBytes count: Int) -> UInt32 {
+    public func uint32(fromBytes count: Int) -> UInt32 {
         precondition(0...4 ~= count)
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt32 in
             precondition(bitMask == 1, "BitReader is not aligned.")
@@ -385,7 +395,7 @@ public final class LsbBitReader: LittleEndianByteReader, BitReader {
      - Precondition: Reader MUST be aligned.
      - Precondition: There MUST be enough data left.
      */
-    public override func uint16() -> UInt16 {
+    public func uint16() -> UInt16 {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt16 in
             precondition(bitMask == 1, "BitReader is not aligned.")
             defer { offset += 2 }
@@ -400,7 +410,7 @@ public final class LsbBitReader: LittleEndianByteReader, BitReader {
      - Precondition: Parameter `fromBytes` MUST not be less than 0.
      - Precondition: There MUST be enough data left.
      */
-    public override func uint16(fromBytes count: Int) -> UInt16 {
+    public func uint16(fromBytes count: Int) -> UInt16 {
         precondition(0...2 ~= count)
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt16 in
             precondition(bitMask == 1, "BitReader is not aligned.")
