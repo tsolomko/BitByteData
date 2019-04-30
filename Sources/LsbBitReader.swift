@@ -52,7 +52,7 @@ public final class LsbBitReader: BitReader {
     }
 
     /// Creates an instance for reading bits (and bytes) from `data`.
-    public required init(data: Data) {
+    public init(data: Data) {
         self.size = data.count
         self.data = data
         self.offset = data.startIndex
