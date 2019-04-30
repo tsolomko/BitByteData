@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import datetime
 import json
 import re
 import subprocess
@@ -60,9 +61,10 @@ class BenchmarkGroup:
         return max_len
 
 class BenchmarkRun:
-    def __init__(self, swift_ver):
+    def __init__(self, swift_ver, timestamp = None):
         self.groups = {}
         self.swift_ver = swift_ver
+        self.timestamp = timestamp
 
     def __str__(self):
         output = ""
@@ -157,7 +159,7 @@ class BenchmarkJSONEncoder(json.JSONEncoder):
                                         "rel_std_dev": result.rel_std_dev})
                 group_out = {"group_name": group_name, "results": results_out}
                 run_out.append(group_out)
-            return {"swift_ver": o.swift_ver, "BitByteDataBenchmarks": run_out}
+            return {"swift_ver": o.swift_ver, "timestamp": o.timestamp, "BitByteDataBenchmarks": run_out}
         return json.JSONEncoder.default(self, o)
 
 class BenchmarkJSONDecoder(json.JSONDecoder):
@@ -172,8 +174,8 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
             for result in obj["results"]:
                 group.add_result(result)
             return group
-        elif len(obj.items()) == 2 and "BitByteDataBenchmarks" in obj and "swift_ver" in obj:
-            run = BenchmarkRun(obj["swift_ver"])
+        elif len(obj.items()) in [2, 3] and "BitByteDataBenchmarks" in obj and "swift_ver" in obj:
+            run = BenchmarkRun(obj["swift_ver"], obj.get("timestamp"))
             for group in obj["BitByteDataBenchmarks"]:
                 run.groups[group.name] = group
             return run
@@ -204,7 +206,7 @@ def action_run(args):
 
     swift_ver = subprocess.run(swift_command + ["--version"], stdout=subprocess.PIPE, check=True,
                                universal_newlines=True).stdout
-    run = BenchmarkRun(swift_ver)
+    run = BenchmarkRun(swift_ver, datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
 
     while True:
         line = process.stdout.readline().decode()
