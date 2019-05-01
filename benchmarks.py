@@ -61,10 +61,11 @@ class BenchmarkGroup:
         return max_len
 
 class BenchmarkRun:
-    def __init__(self, swift_ver, timestamp = None):
+    def __init__(self, swift_ver, timestamp=None, description=None):
         self.groups = {}
         self.swift_ver = swift_ver
         self.timestamp = timestamp
+        self.description = description
 
     def __str__(self):
         output = ""
@@ -159,7 +160,11 @@ class BenchmarkJSONEncoder(json.JSONEncoder):
                                         "rel_std_dev": result.rel_std_dev})
                 group_out = {"group_name": group_name, "results": results_out}
                 run_out.append(group_out)
-            return {"swift_ver": o.swift_ver, "timestamp": o.timestamp, "BitByteDataBenchmarks": run_out}
+            d = {"swift_ver": o.swift_ver, "timestamp": o.timestamp}
+            if o.description is not None:
+                d["description"] = o.description
+            d["BitByteDataBenchmarks"] = run_out
+            return d
         return json.JSONEncoder.default(self, o)
 
 class BenchmarkJSONDecoder(json.JSONDecoder):
@@ -174,8 +179,8 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
             for result in obj["results"]:
                 group.add_result(result)
             return group
-        elif len(obj.items()) in [2, 3] and "BitByteDataBenchmarks" in obj and "swift_ver" in obj:
-            run = BenchmarkRun(obj["swift_ver"], obj.get("timestamp"))
+        elif len(obj.items()) >= 2 and "BitByteDataBenchmarks" in obj and "swift_ver" in obj:
+            run = BenchmarkRun(obj["swift_ver"], obj.get("timestamp"), obj.get("description"))
             for group in obj["BitByteDataBenchmarks"]:
                 run.groups[group.name] = group
             return run
@@ -206,7 +211,7 @@ def action_run(args):
 
     swift_ver = subprocess.run(swift_command + ["--version"], stdout=subprocess.PIPE, check=True,
                                universal_newlines=True).stdout
-    run = BenchmarkRun(swift_ver, datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+    run = BenchmarkRun(swift_ver, datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), args.desc)
 
     while True:
         line = process.stdout.readline().decode()
@@ -260,6 +265,7 @@ parser_run.add_argument("--filter", action="store", default="BitByteDataBenchmar
                         help="filter benchmarks (passed as --filter option to 'swift test')")
 parser_run.add_argument("--save", action="store", metavar="FILE", help="save output in a specified file")
 parser_run.add_argument("--compare", action="store", metavar="BASE", help="compare results with base benchmarks")
+parser_run.add_argument("--desc", action="store", metavar="DESC", help="add a description to the results")
 
 toolchain_option_group = parser_run.add_mutually_exclusive_group()
 toolchain_option_group.add_argument("--toolchain", action="store", metavar="ID",
