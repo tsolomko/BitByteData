@@ -240,11 +240,10 @@ public final class MsbBitReader: LittleEndianByteReader, BitReader {
      to check if the end was reached.
      */
     public func align() {
-        guard self.bitMask != 128
-            else { return }
-
-        self.bitMask = 128
-        self.offset += 1
+        if self.bitMask != 128 {
+            self.bitMask = 128
+            self.offset += 1
+        }
     }
 
     // MARK: ByteReader's methods.
