@@ -43,12 +43,18 @@ public final class LsbBitReader: BitReader {
 
     /// Amount of bits left to read.
     public var bitsLeft: Int {
-        return self.bytesLeft * 8 - self.bitMask.trailingZeroBitCount
+        return { (data: Data, offset: Int, bitMask: UInt8) in
+            let bytesLeft = data.endIndex - offset
+            return bytesLeft * 8 - bitMask.trailingZeroBitCount
+        } (self.data, self.offset, self.bitMask)
     }
 
     /// Amount of bits that were already read.
     public var bitsRead: Int {
-        return self.bytesRead * 8 + self.bitMask.trailingZeroBitCount
+        return { (data: Data, offset: Int, bitMask: UInt8) in
+            let bytesRead = offset - data.startIndex
+            return bytesRead * 8 + bitMask.trailingZeroBitCount
+        } (self.data, self.offset, self.bitMask)
     }
 
     /// Creates an instance for reading bits (and bytes) from `data`.
