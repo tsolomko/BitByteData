@@ -30,19 +30,13 @@ be useful in some (though, admittedly, niche) situations.
 1. Add a new _protocol_ `ByteReader` (sic!) with the following API:
 
 ```swift
-public protocol ByteReader {
+public protocol ByteReader: AnyObject {
 
     var size: Int { get }
 
     var data: Data { get }
 
     var offset: Int { get set }
-
-    var isFinished: Bool { get }
-
-    var bytesLeft: Int { get }
-
-    var bytesRead: Int { get }
 
     init(data: Data)
 
@@ -57,6 +51,22 @@ public protocol ByteReader {
     func uint32(fromBytes count: Int) -> UInt32
 
     func uint16(fromBytes count: Int) -> UInt16
+
+}
+
+extension ByteReader {
+
+    public var bytesLeft: Int {
+        // ...
+    }
+
+    public var bytesRead: Int {
+        // ...
+    }
+
+    public var isFinished: Bool {
+        // ...
+    }
 
 }
 ```
@@ -93,19 +103,14 @@ public protocol BitReader where Self: ByteReader {
 
 Ideally, this should express the idea that only something that is `ByteReader` (e.g. something that subclasses it) can
 conform to the `BitReader` protocol. Additionally, it naturally allows to remove any `ByteReader`'s methods and
-properties from the `BitReader` protocol. Unfortunatelly, the problem with this approach is that it is really unstable:
+properties from the `BitReader` protocol. Unfortunately, the problem with this approach is that it is really unstable:
 when I first tried it (early 2018) for some Swift versions the compiler was crashing during compilation, and for others
-the resulting binary was experiencing undefined behavior. With this in mind, it is safe to say that this idea is off the
-table.
-
-__Note (TODO):__ I haven't tested neither Swift 4.2 compiler nor development snapshots of Swift 5. I will update this
-document with the final results for them, but it is likely that it still won't work (and, frankly, I am not even sure if
-it is supposed to).
+the resulting binary was experiencing undefined behavior.
 
 #### Use `ByteReaderProtocol` as a name for the new protocol
 
 The proposed soultions is, probably, the most obvious one. The only hard part in it is, as always, naming:
-what would be the name of a protocol if we already have a class with `ByteReader` name? One can find inspiration in
+what would be the name of a protocol if we already have a class with `ByteReader` name? One can find inspiration in the
 Swift standard library (particularly, `IteratorProtocol`) and come up with with an alternative protocol name,
 `ByteReaderProtocol`. While I haven't tested it, I have a feeling that this name would incur more source code changes on
 BitByteData's users. The reason for this feeling is that I expect that the most common usage scenario is to initialize a
@@ -139,7 +144,7 @@ I don't think that these names are much better than the full spelling of Little 
 stated above, I don't expect the class names of byte readers to be used extensively, thus, I don't think that the
 tradeoff ratio between clarity and brevity is good in this case. On the contrast, the abbreviations were used for
 `L/MsbBitReader` because their full names are ridiculously long: `LeastSignificantBit` and `MostSignificantBit`
-respectively. 
+respectively.
 
 #### Add Big-Endian alternatives for `L/MsbBitReader`
 
@@ -156,15 +161,14 @@ On the other hand marking classes as `final` enables some compiler optimizations
 
 ## Add (more) means of conversion between readers
 
-Currently, there exist converting initializers from ByteReader to `L/MsbBitReader`. With 2.0 update I am planning to add
-several more: from `L/MsbBitReader` to byte reader(s), and between `LsbBitReader` and `MsbBitReader`. While, I don't
-currently have any use case for these conversions, with the proposed above plan for restructuring BitByteData, these
-initializers would be extremely easy to implement and, potentially, even possible to implement as extension methods to
-corresponding protocols
+Currently, we have converting initializers from the `ByteReader` to `L/MsbBitReader`. In 2.0 update I would like to add
+a couple of more: from `L/MsbBitReader` to byte reader(s). While I can't imagine any use cases for these conversions, with
+the plan for restructuring BitByteData proposed above these initializers would be extremely easy to implement and,
+potentially, even possible to implement as extension methods to corresponding protocols.
 
 ## Add missing methods to protocols
 
-In 1.x updates there were several new methods introduced both to readers and writers. For the reasons of backwards
+In 1.x updates several new methods were introduced both to readers and writers. For the reasons of backwards
 compatibility and SemVer, these new methods haven't been added to any of the protocols. The major 2.0 update is the
 perfect opportunity to introduce them as new protocol requirements. It is also possible that some of the new and old
 protocols' methods could be even provided with default implementation, but I haven't yet assessed that.
