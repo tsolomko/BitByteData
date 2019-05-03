@@ -31,6 +31,11 @@ public protocol ByteReader: AnyObject {
 
 extension ByteReader {
 
+    public init(_ bitReader: BitReader) {
+        self.init(data: bitReader.data)
+        self.offset = bitReader.offset
+    }
+
     public var bytesLeft: Int {
         return { (data: Data, offset: Int) -> Int in
             return data.endIndex - offset
