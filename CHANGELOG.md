@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1
+
+- Reverted performance impomenets from 1.4.0 update, since they are incompatible with Swift 5.0.
+
 ## 1.4.0
 
 - Significantly improved performance of `ByteReader`, `LsbBitReader` and `MsbBitReader`.
