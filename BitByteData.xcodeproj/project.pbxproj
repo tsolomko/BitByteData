@@ -14,6 +14,7 @@
 		06F065761FFAEA8700312A82 /* BitReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065581FFAEA1F00312A82 /* BitReader.swift */; };
 		06F065771FFAEA8700312A82 /* ByteReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F065591FFAEA1F00312A82 /* ByteReader.swift */; };
 		06F065781FFAEA8700312A82 /* MsbBitReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0655A1FFAEA1F00312A82 /* MsbBitReader.swift */; };
+		06F065791FFAEA8700312A82 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0655B1FFAEA1F00312A82 /* Extensions.swift */; };
 		06F0657A1FFAEA8700312A82 /* MsbBitWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0655C1FFAEA1F00312A82 /* MsbBitWriter.swift */; };
 		06F0657B1FFAEA8700312A82 /* BitWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0655D1FFAEA1F00312A82 /* BitWriter.swift */; };
 		06F0657C1FFAEA8700312A82 /* LsbBitWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0655E1FFAEA1F00312A82 /* LsbBitWriter.swift */; };
@@ -61,6 +62,7 @@
 		06F065581FFAEA1F00312A82 /* BitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitReader.swift; sourceTree = "<group>"; };
 		06F065591FFAEA1F00312A82 /* ByteReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReader.swift; sourceTree = "<group>"; };
 		06F0655A1FFAEA1F00312A82 /* MsbBitReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsbBitReader.swift; sourceTree = "<group>"; };
+		06F0655B1FFAEA1F00312A82 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		06F0655C1FFAEA1F00312A82 /* MsbBitWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsbBitWriter.swift; sourceTree = "<group>"; };
 		06F0655D1FFAEA1F00312A82 /* BitWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitWriter.swift; sourceTree = "<group>"; };
 		06F0655E1FFAEA1F00312A82 /* LsbBitWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitWriter.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 		06F065561FFAEA1F00312A82 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				06F0655B1FFAEA1F00312A82 /* Extensions.swift */,
 				06F065591FFAEA1F00312A82 /* ByteReader.swift */,
 				06F065581FFAEA1F00312A82 /* BitReader.swift */,
 				06F065571FFAEA1F00312A82 /* LsbBitReader.swift */,
@@ -278,6 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06F065791FFAEA8700312A82 /* Extensions.swift in Sources */,
 				06F0657A1FFAEA8700312A82 /* MsbBitWriter.swift in Sources */,
 				06F0657C1FFAEA8700312A82 /* LsbBitWriter.swift in Sources */,
 				06F0657B1FFAEA8700312A82 /* BitWriter.swift in Sources */,
@@ -374,7 +378,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -420,7 +424,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -448,7 +452,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 18;
+				DYLIB_CURRENT_VERSION = 19;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = BitByteData.xcodeproj/BitByteData.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -473,7 +477,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 18;
+				DYLIB_CURRENT_VERSION = 19;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = BitByteData.xcodeproj/BitByteData.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
