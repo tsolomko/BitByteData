@@ -203,7 +203,7 @@ def action_run(args):
     if args.toolchain is not None:
         swift_command = ["xcrun", "-toolchain", args.toolchain]
     elif args.use_5:
-        swift_command = ["xcrun", "-toolchain", "org.swift.50120190418a"]
+        swift_command = ["xcrun", "-toolchain", "org.swift.50320190830a"]
     swift_command.append("swift")
     command = swift_command + ["test", "-c", "release", "--filter", args.filter]
     # macOS version of 'swift test' outputs to stderr instead of stdout.
@@ -271,8 +271,8 @@ toolchain_option_group = parser_run.add_mutually_exclusive_group()
 toolchain_option_group.add_argument("--toolchain", action="store", metavar="ID",
                                     help="use swift from the toolchain with specified identifier")
 toolchain_option_group.add_argument("--5", action="store_true", dest="use_5",
-                                    help=("use swift from the toolchain with 'org.swift.50120190418a' identifier (this is"
-                                        " the release toolchain for Swift 5.0.1; useful when Xcode with version less than "
+                                    help=("use swift from the toolchain with 'org.swift.50320190830a' identifier (this is"
+                                        " the release toolchain for Swift 5.0.3; useful when Xcode with version less than "
                                         "10.2.1 is used)"))
 
 parser_run.set_defaults(func=action_run)
