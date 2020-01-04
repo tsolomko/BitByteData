@@ -23,6 +23,9 @@ public protocol BitReader: ByteReader {
      */
     init(_ byteReader: ByteReader)
 
+    // Advances reader's BIT pointer by the specified amount of bits.
+    func advance(by count: Int)
+
     /// Reads bit and returns it, advancing by one BIT position.
     func bit() -> UInt8
 
