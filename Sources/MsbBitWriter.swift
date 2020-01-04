@@ -41,9 +41,9 @@ public final class MsbBitWriter: BitWriter {
     }
 
     /**
-     Writes `number`, using and advancing by `bitsCount` BIT positions.
+     Writes signed `number`, using and advancing by `bitsCount` BIT positions.
 
-     - Note: If `bitsCount` is smaller than the actual amount of `number`'s bits than the `number` will be truncated to
+     - Note: If `bitsCount` is smaller than the actual amount of `number`'s bits then the `number` will be truncated to
      fit into `bitsCount` amount of bits.
      - Note: Bits of `number` are processed using the same bit-numbering scheme as of the writer (i.e. "MSB 0").
      */
@@ -56,9 +56,9 @@ public final class MsbBitWriter: BitWriter {
     }
 
     /**
-     Writes `number`, using and advancing by `bitsCount` BIT positions.
+     Writes unsigned `number`, using and advancing by `bitsCount` BIT positions.
 
-     - Note: If `bitsCount` is smaller than the actual amount of `number`'s bits than the `number` will be truncated to
+     - Note: If `bitsCount` is smaller than the actual amount of `number`'s bits then the `number` will be truncated to
      fit into `bitsCount` amount of bits.
      - Note: Bits of `number` are processed using the same bit-numbering scheme as of the writer (i.e. "MSB 0").
      - Note: This method is especially useful when it is necessary to write an unsigned number which overflows and,
