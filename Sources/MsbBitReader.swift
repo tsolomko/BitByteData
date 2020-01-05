@@ -20,13 +20,15 @@ public final class MsbBitReader: BitReader {
     /// Data which is being read.
     public let data: Data
 
-    // TODO: These two sentences kinda contradict each other.
     /**
-     Offset to the byte in `data` which will be read next.
+     The offset to the byte in `data` right after the `currentByte`.
 
-     - Note: The byte which is currently used for reading bits from is included into `bytesRead`.
+     - Precondition: The reader MUST be aligned when accessing the setter of `offset`.
      */
     public var offset: Int {
+        willSet {
+            precondition(self.bitMask == 128, "BitReader is not aligned.")
+        }
         didSet {
             if !self.isFinished {
                 { (data: Data, offset: Int, currentByte: inout UInt8) in
@@ -71,8 +73,8 @@ public final class MsbBitReader: BitReader {
      */
     public convenience init(_ byteReader: ByteReader) {
         self.init(data: byteReader.data)
-        self.currentByte = byteReader.isFinished ? 0 : byteReader.data[byteReader.offset]
         self.offset = byteReader.offset
+        self.currentByte = byteReader.isFinished ? 0 : byteReader.data[byteReader.offset]
     }
 
     /**
@@ -84,8 +86,8 @@ public final class MsbBitReader: BitReader {
     public func advance(by count: Int = 1) {
         for _ in 0..<count {
             if self.bitMask == 1 {
-                self.offset += 1
                 self.bitMask = 128
+                self.offset += 1
             } else {
                 self.bitMask >>= 1
             }
@@ -102,8 +104,8 @@ public final class MsbBitReader: BitReader {
         let bit: UInt8 = self.currentByte & self.bitMask > 0 ? 1 : 0
 
         if self.bitMask == 1 {
-            self.offset += 1
             self.bitMask = 128
+            self.offset += 1
         } else {
             self.bitMask >>= 1
         }
@@ -147,8 +149,8 @@ public final class MsbBitReader: BitReader {
             result += (1 << (count - i - 1)) * bit
 
             if self.bitMask == 1 {
-                self.offset += 1
                 self.bitMask = 128
+                self.offset += 1
             } else {
                 self.bitMask >>= 1
             }
@@ -174,8 +176,8 @@ public final class MsbBitReader: BitReader {
             result += (1 << (count - i - 1)) * bit
 
             if self.bitMask == 1 {
-                self.offset += 1
                 self.bitMask = 128
+                self.offset += 1
             } else {
                 self.bitMask >>= 1
             }
@@ -201,8 +203,8 @@ public final class MsbBitReader: BitReader {
             result += (1 << (count - i - 1)) * bit
 
             if self.bitMask == 1 {
-                self.offset += 1
                 self.bitMask = 128
+                self.offset += 1
             } else {
                 self.bitMask >>= 1
             }
@@ -228,8 +230,8 @@ public final class MsbBitReader: BitReader {
             result += (1 << (count - i - 1)) * bit
 
             if self.bitMask == 1 {
-                self.offset += 1
                 self.bitMask = 128
+                self.offset += 1
             } else {
                 self.bitMask >>= 1
             }
@@ -255,8 +257,8 @@ public final class MsbBitReader: BitReader {
             result += (1 << (count - i - 1)) * bit
 
             if self.bitMask == 1 {
-                self.offset += 1
                 self.bitMask = 128
+                self.offset += 1
             } else {
                 self.bitMask >>= 1
             }
