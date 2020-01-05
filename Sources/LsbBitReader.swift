@@ -284,12 +284,11 @@ public final class LsbBitReader: BitReader {
     /**
      Reads byte and returns it, advancing by one BYTE position.
 
-     - Precondition: Reader MUST be aligned.
+     - Precondition: The reader MUST be aligned.
      - Precondition: There MUST be enough data left.
      */
     public func byte() -> UInt8 {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt8 in
-            precondition(bitMask == 1, "BitReader is not aligned.")
             defer { offset += 1 }
             return data[offset]
         } (self.data, &self.offset, self.bitMask)
@@ -298,12 +297,11 @@ public final class LsbBitReader: BitReader {
     /**
      Reads `count` bytes and returns them as an array of `UInt8`, advancing by `count` BYTE positions.
 
-     - Precondition: Reader MUST be aligned.
+     - Precondition: The reader MUST be aligned.
      - Precondition: There MUST be enough data left.
      */
     public func bytes(count: Int) -> [UInt8] {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> [UInt8] in
-            precondition(bitMask == 1, "BitReader is not aligned.")
             defer { offset += count }
             return data[offset..<offset + count].toByteArray(count)
         } (self.data, &self.offset, self.bitMask)
@@ -312,14 +310,13 @@ public final class LsbBitReader: BitReader {
     /**
      Reads `fromBytes` bytes and returns them as an `Int` number, advancing by `fromBytes` BYTE positions.
 
-     - Precondition: Reader MUST be aligned.
+     - Precondition: The reader MUST be aligned.
      - Precondition: Parameter `fromBytes` MUST not be less than 0.
      - Precondition: There MUST be enough data left.
      */
     public func int(fromBytes count: Int) -> Int {
         precondition(count >= 0)
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> Int in
-            precondition(bitMask == 1, "BitReader is not aligned.")
             var result = 0
             for i in 0..<count {
                 result += Int(truncatingIfNeeded: data[offset]) << (8 * i)
@@ -332,12 +329,11 @@ public final class LsbBitReader: BitReader {
     /**
      Reads 8 bytes and returns them as a `UInt64` number, advancing by 8 BYTE positions.
 
-     - Precondition: Reader MUST be aligned.
+     - Precondition: The reader MUST be aligned.
      - Precondition: There MUST be enough data left.
      */
     public func uint64() -> UInt64 {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt64 in
-            precondition(bitMask == 1, "BitReader is not aligned.")
             defer { offset += 8 }
             return data[offset..<offset + 8].toU64()
         } (self.data, &self.offset, self.bitMask)
@@ -346,14 +342,13 @@ public final class LsbBitReader: BitReader {
     /**
      Reads `fromBytes` bytes and returns them as a `UInt64` number, advancing by `fromBytes` BYTE positions.
 
-     - Precondition: Reader MUST be aligned.
+     - Precondition: The reader MUST be aligned.
      - Precondition: Parameter `fromBytes` MUST not be less than 0.
      - Precondition: There MUST be enough data left.
      */
     public func uint64(fromBytes count: Int) -> UInt64 {
         precondition(0...8 ~= count)
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt64 in
-            precondition(bitMask == 1, "BitReader is not aligned.")
             var result = 0 as UInt64
             for i in 0..<count {
                 result += UInt64(truncatingIfNeeded: data[offset]) << (8 * i)
@@ -366,12 +361,11 @@ public final class LsbBitReader: BitReader {
     /**
      Reads 4 bytes and returns them as a `UInt32` number, advancing by 4 BYTE positions.
 
-     - Precondition: Reader MUST be aligned.
+     - Precondition: The reader MUST be aligned.
      - Precondition: There MUST be enough data left.
      */
     public func uint32() -> UInt32 {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt32 in
-            precondition(bitMask == 1, "BitReader is not aligned.")
             defer { offset += 4 }
             return data[offset..<offset + 4].toU32()
         } (self.data, &self.offset, self.bitMask)
@@ -380,14 +374,13 @@ public final class LsbBitReader: BitReader {
     /**
      Reads `fromBytes` bytes and returns them as a `UInt32` number, advancing by `fromBytes` BYTE positions.
 
-     - Precondition: Reader MUST be aligned.
+     - Precondition: The reader MUST be aligned.
      - Precondition: Parameter `fromBytes` MUST not be less than 0.
      - Precondition: There MUST be enough data left.
      */
     public func uint32(fromBytes count: Int) -> UInt32 {
         precondition(0...4 ~= count)
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt32 in
-            precondition(bitMask == 1, "BitReader is not aligned.")
             var result = 0 as UInt32
             for i in 0..<count {
                 result += UInt32(truncatingIfNeeded: data[offset]) << (8 * i)
@@ -400,12 +393,11 @@ public final class LsbBitReader: BitReader {
     /**
      Reads 2 bytes and returns them as a `UInt16` number, advancing by 2 BYTE positions.
 
-     - Precondition: Reader MUST be aligned.
+     - Precondition: The reader MUST be aligned.
      - Precondition: There MUST be enough data left.
      */
     public func uint16() -> UInt16 {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt16 in
-            precondition(bitMask == 1, "BitReader is not aligned.")
             defer { offset += 2 }
             return data[offset..<offset + 2].toU16()
         } (self.data, &self.offset, self.bitMask)
@@ -414,14 +406,13 @@ public final class LsbBitReader: BitReader {
     /**
      Reads `fromBytes` bytes and returns them as a `UInt16` number, advancing by `fromBytes` BYTE positions.
 
-     - Precondition: Reader MUST be aligned.
+     - Precondition: The reader MUST be aligned.
      - Precondition: Parameter `fromBytes` MUST not be less than 0.
      - Precondition: There MUST be enough data left.
      */
     public func uint16(fromBytes count: Int) -> UInt16 {
         precondition(0...2 ~= count)
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt16 in
-            precondition(bitMask == 1, "BitReader is not aligned.")
             var result = 0 as UInt16
             for i in 0..<count {
                 result += UInt16(truncatingIfNeeded: data[offset]) << (8 * i)
