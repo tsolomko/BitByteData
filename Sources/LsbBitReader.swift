@@ -268,10 +268,9 @@ public final class LsbBitReader: BitReader {
     }
 
     /**
-     Aligns reader's BIT pointer to the BYTE border, i.e. moves BIT pointer to the first BIT of the next BYTE.
+     Moves BIT pointer to the first BIT of the next BYTE. If the reader is already aligned, then does nothing.
 
-     - Note: If reader is already aligned, then does nothing.
-     - Warning: Doesn't check if there is any data left. It is advised to use `isFinished` AFTER calling this method
+     - Warning: Doesn't check if there is any data left. It is advised to use `isFinished` after calling this method
      to check if the end was reached.
      */
     public func align() {
