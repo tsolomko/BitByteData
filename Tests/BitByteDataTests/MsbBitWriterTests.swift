@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Timofey Solomko
+// Copyright (c) 2020 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -17,7 +17,7 @@ class MsbBitWriterTests: XCTestCase {
         bitWriter.write(bit: 1)
         bitWriter.write(bit: 1)
         bitWriter.align()
-        XCTAssertEqual(bitWriter.data, Data(bytes: [88]))
+        XCTAssertEqual(bitWriter.data, Data([88]))
     }
 
     func testWriteBitsArray() {
@@ -25,23 +25,23 @@ class MsbBitWriterTests: XCTestCase {
 
         bitWriter.write(bits: [1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1])
         bitWriter.align()
-        XCTAssertEqual(bitWriter.data, Data(bytes: [202, 96]))
+        XCTAssertEqual(bitWriter.data, Data([202, 96]))
     }
 
     func testWriteNumber() {
         let bitWriter = MsbBitWriter()
 
         bitWriter.write(number: 255, bitsCount: 8)
-        XCTAssertEqual(bitWriter.data, Data(bytes: [255]))
+        XCTAssertEqual(bitWriter.data, Data([255]))
 
         bitWriter.write(number: 6, bitsCount: 3)
-        XCTAssertEqual(bitWriter.data, Data(bytes: [255]))
+        XCTAssertEqual(bitWriter.data, Data([255]))
 
         bitWriter.write(number: 103, bitsCount: 7)
-        XCTAssertEqual(bitWriter.data, Data(bytes: [255, 217]))
+        XCTAssertEqual(bitWriter.data, Data([255, 217]))
 
         bitWriter.align()
-        XCTAssertEqual(bitWriter.data, Data(bytes: [255, 217, 192]))
+        XCTAssertEqual(bitWriter.data, Data([255, 217, 192]))
     }
 
     func testWriteUnsignedNumber() {
@@ -56,7 +56,7 @@ class MsbBitWriterTests: XCTestCase {
         let bitWriter = LsbBitWriter()
 
         bitWriter.append(byte: 0xCA)
-        XCTAssertEqual(bitWriter.data, Data(bytes: [0xCA]))
+        XCTAssertEqual(bitWriter.data, Data([0xCA]))
     }
 
     func testAlign() {

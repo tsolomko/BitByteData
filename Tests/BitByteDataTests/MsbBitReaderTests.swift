@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Timofey Solomko
+// Copyright (c) 2020 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -8,7 +8,7 @@ import BitByteData
 
 class MsbBitReaderTests: XCTestCase {
 
-    private static let data = Data(bytes: [0x5A, 0xD6, 0x57, 0x14, 0xAB, 0xCC, 0x2D, 0x88, 0xEA, 0x00])
+    private static let data = Data([0x5A, 0xD6, 0x57, 0x14, 0xAB, 0xCC, 0x2D, 0x88, 0xEA, 0x00])
 
     func testAdvance() {
         let bitReader = MsbBitReader(data: MsbBitReaderTests.data)

@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Timofey Solomko
+// Copyright (c) 2020 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -8,7 +8,7 @@ import BitByteData
 
 class ByteReaderTests: XCTestCase {
 
-    private static let data = Data(bytes: [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])
+    private static let data = Data([0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])
 
     func testByte() {
         let byteReader = ByteReader(data: ByteReaderTests.data)
