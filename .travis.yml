@@ -1,9 +1,10 @@
+# TODO: There is probably a way to simplify this very explicit build matrix.
 jobs:
   include:
     - stage: test
       language: swift
       os: osx
-      osx_image: xcode10.3
+      osx_image: xcode10.1 # Swift 4.2
       script:
       - swift build
       - swift test --filter BitByteDataTests
@@ -11,7 +12,23 @@ jobs:
     - stage: test
       language: swift
       os: osx
-      osx_image: xcode11.3
+      osx_image: xcode10.3 # Swift 5.0
+      script:
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
+    - stage: test
+      language: swift
+      os: osx
+      osx_image: xcode11.3 # Swift 5.1
+      script:
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
+    - stage: test
+      language: swift
+      os: osx
+      osx_image: xcode11.4 # Swift 5.2
       script:
       - swift build
       - swift test --filter BitByteDataTests
@@ -20,24 +37,72 @@ jobs:
       language: generic
       os: linux
       dist: xenial
+      env:
+      - SWIFT_VERSION=4.2
       install:
-      - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
+      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+      script:
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
+    - stage: test
+      language: generic
+      os: linux
+      dist: xenial
+      env:
+      - SWIFT_VERSION=5.0
+      install:
+      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+      script:
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
+    - stage: test
+      language: generic
+      os: linux
+      dist: xenial
+      env:
+      - SWIFT_VERSION=5.1
+      install:
+      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+      script:
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
+    - stage: test
+      language: generic
+      os: linux
+      dist: xenial
+      env:
+      - SWIFT_VERSION=5.2
+      install:
+      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
     - stage: benchmark
-      if: NOT (tag IS present)
       language: swift
       os: osx
-      osx_image: xcode10.3
+      osx_image: xcode10.1 # Swift 4.2
       script:
       - ./benchmarks.py run
     - stage: benchmark
-      if: NOT (tag IS present)
       language: swift
       os: osx
-      osx_image: xcode11.3
+      osx_image: xcode10.3 # Swift 5.0
+      script:
+      - ./benchmarks.py run
+    - stage: benchmark
+      language: swift
+      os: osx
+      osx_image: xcode11.3 # Swift 5.1
+      script:
+      - ./benchmarks.py run
+    - stage: benchmark
+      language: swift
+      os: osx
+      osx_image: xcode11.4 # Swift 5.2
       script:
       - ./benchmarks.py run
     - stage: benchmark
@@ -45,8 +110,43 @@ jobs:
       language: generic
       os: linux
       dist: xenial
+      env:
+      - SWIFT_VERSION=4.2
       install:
-      - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
+      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+      script:
+      - ./benchmarks.py run
+    - stage: benchmark
+      if: NOT (tag IS present)
+      language: generic
+      os: linux
+      dist: xenial
+      env:
+      - SWIFT_VERSION=5.0
+      install:
+      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+      script:
+      - ./benchmarks.py run
+    - stage: benchmark
+      if: NOT (tag IS present)
+      language: generic
+      os: linux
+      dist: xenial
+      env:
+      - SWIFT_VERSION=5.1
+      install:
+      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+      script:
+      - ./benchmarks.py run
+    - stage: benchmark
+      if: NOT (tag IS present)
+      language: generic
+      os: linux
+      dist: xenial
+      env:
+      - SWIFT_VERSION=5.2
+      install:
+      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
       - ./benchmarks.py run
     - stage: deploy
@@ -78,11 +178,13 @@ jobs:
         fi
       deploy:
       - provider: releases
+        skip_cleanup: true
         api_key: $GITHUB_TOKEN
         file: "BitByteData.framework.zip"
         on:
           tags: true
       - provider: pages
+        skip_cleanup: true
         github_token: $GITHUB_TOKEN
         local_dir: docs
         on:
