@@ -1,8 +1,16 @@
 # Changelog
 
+## 1.4.3
+
+- Fixed incompatibility with Swift Package Manager from Swift 4.2.
+
+## 1.4.2
+
+- Improved compatibility with the latest versions of Swift (5.x) and Xcode.
+
 ## 1.4.1
 
-- Reverted performance impomenets from 1.4.0 update, since they are incompatible with Swift 5.0.
+- Reverted performance improvements of 1.4.0 update due to their incompatibility with Swift 5.0.
 
 ## 1.4.0
 
