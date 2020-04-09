@@ -153,7 +153,7 @@ jobs:
       if: tag IS present
       language: generic
       os: osx
-      osx_image: xcode11.3
+      osx_image: xcode11.4
       env:
         secure: fmKQgrPRx2iisNPzxDhOTfXPsnQMJxDgIMItVNjl1AKByraOpiDAGVESySvy+vwQqITCB/BfvdkW7smAPcvFJxIPRx1v4J0VY9kGHdnafMw35XY0Vj9soYkzNS4zrUebxY2gWkGM6Q6dgLOGT/9MSEyWqXBTtVz9sLwA7yr3ZI72yZDbcSz3XGa1fFZRVfwv3I+bmuozG7dq7tyqcSKgRZnHg1VvaRdxcaGqSGSUsNu0YLzmNedujNcU+gTXcxMdrXA1eaheHc2pwNA0TDf3KkefJpaVMXrA/Un8e9MaJ1lMnPlIiEI3dPTuogtQY7p59vgulBNBPEJovTHI0jCaNyLUkTkHgGcUuOwHqwUIKZCEiiqM1j12sdLo4O2tAdNaNHDtd8D3bCakrdJxXlUWVfjrCwvBB555gd0drRirQgYX+5gGFwnTQE8tOcjK4qUvJaOAouHsnm/DmW+fLJPX76KoU6QOtGJt6PQ92yBgKRhaSg/sQ28WPuCmF2p7BuUSuULxcM2LU5eA5aFxayoZvR2E9uvfFxnFh01iV6clcZo25U03AuxJmuI7Mhl83amj8bm5CRBbuRw5sIljXfBujFUel+kz/HXalS7lStqH9iPyiQvh24WkPzHKNQdjRI7v3kyrVSXJ3Xl6+fopXqr/25MwqD4bt57QgglJ2IQtnLM=
       addons:
