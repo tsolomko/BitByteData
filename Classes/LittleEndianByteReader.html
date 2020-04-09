@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>LittleEndianByteReader Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Class/LittleEndianByteReader" class="dashAnchor"></a>
+
+    <a title="LittleEndianByteReader Class Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          BitByteData 2.0.4 Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/tsolomko/BitByteData">
+            <img class="header-icon" src="../img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">BitByteData Reference</a>
+      <img class="carat" src="../img/carat.png" alt=""/>
+      LittleEndianByteReader Class Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Reading%20bytes.html">Reading bytes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ByteReader.html">ByteReader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/LittleEndianByteReader.html">LittleEndianByteReader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/BigEndianByteReader.html">BigEndianByteReader</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Reading%20bits%20%28and%20bytes%29.html">Reading bits (and bytes)</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/BitReader.html">BitReader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/LsbBitReader.html">LsbBitReader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/MsbBitReader.html">MsbBitReader</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Writing%20bits%20%28and%20bytes%29.html">Writing bits (and bytes)</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/BitWriter.html">BitWriter</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/LsbBitWriter.html">LsbBitWriter</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/MsbBitWriter.html">MsbBitWriter</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other%20Enums.html">Other Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SignedNumberRepresentation.html">SignedNumberRepresentation</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>LittleEndianByteReader</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">LittleEndianByteReader</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ByteReader.html">ByteReader</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>A type that contains functions for reading <code>Data</code> byte-by-byte in the Little Endian order.</p>
+
+              <div class="slightly-smaller">
+                <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L9-L133">Show on GitHub</a>
+              </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC4sizeSivp"></a>
+                    <a name="//apple_ref/swift/Property/size" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC4sizeSivp">size</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Size of the <code><a href="../Classes/LittleEndianByteReader.html#/s:11BitByteData012LittleEndianB6ReaderC4data10Foundation0C0Vvp">data</a></code> (in bytes).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">size</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L12">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC4data10Foundation0C0Vvp"></a>
+                    <a name="//apple_ref/swift/Property/data" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC4data10Foundation0C0Vvp">data</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Data which is being read.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L15">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC6offsetSivp"></a>
+                    <a name="//apple_ref/swift/Property/offset" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC6offsetSivp">offset</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Offset to a byte in the <code><a href="../Classes/LittleEndianByteReader.html#/s:11BitByteData012LittleEndianB6ReaderC4data10Foundation0C0Vvp">data</a></code> which will be read next.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">offset</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L18">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC4dataAC10Foundation0C0V_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(data:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC4dataAC10Foundation0C0V_tcfc">init(data:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an instance for reading bytes from the <code><a href="../Classes/LittleEndianByteReader.html#/s:11BitByteData012LittleEndianB6ReaderC4data10Foundation0C0Vvp">data</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L21-L25">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC4bytes5UInt8VyF"></a>
+                    <a name="//apple_ref/swift/Method/byte()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC4bytes5UInt8VyF">byte()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reads a byte and returns it, advancing by one position.</p>
+<div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    There must be enough bytes left.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">byte</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">UInt8</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L32-L35">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC5bytes5countSays5UInt8VGSi_tF"></a>
+                    <a name="//apple_ref/swift/Method/bytes(count:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC5bytes5countSays5UInt8VGSi_tF">bytes(count:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reads <code>count</code> bytes and returns them as a <code>[UInt8]</code> array, advancing by <code>count</code> positions.</p>
+<div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    Parameter <code>count</code> must be non-negative.
+
+</div><div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    There must be enough bytes left.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">bytes</span><span class="p">(</span><span class="nv">count</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L43-L47">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC6uint64s6UInt64VyF"></a>
+                    <a name="//apple_ref/swift/Method/uint64()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC6uint64s6UInt64VyF">uint64()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reads 8 bytes and returns them as a <code>UInt64</code> number, advancing by 8 positions.</p>
+<div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    There must be enough bytes left.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">uint64</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">UInt64</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L54-L57">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC6uint649fromBytess6UInt64VSi_tF"></a>
+                    <a name="//apple_ref/swift/Method/uint64(fromBytes:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC6uint649fromBytess6UInt64VSi_tF">uint64(fromBytes:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reads <code>fromBytes</code> bytes and returns them as a <code>UInt64</code> number, advancing by <code>fromBytes</code> positions.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    If it is known that the <code>fromBytes</code> is exactly 8 then consider using the <code><a href="../Classes/LittleEndianByteReader.html#/s:11BitByteData012LittleEndianB6ReaderC6uint64s6UInt64VyF">uint64()</a></code> function (without an
+argument), since it may provide better performance.
+
+</div><div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    Parameter <code>fromBytes</code> must be in the <code>0...8</code> range.
+
+</div><div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    There must be enough bytes left.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">uint64</span><span class="p">(</span><span class="n">fromBytes</span> <span class="nv">count</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UInt64</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L67-L75">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC6uint32s6UInt32VyF"></a>
+                    <a name="//apple_ref/swift/Method/uint32()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC6uint32s6UInt32VyF">uint32()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reads 4 bytes and returns them as a <code>UInt32</code> number, advancing by 4 positions.</p>
+<div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    There must be enough bytes left.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">uint32</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">UInt32</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L82-L85">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC6uint329fromBytess6UInt32VSi_tF"></a>
+                    <a name="//apple_ref/swift/Method/uint32(fromBytes:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC6uint329fromBytess6UInt32VSi_tF">uint32(fromBytes:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reads <code>fromBytes</code> bytes and returns them as a <code>UInt32</code> number, advancing by <code>fromBytes</code> positions.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    If it is known that the <code>fromBytes</code> is exactly 4 then consider using the <code><a href="../Classes/LittleEndianByteReader.html#/s:11BitByteData012LittleEndianB6ReaderC6uint32s6UInt32VyF">uint32()</a></code> function (without an
+argument), since it may provide better performance.
+
+</div><div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    Parameter <code>fromBytes</code> must be in the <code>0...4</code> range.
+
+</div><div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    There must be enough bytes left.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">uint32</span><span class="p">(</span><span class="n">fromBytes</span> <span class="nv">count</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UInt32</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L95-L103">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC6uint16s6UInt16VyF"></a>
+                    <a name="//apple_ref/swift/Method/uint16()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC6uint16s6UInt16VyF">uint16()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reads 2 bytes and returns them as a <code>UInt16</code> number, advancing by 2 positions.</p>
+<div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    There must be enough bytes left.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">uint16</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">UInt16</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L110-L113">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData012LittleEndianB6ReaderC6uint169fromBytess6UInt16VSi_tF"></a>
+                    <a name="//apple_ref/swift/Method/uint16(fromBytes:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData012LittleEndianB6ReaderC6uint169fromBytess6UInt16VSi_tF">uint16(fromBytes:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reads <code>fromBytes</code> bytes and returns them as a <code>UInt16</code> number, advancing by <code>fromBytes</code> positions.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    If it is known that the <code>fromBytes</code> is exactly 2 then consider using the <code><a href="../Classes/LittleEndianByteReader.html#/s:11BitByteData012LittleEndianB6ReaderC6uint16s6UInt16VyF">uint16()</a></code> function (without an
+argument), since it may provide better performance.
+
+</div><div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    Parameter <code>fromBytes</code> must be in the <code>0...2</code> range.
+
+</div><div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    There must be enough bytes left.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">uint16</span><span class="p">(</span><span class="n">fromBytes</span> <span class="nv">count</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UInt16</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/LittleEndianByteReader.swift#L123-L131">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>© 2024 Timofey Solomko</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>

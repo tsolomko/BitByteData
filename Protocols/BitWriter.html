@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>BitWriter Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Protocol/BitWriter" class="dashAnchor"></a>
+
+    <a title="BitWriter Protocol Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          BitByteData 2.0.4 Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/tsolomko/BitByteData">
+            <img class="header-icon" src="../img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">BitByteData Reference</a>
+      <img class="carat" src="../img/carat.png" alt=""/>
+      BitWriter Protocol Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Reading%20bytes.html">Reading bytes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ByteReader.html">ByteReader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/LittleEndianByteReader.html">LittleEndianByteReader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/BigEndianByteReader.html">BigEndianByteReader</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Reading%20bits%20%28and%20bytes%29.html">Reading bits (and bytes)</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/BitReader.html">BitReader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/LsbBitReader.html">LsbBitReader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/MsbBitReader.html">MsbBitReader</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Writing%20bits%20%28and%20bytes%29.html">Writing bits (and bytes)</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/BitWriter.html">BitWriter</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/LsbBitWriter.html">LsbBitWriter</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/MsbBitWriter.html">MsbBitWriter</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other%20Enums.html">Other Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SignedNumberRepresentation.html">SignedNumberRepresentation</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>BitWriter</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">BitWriter</span></code></pre>
+
+                </div>
+              </div>
+            <p>A type that contains functions for writing <code>Data</code> bit-by-bit and byte-by-byte.</p>
+
+              <div class="slightly-smaller">
+                <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/BitWriter.swift#L9-L47">Show on GitHub</a>
+              </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData0A6WriterP4data10Foundation0C0Vvp"></a>
+                    <a name="//apple_ref/swift/Property/data" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData0A6WriterP4data10Foundation0C0Vvp">data</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Data which contains the writer&rsquo;s output (the last byte, that is currently being written, is not included).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/BitWriter.swift#L12">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData0A6WriterP9isAlignedSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isAligned" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData0A6WriterP9isAlignedSbvp">isAligned</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>True, if a bit pointer is aligned to a byte boundary.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">isAligned</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/BitWriter.swift#L15">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData0A6WriterPxycfc"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData0A6WriterPxycfc">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an instance for writing bits and bytes.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/BitWriter.swift#L18">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData0A6WriterP5write3bitys5UInt8V_tF"></a>
+                    <a name="//apple_ref/swift/Method/write(bit:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData0A6WriterP5write3bitys5UInt8V_tF">write(bit:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Writes a <code>bit</code>, advancing by one bit position.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">write</span><span class="p">(</span><span class="nv">bit</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/BitWriter.swift#L21">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData0A6WriterP5write4bitsySays5UInt8VG_tF"></a>
+                    <a name="//apple_ref/swift/Method/write(bits:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData0A6WriterP5write4bitsySays5UInt8VG_tF">write(bits:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Writes <code>bits</code>, advancing by <code>bits.count</code> bit positions.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Writes <code>bits</code>, advancing by <code>bits.count</code> bit positions, using the <code>write(bit:)</code> function.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">write</span><span class="p">(</span><span class="nv">bits</span><span class="p">:</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/BitWriter.swift#L24">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData0A6WriterP5write6number9bitsCountySi_SitF"></a>
+                    <a name="//apple_ref/swift/Method/write(number:bitsCount:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData0A6WriterP5write6number9bitsCountySi_SitF">write(number:<wbr>bitsCount:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Writes a <code>number</code> into <code>bitsCount</code> amount of bits, advancing by <code>bitsCount</code> bit positions.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Converts a <code>number</code> into an <code>UInt</code> integer, and writes it into <code>bitsCount</code> amount of bits by using the
+<code>write(unsignedNumber:bitsCount:)</code> function, advancing by <code>bitsCount</code> bit positions.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    If the data is supposed to represent a signed integer (i.e. it is important to preserve the sign), it is
+recommended to use the <code>write(signedNumber:bitsCount:representation:)</code> function.
+
+</div><div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    Parameter <code>bitsCount</code> must be in the <code>0...Int.bitWidth</code> range.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">write</span><span class="p">(</span><span class="nv">number</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">bitsCount</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/BitWriter.swift#L27">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData0A6WriterP5write12signedNumber9bitsCount14representationySi_SiAA06SignedG14RepresentationOtF"></a>
+                    <a name="//apple_ref/swift/Method/write(signedNumber:bitsCount:representation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData0A6WriterP5write12signedNumber9bitsCount14representationySi_SiAA06SignedG14RepresentationOtF">write(signedNumber:<wbr>bitsCount:<wbr>representation:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Writes a signed integer <code>number</code> into <code>bitsCount</code> amount of bits, advancing by <code>bitsCount</code> bit positions, while
+using a <code>representation</code> as a method to represent the signed integer in a binary format.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Writes a signed integer <code>number</code> into <code>bitsCount</code> amount of bits, advancing by <code>bitsCount</code> bit positions, while
+using a <code>representation</code> as a method to represent the signed integer in a binary format. This implementation uses
+the <code>write(unsignedNumber:bitsCount:)</code> function in the final stage of writing.</p>
+
+<p>The default value of <code>representation</code> is <code>SignedNumberRepresentation.twoComplementNegatives</code>.</p>
+
+<p>For the representations where zero can be represented in two ways (namely, <code>.signMagnitude</code> and
+<code>.oneComplementNegatives</code>), zero is encoded as +0 (i.e. all bits are set to zero).</p>
+<div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    The <code>signedNumber</code> must be representable within <code>bitsCount</code> bits using the <code>representation</code>, i.e.
+it must be in the <code>representation.minRepresentableNumber...representation.maxRepresentableNumber</code> range.
+
+</div><div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    For the <code>SignedNumberRepresentation.biased</code> representation, the <code>bias</code> must be non-negative.
+
+</div><div class="aside aside-precondition">
+    <p class="aside-title">Precondition</p>
+    Parameter <code>bitsCount</code> must be in the <code>0...Int.bitWidth</code> range.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">write</span><span class="p">(</span><span class="nv">signedNumber</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">bitsCount</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">representation</span><span class="p">:</span> <span class="kt"><a href="../Enums/SignedNumberRepresentation.html">SignedNumberRepresentation</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/BitWriter.swift#L33">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData0A6WriterP5write14unsignedNumber9bitsCountySu_SitF"></a>
+                    <a name="//apple_ref/swift/Method/write(unsignedNumber:bitsCount:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData0A6WriterP5write14unsignedNumber9bitsCountySu_SitF">write(unsignedNumber:<wbr>bitsCount:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Writes an unsigned <code>number</code>, advancing by <code>bitsCount</code> bit positions.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">write</span><span class="p">(</span><span class="nv">unsignedNumber</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">bitsCount</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/BitWriter.swift#L36">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData0A6WriterP6append4byteys5UInt8V_tF"></a>
+                    <a name="//apple_ref/swift/Method/append(byte:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData0A6WriterP6append4byteys5UInt8V_tF">append(byte:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Writes a <code>byte</code>, advancing by one byte position.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">append</span><span class="p">(</span><span class="nv">byte</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/BitWriter.swift#L39">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11BitByteData0A6WriterP5alignyyF"></a>
+                    <a name="//apple_ref/swift/Method/align()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11BitByteData0A6WriterP5alignyyF">align()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Aligns a bit pointer to a byte boundary, i.e. moves the bit pointer to the first bit of the next byte, filling all
+skipped bit positions with zeros.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">align</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/tsolomko/BitByteData/tree/2.0.4/Sources/BitWriter.swift#L45">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>© 2024 Timofey Solomko</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>
