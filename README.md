@@ -1,7 +1,7 @@
 # BitByteData
 
 [![Swift 4.2](https://img.shields.io/badge/Swift-4.2-blue.svg)](https://developer.apple.com/swift/)
-[![Swift 5.X](https://img.shields.io/badge/Swift-5.X-blue.svg)](https://developer.apple.com/swift/)
+[![Swift 5.X](https://img.shields.io/badge/Swift-/5.X-blue.svg)](https://developer.apple.com/swift/)
 [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/tsolomko/BitByteData/master/LICENSE)
 [![Build Status](https://travis-ci.com/tsolomko/BitByteData.svg?branch=develop)](https://travis-ci.com/tsolomko/BitByteData)
 
@@ -13,8 +13,7 @@ BitByteData can be integrated into your project using Swift Package Manager, Coc
 
 ### Swift Package Manager
 
-To install using SPM, add BitByteData to you package dependencies
-and specify it as a dependency for your target, e.g.:
+To install using SPM, add BitByteData to you package dependencies and specify it as a dependency for your target, e.g.:
 
 ```swift
 import PackageDescription
@@ -38,18 +37,20 @@ More details you can find in [Swift Package Manager's Documentation](https://git
 
 ### CocoaPods
 
-Add `pod 'BitByteData', '~> 1.4'` and `use_frameworks!` to your Podfile.
+Add `pod 'BitByteData', '~> 1.4'` and `use_frameworks!` lines to your Podfile.
 
 To complete installation, run `pod install`.
 
 ### Carthage
 
+__Important:__ Only Swift 5.x is supported when installing BitByteData via Carthage.
+
 Add to your Cartfile `github "tsolomko/BitByteData" ~> 1.4`.
 
 Then run `carthage update`.
 
-Finally, drag and drop `BitByteData.framework` from `Carthage/Build` folder
-into the "Embedded Binaries" section on your targets' "General" tab in Xcode.
+Finally, drag and drop `BitByteData.framework` from `Carthage/Build` folder into the "Embedded Binaries" section on your
+targets' "General" tab in Xcode.
 
 ## Usage
 
@@ -62,8 +63,8 @@ Both `LsbBitReader` and `MsbBitReader` classes inherit from `ByteReader` so you 
 Writing bits is implemented in two classes `LsbBitWriter` and `MsbBitWriter` (again, for two bit-numbering schemes).
 They both conform to `BitWriter` protocol.
 
-__Note:__ All readers and writers aren't structs, but classes intentionally.
-This is done to make it easier to pass them as arguments to functions and to eliminate unnecessary copying and `inout`s.
+__Note:__ All readers and writers aren't structs, but classes intentionally to make it easier to pass them as arguments
+to functions and to eliminate unnecessary copying and `inout`s.
 
 ## Documentation
 
@@ -72,10 +73,10 @@ This documentation can be found at its own [website](http://tsolomko.github.io/B
 
 ## Contributing
 
-Whether you find a bug, have a suggestion, idea or something else,
-please [create an issue](https://github.com/tsolomko/BitByteData/issues) on GitHub.
+Whether you find a bug, have a suggestion, idea, feedback or something else, please
+[create an issue](https://github.com/tsolomko/BitByteData/issues) on GitHub.
 
-If you'd like to contribute code, please [create a pull request](https://github.com/tsolomko/BitByteData/pulls) on GitHub.
+If you'd like to contribute, please [create a pull request](https://github.com/tsolomko/BitByteData/pulls) on GitHub.
 
 __Note:__ If you are considering working on BitByteData, please note that Xcode project (BitByteData.xcodeproj)
 was created manually and you shouldn't use `swift package generate-xcodeproj` command.
@@ -93,4 +94,4 @@ If you are considering contributing to the project please make sure that:
    regressions are small and such performance tradeoff is necessary and justifiable.
 
 Finally, please note that any meaningful comparison can be made only between benchmarks run on the same hardware and
-software system.
+software.
