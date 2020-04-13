@@ -4,6 +4,7 @@
 [![Swift 5.X](https://img.shields.io/badge/Swift-5.X-blue.svg)](https://developer.apple.com/swift/)
 [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/tsolomko/BitByteData/master/LICENSE)
 [![Build Status](https://travis-ci.com/tsolomko/BitByteData.svg?branch=develop)](https://travis-ci.com/tsolomko/BitByteData)
+[![Build Status](https://dev.azure.com/tsolomko/BitByteData/_apis/build/status/tsolomko.BitByteData?branchName=develop)](https://dev.azure.com/tsolomko/BitByteData/_build/latest?definitionId=2&branchName=develop)
 
 A Swift framework with classes for reading and writing bits and bytes.
 
