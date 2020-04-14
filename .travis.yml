@@ -6,6 +6,7 @@ jobs:
       os: osx
       osx_image: xcode10.3 # Swift 5.0
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
@@ -14,6 +15,7 @@ jobs:
       os: osx
       osx_image: xcode11.3 # Swift 5.1
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
@@ -22,99 +24,49 @@ jobs:
       os: osx
       osx_image: xcode11.4 # Swift 5.2
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
     - stage: test
       language: generic
       os: linux
-      dist: xenial
+      dist: bionic
       env:
       - SWIFT_VERSION=5.0
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
     - stage: test
       language: generic
       os: linux
-      dist: xenial
+      dist: bionic
       env:
       - SWIFT_VERSION=5.1
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
     - stage: test
       language: generic
       os: linux
-      dist: xenial
+      dist: bionic
       env:
       - SWIFT_VERSION=5.2
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
-    - stage: benchmark
-      if: NOT (tag IS present)
-      language: swift
-      os: osx
-      osx_image: xcode10.3 # Swift 5.0
-      script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      if: NOT (tag IS present)
-      language: swift
-      os: osx
-      osx_image: xcode11.3 # Swift 5.1
-      script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      if: NOT (tag IS present)
-      language: swift
-      os: osx
-      osx_image: xcode11.4 # Swift 5.2
-      script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      if: NOT (tag IS present)
-      language: generic
-      os: linux
-      dist: xenial
-      env:
-      - SWIFT_VERSION=5.0
-      install:
-      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
-      script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      if: NOT (tag IS present)
-      language: generic
-      os: linux
-      dist: xenial
-      env:
-      - SWIFT_VERSION=5.1
-      install:
-      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
-      script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      if: NOT (tag IS present)
-      language: generic
-      os: linux
-      dist: xenial
-      env:
-      - SWIFT_VERSION=5.2
-      install:
-      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
-      script:
-      - ./benchmarks.py run
     - stage: deploy
       if: tag IS present
       language: generic
