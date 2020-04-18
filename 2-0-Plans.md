@@ -103,18 +103,19 @@ public protocol BitReader where Self: ByteReader {
 
 Ideally, this should express the idea that only something that is `ByteReader` (e.g. something that subclasses it) can
 conform to the `BitReader` protocol. Additionally, it naturally allows to remove any `ByteReader`'s methods and
-properties from the `BitReader` protocol. Unfortunately, the problem with this approach is that it is really unstable:
-when I first tried it (early 2018) for some Swift versions the compiler was crashing during compilation, and for others
-the resulting binary was experiencing undefined behavior.
+properties from the `BitReader` protocol. Unfortunately, the problem _was_ that this language feature hadn't been implemented
+until Swift 5 (see [[1]](https://github.com/apple/swift/pull/17851), [[2]](https://bugs.swift.org/browse/SR-5581)).
+Since BitByteData 2.0 isn't going to support pre-Swift 5.0 we could go this way instead, but it feels like protocol-based
+solution described above is more idiomatic in Swift.
 
 #### Use `ByteReaderProtocol` as a name for the new protocol
 
 The proposed soultions is, probably, the most obvious one. The only hard part in it is, as always, naming:
-what would be the name of a protocol if we already have a class with `ByteReader` name? One can find inspiration in the
-Swift standard library (particularly, `IteratorProtocol`) and come up with with an alternative protocol name,
-`ByteReaderProtocol`. While I haven't tested it, I have a feeling that this name would incur more source code changes on
-BitByteData's users. The reason for this feeling is that I expect that the most common usage scenario is to initialize a
-byte (bit) reader once and then pass it as an argument to other functions:
+what would be the name of a protocol if we already have a class with `ByteReader` name? Using Swift Standard Library and
+its `IteratorProtocol`, we could name our protocol in a similar manner: `ByteReaderProtocol`. While I haven't tested it,
+I have a feeling that this name would incur more source code changes on BitByteData's users. The reason for this feeling
+is that I expect that the most common usage scenario is to initialize a byte (bit) reader once and then pass it as an
+argument to other functions:
 
 ```swift
 func f(_ reader: ByteReader) {
@@ -125,8 +126,8 @@ let reader = LsbBitReader(data: data)
 f(reader)
 ```
 
-Since `L/MsbBitReader` are no longer subclasses of `ByteReader` the users would be required to
-change function declaration to:
+Since `L/MsbBitReader` are no longer subclasses of `ByteReader` the users would be required to change function declaration
+to:
 
 ```swift
 func (f_ reader: ByteReaderProtocol) {
@@ -134,7 +135,7 @@ func (f_ reader: ByteReaderProtocol) {
 }
 ```
 
-And if users have a lot of functions with `ByteReader` arguments this could quickly get out of control. Additionally, if
+And if there are a lot of functions with `ByteReader` arguments this could quickly get out of control. Additionally, if
 we were to introduce a new byte reader for Big Endian byte order (as proposed), we would likely still need to change the
 name of `ByteReader` class for a symmetry with the new Big Endian byte reader, which makes this alternative even worse.
 
@@ -182,16 +183,26 @@ List of currently planned additions to the protocols:
 ## Remove no argument versions of `uintX(fromBytes:)` methods
 
 Currently, there are two versions of methods for reading bytes into an unsigned integer: with an argument, which allows
-to specify a number of bytes to read, and without the argument. The version without the argument reads the maximum
-possible amount of bytes possible to store in unsigned integer. These two versions exist, because at the time they were
-added it was possible to implement without-argument version in a more efficient way. But since the new implementation
-strategy of byte reading was introduced in 1.4.0, these manual optimizations became redundant and currently these
-no-argument methods just call their counterparts with arguments. In 2.0 update I want to remove these no-argument
-methods and add natural default argument values to the remaining methods, e.g.:
+to specify a number of bytes to read, and without the argument, which reads the maximum possible amount of bytes possible
+to store in an unsigned integer. These are two of them, because it is possible to implement the "no-argument" version in
+a more efficient way. This situation is a bit confusing, and I would like to improve it in the 2.0 update.
+
+There are several potential ways of improvement:
+
+1. Remove the no-argument versions and add natural default argument values to the remaining ones:
 
 ```swift
 func uint16(fromBytes count: Int = 2) -> UInt16
 ```
+
+The problem here is that we still need the performance of no-argument functions to be accessible.
+
+2. We could remove the versions with the argument instead and let users deal with splitting big integers into the smaller
+ones themselves. There will be some awkwardness, though, with reading big uints at the tail of the data: a user will
+probably have to read them as signed integers and then manually convert into the required uint type. But maybe this is a
+good thing, since `Int` is supposed to be the most widely used integer type in Swift.
+
+Relatedly, there is a problem of which functions to include in the `ByteReader` protocol.
 
 ## Check if a bit reader is aligned in `offset`'s `willSet` observer
 
@@ -202,11 +213,13 @@ possible to change `L/MsbBitReader.offset` property when said bit reader is not 
 unpredictable behavior, and I am going to explicitly ban this by adding a precondition to the `offset`'s `willSet`
 property observer.
 
+__TODO:__ Measure the impact on performance of this change.
+
 ## Add methods for reading and writing bits of a negative number
 
-The recent addition of `L/MsbBitWriter.write(unsignedNumber:bitsCount:)` methods made me realize that there is currently
-no way to read and write negative signed integer from and to bits (and bytes, for that matter). To resolve this problem,
-I am going to modify methods for reading and writing integers from and to bits as following:
+The addition of `L/MsbBitWriter.write(unsignedNumber:bitsCount:)` methods made me realize that there is currently no way
+to read and write negative signed integer from and to bits and bytes. To resolve this problem, I would like to modify methods
+for reading and writing integers from and to bits as following:
 
 ```swift
 // Before:
@@ -218,12 +231,12 @@ func write(number: Int, bitsCount: Int, signed: SignedNumberRepresentation = .no
 func int(fromBits count: Int, signed: SignedNumberRepresentation = .none) -> Int
 ```
 
-`SignedNumerRepresenation` is a new enum which allows to choose an encoding scheme for a signed integer (see the
-[wikipedia article](https://en.wikipedia.org/wiki/Signed_number_representations)). The default value for `signed`
-argument is supposed to preserve current behavior with slight modification: it will write and read an integer disregarding
+`SignedNumberRepresenation` is a new enum which will allow to choose an encoding scheme for a signed integer (see the
+[wikipedia article](https://en.wikipedia.org/wiki/Signed_number_representations)). The default value for `signed` argument
+is supposed to preserve current behavior with a slight modification: it will write and read an integer disregarding
 its sign. This will be the same as the current behavior for positive integers. (Un)fortunately, it will be different for
-negative integers but in a good way, because its current behavior is more or less undefined. It depends on the values
-of the arguments (e.g. `number` and `bitsCount`), on the platform-specific bit width of `Int` type, and, possibly,
+negative integers but in a good way, because the current behavior is more or less undefined. It depends on the values
+of the arguments (e.g. `number` and `bitsCount`), on the platform-specific bit width of the `Int` type, and possibly
 something else.
 
 Proposed cases for the new `SignedNumberRepresentation` enum:
@@ -240,14 +253,14 @@ public enum SignedNumberRepresentation {
 ```
 
 This addition will likely have negative impact on performance of the changed methods (because of the introduced switching
-on the value of the `signed` argument), but I believe this is an acceptable tradeoff (we get much more in terms of
-correctness and functionality). That said, if turns out to be a big enough problem, I will add a no-argument version of
-these methods, which will provide `.none` behavior and, at the same time remove `.none` case from the new enum and the
-default values for the `signed` argument.
+on the value of the `signed` argument), but I believe this is an acceptable tradeoff: we get much more in terms of
+correctness and functionality. That said, if it turns out to be a big enough problem, I will add a no-argument version of
+these methods, which will provide the `.none` behavior and, at the same time remove `.none` case from the new enum and the
+default value of the `signed` argument.
 
 ## Other crazy ideas
 
-This is the list of ideas that came to my mind, but they either are too breaking or I haven't assessed them at all. For
+This is the list of ideas that came to my mind, but they are either too breaking or I haven't assessed them at all. For
 these reasons they are very unlikely to be implemented in 2.0 update (or at all, FWIW), but I still decided to briefly
 mention them for completeness.
 
@@ -258,29 +271,10 @@ Currently, `offset` property of all the readers mirrors the `Data`'s behavior: i
 would be extremely breaking change, and in a very subtle way. On the other hand, current behavior is consistent with the
 behavior of `Data` which maybe is a good thing.
 
-### Remove `ByteReader.data` property
-
-This property is not really used in BitByteData (apart from converting initializers, but they can be reimplemented
-without this property) and its supposed usage scenarios aren't immediately clear in theory. This makes it a candidate for
-removal, but there are two concerns:
-
-1. We have to make sure that under no circumstances the internal pointer inside the readers becomes invalid. The presence
-   of `data` property adds some guarantees for the validity of this pointer.
-2. My [other project](https://github.com/tsolomko/SWCompression) heavily uses this `data` property.
-
 ### Remove `ByteReader.offset` property
 
-In theory, this property is an implementation detail of all readers and currently it is even true in practice: there is
-a "true" internal `_offset` property and public `offset` property is computed using it. We could remove it and instead
-directly increment internal pointer inside the readers, but there are still some semi-open questions remaining:
-
-1. Changing the offset is an extremely valuable functionality. To replace it, we could provide a new method, `seek(by:)`,
-   for this, but it would be extremely source-breaking.
-2. What about offset's getter? There are some situations where it is important to know the current offset of the reader.
-
-The last question actually highlights another issue: indices in general in Swift world aren't necessarily zero-based. This
-leads to the problem that the value of the reader's offset is nonsensical without knowing what the base value is. This
-may be another argument in favor of removing `offset` property.
+Indices in general in Swift world aren't necessarily zero-based. This leads to a problem where the value of the reader's
+offset is somewhat useless without knowing what the starting value is.
 
 ### Combine `bitMask` and `offset` properties of _bit_ readers
 
