@@ -213,19 +213,19 @@ def action_run(args):
                                universal_newlines=True).stdout
     run = BenchmarkRun(swift_ver, datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), args.desc)
 
+    log = []
     while True:
         line = process.stdout.readline().decode()
+        log.append(line)
         if line == "" and process.poll() is not None:
             break
-        sys.stdout.write(line)
-        sys.stdout.flush()
         matches = p.findall(line.rstrip())
         if len(matches) == 1 and len(matches[0]) == 4:
             run.new_result(matches)
 
     exit_code = process.returncode
-
     if exit_code != 0:
+        print("".join(log))
         raise subprocess.CalledProcessError(exit_code, command)
     
     if args.compare is not None:
