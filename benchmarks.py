@@ -124,6 +124,8 @@ class BenchmarkRun:
                             imps += 1
                     else:
                         output += " | not found in base\n"
+                else:
+                    output += "\n"
 
             if not ignore_missing and base_group is not None:
                 missing_results = []
@@ -254,7 +256,7 @@ def action_run(args):
                 matches = p.findall(line.rstrip())
                 if len(matches) == 1 and len(matches[0]) == 4:
                     run.new_result(BenchmarkResult(group, bench, matches[0][2], matches[0][3]))
-    
+
     if args.compare is not None:
         f_base = open(args.compare, "r")
         base = json.load(f_base, cls=BenchmarkJSONDecoder)
