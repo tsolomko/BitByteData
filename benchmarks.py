@@ -64,6 +64,10 @@ class BenchmarkRun:
 
     def __str__(self):
         output = ""
+        if self.swift_ver is not None:
+            output += "{0}".format(self.swift_ver)
+        if self.timestamp is not None:
+            output += "Timestamp: {0}\n".format(self.timestamp)
         for group_name, group in self.groups.items():
             output += "\n" + group_name + ":\n"
             max_len = group._calc_max_len()
@@ -262,6 +266,10 @@ def action_run(args):
         base = json.load(f_base, cls=BenchmarkJSONDecoder)
         f_base.close()
         print("BASE: " + args.compare)
+        if base.swift_ver is not None:
+            print(base.swift_ver, end="")
+        if base.timestamp is not None:
+            print("Timestamp: {0}".format(base.timestamp))
         print(run.str_compare(base, args.filter != "BitByteDataBenchmarks"))
     else:
         print(run)
@@ -280,7 +288,15 @@ def action_show(args):
         base = json.load(f_base, cls=BenchmarkJSONDecoder)
         f_base.close()
         print("BASE: " + args.compare)
-        print("NEW: " + args.file)
+        if base.swift_ver is not None:
+            print(base.swift_ver, end="")
+        if base.timestamp is not None:
+            print("Timestamp: {0}".format(base.timestamp))
+        print("\nNEW: " + args.file)
+        if o.swift_ver is not None:
+            print(o.swift_ver, end="")
+        if o.timestamp is not None:
+            print("Timestamp: {0}".format(o.timestamp))
         print(o.str_compare(base))
     else:
         print(o)
@@ -292,7 +308,7 @@ subparsers = parser.add_subparsers(title="commands", help="a command to perform"
 parser_run = subparsers.add_parser("run", help="run benchmarks", description="run benchmarks")
 parser_run.add_argument("--filter", action="store", default="BitByteDataBenchmarks",
                         help="filter benchmarks (passed as --filter option to 'swift test')")
-parser_run.add_argument("--save", action="store", metavar="FILE", help="save output in a specified file")
+parser_run.add_argument("--save", action="store", metavar="FILE", help="save output in a file")
 parser_run.add_argument("--compare", action="store", metavar="BASE", help="compare results with base benchmarks")
 parser_run.add_argument("--desc", action="store", metavar="DESC", help="add a description to the results")
 parser_run.add_argument("--no-clean", action="store_false", dest="clean", help="don't perform cleaning stage")
