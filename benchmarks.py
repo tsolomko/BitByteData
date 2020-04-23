@@ -15,10 +15,6 @@ class BenchmarkResult:
         self.rel_std_dev = rsd
 
     @classmethod
-    def from_regex_matches(cls, lst: list):
-        return cls(lst[0][0], lst[0][1], lst[0][2], lst[0][3])
-
-    @classmethod
     def from_json_dict(cls, dct: dict):
         return cls("", dct["name"], dct["avg"], dct["rel_std_dev"])
 
@@ -77,8 +73,7 @@ class BenchmarkRun:
                     test_name_len=max_len["test_name"], avg_len=max_len["avg"], rsd_len=max_len["rsd"]) + "\n"
         return output
 
-    def new_result(self, regex_matches):
-        result = BenchmarkResult.from_regex_matches(regex_matches)
+    def new_result(self, result: BenchmarkResult):
         group = self.groups.get(result.group_name, BenchmarkGroup(result.group_name))
         group.add_result(result)
         self.groups[group.name] = group
@@ -258,7 +253,7 @@ def action_run(args):
             for line in output:
                 matches = p.findall(line.rstrip())
                 if len(matches) == 1 and len(matches[0]) == 4:
-                    run.new_result(matches)
+                    run.new_result(BenchmarkResult(group, bench, matches[0][2], matches[0][3]))
     
     if args.compare is not None:
         f_base = open(args.compare, "r")
