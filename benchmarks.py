@@ -185,6 +185,21 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
             return run
         return obj
 
+def _group_benches(benches: list) -> dict:
+    groups = {}
+    for bench in benches:
+        if bench.startswith("BitByteDataBenchmarks."):
+            name_parts = bench[22:].split("/")
+            if len(name_parts) > 2:
+                print("warning: unknown benchmark naming format, skipping.")
+                continue
+            group = groups.get(name_parts[0], [])
+            group.append(name_parts[1])
+            groups[name_parts[0]] = group
+        else:
+            print("warning: non-benchmark test was returned by --filter, skipping.")
+    return groups
+
 def _sprun(command):
     result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     if result.returncode != 0:
@@ -220,29 +235,30 @@ def action_run(args):
     build_command = swift_command + ["build", "--build-tests", "-c", "release"]
     _sprun(build_command)
 
+    list_command = swift_command + ["test", "-c", "release", "-l", "--filter", args.filter]
+    bench_list = _sprun(list_command).stdout.decode().splitlines()
+    groups = _group_benches(bench_list)
+    if len(groups) == 0:
+        print("No benchmarks have been found according to the specified options. Exiting...")
+        return
+    
     print("Benchmarking...")
-    command = swift_command + ["test", "-c", "release", "--filter", args.filter]
-    # macOS version of 'swift test' outputs to stderr instead of stdout.
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-
     swift_ver = subprocess.run(swift_command + ["--version"], stdout=subprocess.PIPE, check=True,
                                universal_newlines=True).stdout
     run = BenchmarkRun(swift_ver, datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), args.desc)
 
-    log = []
-    while True:
-        line = process.stdout.readline().decode()
-        log.append(line)
-        if line == "" and process.poll() is not None:
-            break
-        matches = p.findall(line.rstrip())
-        if len(matches) == 1 and len(matches[0]) == 4:
-            run.new_result(matches)
-
-    exit_code = process.returncode
-    if exit_code != 0:
-        print("".join(log))
-        raise subprocess.CalledProcessError(exit_code, command)
+    bench_command = swift_command + ["test", "-c", "release", "--filter"]
+    for group, benches in groups.items():
+        for bench in benches:
+            # Regex symbols are necessary to filter tests exactly according to our benchmark name.
+            # Otherwise swift may run more than one benchmark.
+            raw_name = "^BitByteDataBenchmarks.{0}/{1}$".format(group, bench)
+            command = bench_command + [raw_name]
+            output = _sprun(command).stdout.decode().splitlines()
+            for line in output:
+                matches = p.findall(line.rstrip())
+                if len(matches) == 1 and len(matches[0]) == 4:
+                    run.new_result(matches)
     
     if args.compare is not None:
         f_base = open(args.compare, "r")
