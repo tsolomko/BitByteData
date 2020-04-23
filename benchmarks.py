@@ -8,19 +8,19 @@ import subprocess
 import sys
 
 class BenchmarkResult:
-    def __init__(self, obj):
-        if isinstance(obj, list):
-            self.group_name = obj[0][0]
-            self.test_name = obj[0][1]
-            self.avg = obj[0][2]
-            self.rel_std_dev = obj[0][3]
-        elif isinstance(obj, dict):
-            self.group_name = ""
-            self.test_name = obj["name"]
-            self.avg = obj["avg"]
-            self.rel_std_dev = obj["rel_std_dev"]
-        else:
-            raise ValueError
+    def __init__(self, group, bench, avg, rsd):
+        self.group_name = group
+        self.test_name = bench
+        self.avg = avg
+        self.rel_std_dev = rsd
+
+    @classmethod
+    def from_regex_matches(cls, lst: list):
+        return cls(lst[0][0], lst[0][1], lst[0][2], lst[0][3])
+
+    @classmethod
+    def from_json_dict(cls, dct: dict):
+        return cls("", dct["name"], dct["avg"], dct["rel_std_dev"])
 
     # Standard deviation
     @property
@@ -78,7 +78,7 @@ class BenchmarkRun:
         return output
 
     def new_result(self, regex_matches):
-        result = BenchmarkResult(regex_matches)
+        result = BenchmarkResult.from_regex_matches(regex_matches)
         group = self.groups.get(result.group_name, BenchmarkGroup(result.group_name))
         group.add_result(result)
         self.groups[group.name] = group
@@ -172,7 +172,7 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
 
     def object_hook(self, obj):
         if len(obj.items()) == 3 and "name" in obj and "avg" in obj and "rel_std_dev" in obj:
-            return BenchmarkResult(obj)
+            return BenchmarkResult.from_json_dict(obj)
         elif len(obj.items()) == 2 and "group_name" in obj:
             group = BenchmarkGroup(obj["group_name"])
             for result in obj["results"]:
