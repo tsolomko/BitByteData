@@ -205,6 +205,19 @@ def action_run(args):
     elif args.use_5:
         swift_command = ["xcrun", "-toolchain", "org.swift.50320190830a"]
     swift_command.append("swift")
+
+    print("Cleaning...")
+    clean_command = ["rm", "-rf", ".build/"]
+    process_result = subprocess.run(clean_command, stdout=subprocess.PIPE)
+
+    print("Building...")
+    build_command = swift_command + ["build", "--build-tests", "-c", "release"]
+    process_result = subprocess.run(build_command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    if process_result.returncode != 0:
+        raise subprocess.CalledProcessError(process_result.returncode, build_command, output=process_result.stdout,
+                                            stderr=process_result.stderr)
+
+    print("Benchmarking...")
     command = swift_command + ["test", "-c", "release", "--filter", args.filter]
     # macOS version of 'swift test' outputs to stderr instead of stdout.
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
