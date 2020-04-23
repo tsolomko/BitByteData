@@ -37,7 +37,6 @@ class BenchmarkResult:
     def lb(self):
         return float(self.avg) - self.sd
 
-
 class BenchmarkGroup:
     def __init__(self, name):
         self.name = name
@@ -186,6 +185,12 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
             return run
         return obj
 
+def _sprun(command):
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    if result.returncode != 0:
+        raise subprocess.CalledProcessError(result.returncode, command, output=result.stdout, stderr=result.stderr)
+    return result 
+
 def action_run(args):
     # Output format of 'swift test' differs between macOS and Linux platforms.
     regex = ""
@@ -209,14 +214,11 @@ def action_run(args):
     if args.clean:
         print("Cleaning...")
         clean_command = ["rm", "-rf", ".build/"]
-        process_result = subprocess.run(clean_command, stdout=subprocess.PIPE)
+        _sprun(clean_command)
 
     print("Building...")
     build_command = swift_command + ["build", "--build-tests", "-c", "release"]
-    process_result = subprocess.run(build_command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    if process_result.returncode != 0:
-        raise subprocess.CalledProcessError(process_result.returncode, build_command, output=process_result.stdout,
-                                            stderr=process_result.stderr)
+    _sprun(build_command)
 
     print("Benchmarking...")
     command = swift_command + ["test", "-c", "release", "--filter", args.filter]
