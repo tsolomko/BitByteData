@@ -206,9 +206,10 @@ def action_run(args):
         swift_command = ["xcrun", "-toolchain", "org.swift.50320190830a"]
     swift_command.append("swift")
 
-    print("Cleaning...")
-    clean_command = ["rm", "-rf", ".build/"]
-    process_result = subprocess.run(clean_command, stdout=subprocess.PIPE)
+    if args.clean:
+        print("Cleaning...")
+        clean_command = ["rm", "-rf", ".build/"]
+        process_result = subprocess.run(clean_command, stdout=subprocess.PIPE)
 
     print("Building...")
     build_command = swift_command + ["build", "--build-tests", "-c", "release"]
@@ -279,6 +280,7 @@ parser_run.add_argument("--filter", action="store", default="BitByteDataBenchmar
 parser_run.add_argument("--save", action="store", metavar="FILE", help="save output in a specified file")
 parser_run.add_argument("--compare", action="store", metavar="BASE", help="compare results with base benchmarks")
 parser_run.add_argument("--desc", action="store", metavar="DESC", help="add a description to the results")
+parser_run.add_argument("--no-clean", action="store_false", dest="clean", help="don't perform cleaning stage")
 
 toolchain_option_group = parser_run.add_mutually_exclusive_group()
 toolchain_option_group.add_argument("--toolchain", action="store", metavar="ID",
