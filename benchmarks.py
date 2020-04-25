@@ -246,7 +246,7 @@ def action_run(args):
     print("Benchmarking...")
     swift_ver = subprocess.run(swift_command + ["--version"], stdout=subprocess.PIPE, check=True,
                                universal_newlines=True).stdout
-    run = BenchmarkRun(swift_ver, datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), args.desc)
+    run = BenchmarkRun(swift_ver, datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), args.desc)
 
     bench_command = swift_command + ["test", "-c", "release", "--filter"]
     for group, benches in groups.items():
@@ -276,7 +276,7 @@ def action_run(args):
 
     if args.save is not None:
         f = open(args.save, "w+")
-        json.dump(run, f, indent=4, cls=BenchmarkJSONEncoder)
+        json.dump(run, f, indent=2, cls=BenchmarkJSONEncoder)
         f.close()
 
 def action_show(args):
