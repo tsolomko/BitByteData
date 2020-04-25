@@ -117,7 +117,7 @@ class BenchmarkRun:
                 elif res_cmp == -1:
                     regs += 1
                 else:
-                    raise ValueError("Unknown comparison of the results")
+                    raise RuntimeError("Unknown comparison of the results")
 
             if not ignore_missing and base_group is not None:
                 missing_results = []
@@ -205,7 +205,7 @@ def action_run(args):
         regex = (r"Test Case '(.+Benchmarks)\.(test.+)'.+average: (\d+.\d+), "
                  r"relative standard deviation: (\d+.\d+)\%")
     else:
-        raise Exception("Unknown platform: " + sys.platform) 
+        raise RuntimeError("Unknown platform: " + sys.platform) 
     p = re.compile(regex)
 
     swift_command = []
@@ -217,15 +217,12 @@ def action_run(args):
 
     if args.clean:
         print("Cleaning...")
-        clean_command = ["rm", "-rf", ".build/"]
-        _sprun(clean_command)
+        _sprun(["rm", "-rf", ".build/"])
 
     print("Building...")
-    build_command = swift_command + ["build", "--build-tests", "-c", "release"]
-    _sprun(build_command)
+    _sprun(swift_command + ["build", "--build-tests", "-c", "release"])
 
-    list_command = swift_command + ["test", "-c", "release", "-l", "--filter", args.filter]
-    bench_list = _sprun(list_command).stdout.decode().splitlines()
+    bench_list = _sprun(swift_command + ["test", "-c", "release", "-l", "--filter", args.filter]).stdout.decode().splitlines()
     groups = _group_benches(bench_list)
     if len(groups) == 0:
         print("No benchmarks have been found according to the specified options. Exiting...")
