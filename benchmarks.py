@@ -7,16 +7,19 @@ import re
 import subprocess
 import sys
 
+# TODO: At some point we should probably remove support for working with saved results without iter_count.
+
 class BenchmarkResult:
-    def __init__(self, group, bench, avg, rsd):
+    def __init__(self, group, bench, avg, rsd, iter_count=None):
         self.group_name = group
         self.test_name = bench
         self.avg = avg
         self.rel_std_dev = rsd
+        self.iter_count = iter_count
 
     @classmethod
     def from_json_dict(cls, dct: dict):
-        return cls("", dct["name"], dct["avg"], dct["rel_std_dev"])
+        return cls("", dct["name"], dct["avg"], dct["rel_std_dev"], dct.get("iter_count"))
 
     # Standard deviation
     @property
@@ -145,7 +148,8 @@ class BenchmarkJSONEncoder(json.JSONEncoder):
                 for result in group.results.values():
                     results_out.append({"name": result.test_name, 
                                         "avg": result.avg, 
-                                        "rel_std_dev": result.rel_std_dev})
+                                        "rel_std_dev": result.rel_std_dev,
+                                        "iter_count": result.iter_count})
                 group_out = {"group_name": group_name, "results": results_out}
                 run_out.append(group_out)
             d = {"swift_ver": o.swift_ver, "timestamp": o.timestamp}
@@ -160,7 +164,7 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
         json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
 
     def object_hook(self, obj):
-        if len(obj.items()) == 3 and "name" in obj and "avg" in obj and "rel_std_dev" in obj:
+        if len(obj.items()) >= 3 and "name" in obj and "avg" in obj and "rel_std_dev" in obj:
             return BenchmarkResult.from_json_dict(obj)
         elif len(obj.items()) == 2 and "group_name" in obj:
             group = BenchmarkGroup(obj["group_name"])
@@ -200,13 +204,14 @@ def action_run(args):
     regex = ""
     if sys.platform == "darwin":
         regex = (r"Test Case '-\[BitByteDataBenchmarks\.(.+Benchmarks) (test.+)\]'.+average: (\d+.\d+), "
-                 r"relative standard deviation: (\d+.\d+)\%")
+                 r"relative standard deviation: (\d+.\d+)\%, values: \[(.*)\]")
     elif sys.platform == "linux":
         regex = (r"Test Case '(.+Benchmarks)\.(test.+)'.+average: (\d+.\d+), "
-                 r"relative standard deviation: (\d+.\d+)\%")
+                 r"relative standard deviation: (\d+.\d+)\%, values: \[(.*)\]")
     else:
         raise RuntimeError("Unknown platform: " + sys.platform) 
     p = re.compile(regex)
+    iter_p = re.compile(r"(\d+.\d+)")# For calculating number of iterations
 
     swift_command = []
     if args.toolchain is not None:
@@ -243,8 +248,13 @@ def action_run(args):
             output = _sprun(command).stdout.decode().splitlines()
             for line in output:
                 matches = p.findall(line.rstrip())
-                if len(matches) == 1 and len(matches[0]) == 4:
-                    run.new_result(BenchmarkResult(group, bench, matches[0][2], matches[0][3]))
+                if len(matches) == 1 and len(matches[0]) == 5:
+                    if matches[0][0] != group or matches[0][1] != bench:
+                        raise RuntimeError("Seems like swift executed wrong benchmark")
+                    result = BenchmarkResult(group, bench, matches[0][2], matches[0][3])
+                    matches = iter_p.findall(matches[0][4])
+                    result.iter_count = len(matches)
+                    run.new_result(result)
 
     if args.compare is not None:
         f_base = open(args.compare, "r")
