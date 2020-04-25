@@ -36,20 +36,17 @@ class BenchmarkResult:
 class BenchmarkGroup:
     def __init__(self, name):
         self.name = name
-        self.results = []
+        self.results = {}
 
-    def add_result(self, result):
-        self.results.append(result)
+    def add_result(self, result: BenchmarkResult):
+        self.results[result.test_name] = result
     
     def result(self, name):
-        for result in self.results:
-            if result.test_name == name:
-                return result
-        return None
+        return self.results.get(name)
 
     def _calc_max_len(self):
         max_len = {"test_name": 0, "avg": 0, "rsd": 0}
-        for result in self.results:
+        for result in self.results.values():
             max_len["test_name"] = max(len(result.test_name), max_len["test_name"])
             max_len["avg"] = max(len(result.avg), max_len["avg"])
             max_len["rsd"] = max(len(result.rel_std_dev), max_len["rsd"])
@@ -71,7 +68,7 @@ class BenchmarkRun:
         for group_name, group in self.groups.items():
             output += "\n" + group_name + ":\n"
             max_len = group._calc_max_len()
-            for result in group.results:
+            for result in group.results.values():
                 output += "{test_name: >{test_name_len}} {avg: ^{avg_len}} {rsd: >{rsd_len}}%".format(
                     test_name=result.test_name, avg=result.avg, rsd=result.rel_std_dev,
                     test_name_len=max_len["test_name"], avg_len=max_len["avg"], rsd_len=max_len["rsd"]) + "\n"
@@ -99,7 +96,7 @@ class BenchmarkRun:
             
             max_len = group._calc_max_len()
             
-            for result in group.results:
+            for result in group.results.values():
                 output += "{test_name: >{test_name_len}} {avg: ^{avg_len}} {rsd: >{rsd_len}}%".format(
                     test_name=result.test_name, avg=result.avg, rsd=result.rel_std_dev,
                     test_name_len=max_len["test_name"], avg_len=max_len["avg"], rsd_len=max_len["rsd"])
@@ -133,7 +130,7 @@ class BenchmarkRun:
 
             if not ignore_missing and base_group is not None:
                 missing_results = []
-                for result in base_group.results:
+                for result in base_group.results.values():
                     if group.result(result.test_name) is None:
                         missing_results.append(result.test_name)
                 if len(missing_results) > 0:
@@ -154,7 +151,7 @@ class BenchmarkJSONEncoder(json.JSONEncoder):
             run_out = []
             for group_name, group in o.groups.items():
                 results_out = []
-                for result in group.results:
+                for result in group.results.values():
                     results_out.append({"name": result.test_name, 
                                         "avg": result.avg, 
                                         "rel_std_dev": result.rel_std_dev})
