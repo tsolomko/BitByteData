@@ -33,6 +33,21 @@ class BenchmarkResult:
     def lb(self):
         return float(self.avg) - self.sd
 
+    def str_compare(self, base) -> (str, int):
+        # 0 means OK, +1 means IMP, -1 means REG.
+        ub = self.ub
+        lb = self.lb
+        base_ub = base.ub
+        base_lb = base.lb
+        if (base_lb < ub < base_ub) or (base_lb < lb < base_ub) or (lb < base_ub < ub) or (lb < base_lb < ub):
+            return ("OK\n", 0)
+        elif float(self.avg) > float(base.avg):
+            diff = round((lb / base_ub - 1) * 100, 2)
+            return ("REG +" + str(diff) + "%\n", -1)
+        else:
+            diff = round((1 - ub / base_lb) * 100, 2)
+            return ("IMP -" + str(diff) + "%\n", 1)
+
 class BenchmarkGroup:
     def __init__(self, name):
         self.name = name
@@ -88,28 +103,21 @@ class BenchmarkRun:
                 if base_group is None:
                     output += "\n"
                     continue
-
                 base_result = base_group.result(result.test_name)
-                if base_result is not None:
-                    output += "  |  {avg} {rsd}% | ".format(avg=base_result.avg, rsd=base_result.rel_std_dev)
-
-                    ub = result.ub
-                    lb = result.lb
-                    base_ub = base_result.ub
-                    base_lb = base_result.lb
-                    if (base_lb < ub < base_ub) or (base_lb < lb < base_ub) or (lb < base_ub < ub) or (lb < base_lb < ub):
-                        output += "OK\n"
-                        oks += 1
-                    elif float(result.avg) > float(base_result.avg):
-                        diff = round((lb / base_ub - 1) * 100, 2)
-                        output += "REG +" + str(diff) + "%\n"
-                        regs += 1
-                    else:
-                        diff = round((1 - ub / base_lb) * 100, 2)
-                        output += "IMP -" + str(diff) + "%\n"
-                        imps += 1
-                else:
+                if base_result is None:
                     output += " | N/A\n"
+                    continue
+                output += "  |  {avg} {rsd}% | ".format(avg=base_result.avg, rsd=base_result.rel_std_dev)
+                res_cmp_output, res_cmp = result.str_compare(base_result)
+                output += res_cmp_output
+                if res_cmp == 0:
+                    oks += 1
+                elif res_cmp == 1:
+                    imps += 1
+                elif res_cmp == -1:
+                    regs += 1
+                else:
+                    raise ValueError("Unknown comparison of the results")
 
             if not ignore_missing and base_group is not None:
                 missing_results = []
