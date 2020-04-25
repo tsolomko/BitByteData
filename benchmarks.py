@@ -44,14 +44,6 @@ class BenchmarkGroup:
     def result(self, name):
         return self.results.get(name)
 
-    def _calc_max_len(self):
-        max_len = {"test_name": 0, "avg": 0, "rsd": 0}
-        for result in self.results.values():
-            max_len["test_name"] = max(len(result.test_name), max_len["test_name"])
-            max_len["avg"] = max(len(result.avg), max_len["avg"])
-            max_len["rsd"] = max(len(result.rel_std_dev), max_len["rsd"])
-        return max_len
-
 class BenchmarkRun:
     def __init__(self, swift_ver, timestamp=None, description=None):
         self.groups = {}
@@ -67,11 +59,9 @@ class BenchmarkRun:
             output += "Timestamp: {0}\n".format(self.timestamp)
         for group_name, group in self.groups.items():
             output += "\n" + group_name + ":\n"
-            max_len = group._calc_max_len()
-            for result in group.results.values():
-                output += "{test_name: >{test_name_len}} {avg: ^{avg_len}} {rsd: >{rsd_len}}%".format(
-                    test_name=result.test_name, avg=result.avg, rsd=result.rel_std_dev,
-                    test_name_len=max_len["test_name"], avg_len=max_len["avg"], rsd_len=max_len["rsd"]) + "\n"
+            for result_name, result in group.results.items():
+                output += "  {test_name}   {avg} {rsd}%".format(test_name=result_name, avg=result.avg,
+                                                                rsd=result.rel_std_dev) + "\n"
         return output
 
     def new_result(self, result: BenchmarkResult):
@@ -86,27 +76,20 @@ class BenchmarkRun:
         oks = 0
         for group_name, group in self.groups.items():
             base_group = base.groups.get(group_name)
-            base_max_len = {}
             if base_group is None:
                 output += "\n" + group_name + ":\n"
                 output += "warning: " + group_name + " not found in base benchmarks\n"
             else:
                 output += "\n" + group_name + ": NEW | BASE\n"
-                base_max_len = base_group._calc_max_len()
-            
-            max_len = group._calc_max_len()
             
             for result in group.results.values():
-                output += "{test_name: >{test_name_len}} {avg: ^{avg_len}} {rsd: >{rsd_len}}%".format(
-                    test_name=result.test_name, avg=result.avg, rsd=result.rel_std_dev,
-                    test_name_len=max_len["test_name"], avg_len=max_len["avg"], rsd_len=max_len["rsd"])
+                output += "  {test_name}   {avg} {rsd}%".format(test_name=result.test_name, avg=result.avg, 
+                                                                rsd=result.rel_std_dev)
 
                 if base_group is not None:
                     base_result = base_group.result(result.test_name)
                     if base_result is not None:
-                        output += " | {avg: ^{avg_len}} {rsd: >{rsd_len}}% | ".format(
-                            avg=base_result.avg, rsd=base_result.rel_std_dev,
-                            avg_len=base_max_len["avg"], rsd_len=base_max_len["rsd"])
+                        output += "  |  {avg} {rsd}% | ".format(avg=base_result.avg, rsd=base_result.rel_std_dev)
 
                         ub = result.ub
                         lb = result.lb
@@ -124,7 +107,7 @@ class BenchmarkRun:
                             output += "IMP -" + str(diff) + "%\n"
                             imps += 1
                     else:
-                        output += " | not found in base\n"
+                        output += " | N/A\n"
                 else:
                     output += "\n"
 
