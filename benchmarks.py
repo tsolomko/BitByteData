@@ -102,6 +102,8 @@ class BenchmarkRun:
             output += "{0}".format(self.swift_ver)
         if self.timestamp is not None:
             output += "Timestamp: {0}\n".format(self.timestamp)
+        if self.description is not None:
+            output += "Description: {0}\n".format(self.description)
         for group_name, group in self.groups.items():
             output += "\n" + group_name + ":\n"
             for result_name, result in group.results.items():
@@ -292,6 +294,8 @@ def action_run(args):
             print(base.swift_ver, end="")
         if base.timestamp is not None:
             print("Timestamp: {0}".format(base.timestamp))
+        if base.description is not None:
+            print("Description: {0}".format(base.description))
         print(run.str_compare(base, args.filter != "BitByteDataBenchmarks"))
     else:
         print(run)
@@ -314,11 +318,15 @@ def action_show(args):
             print(base.swift_ver, end="")
         if base.timestamp is not None:
             print("Timestamp: {0}".format(base.timestamp))
+        if base.description is not None:
+            print("Description: {0}".format(base.description))
         print("\nNEW: " + args.file)
         if o.swift_ver is not None:
             print(o.swift_ver, end="")
         if o.timestamp is not None:
             print("Timestamp: {0}".format(o.timestamp))
+        if o.description is not None:
+            print("Description: {0}".format(o.description))
         print(o.str_compare(base))
     else:
         print(o)
