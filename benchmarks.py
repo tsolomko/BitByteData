@@ -3,6 +3,7 @@
 import argparse
 import datetime
 import json
+import math
 import re
 import subprocess
 import sys
@@ -37,19 +38,45 @@ class BenchmarkResult:
         return float(self.avg) - self.sd
 
     def str_compare(self, base) -> (str, int):
-        # 0 means OK, +1 means IMP, -1 means REG.
+        output = None
+        diag = None # 0 means OK, +1 means IMP, -1 means REG.
         ub = self.ub
         lb = self.lb
         base_ub = base.ub
         base_lb = base.lb
         if (base_lb < ub < base_ub) or (base_lb < lb < base_ub) or (lb < base_ub < ub) or (lb < base_lb < ub):
-            return ("OK\n", 0)
+            output = "OK"
+            diag = 0
         elif float(self.avg) > float(base.avg):
             diff = round((lb / base_ub - 1) * 100, 2)
-            return ("REG +" + str(diff) + "%\n", -1)
+            output = "REG +{0}%".format(diff)
+            diag = -1
         else:
             diff = round((1 - ub / base_lb) * 100, 2)
-            return ("IMP -" + str(diff) + "%\n", 1)
+            output = "IMP -{0}%".format(diff)
+            diag = 1
+        
+        if base.iter_count is None or self.iter_count is None or diag == 0:
+            output += "\n"
+            return (output, diag)
+
+        n1 = base.iter_count
+        n2 = self.iter_count
+        df = n1 + n2 - 2
+        pooled_sd = math.sqrt(((n1 - 1) * pow(base.sd, 2) + (n2 - 1) * pow(self.sd, 2)) / df)
+        se = pooled_sd * math.sqrt(1 / n1 + 1 / n2)
+        t_stat = (float(base.avg) - float(self.avg)) / se
+        if df == 18:
+            if abs(t_stat) > 2.101:
+                output += " | p-value < 0.05\n"
+            elif abs(t_stat) == 2.101:
+                output += " | p-value = 0.05\n"
+            else:
+                output = "OK | p-value > 0.05, corrected result to OK\n"
+                diag = 0
+        else:
+            output += " | unknown DF={0}, t-stat={1:.2f}\n".format(df, t_stat)
+        return (output, diag)
 
 class BenchmarkGroup:
     def __init__(self, name):
