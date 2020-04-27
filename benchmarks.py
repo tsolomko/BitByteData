@@ -37,45 +37,64 @@ class BenchmarkResult:
     def lb(self):
         return float(self.avg) - self.sd
 
-    def str_compare(self, base) -> (str, int):
-        output = None
-        diag = None # 0 means OK, +1 means IMP, -1 means REG.
-        ub = self.ub
-        lb = self.lb
-        base_ub = base.ub
-        base_lb = base.lb
-        if (base_lb < ub < base_ub) or (base_lb < lb < base_ub) or (lb < base_ub < ub) or (lb < base_lb < ub):
-            output = "OK"
-            diag = 0
-        elif float(self.avg) > float(base.avg):
-            diff = round((lb / base_ub - 1) * 100, 2)
-            output = "REG +{0}%".format(diff)
-            diag = -1
-        else:
-            diff = round((1 - ub / base_lb) * 100, 2)
-            output = "IMP -{0}%".format(diff)
-            diag = 1
-        
-        if base.iter_count is None or self.iter_count is None or diag == 0:
-            output += "\n"
-            return (output, diag)
-
+    def _stat_cmp(self, base) -> (int, int, float):
         n1 = base.iter_count
         n2 = self.iter_count
         df = n1 + n2 - 2
         pooled_sd = math.sqrt(((n1 - 1) * pow(base.sd, 2) + (n2 - 1) * pow(self.sd, 2)) / df)
         se = pooled_sd * math.sqrt(1 / n1 + 1 / n2)
         t_stat = (float(base.avg) - float(self.avg)) / se
+        p_val_res = None
         if df == 18:
             if abs(t_stat) > 2.101:
-                output += " | p-value < 0.05\n"
+                # p-value < 0.05
+                p_val_res = -1
             elif abs(t_stat) == 2.101:
-                output += " | p-value = 0.05\n"
+                # p-value = 0.05
+                p_val_res = 0
             else:
-                output = "OK | p-value > 0.05, corrected result to OK\n"
+                # p-value > 0.05
+                p_val_res = 1
+        return (p_val_res, df, t_stat)
+
+    def str_compare(self, base) -> (str, int):
+        output = None
+        diag = None # 0 means OK, +1 means IMP, -1 means REG.
+        p_value_res, df, t_stat = self._stat_cmp(base)
+        diff = abs((float(self.avg) / float(base.avg) - 1)) * 100
+        if diff > 0:
+            if p_value_res == 1:
+                output = "OK (p-value > 0.05)\n"
                 diag = 0
+            elif p_value_res is None:
+                output = "REG +{0:.2f}% (df={1}, t-stat={2:.2f})\n".format(diff, df, t_stat)
+                diag = -1
+            elif p_value_res == -1:
+                output = "REG +{0:.2f}% (p-value < 0.05)\n".format(diff)
+                diag = -1
+            elif p_value_res == 0:
+                output = "REG +{0:.2f}% (p-value = 0.05)\n".format(diff)
+                diag = -1
+            else:
+                raise RuntimeError("Unknown p-value result")
+        elif diff < 0:
+            if p_value_res == 1:
+                output = "OK (p-value > 0.05)\n"
+                diag = 0
+            elif p_value_res is None:
+                output = "IMP -{0:.2f}% (df={1}, t-stat={2:.2f})\n".format(diff, df, t_stat)
+                diag = 1
+            elif p_value_res == -1:
+                output = "IMP -{0:.2f}% (p-value < 0.05)\n".format(diff)
+                diag = 1
+            elif p_value_res == 0:
+                output = "IMP -{0:.2f}% (p-value = 0.05)\n".format(diff)
+                diag = 1
+            else:
+                raise RuntimeError("Unknown p-value result")
         else:
-            output += " | unknown DF={0}, t-stat={1:.2f}\n".format(df, t_stat)
+            output = "OK\n"
+            diag = 0
         return (output, diag)
 
 class BenchmarkGroup:
