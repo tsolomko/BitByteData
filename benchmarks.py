@@ -2,6 +2,7 @@
 
 import argparse
 import datetime
+from enum import Enum, auto
 import json
 import math
 import re
@@ -10,13 +11,67 @@ import sys
 
 # TODO: At some point we should probably remove support for working with saved results without iter_count.
 
+class StatKeeper:
+    def __init__(self):
+        self._regs = 0
+        self._imps = 0
+        self._oks = 0
+
+    def reg(self):
+        self._regs += 1
+
+    def imp(self):
+        self._imps += 1
+
+    def ok(self):
+        self._oks += 1
+
+    def summary(self) -> str:
+        total = self._oks + self._imps + self._regs
+        output = "Out of all compared results:\n"
+        output += "    {0}/{1} regressions\n".format(self._regs, total)
+        output += "    {0}/{1} improvements\n".format(self._imps, total)
+        output += "    {0}/{1} no significant changes".format(self._oks, total)
+        return output
+
+stat_keeper = StatKeeper()
+
+class PvalueResult(Enum):
+    LESS = auto()
+    EQUAL = auto()
+    GREATER = auto()
+
+class PvalueStat:
+    def __init__(self, result, base):
+        n1 = base.iter_count
+        n2 = result.iter_count
+        self.df = n1 + n2 - 2 # Degrees of freedom
+        pooled_sd = math.sqrt(((n1 - 1) * pow(base.sd, 2) + (n2 - 1) * pow(result.sd, 2)) / self.df)
+        se = pooled_sd * math.sqrt(1 / n1 + 1 / n2)
+        self.t_stat = (float(base.avg) - float(result.avg)) / se
+        if self.df == 18:
+            if abs(self.t_stat) > 2.101:
+                # p-value < 0.05
+                self.res = PvalueResult.LESS
+            elif abs(self.t_stat) == 2.101:
+                # p-value = 0.05
+                self.res = PvalueResult.EQUAL
+            else:
+                # p-value > 0.05
+                self.res = PvalueResult.GREATER
+        else:
+            self.res = None
+
 class BenchmarkResult:
-    def __init__(self, group, bench, avg, rsd, iter_count=None):
+    def __init__(self, group: str, bench: str, avg: str, rsd: str, iter_count: int=None):
         self.group_name = group
         self.test_name = bench
         self.avg = avg
         self.rel_std_dev = rsd
         self.iter_count = iter_count
+
+    def __str__(self):
+        return "  {test_name}   {avg} {rsd}%".format(test_name=self.test_name, avg=self.avg, rsd=self.rel_std_dev)
 
     @classmethod
     def from_json_dict(cls, dct: dict):
@@ -27,86 +82,69 @@ class BenchmarkResult:
     def sd(self):
         return float(self.avg) * float(self.rel_std_dev) / 100
 
-    # Upper bound of uncertainty interval
-    @property
-    def ub(self):
-        return float(self.avg) + self.sd
-
-    # Lower bound of uncertainty interval
-    @property
-    def lb(self):
-        return float(self.avg) - self.sd
-
-    def _stat_cmp(self, base) -> (int, int, float):
-        n1 = base.iter_count
-        n2 = self.iter_count
-        df = n1 + n2 - 2
-        pooled_sd = math.sqrt(((n1 - 1) * pow(base.sd, 2) + (n2 - 1) * pow(self.sd, 2)) / df)
-        se = pooled_sd * math.sqrt(1 / n1 + 1 / n2)
-        t_stat = (float(base.avg) - float(self.avg)) / se
-        p_val_res = None
-        if df == 18:
-            if abs(t_stat) > 2.101:
-                # p-value < 0.05
-                p_val_res = -1
-            elif abs(t_stat) == 2.101:
-                # p-value = 0.05
-                p_val_res = 0
-            else:
-                # p-value > 0.05
-                p_val_res = 1
-        return (p_val_res, df, t_stat)
-
-    def str_compare(self, base) -> (str, int):
-        output = None
-        diag = None # 0 means OK, +1 means IMP, -1 means REG.
-        p_value_res, df, t_stat = self._stat_cmp(base)
+    def str_compare(self, base) -> str:
+        output = str(self)
+        output += "  |  {avg} {rsd}% | ".format(avg=base.avg, rsd=base.rel_std_dev)
+        p_value_stat = PvalueStat(self, base)
         diff = abs((float(self.avg) / float(base.avg) - 1)) * 100
         if diff > 0:
-            if p_value_res == 1:
-                output = "OK (p-value > 0.05)\n"
-                diag = 0
-            elif p_value_res is None:
-                output = "REG +{0:.2f}% (df={1}, t-stat={2:.2f})\n".format(diff, df, t_stat)
-                diag = -1
-            elif p_value_res == -1:
-                output = "REG +{0:.2f}% (p-value < 0.05)\n".format(diff)
-                diag = -1
-            elif p_value_res == 0:
-                output = "REG +{0:.2f}% (p-value = 0.05)\n".format(diff)
-                diag = -1
+            if p_value_stat.res == PvalueResult.GREATER:
+                output += "OK (p-value > 0.05)"
+                stat_keeper.ok()
+            elif p_value_stat.res is None:
+                output += "REG +{0:.2f}% (df={1}, t-stat={2:.2f})".format(diff, p_value_stat.df, p_value_stat.t_stat)
+                stat_keeper.reg()
+            elif p_value_stat.res == PvalueResult.LESS:
+                output += "REG +{0:.2f}% (p-value < 0.05)".format(diff)
+                stat_keeper.reg()
+            elif p_value_stat.res == PvalueResult.EQUAL:
+                output += "REG +{0:.2f}% (p-value = 0.05)".format(diff)
+                stat_keeper.reg()
             else:
                 raise RuntimeError("Unknown p-value result")
         elif diff < 0:
-            if p_value_res == 1:
-                output = "OK (p-value > 0.05)\n"
-                diag = 0
-            elif p_value_res is None:
-                output = "IMP -{0:.2f}% (df={1}, t-stat={2:.2f})\n".format(diff, df, t_stat)
-                diag = 1
-            elif p_value_res == -1:
-                output = "IMP -{0:.2f}% (p-value < 0.05)\n".format(diff)
-                diag = 1
-            elif p_value_res == 0:
-                output = "IMP -{0:.2f}% (p-value = 0.05)\n".format(diff)
-                diag = 1
+            if p_value_stat.res == PvalueResult.GREATER:
+                output += "OK (p-value > 0.05)"
+                stat_keeper.ok()
+            elif p_value_stat.res is None:
+                output += "IMP -{0:.2f}% (df={1}, t-stat={2:.2f})".format(diff, p_value_stat.df, p_value_stat.t_stat)
+                stat_keeper.imp()
+            elif p_value_stat.res == PvalueResult.LESS:
+                output += "IMP -{0:.2f}% (p-value < 0.05)".format(diff)
+                stat_keeper.imp()
+            elif p_value_stat.res == PvalueResult.EQUAL:
+                output += "IMP -{0:.2f}% (p-value = 0.05)".format(diff)
+                stat_keeper.imp()
             else:
                 raise RuntimeError("Unknown p-value result")
         else:
-            output = "OK\n"
-            diag = 0
-        return (output, diag)
+            output += "OK"
+            stat_keeper.ok()
+        return output
 
 class BenchmarkGroup:
     def __init__(self, name):
         self.name = name
         self.results = {}
 
+    def __str__(self):
+        output = "{0}:\n".format(self.name)
+        for result in self.results.values():
+            output += str(result) + "\n"
+        return output
+
     def add_result(self, result: BenchmarkResult):
         self.results[result.test_name] = result
-    
-    def result(self, name):
-        return self.results.get(name)
+
+    def str_compare(self, base) -> str:
+        output = "{0}: NEW | BASE\n".format(self.name)
+        for result_name, result in self.results.items():
+            base_result = base.results.get(result_name)
+            if base_result is None:
+                output += str(result) + " | N/A\n"
+            else:
+                output += result.str_compare(base_result) + "\n"
+        return output
 
 class BenchmarkRun:
     def __init__(self, swift_ver, timestamp=None, description=None):
@@ -137,54 +175,23 @@ class BenchmarkRun:
 
     def str_compare(self, base, ignore_missing=False) -> str:
         output = ""
-        regs = 0
-        imps = 0
-        oks = 0
         for group_name, group in self.groups.items():
             base_group = base.groups.get(group_name)
             if base_group is None:
-                output += "\n" + group_name + ":\n"
+                output += str(group) + "\n"
                 output += "warning: " + group_name + " not found in base benchmarks\n"
             else:
-                output += "\n" + group_name + ": NEW | BASE\n"
-            
-            for result in group.results.values():
-                output += "  {test_name}   {avg} {rsd}%".format(test_name=result.test_name, avg=result.avg, 
-                                                                rsd=result.rel_std_dev)
-                if base_group is None:
-                    output += "\n"
-                    continue
-                base_result = base_group.result(result.test_name)
-                if base_result is None:
-                    output += " | N/A\n"
-                    continue
-                output += "  |  {avg} {rsd}% | ".format(avg=base_result.avg, rsd=base_result.rel_std_dev)
-                res_cmp_output, res_cmp = result.str_compare(base_result)
-                output += res_cmp_output
-                if res_cmp == 0:
-                    oks += 1
-                elif res_cmp == 1:
-                    imps += 1
-                elif res_cmp == -1:
-                    regs += 1
-                else:
-                    raise RuntimeError("Unknown comparison of the results")
-
+                output += group.str_compare(base_group) + "\n"
             if not ignore_missing and base_group is not None:
                 missing_results = []
                 for result in base_group.results.values():
-                    if group.result(result.test_name) is None:
+                    if result.test_name not in group.results:
                         missing_results.append(result.test_name)
                 if len(missing_results) > 0:
                     output += "warning: following results were found in base benchmarks but not in new:\n"
                     output += ", ".join(missing_results)
                     output += "\n"
-        
-        total_results = imps + oks + regs
-        output += "\nOut of all compared results:\n"
-        output += "    " + str(regs) + "/" + str(total_results) + " regressions\n"
-        output += "    " + str(imps) + "/" + str(total_results) + " improvements\n"
-        output += "    " + str(oks) + "/" + str(total_results) + " no significant changes"
+        output += stat_keeper.summary() + "\n"
         return output
 
 class BenchmarkJSONEncoder(json.JSONEncoder):
