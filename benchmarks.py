@@ -71,7 +71,7 @@ class BenchmarkResult:
         self.iter_count = iter_count
 
     def __str__(self):
-        return "  {test_name}   {avg} {rsd}%".format(test_name=self.test_name, avg=self.avg, rsd=self.rel_std_dev)
+        return "{test_name}   {avg} {rsd}%".format(test_name=self.test_name, avg=self.avg, rsd=self.rel_std_dev)
 
     @classmethod
     def from_json_dict(cls, dct: dict):
@@ -130,7 +130,7 @@ class BenchmarkGroup:
     def __str__(self):
         output = "{0}:\n".format(self.name)
         for result in self.results.values():
-            output += str(result) + "\n"
+            output += "  {0}\n".format(result)
         return output
 
     def add_result(self, result: BenchmarkResult):
@@ -141,9 +141,9 @@ class BenchmarkGroup:
         for result_name, result in self.results.items():
             base_result = base.results.get(result_name)
             if base_result is None:
-                output += str(result) + " | N/A\n"
+                output += "  {0} | N/A\n".format(result)
             else:
-                output += result.str_compare(base_result) + "\n"
+                output += "  " + result.str_compare(base_result) + "\n"
         return output
 
 class BenchmarkRun:
@@ -266,7 +266,7 @@ def action_run(args):
     else:
         raise RuntimeError("Unknown platform: " + sys.platform) 
     p = re.compile(regex)
-    iter_p = re.compile(r"(\d+.\d+)")# For calculating number of iterations
+    iter_p = re.compile(r"(\d+.\d+)")# For calculating number of iterations.
 
     swift_command = []
     if args.toolchain is not None:
@@ -274,6 +274,20 @@ def action_run(args):
     elif args.use_5:
         swift_command = ["xcrun", "-toolchain", "org.swift.50320190830a"]
     swift_command.append("swift")
+
+    # Loading base benchmarks if necessary.
+    base = None
+    if args.compare is not None:
+        f_base = open(args.compare, "r")
+        base = json.load(f_base, cls=BenchmarkJSONDecoder)
+        f_base.close()
+        print("BASE: " + args.compare)
+        if base.swift_ver is not None:
+            print(base.swift_ver, end="")
+        if base.timestamp is not None:
+            print("Timestamp: {0}".format(base.timestamp))
+        if base.description is not None:
+            print("Description: {0}".format(base.description))
 
     if args.clean:
         print("Cleaning...")
@@ -295,7 +309,13 @@ def action_run(args):
 
     bench_command = swift_command + ["test", "-c", "release", "--filter"]
     for group, benches in groups.items():
+        base_group = None
+        if base is not None:
+            base_group = base.groups.get(group)
         for bench in benches:
+            base_result = None
+            if base_group is not None:
+                base_result = base_group.results.get(bench)
             # Regex symbols are necessary to filter tests exactly according to our benchmark name.
             # Otherwise swift may run more than one benchmark.
             raw_name = "^BitByteDataBenchmarks.{0}/{1}$".format(group, bench)
@@ -310,21 +330,13 @@ def action_run(args):
                     matches = iter_p.findall(matches[0][4])
                     result.iter_count = len(matches)
                     run.new_result(result)
-
-    if args.compare is not None:
-        f_base = open(args.compare, "r")
-        base = json.load(f_base, cls=BenchmarkJSONDecoder)
-        f_base.close()
-        print("BASE: " + args.compare)
-        if base.swift_ver is not None:
-            print(base.swift_ver, end="")
-        if base.timestamp is not None:
-            print("Timestamp: {0}".format(base.timestamp))
-        if base.description is not None:
-            print("Description: {0}".format(base.description))
-        print(run.str_compare(base, args.filter != "BitByteDataBenchmarks"))
-    else:
-        print(run)
+                    if base_result is not None:
+                        print("{0}/{1}".format(group, result.str_compare(base_result)))
+                    else:
+                        print("{0}/{1}".format(group, result))
+    
+    if base is not None:
+        print(stat_keeper.summary())
 
     if args.save is not None:
         f = open(args.save, "w+")
