@@ -86,7 +86,7 @@ class BenchmarkResult:
         output = str(self)
         output += "  |  {avg} {rsd}% | ".format(avg=base.avg, rsd=base.rel_std_dev)
         p_value_stat = PvalueStat(self, base)
-        diff = abs((float(self.avg) / float(base.avg) - 1)) * 100
+        diff = (float(self.avg) / float(base.avg) - 1) * 100
         if diff > 0:
             if p_value_stat.res == PvalueResult.GREATER:
                 output += "OK (p-value > 0.05)"
@@ -103,6 +103,7 @@ class BenchmarkResult:
             else:
                 raise RuntimeError("Unknown p-value result")
         elif diff < 0:
+            diff = abs(diff)
             if p_value_stat.res == PvalueResult.GREATER:
                 output += "OK (p-value > 0.05)"
                 stat_keeper.ok()
