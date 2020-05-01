@@ -18,6 +18,17 @@ class LsbBitReaderBenchmarks: XCTestCase {
         }
     }
 
+    func testAdvanceRealistic() {
+        self.measure {
+            let bitReader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+
+            for _ in 0..<9_300_000 {
+                bitReader.advance(by: 6)
+                bitReader.advance(by: 3)
+            }
+        }
+    }
+
     func testBit() {
         self.measure {
             let bitReader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
