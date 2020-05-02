@@ -48,11 +48,21 @@ class BigEndianByteReaderBenchmarks: XCTestCase {
         }
     }
 
+    func testUint16_FB() { // For comparison with no-argument version.
+        self.measure {
+            let byteReader = BigEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
+
+            for _ in 0..<1_000_000 {
+                _ = byteReader.uint16(fromBytes: 2)
+            }
+        }
+    }
+
     func testUint16FromBytes() {
         self.measure {
             let byteReader = BigEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
-            for _ in 0..<2_000_000 {
+            for _ in 0..<1_000_000 {
                 _ = byteReader.uint16(fromBytes: 1)
             }
         }
@@ -62,8 +72,18 @@ class BigEndianByteReaderBenchmarks: XCTestCase {
         self.measure {
             let byteReader = BigEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
-            for _ in 0..<500_000 {
+            for _ in 0..<1_000_000 {
                 _ = byteReader.uint32()
+            }
+        }
+    }
+
+    func testUint32_FB() { // For comparison with no-argument version.
+        self.measure {
+            let byteReader = BigEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
+
+            for _ in 0..<1_000_000 {
+                _ = byteReader.uint32(fromBytes: 4)
             }
         }
     }
@@ -72,7 +92,7 @@ class BigEndianByteReaderBenchmarks: XCTestCase {
         self.measure {
             let byteReader = BigEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
-            for _ in 0..<500_000 {
+            for _ in 0..<1_000_000 {
                 _ = byteReader.uint32(fromBytes: 3)
             }
         }
@@ -82,8 +102,18 @@ class BigEndianByteReaderBenchmarks: XCTestCase {
         self.measure {
             let byteReader = BigEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
 
-            for _ in 0..<1_00_000 {
+            for _ in 0..<1_000_000 {
                 _ = byteReader.uint64()
+            }
+        }
+    }
+
+    func testUint64_FB() { // For comparison with no-argument version.
+        self.measure {
+            let byteReader = BigEndianByteReader(data: Data(count: 10_485_760)) // 10 MB
+
+            for _ in 0..<1_000_000 {
+                _ = byteReader.uint64(fromBytes: 8)
             }
         }
     }
