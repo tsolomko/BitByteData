@@ -218,45 +218,43 @@ __TODO:__ Measure the impact on performance of this change.
 ## Add methods for reading and writing bits of a negative number
 
 The addition of `L/MsbBitWriter.write(unsignedNumber:bitsCount:)` methods made me realize that there is currently no way
-to read and write negative signed integer from and to bits and bytes. To resolve this problem, I would like to modify methods
-for reading and writing integers from and to bits as following:
+to read and write negative signed integer from and to bits and bytes. To resolve this problem, I would like to modify
+methods for reading and writing integers from and to bits as following:
 
 ```swift
 // Before:
 // func write(number: Int, bitsCount: Int)
-func write(number: Int, bitsCount: Int, signed: SignedNumberRepresentation = .none)
+func write(number: Int, bitsCount: Int, signed: SignedNumberRepresentation = .twoComplement)
 
 // Before:
 // func int(fromBits count: Int) -> Int
-func int(fromBits count: Int, signed: SignedNumberRepresentation = .none) -> Int
+func int(fromBits count: Int, signed: SignedNumberRepresentation = .twoComplement) -> Int
 ```
 
-`SignedNumberRepresenation` is a new enum which will allow to choose an encoding scheme for a signed integer (see the
-[wikipedia article](https://en.wikipedia.org/wiki/Signed_number_representations)). The default value for `signed` argument
-is supposed to preserve current behavior with a slight modification: it will write and read an integer disregarding
-its sign. This will be the same as the current behavior for positive integers. (Un)fortunately, it will be different for
-negative integers but in a good way, because the current behavior is more or less undefined. It depends on the values
-of the arguments (e.g. `number` and `bitsCount`), on the platform-specific bit width of the `Int` type, and possibly
-something else.
+`SignedNumberRepresenation` is a new enum that will allow to choose an encoding scheme for a signed integer (see the
+[wikipedia article](https://en.wikipedia.org/wiki/Signed_number_representations)). The default value for `signed`
+argument is `.twoComplement`, which is the most common negative number encoding scheme.
 
 Proposed cases for the new `SignedNumberRepresentation` enum:
 
 ```swift
 public enum SignedNumberRepresentation {
-    case none
     case signMagnitude
     case oneComplement
     case twoComplement
-    case biased(offset: Int) // Other options: offsetBinary, excessK
-    case negativeBase
+    case biased(bias: Int) // Other options: offsetBinary, excessK
+    case radixNegativeTwo
+    case varint
 }
 ```
 
-This addition will likely have negative impact on performance of the changed methods (because of the introduced switching
+This addition will likely have negative impact on performance of the changed methods (because of the introduced branching
 on the value of the `signed` argument), but I believe this is an acceptable tradeoff: we get much more in terms of
-correctness and functionality. That said, if it turns out to be a big enough problem, I will add a no-argument version of
-these methods, which will provide the `.none` behavior and, at the same time remove `.none` case from the new enum and the
-default value of the `signed` argument.
+correctness and functionality. (Un)fortunately, the current behavior is unlikely to be preserved it is more or less undefined.
+Currently, in most cases bit writers take 2-complement representation of a negative number and write _verbatim_ into the
+output. The output likely also depends on the values of the arguments (e.g. `number` and `bitsCount`) as well as on the
+platform-specific bit width of the `Int` type which makes the results quite unpredictable. This situation is something
+that should not be kept moving forward.
 
 ## Other crazy ideas
 
