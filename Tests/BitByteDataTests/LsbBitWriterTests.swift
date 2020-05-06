@@ -65,7 +65,7 @@ class LsbBitWriterTests: XCTestCase {
     }
 
     func testIsAligned() {
-        let bitWriter = MsbBitWriter()
+        let bitWriter = LsbBitWriter()
 
         bitWriter.write(bits: [0, 1, 0])
         XCTAssertFalse(bitWriter.isAligned)
