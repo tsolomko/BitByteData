@@ -33,7 +33,7 @@ public protocol BitReader: ByteReader {
     func bits(count: Int) -> [UInt8]
 
     /// Reads `fromBits` bits and returns them as an `Int` number, advancing by `fromBits` BIT positions.
-    func int(fromBits count: Int) -> Int
+    func int(fromBits count: Int, representation: SignedNumberRepresentation) -> Int
 
     /// Reads `fromBits` bits and returns them as an `UInt8` number, advancing by `fromBits` BIT positions.
     func byte(fromBits count: Int) -> UInt8

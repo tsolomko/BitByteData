@@ -139,7 +139,7 @@ public final class MsbBitReader: BitReader {
      width on the current platform.
      - Precondition: There MUST be enough data left.
      */
-    public func int(fromBits count: Int) -> Int {
+    public func int(fromBits count: Int, representation: SignedNumberRepresentation = .twoComplement) -> Int {
         precondition(0...Int.bitWidth ~= count)
         precondition(bitsLeft >= count)
 
