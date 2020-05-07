@@ -48,10 +48,29 @@ public final class LsbBitWriter: BitWriter {
      - Note: Bits of `number` are processed using the same bit-numbering scheme as of the writer (i.e. "LSB 0").
      */
     public func write(number: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplement) {
-        var mask = 1
-        for _ in 0..<bitsCount {
-            self.write(bit: number & mask > 0 ? 1 : 0)
-            mask <<= 1
+        var magnitude = number.magnitude
+        switch representation {
+        case .signMagnitude:
+            assert(magnitude < (1 << (bitsCount - 1)),
+                   "\(number) will be truncated when represented by Sign-Magnitude using \(bitsCount) bits")
+            self.write(unsignedNumber: magnitude, bitsCount: bitsCount - 1)
+            self.write(bit: number >= 0 ? 0 : 1)
+        case .oneComplement:
+            assert(magnitude < (1 << (bitsCount - 1)),
+                   "\(number) will be truncated when represented by 1-complement using \(bitsCount) bits")
+            if number < 0 {
+                magnitude = ~magnitude
+            }
+            self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
+        case .twoComplement:
+            assert(number >= -(1 << (bitsCount - 1)) && number <= (1 << (bitsCount - 1)) - 1,
+                   "\(number) will be truncated when represented by 2-complement using \(bitsCount) bits")
+            if number < 0 {
+                magnitude = ~magnitude &+ 1
+            }
+            self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
+        default:
+            fatalError("Not implemented")
         }
     }
 
