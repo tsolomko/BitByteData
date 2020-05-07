@@ -56,17 +56,52 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertFalse(bitReader.isAligned)
     }
 
-    func testIntFromBits() {
-        let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
+    func testIntFromBits_SM() {
+        let repr = SignedNumberRepresentation.signMagnitude
+        var reader = LsbBitReader(data: Data([127, 160, 15, 128]))
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), 127)
+        XCTAssertEqual(reader.int(fromBits: 3, representation: repr), 0)
+        XCTAssertEqual(reader.int(fromBits: 4, representation: repr), 4)
+        XCTAssertFalse(reader.isAligned)
+        XCTAssertEqual(reader.int(fromBits: 5, representation: repr), -15)
+        XCTAssertEqual(reader.int(fromBits: 12, representation: repr), 0)
+        XCTAssertTrue(reader.isAligned)
 
-        XCTAssertEqual(bitReader.int(fromBits: 0), 0)
-        var num = bitReader.int(fromBits: 3)
-        XCTAssertEqual(num, 2)
+        reader = LsbBitReader(data: Data([251, 56, 8]))
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), -123)
+        XCTAssertEqual(reader.int(fromBits: 12, representation: repr), -56)
+    }
 
-        num = bitReader.int(fromBits: 8)
-        XCTAssertEqual(num, 203)
+    func testIntFromBits_1C() {
+        let repr = SignedNumberRepresentation.oneComplement
+        var reader = LsbBitReader(data: Data([127, 160, 15, 128]))
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), 127)
+        XCTAssertEqual(reader.int(fromBits: 3, representation: repr), 0)
+        XCTAssertEqual(reader.int(fromBits: 4, representation: repr), 4)
+        XCTAssertFalse(reader.isAligned)
+        XCTAssertEqual(reader.int(fromBits: 5, representation: repr), 0)
+        XCTAssertEqual(reader.int(fromBits: 12, representation: repr), -2047)
+        XCTAssertTrue(reader.isAligned)
 
-        XCTAssertFalse(bitReader.isAligned)
+        reader = LsbBitReader(data: Data([132, 199, 15]))
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), -123)
+        XCTAssertEqual(reader.int(fromBits: 12, representation: repr), -56)
+    }
+
+    func testIntFromBits_2C() {
+        let repr = SignedNumberRepresentation.twoComplement
+        var reader = LsbBitReader(data: Data([127, 160, 15, 128]))
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), 127)
+        XCTAssertEqual(reader.int(fromBits: 3, representation: repr), 0)
+        XCTAssertEqual(reader.int(fromBits: 4, representation: repr), 4)
+        XCTAssertFalse(reader.isAligned)
+        XCTAssertEqual(reader.int(fromBits: 5, representation: repr), -1)
+        XCTAssertEqual(reader.int(fromBits: 12, representation: repr), -2048)
+        XCTAssertTrue(reader.isAligned)
+
+        reader = LsbBitReader(data: Data([133, 200, 15]))
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), -123)
+        XCTAssertEqual(reader.int(fromBits: 12, representation: repr), -56)
     }
 
     func testByteFromBits() {
@@ -263,7 +298,7 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertEqual(bitReader.offset, 1)
         XCTAssertEqual(bitReader.bit(), 0)
         XCTAssertEqual(bitReader.bits(count: 3), [1, 1, 0])
-        XCTAssertEqual(bitReader.int(fromBits: 4), 13)
+        XCTAssertEqual(bitReader.int(fromBits: 4), -3)
     }
 
     func testConvertedByteReader() {
@@ -277,7 +312,7 @@ class LsbBitReaderTests: XCTestCase {
 
         bitReader = LsbBitReader(byteReader)
         XCTAssertEqual(bitReader.bits(count: 4), [0, 1, 1, 0])
-        XCTAssertEqual(bitReader.int(fromBits: 4), 13)
+        XCTAssertEqual(bitReader.int(fromBits: 4), -3)
     }
 
     func testBitsLeft() {
