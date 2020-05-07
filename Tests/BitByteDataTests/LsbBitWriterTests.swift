@@ -28,17 +28,68 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(bitWriter.data, Data([83, 6]))
     }
 
-    func testWriteNumber() {
-        let bitWriter = LsbBitWriter()
+    func testWriteNumber_SM() {
+        let repr = SignedNumberRepresentation.signMagnitude
+        let writer = LsbBitWriter()
 
-        bitWriter.write(number: 255, bitsCount: 8)
-        XCTAssertEqual(bitWriter.data, Data([255]))
-        bitWriter.write(number: 6, bitsCount: 3)
-        XCTAssertEqual(bitWriter.data, Data([255]))
-        bitWriter.write(number: 103, bitsCount: 7)
-        XCTAssertEqual(bitWriter.data, Data([255, 62]))
-        bitWriter.align()
-        XCTAssertEqual(bitWriter.data, Data([255, 62, 3]))
+        writer.write(number: 127, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(number: 6, bitsCount: 4, representation: repr)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(number: 56, bitsCount: 7, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 134]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 134, 3]))
+
+        writer.write(number: -123, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 251]))
+        writer.write(number: -56, bitsCount: 12, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 251, 56]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 251, 56, 8]))
+    }
+
+    func testWriteNumber_1C() {
+        let repr = SignedNumberRepresentation.oneComplement
+        let writer = LsbBitWriter()
+
+        writer.write(number: 127, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(number: 6, bitsCount: 4, representation: repr)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(number: 56, bitsCount: 7, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 134]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 134, 3]))
+
+        writer.write(number: -123, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 132]))
+        writer.write(number: -56, bitsCount: 12, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 132, 199]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 132, 199, 15]))
+    }
+
+
+    func testWriteNumber_2C() {
+        let repr = SignedNumberRepresentation.twoComplement
+        let writer = LsbBitWriter()
+
+        writer.write(number: 127, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(number: 6, bitsCount: 4, representation: repr)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(number: 56, bitsCount: 7, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 134]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 134, 3]))
+
+        writer.write(number: -123, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 133]))
+        writer.write(number: -56, bitsCount: 12, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200, 15]))
     }
 
     func testWriteUnsignedNumber() {
@@ -80,11 +131,11 @@ class LsbBitWriterTests: XCTestCase {
 
     func testNamingConsistency() {
         let bitWriter = LsbBitWriter()
-        bitWriter.write(number: 14582, bitsCount: 14)
+        bitWriter.write(number: 14582, bitsCount: 15)
         bitWriter.align()
-
+        XCTAssertEqual(bitWriter.data, Data([0xF6, 0x38]))
         let bitReader = LsbBitReader(data: bitWriter.data)
-        XCTAssertEqual(bitReader.int(fromBits: 14), 14582)
+        XCTAssertEqual(bitReader.int(fromBits: 15), 14582)
     }
 
 }
