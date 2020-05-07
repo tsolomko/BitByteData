@@ -143,17 +143,36 @@ public final class LsbBitReader: BitReader {
         precondition(0...Int.bitWidth ~= count)
         precondition(bitsLeft >= count)
 
-        var result = 0
-        for i in 0..<count {
-            let bit = self.currentByte & self.bitMask > 0 ? 1 : 0
-            result += (1 << i) * bit
+        guard count > 0
+            else { return 0}
 
-            if self.bitMask == 128 {
-                self.bitMask = 1
-                self.offset += 1
-            } else {
-                self.bitMask <<= 1
+        var result = 0
+        let bits = self.bits(count: count)
+        switch representation {
+        case .signMagnitude:
+            var mult = 1
+            result = bits[0..<(count - 1)].reduce(0) {
+                defer { mult <<= 1 }
+                return $0 | ($1 > 0 ? mult : 0)
             }
+            result = bits[count - 1] > 0 ? -result : result
+        case .oneComplement:
+            var mult = 1
+            result = bits[0..<(count - 1)].reduce(0) {
+                defer { mult <<= 1 }
+                return $0 | ($1 > 0 ? mult : 0)
+            }
+            let mask = Int(bitPattern: (1 as UInt) << (count - 1)) - 1
+            result = bits[count - 1] > 0 ? -(result ^ mask) : result
+        case .twoComplement:
+            var mult = 1
+            result = bits[0..<(count - 1)].reduce(0) {
+                defer { mult <<= 1 }
+                return $0 | ($1 > 0 ? mult : 0)
+            }
+            result |= bits[count - 1] > 0 ? -mult : 0
+        default:
+            fatalError("Not implemented")
         }
 
         return result
