@@ -47,7 +47,7 @@ public final class LsbBitWriter: BitWriter {
      fit into `bitsCount` amount of bits.
      - Note: Bits of `number` are processed using the same bit-numbering scheme as of the writer (i.e. "LSB 0").
      */
-    public func write(number: Int, bitsCount: Int) {
+    public func write(number: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplement) {
         var mask = 1
         for _ in 0..<bitsCount {
             self.write(bit: number & mask > 0 ? 1 : 0)

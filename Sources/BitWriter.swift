@@ -24,7 +24,7 @@ public protocol BitWriter {
     func write(bits: [UInt8])
 
     /// Writes signed `number`, using and advancing by `bitsCount` BIT positions.
-    func write(number: Int, bitsCount: Int)
+    func write(number: Int, bitsCount: Int, representation: SignedNumberRepresentation)
 
     /// Writes unsigned `number`, using and advancing by `bitsCount` BIT positions.
     func write(unsignedNumber: UInt, bitsCount: Int)
