@@ -10,10 +10,13 @@ extension BigEndianByteReaderBenchmarks {
         ("testBytes", testBytes),
         ("testIntFromBytes", testIntFromBytes),
         ("testUint16", testUint16),
+        ("testUint16_FB", testUint16_FB),
         ("testUint16FromBytes", testUint16FromBytes),
         ("testUint32", testUint32),
+        ("testUint32_FB", testUint32_FB),
         ("testUint32FromBytes", testUint32FromBytes),
         ("testUint64", testUint64),
+        ("testUint64_FB", testUint64_FB),
         ("testUint64FromBytes", testUint64FromBytes),
     ]
 }
@@ -27,10 +30,13 @@ extension LittleEndianByteReaderBenchmarks {
         ("testBytes", testBytes),
         ("testIntFromBytes", testIntFromBytes),
         ("testUint16", testUint16),
+        ("testUint16_FB", testUint16_FB),
         ("testUint16FromBytes", testUint16FromBytes),
         ("testUint32", testUint32),
+        ("testUint32_FB", testUint32_FB),
         ("testUint32FromBytes", testUint32FromBytes),
         ("testUint64", testUint64),
+        ("testUint64_FB", testUint64_FB),
         ("testUint64FromBytes", testUint64FromBytes),
     ]
 }
@@ -41,6 +47,7 @@ extension LsbBitReaderBenchmarks {
     // to regenerate.
     static let __allTests__LsbBitReaderBenchmarks = [
         ("testAdvance", testAdvance),
+        ("testAdvanceRealistic", testAdvanceRealistic),
         ("testBit", testBit),
         ("testBits", testBits),
         ("testByteFromBits", testByteFromBits),
@@ -60,10 +67,13 @@ extension LsbBitReaderByteBenchmarks {
         ("testBytes", testBytes),
         ("testIntFromBytes", testIntFromBytes),
         ("testUint16", testUint16),
+        ("testUint16_FB", testUint16_FB),
         ("testUint16FromBytes", testUint16FromBytes),
         ("testUint32", testUint32),
+        ("testUint32_FB", testUint32_FB),
         ("testUint32FromBytes", testUint32FromBytes),
         ("testUint64", testUint64),
+        ("testUint64_FB", testUint64_FB),
         ("testUint64FromBytes", testUint64FromBytes),
     ]
 }
@@ -86,6 +96,7 @@ extension MsbBitReaderBenchmarks {
     // to regenerate.
     static let __allTests__MsbBitReaderBenchmarks = [
         ("testAdvance", testAdvance),
+        ("testAdvanceRealistic", testAdvanceRealistic),
         ("testBit", testBit),
         ("testBits", testBits),
         ("testByteFromBits", testByteFromBits),
@@ -105,10 +116,13 @@ extension MsbBitReaderByteBenchmarks {
         ("testBytes", testBytes),
         ("testIntFromBytes", testIntFromBytes),
         ("testUint16", testUint16),
+        ("testUint16_FB", testUint16_FB),
         ("testUint16FromBytes", testUint16FromBytes),
         ("testUint32", testUint32),
+        ("testUint32_FB", testUint32_FB),
         ("testUint32FromBytes", testUint32FromBytes),
         ("testUint64", testUint64),
+        ("testUint64_FB", testUint64_FB),
         ("testUint64FromBytes", testUint64FromBytes),
     ]
 }

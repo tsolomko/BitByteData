@@ -64,7 +64,9 @@ extension LsbBitReaderTests {
         ("testBytesLeft", testBytesLeft),
         ("testBytesRead", testBytesRead),
         ("testConvertedByteReader", testConvertedByteReader),
-        ("testIntFromBits", testIntFromBits),
+        ("testIntFromBits_1C", testIntFromBits_1C),
+        ("testIntFromBits_2C", testIntFromBits_2C),
+        ("testIntFromBits_SM", testIntFromBits_SM),
         ("testIsAligned", testIsAligned),
         ("testUint16FromBits", testUint16FromBits),
         ("testUint32FromBits", testUint32FromBits),
@@ -83,7 +85,9 @@ extension LsbBitWriterTests {
         ("testNamingConsistency", testNamingConsistency),
         ("testWriteBit", testWriteBit),
         ("testWriteBitsArray", testWriteBitsArray),
-        ("testWriteNumber", testWriteNumber),
+        ("testWriteNumber_1C", testWriteNumber_1C),
+        ("testWriteNumber_2C", testWriteNumber_2C),
+        ("testWriteNumber_SM", testWriteNumber_SM),
         ("testWriteUnsignedNumber", testWriteUnsignedNumber),
     ]
 }
