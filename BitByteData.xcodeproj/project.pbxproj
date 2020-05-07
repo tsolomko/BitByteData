@@ -11,6 +11,7 @@
 		0643449A2259F88C00D8EB57 /* BigEndianByteReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064344992259F88C00D8EB57 /* BigEndianByteReader.swift */; };
 		0643449C2259FB2200D8EB57 /* BigEndianByteReaderBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0643449B2259FB2200D8EB57 /* BigEndianByteReaderBenchmarks.swift */; };
 		0643449E2259FB2F00D8EB57 /* BigEndianByteReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0643449D2259FB2F00D8EB57 /* BigEndianByteReaderTests.swift */; };
+		06440A1724633213006C4405 /* SignedNumberRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06440A1624633213006C4405 /* SignedNumberRepresentation.swift */; };
 		065DD5E421673BC100704028 /* BitByteData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F0656C1FFAEA4B00312A82 /* BitByteData.framework */; };
 		066598C6219616C2001340E4 /* LsbBitReaderByteBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066598C5219616C2001340E4 /* LsbBitReaderByteBenchmarks.swift */; };
 		069A69912198BE5A00E65630 /* MsbBitReaderByteBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A69902198BE5A00E65630 /* MsbBitReaderByteBenchmarks.swift */; };
@@ -60,6 +61,7 @@
 		064344992259F88C00D8EB57 /* BigEndianByteReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigEndianByteReader.swift; sourceTree = "<group>"; };
 		0643449B2259FB2200D8EB57 /* BigEndianByteReaderBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigEndianByteReaderBenchmarks.swift; sourceTree = "<group>"; };
 		0643449D2259FB2F00D8EB57 /* BigEndianByteReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigEndianByteReaderTests.swift; sourceTree = "<group>"; };
+		06440A1624633213006C4405 /* SignedNumberRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedNumberRepresentation.swift; sourceTree = "<group>"; };
 		065DD5DF21673BC100704028 /* BitByteDataBenchmarks.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BitByteDataBenchmarks.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		066598C5219616C2001340E4 /* LsbBitReaderByteBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LsbBitReaderByteBenchmarks.swift; sourceTree = "<group>"; };
 		069A69902198BE5A00E65630 /* MsbBitReaderByteBenchmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MsbBitReaderByteBenchmarks.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				06F0655B1FFAEA1F00312A82 /* Extensions.swift */,
+				06440A1624633213006C4405 /* SignedNumberRepresentation.swift */,
 				0602483B225A0416006143B1 /* ByteReader.swift */,
 				064344992259F88C00D8EB57 /* BigEndianByteReader.swift */,
 				06F065591FFAEA1F00312A82 /* LittleEndianByteReader.swift */,
@@ -299,6 +302,7 @@
 				06F0657C1FFAEA8700312A82 /* LsbBitWriter.swift in Sources */,
 				06F0657B1FFAEA8700312A82 /* BitWriter.swift in Sources */,
 				06F065771FFAEA8700312A82 /* LittleEndianByteReader.swift in Sources */,
+				06440A1724633213006C4405 /* SignedNumberRepresentation.swift in Sources */,
 				0643449A2259F88C00D8EB57 /* BigEndianByteReader.swift in Sources */,
 				0602483C225A0416006143B1 /* ByteReader.swift in Sources */,
 				06F065781FFAEA8700312A82 /* MsbBitReader.swift in Sources */,
