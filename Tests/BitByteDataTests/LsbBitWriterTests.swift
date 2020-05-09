@@ -47,6 +47,13 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(writer.data, Data([127, 134, 3, 251, 56]))
         writer.align()
         XCTAssertEqual(writer.data, Data([127, 134, 3, 251, 56, 8]))
+        if Int.bitWidth == 64 {
+            writer.write(number: Int.max, bitsCount: 64, representation: repr)
+            writer.write(number: Int.min + 1, bitsCount: 64, representation: repr)
+            XCTAssertEqual(writer.data, Data([127, 134, 3, 251, 56, 8,
+                                              0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F,
+                                              0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
+        }
     }
 
     func testWriteNumber_1C() {
@@ -68,6 +75,13 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(writer.data, Data([127, 134, 3, 132, 199]))
         writer.align()
         XCTAssertEqual(writer.data, Data([127, 134, 3, 132, 199, 15]))
+        if Int.bitWidth == 64 {
+            writer.write(number: Int.max, bitsCount: 64, representation: repr)
+            writer.write(number: Int.min + 1, bitsCount: 64, representation: repr)
+            XCTAssertEqual(writer.data, Data([127, 134, 3, 132, 199, 15,
+                                              0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F,
+                                              0, 0, 0, 0, 0, 0, 0, 0x80]))
+        }
     }
 
 
@@ -90,6 +104,13 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200]))
         writer.align()
         XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200, 15]))
+        if Int.bitWidth == 64 {
+            writer.write(number: Int.max, bitsCount: 64, representation: repr)
+            writer.write(number: Int.min, bitsCount: 64, representation: repr)
+            XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200, 15,
+                                              0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F,
+                                              0, 0, 0, 0, 0, 0, 0, 0x80]))
+        }
     }
 
     func testWriteUnsignedNumber() {
