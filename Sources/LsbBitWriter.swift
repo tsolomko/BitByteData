@@ -63,7 +63,8 @@ public final class LsbBitWriter: BitWriter {
             }
             self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
         case .twoComplement:
-            assert(number >= -(1 << (bitsCount - 1)) && number <= (1 << (bitsCount - 1)) - 1,
+            assert((number >= 0 && magnitude <= (1 << (bitsCount - 1)) - 1) ||
+                (number < 0 && magnitude <= 1 << (bitsCount - 1)),
                    "\(number) will be truncated when represented by 2-complement using \(bitsCount) bits")
             if number < 0 {
                 magnitude = ~magnitude &+ 1
