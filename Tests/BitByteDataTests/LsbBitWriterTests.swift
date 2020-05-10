@@ -9,23 +9,21 @@ import BitByteData
 class LsbBitWriterTests: XCTestCase {
 
     func testWriteBit() {
-        let bitWriter = LsbBitWriter()
-
-        bitWriter.write(bit: 0)
-        bitWriter.write(bit: 1)
-        bitWriter.write(bit: 0)
-        bitWriter.write(bit: 1)
-        bitWriter.write(bit: 1)
-        bitWriter.align()
-        XCTAssertEqual(bitWriter.data, Data([26]))
+        let writer = LsbBitWriter()
+        writer.write(bit: 0)
+        writer.write(bit: 1)
+        writer.write(bit: 0)
+        writer.write(bit: 1)
+        writer.write(bit: 1)
+        writer.align()
+        XCTAssertEqual(writer.data, Data([26]))
     }
 
     func testWriteBitsArray() {
-        let bitWriter = LsbBitWriter()
-
-        bitWriter.write(bits: [1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1])
-        bitWriter.align()
-        XCTAssertEqual(bitWriter.data, Data([83, 6]))
+        let writer = LsbBitWriter()
+        writer.write(bits: [1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1])
+        writer.align()
+        XCTAssertEqual(writer.data, Data([83, 6]))
     }
 
     func testWriteNumber_SM() {
@@ -47,12 +45,15 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(writer.data, Data([127, 134, 3, 251, 56]))
         writer.align()
         XCTAssertEqual(writer.data, Data([127, 134, 3, 251, 56, 8]))
+
+        writer.write(number: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        writer.write(number: Int.min + 1, bitsCount: Int.bitWidth, representation: repr)
         if Int.bitWidth == 64 {
-            writer.write(number: Int.max, bitsCount: 64, representation: repr)
-            writer.write(number: Int.min + 1, bitsCount: 64, representation: repr)
             XCTAssertEqual(writer.data, Data([127, 134, 3, 251, 56, 8,
                                               0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F,
                                               0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
+        } else if Int.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([127, 134, 3, 251, 56, 8, 0xFF, 0xFF, 0xFF, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF]))
         }
     }
 
@@ -75,12 +76,15 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(writer.data, Data([127, 134, 3, 132, 199]))
         writer.align()
         XCTAssertEqual(writer.data, Data([127, 134, 3, 132, 199, 15]))
+
+        writer.write(number: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        writer.write(number: Int.min + 1, bitsCount: Int.bitWidth, representation: repr)
         if Int.bitWidth == 64 {
-            writer.write(number: Int.max, bitsCount: 64, representation: repr)
-            writer.write(number: Int.min + 1, bitsCount: 64, representation: repr)
             XCTAssertEqual(writer.data, Data([127, 134, 3, 132, 199, 15,
                                               0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F,
                                               0, 0, 0, 0, 0, 0, 0, 0x80]))
+        } else if Int.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([127, 134, 3, 132, 199, 15, 0xFF, 0xFF, 0xFF, 0x7F, 0, 0, 0, 0x80]))
         }
     }
 
@@ -104,58 +108,63 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200]))
         writer.align()
         XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200, 15]))
+
+        writer.write(number: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        writer.write(number: Int.min, bitsCount: Int.bitWidth, representation: repr)
         if Int.bitWidth == 64 {
-            writer.write(number: Int.max, bitsCount: 64, representation: repr)
-            writer.write(number: Int.min, bitsCount: 64, representation: repr)
             XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200, 15,
                                               0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F,
                                               0, 0, 0, 0, 0, 0, 0, 0x80]))
+        } else if Int.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200, 15, 0xFF, 0xFF, 0xFF, 0x7F, 0, 0, 0, 0x80]))
         }
     }
 
     func testWriteUnsignedNumber() {
-        let bitWriter = LsbBitWriter()
-        bitWriter.write(unsignedNumber: UInt(UInt64.max), bitsCount: UInt64.bitWidth)
-
-        let byteReader = LittleEndianByteReader(data: bitWriter.data)
-        XCTAssertEqual(byteReader.uint64(), UInt64.max)
+        let writer = LsbBitWriter()
+        writer.write(unsignedNumber: UInt.max, bitsCount: UInt.bitWidth)
+        if UInt.bitWidth == 64 {
+            XCTAssertEqual(writer.data, Data([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
+        } else if UInt.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([0xFF, 0xFF, 0xFF, 0xFF]))
+        }
     }
 
     func testAppendByte() {
-        let bitWriter = LsbBitWriter()
-
-        bitWriter.append(byte: 0xCA)
-        XCTAssertEqual(bitWriter.data, Data([0xCA]))
+        let writer = LsbBitWriter()
+        writer.append(byte: 0xCA)
+        XCTAssertEqual(writer.data, Data([0xCA]))
+        writer.append(byte: 0xFF)
+        XCTAssertEqual(writer.data, Data([0xCA, 0xFF]))
+        writer.append(byte: 0)
+        XCTAssertEqual(writer.data, Data([0xCA, 0xFF, 0]))
     }
 
     func testAlign() {
-        let bitWriter = LsbBitWriter()
-
-        bitWriter.align()
-        XCTAssertEqual(bitWriter.data, Data())
-        XCTAssertTrue(bitWriter.isAligned)
+        let writer = LsbBitWriter()
+        writer.align()
+        XCTAssertEqual(writer.data, Data())
+        XCTAssertTrue(writer.isAligned)
     }
 
     func testIsAligned() {
-        let bitWriter = LsbBitWriter()
-
-        bitWriter.write(bits: [0, 1, 0])
-        XCTAssertFalse(bitWriter.isAligned)
-        bitWriter.write(bits: [0, 1, 0, 1, 0])
-        XCTAssertTrue(bitWriter.isAligned)
-
-        bitWriter.write(bit: 0)
-        XCTAssertFalse(bitWriter.isAligned)
-        bitWriter.align()
-        XCTAssertTrue(bitWriter.isAligned)
+        let writer = LsbBitWriter()
+        writer.write(bits: [0, 1, 0])
+        XCTAssertFalse(writer.isAligned)
+        writer.write(bits: [0, 1, 0, 1, 0])
+        XCTAssertTrue(writer.isAligned)
+        writer.write(bit: 0)
+        XCTAssertFalse(writer.isAligned)
+        writer.align()
+        XCTAssertTrue(writer.isAligned)
     }
 
     func testNamingConsistency() {
-        let bitWriter = LsbBitWriter()
-        bitWriter.write(number: 14582, bitsCount: 15)
-        bitWriter.align()
-        XCTAssertEqual(bitWriter.data, Data([0xF6, 0x38]))
-        let bitReader = LsbBitReader(data: bitWriter.data)
+        let writer = LsbBitWriter()
+        writer.write(number: 14582, bitsCount: 15)
+        writer.align()
+        XCTAssertEqual(writer.data, Data([0xF6, 0x38]))
+        let bitReader = LsbBitReader(data: writer.data)
         XCTAssertEqual(bitReader.int(fromBits: 15), 14582)
     }
 
