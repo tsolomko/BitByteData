@@ -120,6 +120,37 @@ class LsbBitWriterTests: XCTestCase {
         }
     }
 
+    func testWriteNumber_Biased_E127() {
+        let repr = SignedNumberRepresentation.biased(bias: 127)
+        let writer = LsbBitWriter()
+
+        writer.write(number: 126, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([253]))
+        writer.write(number: 6, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([253, 133]))
+        writer.write(number: 56, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([253, 133, 183]))
+        writer.write(number: 0, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([253, 133, 183, 127]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([253, 133, 183, 127]))
+
+        writer.write(number: -123, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4]))
+        writer.write(number: -56, bitsCount: 12, representation: repr)
+        XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 71]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 71, 0]))
+
+        writer.write(number: -127, bitsCount: Int.bitWidth, representation: repr)
+        if Int.bitWidth == 64 {
+            XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 71, 0,
+                                              0, 0, 0, 0, 0, 0, 0, 0x00]))
+        } else if Int.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 71, 0, 0, 0, 0, 0x80]))
+        }
+    }
+
     func testWriteUnsignedNumber() {
         let writer = LsbBitWriter()
         writer.write(unsignedNumber: UInt.max, bitsCount: UInt.bitWidth)

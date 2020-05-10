@@ -104,6 +104,26 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertEqual(reader.int(fromBits: 12, representation: repr), -56)
     }
 
+    func testIntFromBits_Biased_E127() {
+        let repr = SignedNumberRepresentation.biased(bias: 127)
+        var reader = LsbBitReader(data: Data([253, 0, 15, 128]))
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), 126)
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), -127)
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), -112)
+        XCTAssertTrue(reader.isAligned)
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), 1)
+
+        reader = LsbBitReader(data: Data([253, 133, 183, 127, 4, 71, 0]))
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), 126)
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), 6)
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), 56)
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), 0)
+        XCTAssertTrue(reader.isAligned)
+        XCTAssertEqual(reader.int(fromBits: 8, representation: repr), -123)
+        XCTAssertEqual(reader.int(fromBits: 12, representation: repr), -56)
+        XCTAssertFalse(reader.isAligned)
+    }
+
     func testByteFromBits() {
         let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
 
