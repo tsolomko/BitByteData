@@ -70,6 +70,15 @@ public final class LsbBitWriter: BitWriter {
                 magnitude = ~magnitude &+ 1
             }
             self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
+        case .biased(let bias):
+            assert(bias >= 0, "Bias cannot be less than zero.")
+            assert(number >= -bias && number <= bias - 1,
+                   "Biased represenation with bias \(bias) cannot encode number \(number)")
+            let encoded = UInt(bitPattern: number + bias)
+            let bound = bitsCount == UInt.bitWidth ? UInt.max : (1 << bitsCount) - 1
+            assert(encoded <= bound,
+                   "\(number) will be truncated when represented using \(bias) as a bias and \(bitsCount) bits")
+            self.write(unsignedNumber: encoded, bitsCount: bitsCount)
         default:
             fatalError("Not implemented")
         }

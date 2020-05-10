@@ -148,16 +148,15 @@ public final class LsbBitReader: BitReader {
 
         var result = 0
         let bits = self.bits(count: count)
+        var mult = 1
         switch representation {
         case .signMagnitude:
-            var mult = 1
             result = bits[0..<(count - 1)].reduce(0) {
                 defer { mult <<= 1 }
                 return $0 &+ ($1 > 0 ? mult : 0)
             }
             result = bits[count - 1] > 0 ? -result : result
         case .oneComplement:
-            var mult = 1
             result = bits[0..<(count - 1)].reduce(0) {
                 defer { mult <<= 1 }
                 return $0 &+ ($1 > 0 ? mult : 0)
@@ -165,12 +164,17 @@ public final class LsbBitReader: BitReader {
             let mask = Int(bitPattern: (1 as UInt) << (count - 1)) - 1
             result = bits[count - 1] > 0 ? -(result ^ mask) : result
         case .twoComplement:
-            var mult = 1
             result = bits[0..<(count - 1)].reduce(0) {
                 defer { mult <<= 1 }
                 return $0 &+ ($1 > 0 ? mult : 0)
             }
             result |= bits[count - 1] > 0 ? -mult : 0
+        case .biased(let bias):
+            result = bits[0..<count].reduce(0) {
+                defer { mult <<= 1 }
+                return $0 &+ ($1 > 0 ? mult : 0)
+            }
+            result -= bias
         default:
             fatalError("Not implemented")
         }
