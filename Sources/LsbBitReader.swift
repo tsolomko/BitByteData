@@ -174,7 +174,7 @@ public final class LsbBitReader: BitReader {
                 defer { mult <<= 1 }
                 return $0 &+ ($1 > 0 ? mult : 0)
             }
-            result -= bias
+            result &-= bias
         default:
             fatalError("Not implemented")
         }
