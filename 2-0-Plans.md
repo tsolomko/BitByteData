@@ -218,43 +218,64 @@ __TODO:__ Measure the impact on performance of this change.
 ## Add methods for reading and writing bits of a negative number
 
 The addition of `L/MsbBitWriter.write(unsignedNumber:bitsCount:)` methods made me realize that there is currently no way
-to read and write negative signed integer from and to bits and bytes. To resolve this problem, I would like to modify
-methods for reading and writing integers from and to bits as following:
+to correctly read and write negative signed integers from and to bits and bytes. Moreover, the current behavior of
+`L/MsbBitWriter.write(number:bitsCount:)` and `L/MsbBitReader.int(fromBits:)` functions is unpredictable and unreliable.
+It also depends on the platform-specific bit width of the `Int` type and on the values of the arguments in a very subtle
+way. To resolve these problems, I would like to do several changes.
 
-```swift
-// Before:
-// func write(number: Int, bitsCount: Int)
-func write(number: Int, bitsCount: Int, signed: SignedNumberRepresentation = .twoComplement)
-
-// Before:
-// func int(fromBits count: Int) -> Int
-func int(fromBits count: Int, signed: SignedNumberRepresentation = .twoComplement) -> Int
-```
-
-`SignedNumberRepresenation` is a new enum that will allow to choose an encoding scheme for a signed integer (see the
-[wikipedia article](https://en.wikipedia.org/wiki/Signed_number_representations)). The default value for `signed`
-argument is `.twoComplement`, which is the most common negative number encoding scheme.
-
-Proposed cases for the new `SignedNumberRepresentation` enum:
+1. Add a new enum, `SignedNumberRepresenation`, which will allow to choose an encoding for a signed integer (see the
+[wikipedia article](https://en.wikipedia.org/wiki/Signed_number_representations)). Proposed cases of the new enum:
 
 ```swift
 public enum SignedNumberRepresentation {
     case signMagnitude
     case oneComplement
     case twoComplement
-    case biased(bias: Int) // Other options: offsetBinary, excessK
+    case biased(bias: Int)
     case radixNegativeTwo
     case varint
 }
 ```
 
-This addition will likely have negative impact on performance of the changed methods (because of the introduced branching
-on the value of the `signed` argument), but I believe this is an acceptable tradeoff: we get much more in terms of
-correctness and functionality. (Un)fortunately, the current behavior is unlikely to be preserved it is more or less undefined.
-Currently, in most cases bit writers take 2-complement representation of a negative number and write _verbatim_ into the
-output. The output likely also depends on the values of the arguments (e.g. `number` and `bitsCount`) as well as on the
-platform-specific bit width of the `Int` type which makes the results quite unpredictable. This situation is something
-that should not be kept moving forward.
+2. Add methods to bit readers and writers which will allow to read signed integers using the specified representation:
+
+``` swift
+// BitWriter:
+func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplement)
+
+// BitReader:
+func signedInt(fromBits count: Int, representation: SignedNumberRepresentation = .twoComplement) -> Int
+```
+
+The default value of the `representation` argument is `.twoComplement` since it the most common way to encode signed
+integers (it is even used internally by Swift).
+
+3. Modify the behavior of the existing functions as following:
+
+```swift
+// BitWriter:
+func write(number: Int, bitsCount: Int) {
+    self.write(unsignedNumber: UInt(bitPattern: number), bitsCount: bitsCount)
+}
+
+// BitReader:
+func int(fromBits count: Int) -> Int {
+    if MemoryLayout<Int>.size == 8 {
+        return Int(truncatingIfNeeded: self.uint64(fromBits: count))
+    } else if MemoryLayout<Int>.size == 4 {
+        return Int(truncatingIfNeeded: self.uint32(fromBits: count))
+    } else {
+        fatalError("Unknown Int bit width")
+    }
+}
+```
+
+This will allow to partially retain the current behavior of these functions, since it turns out to be useful in some cases.
+These implementations will handle positive integers in the same way as before, and will provide consistent behavior for
+negative integers. That said, the usage of these functions will be discouraged (via documentation), since they perform
+transformations which essentially lose data (the sign of a negative integer).
+
+Notably, currently proposed changes do not concern byte readers at all, which remain an open question for now.
 
 ## Other crazy ideas
 
