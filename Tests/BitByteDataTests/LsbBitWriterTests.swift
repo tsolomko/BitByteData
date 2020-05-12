@@ -26,6 +26,33 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(writer.data, Data([83, 6]))
     }
 
+    func testWriteNumber() {
+        let writer = LsbBitWriter()
+        writer.write(number: 127, bitsCount: 8)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(number: 6, bitsCount: 4)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(number: 56, bitsCount: 7)
+        XCTAssertEqual(writer.data, Data([127, 134]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 134, 3]))
+        writer.write(number: -123, bitsCount: 8)
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 133]))
+        writer.write(number: -56, bitsCount: 12)
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200, 15]))
+        writer.write(number: Int.max, bitsCount: Int.bitWidth)
+        writer.write(number: Int.min, bitsCount: Int.bitWidth)
+        if Int.bitWidth == 64 {
+            XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200, 15,
+                                              0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F,
+                                              0, 0, 0, 0, 0, 0, 0, 0x80]))
+        } else if Int.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([127, 134, 3, 133, 200, 15, 0xFF, 0xFF, 0xFF, 0x7F, 0, 0, 0, 0x80]))
+        }
+    }
+
     func testWriteSignedNumber_SM() {
         let repr = SignedNumberRepresentation.signMagnitude
         let writer = LsbBitWriter()
