@@ -47,10 +47,10 @@ public final class MsbBitWriter: BitWriter {
      fit into `bitsCount` amount of bits.
      - Note: Bits of `number` are processed using the same bit-numbering scheme as of the writer (i.e. "MSB 0").
      */
-    public func write(number: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplement) {
+    public func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplement) {
         var mask = 1 << (bitsCount - 1)
         for _ in 0..<bitsCount {
-            self.write(bit: number & mask > 0 ? 1 : 0)
+            self.write(bit: signedNumber & mask > 0 ? 1 : 0)
             mask >>= 1
         }
     }

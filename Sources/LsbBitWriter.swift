@@ -47,36 +47,37 @@ public final class LsbBitWriter: BitWriter {
      fit into `bitsCount` amount of bits.
      - Note: Bits of `number` are processed using the same bit-numbering scheme as of the writer (i.e. "LSB 0").
      */
-    public func write(number: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplement) {
-        var magnitude = number.magnitude
+    public func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplement) {
+        var magnitude = signedNumber.magnitude
         switch representation {
         case .signMagnitude:
             assert(magnitude < (1 << (bitsCount - 1)),
-                   "\(number) will be truncated when represented by Sign-Magnitude using \(bitsCount) bits")
+                   "\(signedNumber) will be truncated when represented by Sign-Magnitude using \(bitsCount) bits")
             self.write(unsignedNumber: magnitude, bitsCount: bitsCount - 1)
-            self.write(bit: number >= 0 ? 0 : 1)
+            self.write(bit: signedNumber >= 0 ? 0 : 1)
         case .oneComplement:
             assert(magnitude < (1 << (bitsCount - 1)),
-                   "\(number) will be truncated when represented by 1-complement using \(bitsCount) bits")
-            if number < 0 {
+                   "\(signedNumber) will be truncated when represented by 1-complement using \(bitsCount) bits")
+            if signedNumber < 0 {
                 magnitude = ~magnitude
             }
             self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
         case .twoComplement:
-            assert((number >= 0 && magnitude <= (1 << (bitsCount - 1)) - 1) ||
-                (number < 0 && magnitude <= 1 << (bitsCount - 1)),
-                   "\(number) will be truncated when represented by 2-complement using \(bitsCount) bits")
-            if number < 0 {
+            assert((signedNumber >= 0 && magnitude <= (1 << (bitsCount - 1)) - 1) ||
+                (signedNumber < 0 && magnitude <= 1 << (bitsCount - 1)),
+                   "\(signedNumber) will be truncated when represented by 2-complement using \(bitsCount) bits")
+            if signedNumber < 0 {
                 magnitude = ~magnitude &+ 1
             }
             self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
         case .biased(let bias):
             assert(bias >= 0, "Bias cannot be less than zero.")
-            assert(number >= -bias, "\(number) is too small to be encoded by biased representation with \(bias) bias")
-            let encoded = UInt(bitPattern: number &+ bias)
+            assert(signedNumber >= -bias,
+                   "\(signedNumber) is too small to be encoded by biased representation with \(bias) bias")
+            let encoded = UInt(bitPattern: signedNumber &+ bias)
             let encodedUpperBound = bitsCount == UInt.bitWidth ? UInt.max : (1 << bitsCount) - 1
             assert(encoded <= encodedUpperBound,
-                   "\(number) is too big to be encoded by biased representation with \(bias) bias using \(bitsCount) bits")
+                   "\(signedNumber) is too big to be encoded by biased representation with \(bias) bias using \(bitsCount) bits")
             self.write(unsignedNumber: UInt(truncatingIfNeeded: encoded), bitsCount: bitsCount)
         default:
             fatalError("Not implemented")
