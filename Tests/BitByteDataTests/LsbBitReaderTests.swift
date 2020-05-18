@@ -185,6 +185,19 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertEqual(reader.signedInt(fromBits: Int.bitWidth, representation: repr), Int.max)
     }
 
+    func testSignedIntFromBits_RN2() {
+        let repr = SignedNumberRepresentation.radixNegativeTwo
+        let reader = LsbBitReader(data: Data([90, 1, 12]))
+        XCTAssertEqual(reader.signedInt(fromBits: 5, representation: repr), 6)
+        XCTAssertFalse(reader.isAligned)
+        XCTAssertEqual(reader.signedInt(fromBits: 3, representation: repr), -2)
+        XCTAssertTrue(reader.isAligned)
+        XCTAssertEqual(reader.signedInt(fromBits: 12, representation: repr), -1023)
+        XCTAssertFalse(reader.isAligned)
+        XCTAssertEqual(reader.signedInt(fromBits: 4, representation: repr), 0)
+        XCTAssertTrue(reader.isAligned)
+    }
+
     func testByteFromBits() {
         let bitReader = LsbBitReader(data: LsbBitReaderTests.data)
 

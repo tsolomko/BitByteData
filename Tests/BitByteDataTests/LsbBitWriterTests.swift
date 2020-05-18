@@ -216,6 +216,20 @@ class LsbBitWriterTests: XCTestCase {
         }
     }
 
+    func testWriteSignedNumber_RN2() {
+        let repr = SignedNumberRepresentation.radixNegativeTwo
+        let writer = LsbBitWriter()
+        writer.write(signedNumber: 6, bitsCount: 5, representation: repr)
+        writer.write(signedNumber: -2, bitsCount: 3, representation: repr)
+        XCTAssertEqual(writer.data, Data([90]))
+        writer.write(signedNumber: -1023, bitsCount: 12, representation: repr)
+        XCTAssertFalse(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([90, 1]))
+        writer.write(signedNumber: 0, bitsCount: 4, representation: repr)
+        XCTAssertTrue(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([90, 1, 12]))
+    }
+
     func testWriteUnsignedNumber() {
         let writer = LsbBitWriter()
         writer.write(unsignedNumber: UInt.max, bitsCount: UInt.bitWidth)
