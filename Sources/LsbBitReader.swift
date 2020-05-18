@@ -144,7 +144,7 @@ public final class LsbBitReader: BitReader {
         precondition(bitsLeft >= count)
 
         guard count > 0
-            else { return 0}
+            else { return 0 }
 
         var result = 0
         let bits = self.bits(count: count)
@@ -175,6 +175,15 @@ public final class LsbBitReader: BitReader {
                 return $0 &+ ($1 > 0 ? mult : 0)
             }
             result &-= bias
+        case .radixNegativeTwo:
+            var sign = 1
+            result = bits[0..<count].reduce(0) {
+                defer {
+                    mult <<= 1
+                    sign *= -1
+                }
+                return $0 &+ ($1 > 0 ? (sign * mult) : 0)
+            }
         default:
             fatalError("Not implemented")
         }

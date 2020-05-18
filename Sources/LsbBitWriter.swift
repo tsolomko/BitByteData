@@ -78,7 +78,22 @@ public final class LsbBitWriter: BitWriter {
             let encodedUpperBound = bitsCount == UInt.bitWidth ? UInt.max : (1 << bitsCount) - 1
             assert(encoded <= encodedUpperBound,
                    "\(signedNumber) is too big to be encoded by biased representation with \(bias) bias using \(bitsCount) bits")
-            self.write(unsignedNumber: UInt(truncatingIfNeeded: encoded), bitsCount: bitsCount)
+            self.write(unsignedNumber: encoded, bitsCount: bitsCount)
+        case .radixNegativeTwo:
+            let mask: UInt
+            if MemoryLayout<UInt>.size == 8 {
+                mask = 0xAA_AA_AA_AA_AA_AA_AA_AA
+            } else if MemoryLayout<UInt>.size == 4 {
+                mask = 0xAA_AA_AA_AA
+            } else {
+                fatalError("Unknown Int bit width")
+            }
+            let unsignedBitPattern = UInt(bitPattern: signedNumber)
+            let encoded = (unsignedBitPattern &+ mask) ^ mask
+            let encodedBound = bitsCount == UInt.bitWidth ? UInt.max : ((1 << bitsCount) - 1)
+            assert(encoded <= encodedBound,
+                   "\(signedNumber) will be truncated when represented by -2 radix using \(bitsCount) bits")
+            self.write(unsignedNumber: encoded, bitsCount: bitsCount)
         default:
             fatalError("Not implemented")
         }
