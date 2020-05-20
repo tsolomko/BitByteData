@@ -9,5 +9,4 @@ public enum SignedNumberRepresentation {
     case twoComplement
     case biased(bias: Int)
     case radixNegativeTwo
-    case varint
 }

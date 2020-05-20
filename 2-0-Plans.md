@@ -1,5 +1,7 @@
 # 2.0 Plans
 
+_Last updated: 20.05.2020._
+
 In this document I am going to outline changes that I am planning to implement in the next major update of BitByteData,
 version 2.0. I am writing this document with two goals in mind. First, to provide an opportunity to give feedback on
 the proposed changes. Secondly, for historical reasons: if at some point in the future I am wondering what were the
@@ -233,7 +235,6 @@ public enum SignedNumberRepresentation {
     case twoComplement
     case biased(bias: Int)
     case radixNegativeTwo
-    case varint
 }
 ```
 

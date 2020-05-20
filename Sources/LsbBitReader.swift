@@ -184,8 +184,6 @@ public final class LsbBitReader: BitReader {
                 }
                 return $0 &+ ($1 > 0 ? (sign * mult) : 0)
             }
-        default:
-            fatalError("Not implemented")
         }
 
         return result

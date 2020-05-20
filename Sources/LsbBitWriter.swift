@@ -94,8 +94,6 @@ public final class LsbBitWriter: BitWriter {
             assert(encoded <= encodedBound,
                    "\(signedNumber) will be truncated when represented by -2 radix using \(bitsCount) bits")
             self.write(unsignedNumber: encoded, bitsCount: bitsCount)
-        default:
-            fatalError("Not implemented")
         }
     }
 
