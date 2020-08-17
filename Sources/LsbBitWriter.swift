@@ -80,14 +80,7 @@ public final class LsbBitWriter: BitWriter {
                    "\(signedNumber) is too big to be encoded by biased representation with \(bias) bias using \(bitsCount) bits")
             self.write(unsignedNumber: encoded, bitsCount: bitsCount)
         case .radixNegativeTwo:
-            let mask: UInt
-            if MemoryLayout<UInt>.size == 8 {
-                mask = 0xAA_AA_AA_AA_AA_AA_AA_AA
-            } else if MemoryLayout<UInt>.size == 4 {
-                mask = 0xAA_AA_AA_AA
-            } else {
-                fatalError("Unknown Int bit width")
-            }
+            let mask = UInt(truncatingIfNeeded: 0xAA_AA_AA_AA_AA_AA_AA_AA as UInt64)
             let unsignedBitPattern = UInt(bitPattern: signedNumber)
             let encoded = (unsignedBitPattern &+ mask) ^ mask
             let encodedBound = bitsCount == UInt.bitWidth ? UInt.max : ((1 << bitsCount) - 1)
