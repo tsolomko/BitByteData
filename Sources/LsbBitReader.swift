@@ -157,18 +157,24 @@ public final class LsbBitReader: BitReader {
             }
             result = bits[count - 1] > 0 ? -result : result
         case .oneComplement:
-            result = bits[0..<(count - 1)].reduce(0) {
-                defer { mult <<= 1 }
-                return $0 &+ ($1 > 0 ? mult : 0)
+            if bits[count - 1] > 0 {
+                result = bits[0..<count].reduce(0) {
+                    defer { mult <<= 1 }
+                    return $0 &+ ($1 > 0 ? 0 : mult)
+                }
+                result.negate()
+            } else {
+                result = bits[0..<count].reduce(0) {
+                    defer { mult <<= 1 }
+                    return $0 &+ ($1 > 0 ? mult : 0)
+                }
             }
-            let mask = Int(bitPattern: (1 as UInt) << (count - 1)) - 1
-            result = bits[count - 1] > 0 ? -(result ^ mask) : result
         case .twoComplement:
             result = bits[0..<(count - 1)].reduce(0) {
                 defer { mult <<= 1 }
                 return $0 &+ ($1 > 0 ? mult : 0)
             }
-            result |= bits[count - 1] > 0 ? -mult : 0
+            result &-= bits[count - 1] > 0 ? mult : 0
         case .biased(let bias):
             result = bits[0..<count].reduce(0) {
                 defer { mult <<= 1 }
