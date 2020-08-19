@@ -41,21 +41,6 @@ public final class MsbBitWriter: BitWriter {
     }
 
     /**
-     Writes signed `number`, using and advancing by `bitsCount` BIT positions.
-
-     - Note: If `bitsCount` is smaller than the actual amount of `number`'s bits then the `number` will be truncated to
-     fit into `bitsCount` amount of bits.
-     - Note: Bits of `number` are processed using the same bit-numbering scheme as of the writer (i.e. "MSB 0").
-     */
-    public func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplement) {
-        var mask = 1 << (bitsCount - 1)
-        for _ in 0..<bitsCount {
-            self.write(bit: signedNumber & mask > 0 ? 1 : 0)
-            mask >>= 1
-        }
-    }
-
-    /**
      Writes unsigned `number`, using and advancing by `bitsCount` BIT positions.
 
      - Note: If `bitsCount` is smaller than the actual amount of `number`'s bits then the `number` will be truncated to
