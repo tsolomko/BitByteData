@@ -53,6 +53,183 @@ class MsbBitWriterTests: XCTestCase {
         }
     }
 
+    func testWriteSignedNumber_SM() {
+        let repr = SignedNumberRepresentation.signMagnitude
+        let writer = MsbBitWriter()
+        writer.write(signedNumber: 127, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([254]))
+        writer.write(signedNumber: 6, bitsCount: 4, representation: repr)
+        XCTAssertEqual(writer.data, Data([254]))
+        writer.write(signedNumber: 56, bitsCount: 7, representation: repr)
+        XCTAssertEqual(writer.data, Data([254, 206]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([254, 206, 0]))
+        writer.write(signedNumber: -123, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([254, 206, 0, 247]))
+        writer.write(signedNumber: -56, bitsCount: 12, representation: repr)
+        XCTAssertEqual(writer.data, Data([254, 206, 0, 247, 7]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([254, 206, 0, 247, 7, 16]))
+        writer.write(signedNumber: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        writer.write(signedNumber: Int.min + 1, bitsCount: Int.bitWidth, representation: repr)
+        if Int.bitWidth == 64 {
+            XCTAssertEqual(writer.data, Data([254, 206, 0, 247, 7, 16,
+                                              0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE,
+                                              0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
+        } else if Int.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([254, 206, 0, 247, 7, 16, 0xFF, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF]))
+        }
+    }
+
+    func testWriteSignedNumber_1C() {
+        let repr = SignedNumberRepresentation.oneComplement
+        let writer = MsbBitWriter()
+        writer.write(signedNumber: 127, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(signedNumber: 6, bitsCount: 4, representation: repr)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(signedNumber: 56, bitsCount: 7, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 103]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 103, 0]))
+        writer.write(signedNumber: -123, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 103, 0, 132]))
+        writer.write(signedNumber: -56, bitsCount: 12, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 103, 0, 132, 252]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 103, 0, 132, 252, 112]))
+        writer.write(signedNumber: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        writer.write(signedNumber: Int.min + 1, bitsCount: Int.bitWidth, representation: repr)
+        if Int.bitWidth == 64 {
+            XCTAssertEqual(writer.data, Data([127, 103, 0, 132, 252, 112,
+                                              0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+                                              0x80, 0, 0, 0, 0, 0, 0, 0]))
+        } else if Int.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([127, 103, 0, 132, 252, 112, 0x7F, 0xFF, 0xFF, 0xFF, 0x80, 0, 0, 0]))
+        }
+    }
+
+    func testWriteSignedNumber_2C() {
+        let repr = SignedNumberRepresentation.twoComplement
+        let writer = MsbBitWriter()
+        writer.write(signedNumber: 127, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(signedNumber: 6, bitsCount: 4, representation: repr)
+        XCTAssertEqual(writer.data, Data([127]))
+        writer.write(signedNumber: 56, bitsCount: 7, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 103]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 103, 0]))
+        writer.write(signedNumber: -123, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 103, 0, 133]))
+        writer.write(signedNumber: -56, bitsCount: 12, representation: repr)
+        XCTAssertEqual(writer.data, Data([127, 103, 0, 133, 252]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([127, 103, 0, 133, 252, 128]))
+        writer.write(signedNumber: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        writer.write(signedNumber: Int.min, bitsCount: Int.bitWidth, representation: repr)
+        if Int.bitWidth == 64 {
+            XCTAssertEqual(writer.data, Data([127, 103, 0, 133, 252, 128,
+                                              0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+                                              0x80, 0, 0, 0, 0, 0, 0, 0]))
+        } else if Int.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([127, 103, 0, 133, 252, 128, 0x7F, 0xFF, 0xFF, 0xFF, 0x80, 0, 0, 0]))
+        }
+    }
+
+    func testWriteSignedNumber_Biased_E127() {
+        let repr = SignedNumberRepresentation.biased(bias: 127)
+        let writer = MsbBitWriter()
+        writer.write(signedNumber: 126, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([253]))
+        writer.write(signedNumber: 6, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([253, 133]))
+        writer.write(signedNumber: 56, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([253, 133, 183]))
+        writer.write(signedNumber: 0, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([253, 133, 183, 127]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([253, 133, 183, 127]))
+        writer.write(signedNumber: -123, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4]))
+        writer.write(signedNumber: -56, bitsCount: 12, representation: repr)
+        XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 4]))
+        writer.align()
+        XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 4, 112]))
+        writer.write(signedNumber: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        if Int.bitWidth == 64 {
+            XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 4, 112, 0x80, 0, 0, 0, 0, 0, 0, 0x7E]))
+        } else if Int.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 4, 112, 0x80, 0, 0, 0x7E]))
+        }
+    }
+
+    func testWriteSignedNumber_Biased_E3() {
+        let repr = SignedNumberRepresentation.biased(bias: 3)
+        let writer = MsbBitWriter()
+        writer.write(signedNumber: -3, bitsCount: 4, representation: repr)
+        XCTAssertFalse(writer.isAligned)
+        writer.write(signedNumber: 12, bitsCount: 4, representation: repr)
+        XCTAssertTrue(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([15]))
+        writer.write(signedNumber: 126, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([15, 129]))
+        writer.write(signedNumber: 6, bitsCount: 12, representation: repr)
+        XCTAssertFalse(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([15, 129, 0]))
+        writer.write(signedNumber: 56, bitsCount: 6, representation: repr)
+        XCTAssertFalse(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([15, 129, 0, 158]))
+        writer.align()
+        XCTAssertTrue(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([15, 129, 0, 158, 192]))
+        writer.write(signedNumber: 0, bitsCount: 8, representation: repr)
+        XCTAssertEqual(writer.data, Data([15, 129, 0, 158, 192, 3]))
+        writer.write(signedNumber: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        if Int.bitWidth == 64 {
+            XCTAssertEqual(writer.data, Data([15, 129, 0, 158, 192, 3, 0x80, 0, 0, 0, 0, 0, 0, 2]))
+        } else if Int.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([15, 129, 0, 158, 192, 3, 0x80, 0, 0, 2]))
+        }
+    }
+
+    func testWriteSignedNumber_Biased_E1023() {
+        let repr = SignedNumberRepresentation.biased(bias: 1023)
+        let writer = MsbBitWriter()
+        writer.write(signedNumber: -1023, bitsCount: 11, representation: repr)
+        XCTAssertFalse(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([0]))
+        writer.align()
+        XCTAssertTrue(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([0, 0]))
+        writer.write(signedNumber: 0, bitsCount: 11, representation: repr)
+        XCTAssertFalse(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([0, 0, 127]))
+        writer.align()
+        XCTAssertTrue(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([0, 0, 127, 224]))
+        writer.write(signedNumber: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        if Int.bitWidth == 64 {
+            XCTAssertEqual(writer.data, Data([0, 0, 127, 224, 0x80, 0, 0, 0, 0, 0, 3, 0xFE]))
+        } else if Int.bitWidth == 32 {
+            XCTAssertEqual(writer.data, Data([0, 0, 127, 224, 0x80, 0, 3, 0xFE]))
+        }
+    }
+
+    func testWriteSignedNumber_RN2() {
+        let repr = SignedNumberRepresentation.radixNegativeTwo
+        let writer = MsbBitWriter()
+        writer.write(signedNumber: 6, bitsCount: 5, representation: repr)
+        writer.write(signedNumber: -2, bitsCount: 3, representation: repr)
+        XCTAssertEqual(writer.data, Data([210]))
+        writer.write(signedNumber: -1023, bitsCount: 12, representation: repr)
+        XCTAssertFalse(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([210, 192]))
+        writer.write(signedNumber: 0, bitsCount: 4, representation: repr)
+        XCTAssertTrue(writer.isAligned)
+        XCTAssertEqual(writer.data, Data([210, 192, 16]))
+    }
+
     func testWriteUnsignedNumber() {
         let writer = MsbBitWriter()
         writer.write(unsignedNumber: UInt.max, bitsCount: UInt.bitWidth)
