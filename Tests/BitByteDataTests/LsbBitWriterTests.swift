@@ -274,8 +274,8 @@ class LsbBitWriterTests: XCTestCase {
         writer.write(signedNumber: 14582, bitsCount: 15)
         writer.align()
         XCTAssertEqual(writer.data, Data([0xF6, 0x38]))
-        let bitReader = LsbBitReader(data: writer.data)
-        XCTAssertEqual(bitReader.signedInt(fromBits: 15), 14582)
+        let reader = LsbBitReader(data: writer.data)
+        XCTAssertEqual(reader.signedInt(fromBits: 15), 14582)
     }
 
 }
