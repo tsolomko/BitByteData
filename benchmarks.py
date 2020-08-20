@@ -9,8 +9,6 @@ import re
 import subprocess
 import sys
 
-# TODO: At some point we should probably remove support for working with saved results without iter_count.
-
 class StatKeeper:
     def __init__(self):
         self._regs = 0
@@ -63,7 +61,7 @@ class PvalueStat:
             self.res = None
 
 class BenchmarkResult:
-    def __init__(self, group: str, bench: str, avg: str, rsd: str, iter_count: int=None):
+    def __init__(self, group: str, bench: str, avg: str, rsd: str, iter_count: int):
         self.group_name = group
         self.test_name = bench
         self.avg = avg
@@ -148,7 +146,7 @@ class BenchmarkGroup:
         return output
 
 class BenchmarkRun:
-    def __init__(self, swift_ver, timestamp=None, description=None):
+    def __init__(self, swift_ver, timestamp, description=None):
         self.groups = {}
         self.swift_ver = swift_ver
         self.timestamp = timestamp
@@ -156,10 +154,8 @@ class BenchmarkRun:
 
     def __str__(self):
         output = ""
-        if self.swift_ver is not None:
-            output += "{0}".format(self.swift_ver)
-        if self.timestamp is not None:
-            output += "Timestamp: {0}\n".format(self.timestamp)
+        output += "{0}".format(self.swift_ver)
+        output += "Timestamp: {0}\n".format(self.timestamp)
         if self.description is not None:
             output += "Description: {0}\n".format(self.description)
         for group_name, group in self.groups.items():
@@ -220,14 +216,14 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
         json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
 
     def object_hook(self, obj):
-        if len(obj.items()) >= 3 and "name" in obj and "avg" in obj and "rel_std_dev" in obj:
+        if len(obj.items()) == 4 and "name" in obj and "avg" in obj and "rel_std_dev" in obj and "iter_count" in obj:
             return BenchmarkResult.from_json_dict(obj)
         elif len(obj.items()) == 2 and "group_name" in obj:
             group = BenchmarkGroup(obj["group_name"])
             for result in obj["results"]:
                 group.add_result(result)
             return group
-        elif len(obj.items()) >= 2 and "BitByteDataBenchmarks" in obj and "swift_ver" in obj:
+        elif len(obj.items()) >= 3 and "BitByteDataBenchmarks" in obj and "swift_ver" in obj and "timestamp" in obj:
             run = BenchmarkRun(obj["swift_ver"], obj.get("timestamp"), obj.get("description"))
             for group in obj["BitByteDataBenchmarks"]:
                 run.groups[group.name] = group
@@ -283,10 +279,8 @@ def action_run(args):
         base = json.load(f_base, cls=BenchmarkJSONDecoder)
         f_base.close()
         print("BASE: " + args.compare)
-        if base.swift_ver is not None:
-            print(base.swift_ver, end="")
-        if base.timestamp is not None:
-            print("Timestamp: {0}".format(base.timestamp))
+        print(base.swift_ver, end="")
+        print("Timestamp: {0}".format(base.timestamp))
         if base.description is not None:
             print("Description: {0}".format(base.description))
 
@@ -327,9 +321,8 @@ def action_run(args):
                 if len(matches) == 1 and len(matches[0]) == 5:
                     if matches[0][0] != group or matches[0][1] != bench:
                         raise RuntimeError("Seems like swift executed wrong benchmark")
-                    result = BenchmarkResult(group, bench, matches[0][2], matches[0][3])
-                    matches = iter_p.findall(matches[0][4])
-                    result.iter_count = len(matches)
+                    iter_count = len(iter_p.findall(matches[0][4]))
+                    result = BenchmarkResult(group, bench, matches[0][2], matches[0][3], iter_count)
                     run.new_result(result)
                     if base_result is not None:
                         print("{0}/{1}".format(group, result.str_compare(base_result)))
@@ -353,17 +346,13 @@ def action_show(args):
         base = json.load(f_base, cls=BenchmarkJSONDecoder)
         f_base.close()
         print("BASE: " + args.compare)
-        if base.swift_ver is not None:
-            print(base.swift_ver, end="")
-        if base.timestamp is not None:
-            print("Timestamp: {0}".format(base.timestamp))
+        print(base.swift_ver, end="")
+        print("Timestamp: {0}".format(base.timestamp))
         if base.description is not None:
             print("Description: {0}".format(base.description))
         print("\nNEW: " + args.file)
-        if o.swift_ver is not None:
-            print(o.swift_ver, end="")
-        if o.timestamp is not None:
-            print("Timestamp: {0}".format(o.timestamp))
+        print(o.swift_ver, end="")
+        print("Timestamp: {0}".format(o.timestamp))
         if o.description is not None:
             print("Description: {0}".format(o.description))
         print(o.str_compare(base))
