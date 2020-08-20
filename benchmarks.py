@@ -5,6 +5,7 @@ import datetime
 from enum import Enum, auto
 import json
 import math
+import os
 import re
 import subprocess
 import sys
@@ -146,16 +147,18 @@ class BenchmarkGroup:
         return output
 
 class BenchmarkRun:
-    def __init__(self, swift_ver, timestamp, description=None):
+    def __init__(self, swift_ver, timestamp, binary_size, description=None):
         self.groups = {}
         self.swift_ver = swift_ver
         self.timestamp = timestamp
+        self.binary_size = binary_size
         self.description = description
 
     def __str__(self):
         output = ""
         output += "{0}".format(self.swift_ver)
         output += "Timestamp: {0}\n".format(self.timestamp)
+        output += "Binary size: {0}\n".format(self.binary_size)
         if self.description is not None:
             output += "Description: {0}\n".format(self.description)
         for group_name, group in self.groups.items():
@@ -204,7 +207,7 @@ class BenchmarkJSONEncoder(json.JSONEncoder):
                                         "iter_count": result.iter_count})
                 group_out = {"group_name": group_name, "results": results_out}
                 run_out.append(group_out)
-            d = {"swift_ver": o.swift_ver, "timestamp": o.timestamp}
+            d = {"swift_ver": o.swift_ver, "timestamp": o.timestamp, "binary_size": o.binary_size}
             if o.description is not None:
                 d["description"] = o.description
             d["BitByteDataBenchmarks"] = run_out
@@ -223,8 +226,8 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
             for result in obj["results"]:
                 group.add_result(result)
             return group
-        elif len(obj.items()) >= 3 and "BitByteDataBenchmarks" in obj and "swift_ver" in obj and "timestamp" in obj:
-            run = BenchmarkRun(obj["swift_ver"], obj.get("timestamp"), obj.get("description"))
+        elif len(obj.items()) >= 3 and "BitByteDataBenchmarks" in obj and "swift_ver" in obj and "timestamp" in obj and "binary_size" in obj:
+            run = BenchmarkRun(obj["swift_ver"], obj.get("timestamp"), obj.get("binary_size"), obj.get("description"))
             for group in obj["BitByteDataBenchmarks"]:
                 run.groups[group.name] = group
             return run
@@ -281,6 +284,7 @@ def action_run(args):
         print("BASE: " + args.compare)
         print(base.swift_ver, end="")
         print("Timestamp: {0}".format(base.timestamp))
+        print("Binary size: {0}".format(base.binary_size))
         if base.description is not None:
             print("Description: {0}".format(base.description))
 
@@ -300,7 +304,10 @@ def action_run(args):
     print("Benchmarking...")
     swift_ver = subprocess.run(swift_command + ["--version"], stdout=subprocess.PIPE, check=True,
                                universal_newlines=True).stdout
-    run = BenchmarkRun(swift_ver, datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), args.desc)
+    bin_path = _sprun(swift_command + ["build", "--show-bin-path", "-c", "release"]).stdout.decode().splitlines()[0] + "/BitByteData.swiftmodule" 
+    binary_size = str(os.stat(bin_path).st_size)
+    run = BenchmarkRun(swift_ver, datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+                        binary_size, args.desc)
 
     bench_command = swift_command + ["test", "-c", "release", "--filter"]
     for group, benches in groups.items():
@@ -348,11 +355,13 @@ def action_show(args):
         print("BASE: " + args.compare)
         print(base.swift_ver, end="")
         print("Timestamp: {0}".format(base.timestamp))
+        print("Binary size: {0}".format(base.binary_size))
         if base.description is not None:
             print("Description: {0}".format(base.description))
         print("\nNEW: " + args.file)
         print(o.swift_ver, end="")
         print("Timestamp: {0}".format(o.timestamp))
+        print("Binary size: {0}".format(o.binary_size))
         if o.description is not None:
             print("Description: {0}".format(o.description))
         print(o.str_compare(base))
