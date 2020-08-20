@@ -370,6 +370,21 @@ def action_show(args):
     else:
         print(o)
 
+def action_emit(args):
+    # TODO: Line breaks in output?
+    print("Emitting sil-gen")
+    subprocess.run("rm -rf .build/", shell=True, check=True)
+    subprocess.run("swift build --verbose -c release -Xswiftc -emit-silgen -Xswiftc -O -Xswiftc -v > " + args.filename + ".sil-gen",
+                    shell=True)
+    print("Emitting SIL")
+    subprocess.run("rm -rf .build/", shell=True, check=True)
+    subprocess.run("swift build --verbose -c release -Xswiftc -emit-sil -Xswiftc -O -Xswiftc -v > " + args.filename + ".sil",
+                    shell=True)
+    print("Emitting ASM")
+    subprocess.run("rm -rf .build/", shell=True, check=True)
+    subprocess.run("swift build --verbose -c release -Xswiftc -S -Xswiftc -O -Xswiftc -v > " + args.filename + ".asm",
+                    shell=True)
+
 parser = argparse.ArgumentParser(description="A benchmarking tool for BitByteData")
 subparsers = parser.add_subparsers(title="commands", help="a command to perform", metavar="CMD")
 
@@ -398,6 +413,14 @@ parser_show.add_argument("file", action="store", metavar="FILE",
                         help="file with benchmarks results in JSON format")
 parser_show.add_argument("--compare", action="store", metavar="BASE", help="compare results with base benchmarks")
 parser_show.set_defaults(func=action_show)
+
+# Parser for 'emit' command.
+parser_emit = subparsers.add_parser("emit", help="emits SIL and ASM representations",
+                                    description=("generates two SIL representations as well as the final ASM code and"
+                                                "saves them into the output.[sil-gen,sil,asm] files"))
+parser_emit.add_argument("--filename", "-f", action="store", metavar="FILENAME", default="output",
+                        help="base name of the output file without extensions (default: output)")
+parser_emit.set_defaults(func=action_emit)
 
 args = parser.parse_args()
 args.func(args)
