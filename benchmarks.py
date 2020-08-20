@@ -271,8 +271,6 @@ def action_run(args):
     swift_command = []
     if args.toolchain is not None:
         swift_command = ["xcrun", "-toolchain", args.toolchain]
-    elif args.use_5:
-        swift_command = ["xcrun", "-toolchain", "org.swift.50320190830a"]
     swift_command.append("swift")
 
     # Loading base benchmarks if necessary.
@@ -398,10 +396,6 @@ parser_run.add_argument("--no-clean", action="store_false", dest="clean", help="
 toolchain_option_group = parser_run.add_mutually_exclusive_group()
 toolchain_option_group.add_argument("--toolchain", action="store", metavar="ID",
                                     help="use swift from the toolchain with specified identifier")
-toolchain_option_group.add_argument("--5", action="store_true", dest="use_5",
-                                    help=("use swift from the toolchain with 'org.swift.50320190830a' identifier (this is"
-                                        " the release toolchain for Swift 5.0.3; useful when Xcode with version less than "
-                                        "10.2.1 is used)"))
 
 parser_run.set_defaults(func=action_run)
 
