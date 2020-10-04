@@ -29,6 +29,15 @@ jobs:
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
     - stage: test
+      language: swift
+      os: osx
+      osx_image: xcode12 # Swift 5.3
+      script:
+      - swift --version
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
+    - stage: test
       language: generic
       os: linux
       dist: bionic
@@ -60,6 +69,19 @@ jobs:
       dist: bionic
       env:
       - SWIFT_VERSION=5.2
+      install:
+      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+      script:
+      - swift --version
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
+    - stage: test
+      language: generic
+      os: linux
+      dist: bionic
+      env:
+      - SWIFT_VERSION=5.3
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
