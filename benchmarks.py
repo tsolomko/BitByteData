@@ -302,10 +302,13 @@ def action_run(args):
     print("Benchmarking...")
     swift_ver = subprocess.run(swift_command + ["--version"], stdout=subprocess.PIPE, check=True,
                                universal_newlines=True).stdout
+    timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
     bin_path = _sprun(swift_command + ["build", "--show-bin-path", "-c", "release"]).stdout.decode().splitlines()[0] + "/BitByteData.swiftmodule" 
     binary_size = str(os.stat(bin_path).st_size)
-    run = BenchmarkRun(swift_ver, datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
-                        binary_size, args.desc)
+    print(swift_ver, end="")
+    print("Timestamp: {0}".format(timestamp))
+    print("Binary size: {0}".format(binary_size))
+    run = BenchmarkRun(swift_ver, timestamp, binary_size, args.desc)
 
     bench_command = swift_command + ["test", "-c", "release", "--filter"]
     for group, benches in groups.items():
