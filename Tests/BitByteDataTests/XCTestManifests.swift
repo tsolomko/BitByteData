@@ -71,6 +71,7 @@ extension LsbBitReaderTests {
         ("testSignedIntFromBits_Biased_E1023", testSignedIntFromBits_Biased_E1023),
         ("testSignedIntFromBits_Biased_E127", testSignedIntFromBits_Biased_E127),
         ("testSignedIntFromBits_Biased_E3", testSignedIntFromBits_Biased_E3),
+        ("testSignedIntFromBits_RN2", testSignedIntFromBits_RN2),
         ("testSignedIntFromBits_SM", testSignedIntFromBits_SM),
         ("testUint16FromBits", testUint16FromBits),
         ("testUint32FromBits", testUint32FromBits),
@@ -95,6 +96,7 @@ extension LsbBitWriterTests {
         ("testWriteSignedNumber_Biased_E1023", testWriteSignedNumber_Biased_E1023),
         ("testWriteSignedNumber_Biased_E127", testWriteSignedNumber_Biased_E127),
         ("testWriteSignedNumber_Biased_E3", testWriteSignedNumber_Biased_E3),
+        ("testWriteSignedNumber_RN2", testWriteSignedNumber_RN2),
         ("testWriteSignedNumber_SM", testWriteSignedNumber_SM),
         ("testWriteUnsignedNumber", testWriteUnsignedNumber),
     ]
@@ -141,6 +143,13 @@ extension MsbBitWriterTests {
         ("testWriteBit", testWriteBit),
         ("testWriteBitsArray", testWriteBitsArray),
         ("testWriteNumber", testWriteNumber),
+        ("testWriteSignedNumber_1C", testWriteSignedNumber_1C),
+        ("testWriteSignedNumber_2C", testWriteSignedNumber_2C),
+        ("testWriteSignedNumber_Biased_E1023", testWriteSignedNumber_Biased_E1023),
+        ("testWriteSignedNumber_Biased_E127", testWriteSignedNumber_Biased_E127),
+        ("testWriteSignedNumber_Biased_E3", testWriteSignedNumber_Biased_E3),
+        ("testWriteSignedNumber_RN2", testWriteSignedNumber_RN2),
+        ("testWriteSignedNumber_SM", testWriteSignedNumber_SM),
         ("testWriteUnsignedNumber", testWriteUnsignedNumber),
     ]
 }
