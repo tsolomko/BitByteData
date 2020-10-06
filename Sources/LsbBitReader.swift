@@ -147,16 +147,13 @@ public final class LsbBitReader: BitReader {
             else { return 0 }
 
         var result = 0
-        let bits = self.bits(count: count)
-        var mult = 1
         switch representation {
         case .signMagnitude:
-            result = bits[0..<(count - 1)].reduce(0) {
-                defer { mult <<= 1 }
-                return $0 &+ ($1 > 0 ? mult : 0)
-            }
-            result = bits[count - 1] > 0 ? -result : result
+            result = self.int(fromBits: count - 1)
+            result = self.bit() > 0 ? -result : result
         case .oneComplement:
+            let bits = self.bits(count: count)
+            var mult = 1
             if bits[count - 1] > 0 {
                 result = bits[0..<count].reduce(0) {
                     defer { mult <<= 1 }
@@ -170,18 +167,14 @@ public final class LsbBitReader: BitReader {
                 }
             }
         case .twoComplement:
-            result = bits[0..<(count - 1)].reduce(0) {
-                defer { mult <<= 1 }
-                return $0 &+ ($1 > 0 ? mult : 0)
-            }
-            result &-= bits[count - 1] > 0 ? mult : 0
+            result = self.int(fromBits: count - 1)
+            result &-= self.bit() > 0 ? (1 << (count - 1)) : 0
         case .biased(let bias):
-            result = bits[0..<count].reduce(0) {
-                defer { mult <<= 1 }
-                return $0 &+ ($1 > 0 ? mult : 0)
-            }
+            result = self.int(fromBits: count)
             result &-= bias
         case .radixNegativeTwo:
+            let bits = self.bits(count: count)
+            var mult = 1
             var sign = 1
             result = bits[0..<count].reduce(0) {
                 defer {
