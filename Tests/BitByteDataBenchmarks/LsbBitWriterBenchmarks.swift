@@ -39,6 +39,106 @@ class LsbBitWriterBenchmarks: XCTestCase {
         }
     }
 
+    func testWriteSignedNumber_SM_pos() {
+        self.measure {
+            let writer = LsbBitWriter()
+
+            for _ in 0..<1_000_000 {
+                writer.write(signedNumber: 3256, bitsCount: 13, representation: .signMagnitude)
+            }
+        }
+    }
+
+    func testWriteSignedNumber_SM_neg() {
+        self.measure {
+            let writer = LsbBitWriter()
+
+            for _ in 0..<1_000_000 {
+                writer.write(signedNumber: -3256, bitsCount: 13, representation: .signMagnitude)
+            }
+        }
+    }
+
+    func testWriteSignedNumber_1C_pos() {
+        self.measure {
+            let writer = LsbBitWriter()
+
+            for _ in 0..<1_000_000 {
+                writer.write(signedNumber: 3256, bitsCount: 13, representation: .oneComplement)
+            }
+        }
+    }
+
+    func testWriteSignedNumber_1C_neg() {
+        self.measure {
+            let writer = LsbBitWriter()
+
+            for _ in 0..<1_000_000 {
+                writer.write(signedNumber: -3256, bitsCount: 13, representation: .oneComplement)
+            }
+        }
+    }
+
+    func testWriteSignedNumber_2C_pos() {
+        self.measure {
+            let writer = LsbBitWriter()
+
+            for _ in 0..<1_000_000 {
+                writer.write(signedNumber: 3256, bitsCount: 13, representation: .twoComplement)
+            }
+        }
+    }
+
+    func testWriteSignedNumber_2C_neg() {
+        self.measure {
+            let writer = LsbBitWriter()
+
+            for _ in 0..<1_000_000 {
+                writer.write(signedNumber: -3256, bitsCount: 13, representation: .twoComplement)
+            }
+        }
+    }
+
+    func testWriteSignedNumber_E127_pos() {
+        self.measure {
+            let writer = LsbBitWriter()
+
+            for _ in 0..<1_000_000 {
+                writer.write(signedNumber: 123, bitsCount: 13, representation: .biased(bias: 127))
+            }
+        }
+    }
+
+    func testWriteSignedNumber_E127_neg() {
+        self.measure {
+            let writer = LsbBitWriter()
+
+            for _ in 0..<1_000_000 {
+                writer.write(signedNumber: -123, bitsCount: 13, representation: .biased(bias: 127))
+            }
+        }
+    }
+
+    func testWriteSignedNumber_RN2_pos() {
+        self.measure {
+            let writer = LsbBitWriter()
+
+            for _ in 0..<1_000_000 {
+                writer.write(signedNumber: 3256, bitsCount: 13, representation: .radixNegativeTwo)
+            }
+        }
+    }
+
+    func testWriteSignedNumber_RN2_neg() {
+        self.measure {
+            let writer = LsbBitWriter()
+
+            for _ in 0..<1_000_000 {
+                writer.write(signedNumber: -3256, bitsCount: 13, representation: .radixNegativeTwo)
+            }
+        }
+    }
+
     func testAppendByte() {
         self.measure {
             let writer = LsbBitWriter()

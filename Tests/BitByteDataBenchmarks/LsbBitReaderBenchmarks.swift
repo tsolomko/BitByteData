@@ -59,6 +59,134 @@ class LsbBitReaderBenchmarks: XCTestCase {
         }
     }
 
+    func testSignedInt_SM_pos() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0xD)
+            bytes.append(0x37)
+        }
+
+        self.measure {
+            let reader = LsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .signMagnitude)
+            }
+        }
+    }
+
+    func testSignedInt_SM_neg() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0xD)
+            bytes.append(0xB7)
+        }
+
+        self.measure {
+            let reader = LsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .signMagnitude)
+            }
+        }
+    }
+
+    func testSignedInt_1C_pos() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0xD)
+            bytes.append(0x37)
+        }
+
+        self.measure {
+            let reader = LsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .oneComplement)
+            }
+        }
+    }
+
+    func testSignedInt_1C_neg() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0xD)
+            bytes.append(0xB7)
+        }
+
+        self.measure {
+            let reader = LsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .oneComplement)
+            }
+        }
+    }
+
+    func testSignedInt_2C_pos() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0xD)
+            bytes.append(0x37)
+        }
+
+        self.measure {
+            let reader = LsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .twoComplement)
+            }
+        }
+    }
+
+    func testSignedInt_2C_neg() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0xD)
+            bytes.append(0xB7)
+        }
+
+        self.measure {
+            let reader = LsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .twoComplement)
+            }
+        }
+    }
+
+    func testSignedInt_E127() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0x6D)
+            bytes.append(0xB7)
+        }
+
+        self.measure {
+            let reader = LsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 7, representation: .biased(bias: 127))
+            }
+        }
+    }
+
+    func testSignedInt_RN2() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0x6D)
+            bytes.append(0xB7)
+        }
+
+        self.measure {
+            let reader = LsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 13, representation: .radixNegativeTwo)
+            }
+        }
+    }
+
     func testByteFromBits() {
         self.measure {
             let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
