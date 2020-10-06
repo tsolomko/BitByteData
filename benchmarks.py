@@ -302,7 +302,7 @@ def action_run(args):
     print("Benchmarking...")
     swift_ver = subprocess.run(swift_command + ["--version"], stdout=subprocess.PIPE, check=True,
                                universal_newlines=True).stdout
-    timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+    timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     bin_path = _sprun(swift_command + ["build", "--show-bin-path", "-c", "release"]).stdout.decode().splitlines()[0] + "/BitByteData.swiftmodule" 
     binary_size = str(os.stat(bin_path).st_size)
     print(swift_ver, end="")
