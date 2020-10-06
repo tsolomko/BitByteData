@@ -11,109 +11,109 @@ class BigEndianByteReaderTests: XCTestCase {
     private static let data = Data([0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08])
 
     func testByte() {
-        let byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
 
-        let byte = byteReader.byte()
+        let byte = reader.byte()
         XCTAssertEqual(byte, 0)
-        XCTAssertFalse(byteReader.isFinished)
+        XCTAssertFalse(reader.isFinished)
     }
 
     func testIsFinished() {
-        let byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        byteReader.offset = 9
-        XCTAssertTrue(byteReader.isFinished)
+        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        reader.offset = 9
+        XCTAssertTrue(reader.isFinished)
     }
 
     func testBytesLeft() {
-        let byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        XCTAssertEqual(byteReader.bytesLeft, 9)
-        _ = byteReader.uint16()
-        XCTAssertEqual(byteReader.bytesLeft, 7)
-        byteReader.offset = byteReader.data.endIndex
-        XCTAssertEqual(byteReader.bytesLeft, 0)
+        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        XCTAssertEqual(reader.bytesLeft, 9)
+        _ = reader.uint16()
+        XCTAssertEqual(reader.bytesLeft, 7)
+        reader.offset = reader.data.endIndex
+        XCTAssertEqual(reader.bytesLeft, 0)
     }
 
     func testBytesRead() {
-        let byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        XCTAssertEqual(byteReader.bytesRead, 0)
-        _ = byteReader.uint16()
-        XCTAssertEqual(byteReader.bytesRead, 2)
-        byteReader.offset = byteReader.data.endIndex
-        XCTAssertEqual(byteReader.bytesRead, 9)
+        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        XCTAssertEqual(reader.bytesRead, 0)
+        _ = reader.uint16()
+        XCTAssertEqual(reader.bytesRead, 2)
+        reader.offset = reader.data.endIndex
+        XCTAssertEqual(reader.bytesRead, 9)
     }
 
     func testBytes() {
-        let byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        XCTAssertEqual(byteReader.bytes(count: 0), [])
-        let bytes = byteReader.bytes(count: 4)
+        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        XCTAssertEqual(reader.bytes(count: 0), [])
+        let bytes = reader.bytes(count: 4)
         XCTAssertEqual(bytes, [0x00, 0x01, 0x02, 0x03])
     }
 
     func testIntFromBytes() {
-        let byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        XCTAssertEqual(byteReader.int(fromBytes: 0), 0)
-        XCTAssertEqual(byteReader.int(fromBytes: 3), 258)
-        XCTAssertEqual(byteReader.int(fromBytes: 2), 772)
-        XCTAssertEqual(byteReader.int(fromBytes: 4), 84281096)
-        XCTAssertTrue(byteReader.isFinished)
+        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        XCTAssertEqual(reader.int(fromBytes: 0), 0)
+        XCTAssertEqual(reader.int(fromBytes: 3), 258)
+        XCTAssertEqual(reader.int(fromBytes: 2), 772)
+        XCTAssertEqual(reader.int(fromBytes: 4), 84281096)
+        XCTAssertTrue(reader.isFinished)
     }
 
     func testUint64() {
-        let byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        let num = byteReader.uint64()
+        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        let num = reader.uint64()
         XCTAssertEqual(num, 0x0001020304050607)
     }
 
     func testUint64FromBytes() {
-        var byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        XCTAssertEqual(byteReader.uint64(fromBytes: 0), 0)
-        XCTAssertEqual(byteReader.uint64(fromBytes: 3), 258)
-        XCTAssertFalse(byteReader.isFinished)
+        var reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        XCTAssertEqual(reader.uint64(fromBytes: 0), 0)
+        XCTAssertEqual(reader.uint64(fromBytes: 3), 258)
+        XCTAssertFalse(reader.isFinished)
 
-        byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        XCTAssertEqual(byteReader.uint64(fromBytes: 8), 0x0001020304050607)
-        XCTAssertFalse(byteReader.isFinished)
+        reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        XCTAssertEqual(reader.uint64(fromBytes: 8), 0x0001020304050607)
+        XCTAssertFalse(reader.isFinished)
     }
 
     func testUint32() {
-        let byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        let num = byteReader.uint32()
+        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        let num = reader.uint32()
         XCTAssertEqual(num, 0x00010203)
     }
 
     func testUint32FromBytes() {
-        var byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        XCTAssertEqual(byteReader.uint32(fromBytes: 0), 0)
-        XCTAssertEqual(byteReader.uint32(fromBytes: 3), 258)
-        XCTAssertFalse(byteReader.isFinished)
+        var reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        XCTAssertEqual(reader.uint32(fromBytes: 0), 0)
+        XCTAssertEqual(reader.uint32(fromBytes: 3), 258)
+        XCTAssertFalse(reader.isFinished)
 
-        byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        XCTAssertEqual(byteReader.uint32(fromBytes: 4), 0x00010203)
-        XCTAssertFalse(byteReader.isFinished)
+        reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        XCTAssertEqual(reader.uint32(fromBytes: 4), 0x00010203)
+        XCTAssertFalse(reader.isFinished)
     }
 
     func testUint16() {
-        let byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        let num = byteReader.uint16()
+        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        let num = reader.uint16()
         XCTAssertEqual(num, 0x0001)
     }
 
     func testUint16FromBytes() {
-        let byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
-        XCTAssertEqual(byteReader.uint16(fromBytes: 0), 0)
-        XCTAssertEqual(byteReader.uint16(fromBytes: 2), 1)
-        XCTAssertFalse(byteReader.isFinished)
+        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        XCTAssertEqual(reader.uint16(fromBytes: 0), 0)
+        XCTAssertEqual(reader.uint16(fromBytes: 2), 1)
+        XCTAssertFalse(reader.isFinished)
     }
 
     func testNonZeroStartIndex() {
-        let byteReader = BigEndianByteReader(data: BigEndianByteReaderTests.data[1...])
-        XCTAssertEqual(byteReader.offset, 1)
-        XCTAssertEqual(byteReader.uint16(), 0x0102)
-        XCTAssertEqual(byteReader.offset, 3)
-        XCTAssertEqual(byteReader.uint32(), 0x03040506)
-        XCTAssertEqual(byteReader.offset, 7)
-        XCTAssertEqual(byteReader.byte(), 0x07)
-        XCTAssertEqual(byteReader.bytes(count: 1), [0x08])
+        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data[1...])
+        XCTAssertEqual(reader.offset, 1)
+        XCTAssertEqual(reader.uint16(), 0x0102)
+        XCTAssertEqual(reader.offset, 3)
+        XCTAssertEqual(reader.uint32(), 0x03040506)
+        XCTAssertEqual(reader.offset, 7)
+        XCTAssertEqual(reader.byte(), 0x07)
+        XCTAssertEqual(reader.bytes(count: 1), [0x08])
     }
 
 }
