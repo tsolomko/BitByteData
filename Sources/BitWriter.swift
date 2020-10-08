@@ -61,8 +61,8 @@ extension BitWriter {
         case .signMagnitude:
             assert(magnitude < (1 << (bitsCount - 1)),
                    "\(signedNumber) will be truncated when represented by Sign-Magnitude using \(bitsCount) bits")
-            self.write(unsignedNumber: magnitude, bitsCount: bitsCount - 1)
-            self.write(bit: signedNumber >= 0 ? 0 : 1)
+            magnitude += signedNumber < 0 ? (1 << (bitsCount - 1)) : 0
+            self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
         case .oneComplement:
             assert(magnitude < (1 << (bitsCount - 1)),
                    "\(signedNumber) will be truncated when represented by 1-complement using \(bitsCount) bits")

@@ -57,27 +57,27 @@ class MsbBitWriterTests: XCTestCase {
         let repr = SignedNumberRepresentation.signMagnitude
         let writer = MsbBitWriter()
         writer.write(signedNumber: 127, bitsCount: 8, representation: repr)
-        XCTAssertEqual(writer.data, Data([254]))
+        XCTAssertEqual(writer.data, Data([127]))
         writer.write(signedNumber: 6, bitsCount: 4, representation: repr)
-        XCTAssertEqual(writer.data, Data([254]))
+        XCTAssertEqual(writer.data, Data([127]))
         writer.write(signedNumber: 56, bitsCount: 7, representation: repr)
-        XCTAssertEqual(writer.data, Data([254, 206]))
+        XCTAssertEqual(writer.data, Data([127, 103]))
         writer.align()
-        XCTAssertEqual(writer.data, Data([254, 206, 0]))
+        XCTAssertEqual(writer.data, Data([127, 103, 0]))
         writer.write(signedNumber: -123, bitsCount: 8, representation: repr)
-        XCTAssertEqual(writer.data, Data([254, 206, 0, 247]))
+        XCTAssertEqual(writer.data, Data([127, 103, 0, 251]))
         writer.write(signedNumber: -56, bitsCount: 12, representation: repr)
-        XCTAssertEqual(writer.data, Data([254, 206, 0, 247, 7]))
+        XCTAssertEqual(writer.data, Data([127, 103, 0, 251, 131]))
         writer.align()
-        XCTAssertEqual(writer.data, Data([254, 206, 0, 247, 7, 16]))
+        XCTAssertEqual(writer.data, Data([127, 103, 0, 251, 131, 128]))
         writer.write(signedNumber: Int.max, bitsCount: Int.bitWidth, representation: repr)
         writer.write(signedNumber: Int.min + 1, bitsCount: Int.bitWidth, representation: repr)
         if Int.bitWidth == 64 {
-            XCTAssertEqual(writer.data, Data([254, 206, 0, 247, 7, 16,
-                                              0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE,
+            XCTAssertEqual(writer.data, Data([127, 103, 0, 251, 131, 128,
+                                              0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
                                               0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
         } else if Int.bitWidth == 32 {
-            XCTAssertEqual(writer.data, Data([254, 206, 0, 247, 7, 16, 0xFF, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF]))
+            XCTAssertEqual(writer.data, Data([127, 103, 0, 251, 131, 128, 0xFF, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF]))
         }
     }
 
