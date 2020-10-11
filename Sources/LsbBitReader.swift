@@ -335,23 +335,14 @@ public final class LsbBitReader: BitReader {
         } (self.data, &self.offset, self.bitMask)
     }
 
-    /**
-     Reads `fromBytes` bytes and returns them as an `Int` number, advancing by `fromBytes` BYTE positions.
-
-     - Precondition: The reader MUST be aligned.
-     - Precondition: Parameter `fromBytes` MUST not be less than 0.
-     - Precondition: There MUST be enough data left.
-     */
     public func int(fromBytes count: Int) -> Int {
-        precondition(count >= 0)
-        return { (data: Data, offset: inout Int, bitMask: UInt8) -> Int in
-            var result = 0
-            for i in 0..<count {
-                result += Int(truncatingIfNeeded: data[offset]) << (8 * i)
-                offset += 1
-            }
-            return result
-        } (self.data, &self.offset, self.bitMask)
+        if MemoryLayout<Int>.size == 8 {
+            return Int(truncatingIfNeeded: self.uint64(fromBytes: count))
+        } else if MemoryLayout<Int>.size == 4 {
+            return Int(truncatingIfNeeded: self.uint32(fromBytes: count))
+        } else {
+            fatalError("Unknown Int bit width")
+        }
     }
 
     /**

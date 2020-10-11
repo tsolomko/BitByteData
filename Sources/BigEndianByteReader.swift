@@ -49,25 +49,15 @@ public final class BigEndianByteReader: ByteReader {
             return data[offset..<offset + count].toByteArray(count)
         } (self.data, &self.offset)
     }
-
-    /**
-     Reads `fromBytes` bytes and returns them as an `Int` number, advancing by `fromBytes` positions.
-
-     - Precondition: Parameter `fromBytes` MUST not be less than 0.
-     - Precondition: There MUST be enough data left.
-     */
+    
     public func int(fromBytes count: Int) -> Int {
-        precondition(count >= 0)
-        // TODO: If uintX() could be force inlined or something in the future then probably it would make sense
-        // to use them for `count` == 2, 4 or 8.
-        return { (data: Data, offset: inout Int) -> Int in
-            var result = 0
-            for i in stride(from: count - 1, through: 0, by: -1) {
-                result += Int(truncatingIfNeeded: data[offset]) << (8 * i)
-                offset += 1
-            }
-            return result
-        } (self.data, &self.offset)
+        if MemoryLayout<Int>.size == 8 {
+            return Int(truncatingIfNeeded: self.uint64(fromBytes: count))
+        } else if MemoryLayout<Int>.size == 4 {
+            return Int(truncatingIfNeeded: self.uint32(fromBytes: count))
+        } else {
+            fatalError("Unknown Int bit width")
+        }
     }
 
     /**
