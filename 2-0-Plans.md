@@ -1,6 +1,6 @@
 # 2.0 Plans
 
-_Last updated: 20.05.2020._
+_Last updated: 11.10.2020._
 
 In this document I am going to outline changes that I am planning to implement in the next major update of BitByteData,
 version 2.0. I am writing this document with two goals in mind. First, to provide an opportunity to give feedback on
@@ -276,7 +276,12 @@ These implementations will handle positive integers in the same way as before, a
 negative integers. That said, the usage of these functions will be discouraged (via documentation), since they perform
 transformations which essentially lose data (the sign of a negative integer).
 
-Notably, currently proposed changes do not concern byte readers at all, which remain an open question for now.
+Technically speaking, byte readers have the same potential problem with reading negative integers. That said, to read
+negative integers correctly it is necessary to have an insight into the bits, which compose the bytes, and it cannot be
+provided by byte readers by definition. The best thing that can be done is to streamline the implementation of
+`int(fromBytes:)` similar to the new implementation of `int(fromBits:)` and update the documentation accordingly to
+prevent any misunderstanding. We should refer in the documentation to the `signedInt` functions as a proper way to read
+negative integers.
 
 ## Other crazy ideas
 
