@@ -50,12 +50,26 @@ class BigEndianByteReaderTests: XCTestCase {
     }
 
     func testIntFromBytes() {
-        let reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
+        var reader = BigEndianByteReader(data: BigEndianByteReaderTests.data)
         XCTAssertEqual(reader.int(fromBytes: 0), 0)
         XCTAssertEqual(reader.int(fromBytes: 3), 258)
         XCTAssertEqual(reader.int(fromBytes: 2), 772)
         XCTAssertEqual(reader.int(fromBytes: 4), 84281096)
         XCTAssertTrue(reader.isFinished)
+        
+        if MemoryLayout<Int>.size == 8 {
+            reader = BigEndianByteReader(data: Data([//127, 160, 15, 128,
+                                              0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+                                              0x80, 0, 0, 0, 0, 0, 0, 0]))
+        } else if MemoryLayout<Int>.size == 4 {
+            reader = BigEndianByteReader(data: Data([//127, 160, 15, 128, 133, 200, 15,
+                                              0x7F, 0xFF, 0xFF, 0xFF, 0x80, 0, 0, 0]))
+        } else {
+            XCTFail("Unsupported Int bit width.")
+            return
+        }
+        XCTAssertEqual(reader.int(fromBytes: MemoryLayout<Int>.size), Int.max)
+        XCTAssertEqual(reader.int(fromBytes: MemoryLayout<Int>.size), Int.min)
     }
 
     func testUint64() {
