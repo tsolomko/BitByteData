@@ -10,6 +10,10 @@ jobs:
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch - 38mm" clean build
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
     - stage: test
       language: swift
       os: osx
@@ -19,6 +23,10 @@ jobs:
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch - 38mm" clean build
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
     - stage: test
       language: swift
       os: osx
@@ -28,21 +36,29 @@ jobs:
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch - 38mm" clean build
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
     - stage: test
       language: swift
       os: osx
-      osx_image: xcode12 # Swift 5.3
+      osx_image: xcode12.1 # Swift 5.3
       script:
       - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch - 38mm" clean build
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
     - stage: test
       language: generic
       os: linux
       dist: bionic
       env:
-      - SWIFT_VERSION=5.0
+      - SWIFT_VERSION=5.0.3
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
@@ -55,7 +71,7 @@ jobs:
       os: linux
       dist: bionic
       env:
-      - SWIFT_VERSION=5.1
+      - SWIFT_VERSION=5.1.5
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
@@ -68,7 +84,7 @@ jobs:
       os: linux
       dist: bionic
       env:
-      - SWIFT_VERSION=5.2
+      - SWIFT_VERSION=5.2.5
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:

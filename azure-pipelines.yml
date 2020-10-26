@@ -21,10 +21,10 @@ stages:
           DEVELOPER_DIR: '/Applications/Xcode_11.3.1.app'
         macosSwift52:
           imageName: 'macOS-10.15'
-          DEVELOPER_DIR: '/Applications/Xcode_11.4.app'
+          DEVELOPER_DIR: '/Applications/Xcode_11.4.1.app'
         macosSwift53:
           imageName: 'macOS-10.15'
-          DEVELOPER_DIR: '/Applications/Xcode_12.app'
+          DEVELOPER_DIR: '/Applications/Xcode_12.1.app'
     pool:
       vmImage: $(imageName)
     steps:
@@ -37,18 +37,24 @@ stages:
         swift --version
         swift build -c release # Check Release build just in case.
       displayName: 'Build Release'
+    - script: |
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch - 38mm" clean build
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
+      displayName: 'Build & Test Darwin Platforms'
   - job: linux
     strategy:
       matrix:
         linuxSwift50:
           imageName: 'ubuntu-18.04'
-          SWIFT_VERSION: '5.0'
+          SWIFT_VERSION: '5.0.3'
         linuxSwift51:
           imageName: 'ubuntu-18.04'
-          SWIFT_VERSION: '5.1'
+          SWIFT_VERSION: '5.1.5'
         linuxSwift52:
           imageName: 'ubuntu-18.04'
-          SWIFT_VERSION: '5.2'
+          SWIFT_VERSION: '5.2.5'
         linuxSwift53:
           imageName: 'ubuntu-18.04'
           SWIFT_VERSION: '5.3'
