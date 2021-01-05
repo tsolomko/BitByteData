@@ -43,7 +43,7 @@ jobs:
     - stage: test
       language: swift
       os: osx
-      osx_image: xcode12.1 # Swift 5.3
+      osx_image: xcode12.3 # Swift 5.3
       script:
       - swift --version
       - swift build
@@ -95,9 +95,9 @@ jobs:
     - stage: test
       language: generic
       os: linux
-      dist: bionic
+      dist: focal
       env:
-      - SWIFT_VERSION=5.3
+      - SWIFT_VERSION=5.3.2
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
