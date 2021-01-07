@@ -1,6 +1,6 @@
 # 2.0 Plans
 
-_Last updated: 11.10.2020._
+_Last updated: 07.01.2021._
 
 In this document I am going to outline changes that I am planning to implement in the next major update of BitByteData,
 version 2.0. I am writing this document with two goals in mind. First, to provide an opportunity to give feedback on
@@ -182,14 +182,14 @@ List of currently planned additions to the protocols:
 2. `BitWriter.write(unsignedNumber:bitsCount:)`
 3. Anything else that is added in 2.0 update
 
-## Remove no argument versions of `uintX(fromBytes:)` methods
+## Remove no-argument versions of `uintX(fromBytes:)` methods
 
 Currently, there are two versions of methods for reading bytes into an unsigned integer: with an argument, which allows
 to specify a number of bytes to read, and without the argument, which reads the maximum possible amount of bytes possible
 to store in an unsigned integer. These are two of them, because it is possible to implement the "no-argument" version in
 a more efficient way. This situation is a bit confusing, and I would like to improve it in the 2.0 update.
 
-There are several potential ways of improvement:
+There are two potential ways of improvement:
 
 1. Remove the no-argument versions and add natural default argument values to the remaining ones:
 
@@ -204,7 +204,11 @@ ones themselves. There will be some awkwardness, though, with reading big uints 
 probably have to read them as signed integers and then manually convert into the required uint type. But maybe this is a
 good thing, since `Int` is supposed to be the most widely used integer type in Swift.
 
-Relatedly, there is a problem of which functions to include in the `ByteReader` protocol.
+After additional investigation it's become clear that both versions are useful and should be left in as there is no real
+benefit to be gained from the removal of one of them. In the `ByteReader` protocol only the versions with arguments
+will be included, since they are more general and the existence of no-argument versions is only due to the implementation
+reasons. If it becomes possible to make with-argument versions as efficient, the no-argument versions can instead be made
+to call the with-argument ones, and in the future they can be more or less easily removed.
 
 ## Check if a bit reader is aligned in `offset`'s `willSet` observer
 
