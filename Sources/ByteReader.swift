@@ -13,7 +13,7 @@ public protocol ByteReader: AnyObject {
 
     var offset: Int { get set }
 
-    init(data: Data)
+    init(source: Data)
 
     func byte() -> UInt8
 
@@ -32,7 +32,7 @@ public protocol ByteReader: AnyObject {
 extension ByteReader {
 
     public init(_ bitReader: BitReader) {
-        self.init(data: bitReader.source)
+        self.init(source: bitReader.source)
         self.offset = bitReader.offset
     }
 

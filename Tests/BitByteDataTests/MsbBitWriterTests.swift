@@ -273,7 +273,7 @@ class MsbBitWriterTests: XCTestCase {
         let writer = MsbBitWriter()
         writer.write(signedNumber: 14582, bitsCount: 15)
         writer.align()
-        let reader = MsbBitReader(data: writer.data)
+        let reader = MsbBitReader(source: writer.data)
         XCTAssertEqual(reader.signedInt(fromBits: 15), 14582)
     }
 

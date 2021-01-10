@@ -18,10 +18,10 @@ public final class BigEndianByteReader: ByteReader {
     public var offset: Int
 
     /// Creates an instance for reading bytes from `data`.
-    public init(data: Data) {
-        self.size = data.count
-        self.source = data
-        self.offset = data.startIndex
+    public init(source: Data) {
+        self.size = source.count
+        self.source = source
+        self.offset = source.startIndex
     }
 
     /**

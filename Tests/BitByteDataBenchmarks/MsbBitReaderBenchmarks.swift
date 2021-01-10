@@ -10,7 +10,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testAdvance() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<5_000_000 * 8 {
                 reader.advance()
@@ -20,7 +20,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testAdvanceRealistic() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<9_300_000 {
                 reader.advance(by: 6)
@@ -31,7 +31,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testBit() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<5_000_000 * 8 {
                 _ = reader.bit()
@@ -41,7 +41,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testBits() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 * 8 {
                 _ = reader.bits(count: 5)
@@ -51,7 +51,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testIntFromBits() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 * 4 {
                 _ = reader.int(fromBits: 10)
@@ -67,7 +67,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         }
 
         self.measure {
-            let reader = MsbBitReader(data: Data(bytes))
+            let reader = MsbBitReader(source: Data(bytes))
 
             for _ in 0..<5_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .signMagnitude)
@@ -83,7 +83,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         }
 
         self.measure {
-            let reader = MsbBitReader(data: Data(bytes))
+            let reader = MsbBitReader(source: Data(bytes))
 
             for _ in 0..<5_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .signMagnitude)
@@ -99,7 +99,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         }
 
         self.measure {
-            let reader = MsbBitReader(data: Data(bytes))
+            let reader = MsbBitReader(source: Data(bytes))
 
             for _ in 0..<5_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .oneComplement)
@@ -115,7 +115,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         }
 
         self.measure {
-            let reader = MsbBitReader(data: Data(bytes))
+            let reader = MsbBitReader(source: Data(bytes))
 
             for _ in 0..<5_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .oneComplement)
@@ -131,7 +131,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         }
 
         self.measure {
-            let reader = MsbBitReader(data: Data(bytes))
+            let reader = MsbBitReader(source: Data(bytes))
 
             for _ in 0..<5_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .twoComplement)
@@ -147,7 +147,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         }
 
         self.measure {
-            let reader = MsbBitReader(data: Data(bytes))
+            let reader = MsbBitReader(source: Data(bytes))
 
             for _ in 0..<5_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .twoComplement)
@@ -163,7 +163,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         }
 
         self.measure {
-            let reader = MsbBitReader(data: Data(bytes))
+            let reader = MsbBitReader(source: Data(bytes))
 
             for _ in 0..<5_000_000 {
                 _ = reader.signedInt(fromBits: 7, representation: .biased(bias: 127))
@@ -179,7 +179,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         }
 
         self.measure {
-            let reader = MsbBitReader(data: Data(bytes))
+            let reader = MsbBitReader(source: Data(bytes))
 
             for _ in 0..<5_000_000 {
                 _ = reader.signedInt(fromBits: 13, representation: .radixNegativeTwo)
@@ -189,7 +189,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testByteFromBits() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 * 8 {
                 _ = reader.byte(fromBits: 6)
@@ -199,7 +199,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testUint16FromBits() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 * 4 {
                 _ = reader.uint16(fromBits: 13)
@@ -209,7 +209,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testUint32FromBits() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 * 3 {
                 _ = reader.uint32(fromBits: 23)
@@ -219,7 +219,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testUint64FromBits() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = reader.uint64(fromBits: 52)

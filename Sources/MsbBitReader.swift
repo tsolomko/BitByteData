@@ -60,11 +60,11 @@ public final class MsbBitReader: BitReader {
     }
 
     /// Creates an instance for reading bits (and bytes) from `data`.
-    public init(data: Data) {
-        self.size = data.count
-        self.source = data
-        self.offset = data.startIndex
-        self.currentByte = data.first ?? 0
+    public init(source: Data) {
+        self.size = source.count
+        self.source = source
+        self.offset = source.startIndex
+        self.currentByte = source.first ?? 0
     }
 
     /**
@@ -72,7 +72,7 @@ public final class MsbBitReader: BitReader {
      `byteReader` is preserved.
      */
     public convenience init(_ byteReader: ByteReader) {
-        self.init(data: byteReader.source)
+        self.init(source: byteReader.source)
         self.offset = byteReader.offset
         self.currentByte = byteReader.isFinished ? 0 : byteReader.source[byteReader.offset]
     }

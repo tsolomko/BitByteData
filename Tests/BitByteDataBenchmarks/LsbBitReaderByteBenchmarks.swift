@@ -10,7 +10,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testByte() {
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<5_000_000 {
                 _ = reader.byte()
@@ -20,7 +20,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testBytes() {
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<500_000 {
                 _ = reader.bytes(count: 20)
@@ -30,7 +30,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testIntFromBytes() {
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = reader.int(fromBytes: 7)
@@ -40,7 +40,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testUint16() {
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = reader.uint16()
@@ -50,7 +50,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testUint16_FB() { // For comparison with no-argument version.
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = reader.uint16(fromBytes: 2)
@@ -60,7 +60,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testUint16FromBytes() {
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = reader.uint16(fromBytes: 1)
@@ -70,7 +70,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testUint32() {
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = reader.uint32()
@@ -80,7 +80,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testUint32_FB() { // For comparison with no-argument version.
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = reader.uint32(fromBytes: 4)
@@ -90,7 +90,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testUint32FromBytes() {
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = reader.uint32(fromBytes: 3)
@@ -100,7 +100,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testUint64() {
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = reader.uint64()
@@ -110,7 +110,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testUint64_FB() { // For comparison with no-argument version.
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = reader.uint64(fromBytes: 8)
@@ -120,7 +120,7 @@ class LsbBitReaderByteBenchmarks: XCTestCase {
 
     func testUint64FromBytes() {
         self.measure {
-            let reader = LsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = LsbBitReader(source: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
                 _ = reader.uint64(fromBytes: 7)

@@ -9,7 +9,7 @@ import BitByteData
 class MsbBitReaderTests: XCTestCase {
 
     func testAdvance() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.bit(), 0)
         reader.advance()
         XCTAssertEqual(reader.bit(), 0)
@@ -22,7 +22,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBit() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.bit(), 0)
         XCTAssertEqual(reader.bit(), 1)
         XCTAssertEqual(reader.bit(), 0)
@@ -38,7 +38,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBits() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.bits(count: 0), [])
         var bits = reader.bits(count: 3)
         XCTAssertEqual(bits, [0, 1, 0])
@@ -50,11 +50,11 @@ class MsbBitReaderTests: XCTestCase {
     func testIntFromBits() {
         let reader: MsbBitReader
         if MemoryLayout<Int>.size == 8 {
-            reader = MsbBitReader(data: Data([127, 160, 15, 128,
+            reader = MsbBitReader(source: Data([127, 160, 15, 128,
                                               0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
                                               0x80, 0, 0, 0, 0, 0, 0, 0]))
         } else if MemoryLayout<Int>.size == 4 {
-            reader = MsbBitReader(data: Data([127, 160, 15, 128, 133, 200, 15,
+            reader = MsbBitReader(source: Data([127, 160, 15, 128, 133, 200, 15,
                                               0x7F, 0xFF, 0xFF, 0xFF, 0x80, 0, 0, 0]))
         } else {
             XCTFail("Unsupported Int bit width.")
@@ -75,11 +75,11 @@ class MsbBitReaderTests: XCTestCase {
         let repr = SignedNumberRepresentation.signMagnitude
         let reader: MsbBitReader
         if MemoryLayout<Int>.size == 8 {
-            reader = MsbBitReader(data: Data([127, 160, 15, 128, 251, 56, 8,
+            reader = MsbBitReader(source: Data([127, 160, 15, 128, 251, 56, 8,
                                               0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
                                               0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
         } else if MemoryLayout<Int>.size == 4 {
-            reader = MsbBitReader(data: Data([127, 160, 15, 128, 251, 56, 8,
+            reader = MsbBitReader(source: Data([127, 160, 15, 128, 251, 56, 8,
                                               0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
         } else {
             XCTFail("Unsupported Int bit width.")
@@ -103,11 +103,11 @@ class MsbBitReaderTests: XCTestCase {
         let repr = SignedNumberRepresentation.oneComplement
         let reader: MsbBitReader
         if MemoryLayout<Int>.size == 8 {
-            reader = MsbBitReader(data: Data([127, 160, 15, 128, 132, 199, 15,
+            reader = MsbBitReader(source: Data([127, 160, 15, 128, 132, 199, 15,
                                               0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
                                               0x80, 0, 0, 0, 0, 0, 0, 0]))
         } else if MemoryLayout<Int>.size == 4 {
-            reader = MsbBitReader(data: Data([127, 160, 15, 128, 132, 199, 15, 0x7F, 0xFF, 0xFF, 0xFF, 0x80, 0, 0, 0]))
+            reader = MsbBitReader(source: Data([127, 160, 15, 128, 132, 199, 15, 0x7F, 0xFF, 0xFF, 0xFF, 0x80, 0, 0, 0]))
         } else {
             XCTFail("Unsupported Int bit width.")
             return
@@ -130,11 +130,11 @@ class MsbBitReaderTests: XCTestCase {
         let repr = SignedNumberRepresentation.twoComplement
         let reader: MsbBitReader
         if MemoryLayout<Int>.size == 8 {
-            reader = MsbBitReader(data: Data([127, 160, 15, 128, 133, 200, 15,
+            reader = MsbBitReader(source: Data([127, 160, 15, 128, 133, 200, 15,
                                               0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
                                               0x80, 0, 0, 0, 0, 0, 0, 0]))
         } else if MemoryLayout<Int>.size == 4 {
-            reader = MsbBitReader(data: Data([127, 160, 15, 128, 133, 200, 15, 0x7F, 0xFF, 0xFF, 0xFF, 0x80, 0, 0, 0]))
+            reader = MsbBitReader(source: Data([127, 160, 15, 128, 133, 200, 15, 0x7F, 0xFF, 0xFF, 0xFF, 0x80, 0, 0, 0]))
         } else {
             XCTFail("Unsupported Int bit width.")
             return
@@ -157,9 +157,9 @@ class MsbBitReaderTests: XCTestCase {
         let repr = SignedNumberRepresentation.biased(bias: 127)
         let reader: MsbBitReader
         if MemoryLayout<Int>.size == 8 {
-            reader = MsbBitReader(data: Data([253, 133, 183, 127, 4, 71, 0, 0x80, 0, 0, 0, 0, 0, 0, 0x7E]))
+            reader = MsbBitReader(source: Data([253, 133, 183, 127, 4, 71, 0, 0x80, 0, 0, 0, 0, 0, 0, 0x7E]))
         } else if MemoryLayout<Int>.size == 4 {
-            reader = MsbBitReader(data: Data([253, 133, 183, 127, 4, 71, 0, 0x80, 0, 0, 0x7E]))
+            reader = MsbBitReader(source: Data([253, 133, 183, 127, 4, 71, 0, 0x80, 0, 0, 0x7E]))
         } else {
             XCTFail("Unsupported Int bit width.")
             return
@@ -179,9 +179,9 @@ class MsbBitReaderTests: XCTestCase {
         let repr = SignedNumberRepresentation.biased(bias: 3)
         let reader: MsbBitReader
         if MemoryLayout<Int>.size == 8 {
-            reader = MsbBitReader(data: Data([240, 129, 9, 176, 3, 3, 0x80, 0, 0, 0, 0, 0, 0, 2]))
+            reader = MsbBitReader(source: Data([240, 129, 9, 176, 3, 3, 0x80, 0, 0, 0, 0, 0, 0, 2]))
         } else if MemoryLayout<Int>.size == 4 {
-            reader = MsbBitReader(data: Data([240, 129, 9, 176, 3, 3, 0x80, 0, 0, 2]))
+            reader = MsbBitReader(source: Data([240, 129, 9, 176, 3, 3, 0x80, 0, 0, 2]))
         } else {
             XCTFail("Unsupported Int bit width.")
             return
@@ -205,9 +205,9 @@ class MsbBitReaderTests: XCTestCase {
         let repr = SignedNumberRepresentation.biased(bias: 1023)
         let reader: MsbBitReader
         if MemoryLayout<Int>.size == 8 {
-            reader = MsbBitReader(data: Data([0, 0, 255, 3, 0x80, 0, 0, 0, 0, 0, 3, 0xFE]))
+            reader = MsbBitReader(source: Data([0, 0, 255, 3, 0x80, 0, 0, 0, 0, 0, 3, 0xFE]))
         } else if MemoryLayout<Int>.size == 4 {
-            reader = MsbBitReader(data: Data([0, 0, 255, 3, 0x80, 0, 3, 0xFE]))
+            reader = MsbBitReader(source: Data([0, 0, 255, 3, 0x80, 0, 3, 0xFE]))
         } else {
             XCTFail("Unsupported Int bit width.")
             return
@@ -225,7 +225,7 @@ class MsbBitReaderTests: XCTestCase {
 
     func testSignedIntFromBits_RN2() {
         let repr = SignedNumberRepresentation.radixNegativeTwo
-        let reader = MsbBitReader(data: Data([90, 1, 12]))
+        let reader = MsbBitReader(source: Data([90, 1, 12]))
         XCTAssertEqual(reader.signedInt(fromBits: 5, representation: repr), -9)
         XCTAssertFalse(reader.isAligned)
         XCTAssertEqual(reader.signedInt(fromBits: 3, representation: repr), -2)
@@ -237,7 +237,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testByteFromBits() {
-        var reader = MsbBitReader(data: TestHelper.bitData)
+        var reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.byte(fromBits: 0), 0)
         var num = reader.byte(fromBits: 3)
         XCTAssertEqual(num, 2)
@@ -247,13 +247,13 @@ class MsbBitReaderTests: XCTestCase {
         reader.align()
         XCTAssertTrue(reader.isAligned)
         XCTAssertEqual(reader.byte(fromBits: 8), 0x57)
-        reader = MsbBitReader(data: Data([UInt8.max, UInt8.min]))
+        reader = MsbBitReader(source: Data([UInt8.max, UInt8.min]))
         XCTAssertEqual(reader.byte(fromBits: 8), UInt8.max)
         XCTAssertEqual(reader.byte(fromBits: 8), UInt8.min)
     }
 
     func testUint16FromBits() {
-        var reader = MsbBitReader(data: TestHelper.bitData)
+        var reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.uint16(fromBits: 0), 0)
         var num = reader.uint16(fromBits: 3)
         XCTAssertEqual(num, 2)
@@ -263,14 +263,14 @@ class MsbBitReaderTests: XCTestCase {
         reader.align()
         XCTAssertTrue(reader.isAligned)
         XCTAssertEqual(reader.uint16(fromBits: 16), 0x57_14)
-        reader = MsbBitReader(data: Data(Array(repeating: 0xFF, count: 2)))
+        reader = MsbBitReader(source: Data(Array(repeating: 0xFF, count: 2)))
         XCTAssertEqual(reader.uint16(fromBits: 16), UInt16.max)
-        reader = MsbBitReader(data: Data(Array(repeating: 0, count: 2)))
+        reader = MsbBitReader(source: Data(Array(repeating: 0, count: 2)))
         XCTAssertEqual(reader.uint16(fromBits: 16), UInt16.min)
     }
 
     func testUint32FromBits() {
-        var reader = MsbBitReader(data: TestHelper.bitData)
+        var reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.uint32(fromBits: 0), 0)
         var num = reader.uint32(fromBits: 3)
         XCTAssertEqual(num, 2)
@@ -280,14 +280,14 @@ class MsbBitReaderTests: XCTestCase {
         reader.align()
         XCTAssertTrue(reader.isAligned)
         XCTAssertEqual(reader.uint32(fromBits: 32), 0x57_14_AB_CC)
-        reader = MsbBitReader(data: Data(Array(repeating: 0xFF, count: 4)))
+        reader = MsbBitReader(source: Data(Array(repeating: 0xFF, count: 4)))
         XCTAssertEqual(reader.uint32(fromBits: 32), UInt32.max)
-        reader = MsbBitReader(data: Data(Array(repeating: 0, count: 4)))
+        reader = MsbBitReader(source: Data(Array(repeating: 0, count: 4)))
         XCTAssertEqual(reader.uint32(fromBits: 32), UInt32.min)
     }
 
     func testUint64FromBits() {
-        var reader = MsbBitReader(data: TestHelper.bitData)
+        var reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.uint64(fromBits: 0), 0)
         var num = reader.uint64(fromBits: 3)
         XCTAssertEqual(num, 2)
@@ -297,14 +297,14 @@ class MsbBitReaderTests: XCTestCase {
         reader.align()
         XCTAssertTrue(reader.isAligned)
         XCTAssertEqual(reader.uint64(fromBits: 64), 0x57_14_AB_CC_2D_88_EA_00)
-        reader = MsbBitReader(data: Data(Array(repeating: 0xFF, count: 8)))
+        reader = MsbBitReader(source: Data(Array(repeating: 0xFF, count: 8)))
         XCTAssertEqual(reader.uint64(fromBits: 64), UInt64.max)
-        reader = MsbBitReader(data: Data(Array(repeating: 0, count: 8)))
+        reader = MsbBitReader(source: Data(Array(repeating: 0, count: 8)))
         XCTAssertEqual(reader.uint64(fromBits: 64), UInt64.min)
     }
 
     func testIsAligned() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         _ = reader.bits(count: 12)
         XCTAssertFalse(reader.isAligned)
         _ = reader.bits(count: 4)
@@ -312,7 +312,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testAlign() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         _ = reader.bits(count: 6)
         XCTAssertFalse(reader.isAligned)
         reader.align()
@@ -323,7 +323,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBytesLeft() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         _ = reader.bits(count: 6)
         XCTAssertEqual(reader.bytesLeft, 10)
         _ = reader.bits(count: 2)
@@ -339,7 +339,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBytesRead() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         _ = reader.bits(count: 6)
         XCTAssertEqual(reader.bytesRead, 0)
         _ = reader.bits(count: 2)
@@ -355,7 +355,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBitReaderByte() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         var byte = reader.byte()
         XCTAssertEqual(byte, 0x5A)
         XCTAssertTrue(reader.isAligned)
@@ -367,7 +367,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBitReaderBytes() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.bytes(count: 0), [])
         let bytes = reader.bytes(count: 2)
         XCTAssertEqual(bytes, [0x5A, 0xD6])
@@ -376,7 +376,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBitReaderIntFromBytes() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.int(fromBytes: 0), 0)
         XCTAssertEqual(reader.int(fromBytes: 2), 54874)
         XCTAssertTrue(reader.isAligned)
@@ -384,7 +384,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBitReaderUint16() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.uint16(fromBytes: 0), 0)
         let num = reader.uint16()
         XCTAssertEqual(num, 54874)
@@ -393,7 +393,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBitReaderUint32FromBytes() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.uint32(fromBytes: 0), 0)
         let num = reader.uint32(fromBytes: 3)
         XCTAssertEqual(num, 5756506)
@@ -402,13 +402,13 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBitReaderNonZeroStartIndex() {
-        var reader = MsbBitReader(data: TestHelper.bitData[1...])
+        var reader = MsbBitReader(source: TestHelper.bitData[1...])
         XCTAssertEqual(reader.offset, 1)
         XCTAssertEqual(reader.byte(), 0xD6)
-        reader = MsbBitReader(data: TestHelper.bitData[1...])
+        reader = MsbBitReader(source: TestHelper.bitData[1...])
         XCTAssertEqual(reader.offset, 1)
         XCTAssertEqual(reader.bytes(count: 1), [0xD6])
-        reader = MsbBitReader(data: TestHelper.bitData[1...])
+        reader = MsbBitReader(source: TestHelper.bitData[1...])
         XCTAssertEqual(reader.offset, 1)
         XCTAssertEqual(reader.bit(), 1)
         XCTAssertEqual(reader.bits(count: 3), [1, 0, 1])
@@ -416,7 +416,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testConvertedByteReader() {
-        let byteReader = LittleEndianByteReader(data: TestHelper.bitData)
+        let byteReader = LittleEndianByteReader(source: TestHelper.bitData)
         _ = byteReader.byte()
         var reader = MsbBitReader(byteReader)
         XCTAssertEqual(reader.byte(), 0xD6)
@@ -428,7 +428,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBitsLeft() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.bitsLeft, 80)
         _ = reader.bits(count: 4)
         XCTAssertEqual(reader.bitsLeft, 76)
@@ -443,7 +443,7 @@ class MsbBitReaderTests: XCTestCase {
     }
 
     func testBitsRead() {
-        let reader = MsbBitReader(data: TestHelper.bitData)
+        let reader = MsbBitReader(source: TestHelper.bitData)
         XCTAssertEqual(reader.bitsRead, 0)
         _ = reader.bits(count: 4)
         XCTAssertEqual(reader.bitsRead, 4)
