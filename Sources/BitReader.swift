@@ -21,7 +21,7 @@ public protocol BitReader: ByteReader {
      Converts a `ByteReader` instance into `BitReader`, enabling bits reading capabilities. Current `offset` value of
      `byteReader` is preserved.
      */
-    init(_ byteReader: ByteReader)
+    init<T: ByteReader>(_ byteReader: T) where T.BinarySource == Self.BinarySource
 
     // Advances reader's BIT pointer by the specified amount of bits.
     func advance(by count: Int)

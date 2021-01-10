@@ -8,6 +8,8 @@ import Foundation
 /// A type that contains functions for reading `Data` byte-by-byte in the Big Endian order.
 public final class BigEndianByteReader: ByteReader {
 
+    public typealias BinarySource = Data
+
     /// Size of the `data` (in bytes).
     public let size: Int
 

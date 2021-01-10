@@ -11,6 +11,8 @@ import Foundation
  */
 public final class LsbBitReader: BitReader {
 
+    public typealias BinarySource = Data
+
     private var bitMask: UInt8 = 1
     private var currentByte: UInt8
 
@@ -71,7 +73,7 @@ public final class LsbBitReader: BitReader {
      Converts a `ByteReader` instance into `LsbBitReader`, enabling bit reading capabilities. Current `offset` value of
      `byteReader` is preserved.
      */
-    public convenience init(_ byteReader: ByteReader) {
+    public convenience init<T: ByteReader>(_ byteReader: T) where T.BinarySource == Data {
         self.init(source: byteReader.source)
         self.offset = byteReader.offset
         self.currentByte = byteReader.isFinished ? 0 : byteReader.source[byteReader.offset]

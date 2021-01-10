@@ -7,13 +7,15 @@ import Foundation
 
 public protocol ByteReader: AnyObject {
 
+    associatedtype BinarySource
+
     var size: Int { get }
 
-    var source: Data { get }
+    var source: BinarySource { get }
 
     var offset: Int { get set }
 
-    init(source: Data)
+    init(source: BinarySource)
 
     func byte() -> UInt8
 
@@ -31,25 +33,29 @@ public protocol ByteReader: AnyObject {
 
 extension ByteReader {
 
-    public init(_ bitReader: BitReader) {
+    public init<T: BitReader>(_ bitReader: T) where T.BinarySource == Self.BinarySource {
         self.init(source: bitReader.source)
         self.offset = bitReader.offset
     }
+    
+}
+
+extension ByteReader where BinarySource: Collection, BinarySource.Index == Int {
 
     public var bytesLeft: Int {
-        return { (data: Data, offset: Int) -> Int in
+        return { (data: BinarySource, offset: Int) -> Int in
             return data.endIndex - offset
         } (self.source, self.offset)
     }
 
     public var bytesRead: Int {
-        return { (data: Data, offset: Int) -> Int in
+        return { (data: BinarySource, offset: Int) -> Int in
             return offset - data.startIndex
         } (self.source, self.offset)
     }
 
     public var isFinished: Bool {
-        return { (data: Data, offset: Int) -> Bool in
+        return { (data: BinarySource, offset: Int) -> Bool in
             return data.endIndex <= offset
         } (self.source, self.offset)
     }
