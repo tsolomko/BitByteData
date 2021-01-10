@@ -31,7 +31,7 @@ class BigEndianByteReaderTests: XCTestCase {
         XCTAssertEqual(reader.bytesLeft, 9)
         _ = reader.uint16()
         XCTAssertEqual(reader.bytesLeft, 7)
-        reader.offset = reader.data.endIndex
+        reader.offset = reader.source.endIndex
         XCTAssertEqual(reader.bytesLeft, 0)
     }
 
@@ -40,7 +40,7 @@ class BigEndianByteReaderTests: XCTestCase {
         XCTAssertEqual(reader.bytesRead, 0)
         _ = reader.uint16()
         XCTAssertEqual(reader.bytesRead, 2)
-        reader.offset = reader.data.endIndex
+        reader.offset = reader.source.endIndex
         XCTAssertEqual(reader.bytesRead, 9)
     }
 

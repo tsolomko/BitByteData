@@ -12,7 +12,7 @@ public final class LittleEndianByteReader: ByteReader {
     public let size: Int
 
     /// Data which is being read.
-    public let data: Data
+    public let source: Data
 
     /// Offset to the byte in `data` which will be read next.
     public var offset: Int
@@ -20,7 +20,7 @@ public final class LittleEndianByteReader: ByteReader {
     /// Creates an instance for reading bytes from `data`.
     public init(data: Data) {
         self.size = data.count
-        self.data = data
+        self.source = data
         self.offset = data.startIndex
     }
 
@@ -33,7 +33,7 @@ public final class LittleEndianByteReader: ByteReader {
         return { (data: Data, offset: inout Int) -> UInt8 in
             defer { offset += 1 }
             return data[offset]
-        } (self.data, &self.offset)
+        } (self.source, &self.offset)
     }
 
     /**
@@ -47,7 +47,7 @@ public final class LittleEndianByteReader: ByteReader {
         return { (data: Data, offset: inout Int) -> [UInt8] in
             defer { offset += count }
             return data[offset..<offset + count].toByteArray(count)
-        } (self.data, &self.offset)
+        } (self.source, &self.offset)
     }
 
     /**
@@ -59,7 +59,7 @@ public final class LittleEndianByteReader: ByteReader {
         return { (data: Data, offset: inout Int) -> UInt64 in
             defer { offset += 8 }
             return data[offset..<offset + 8].toU64()
-        } (self.data, &self.offset)
+        } (self.source, &self.offset)
     }
 
     /**
@@ -80,7 +80,7 @@ public final class LittleEndianByteReader: ByteReader {
                 offset += 1
             }
             return result
-        } (self.data, &self.offset)
+        } (self.source, &self.offset)
     }
 
     /**
@@ -92,7 +92,7 @@ public final class LittleEndianByteReader: ByteReader {
         return { (data: Data, offset: inout Int) -> UInt32 in
             defer { offset += 4 }
             return data[offset..<offset + 4].toU32()
-        } (self.data, &self.offset)
+        } (self.source, &self.offset)
     }
 
     /**
@@ -113,7 +113,7 @@ public final class LittleEndianByteReader: ByteReader {
                 offset += 1
             }
             return result
-        } (self.data, &self.offset)
+        } (self.source, &self.offset)
     }
 
     /**
@@ -125,7 +125,7 @@ public final class LittleEndianByteReader: ByteReader {
         return { (data: Data, offset: inout Int) -> UInt16 in
             defer { offset += 2 }
             return data[offset..<offset + 2].toU16()
-        } (self.data, &self.offset)
+        } (self.source, &self.offset)
     }
 
     /**
@@ -146,7 +146,7 @@ public final class LittleEndianByteReader: ByteReader {
                 offset += 1
             }
             return result
-        } (self.data, &self.offset)
+        } (self.source, &self.offset)
     }
 
 }

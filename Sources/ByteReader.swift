@@ -9,7 +9,7 @@ public protocol ByteReader: AnyObject {
 
     var size: Int { get }
 
-    var data: Data { get }
+    var source: Data { get }
 
     var offset: Int { get set }
 
@@ -32,26 +32,26 @@ public protocol ByteReader: AnyObject {
 extension ByteReader {
 
     public init(_ bitReader: BitReader) {
-        self.init(data: bitReader.data)
+        self.init(data: bitReader.source)
         self.offset = bitReader.offset
     }
 
     public var bytesLeft: Int {
         return { (data: Data, offset: Int) -> Int in
             return data.endIndex - offset
-        } (self.data, self.offset)
+        } (self.source, self.offset)
     }
 
     public var bytesRead: Int {
         return { (data: Data, offset: Int) -> Int in
             return offset - data.startIndex
-        } (self.data, self.offset)
+        } (self.source, self.offset)
     }
 
     public var isFinished: Bool {
         return { (data: Data, offset: Int) -> Bool in
             return data.endIndex <= offset
-        } (self.data, self.offset)
+        } (self.source, self.offset)
     }
 
     public func int(fromBytes count: Int) -> Int {

@@ -330,7 +330,7 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertEqual(reader.bytesLeft, 9)
         _ = reader.byte()
         XCTAssertEqual(reader.bytesLeft, 8)
-        reader.offset = reader.data.endIndex - 1
+        reader.offset = reader.source.endIndex - 1
         XCTAssertEqual(reader.bytesLeft, 1)
         _ = reader.bits(count: 2)
         XCTAssertEqual(reader.bytesLeft, 1)
@@ -346,7 +346,7 @@ class LsbBitReaderTests: XCTestCase {
         XCTAssertEqual(reader.bytesRead, 1)
         _ = reader.byte()
         XCTAssertEqual(reader.bytesRead, 2)
-        reader.offset = reader.data.endIndex - 1
+        reader.offset = reader.source.endIndex - 1
         XCTAssertEqual(reader.bytesRead, 9)
         _ = reader.bits(count: 2)
         XCTAssertEqual(reader.bytesRead, 9)

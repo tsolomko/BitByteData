@@ -18,7 +18,7 @@ public final class MsbBitReader: BitReader {
     public let size: Int
 
     /// Data which is being read.
-    public let data: Data
+    public let source: Data
 
     /**
      The offset to the byte in `data` right after the `currentByte`.
@@ -33,7 +33,7 @@ public final class MsbBitReader: BitReader {
             if !self.isFinished {
                 { (data: Data, offset: Int, currentByte: inout UInt8) in
                     currentByte = data[offset]
-                } (self.data, self.offset, &self.currentByte)
+                } (self.source, self.offset, &self.currentByte)
             }
         }
     }
@@ -48,7 +48,7 @@ public final class MsbBitReader: BitReader {
         return { (data: Data, offset: Int, bitMask: UInt8) in
             let bytesLeft = data.endIndex - offset
             return bytesLeft * 8 - bitMask.leadingZeroBitCount
-        } (self.data, self.offset, self.bitMask)
+        } (self.source, self.offset, self.bitMask)
     }
 
     /// Amount of bits that were already read.
@@ -56,13 +56,13 @@ public final class MsbBitReader: BitReader {
         return { (data: Data, offset: Int, bitMask: UInt8) in
             let bytesRead = offset - data.startIndex
             return bytesRead * 8 + bitMask.leadingZeroBitCount
-        } (self.data, self.offset, self.bitMask)
+        } (self.source, self.offset, self.bitMask)
     }
 
     /// Creates an instance for reading bits (and bytes) from `data`.
     public init(data: Data) {
         self.size = data.count
-        self.data = data
+        self.source = data
         self.offset = data.startIndex
         self.currentByte = data.first ?? 0
     }
@@ -72,9 +72,9 @@ public final class MsbBitReader: BitReader {
      `byteReader` is preserved.
      */
     public convenience init(_ byteReader: ByteReader) {
-        self.init(data: byteReader.data)
+        self.init(data: byteReader.source)
         self.offset = byteReader.offset
-        self.currentByte = byteReader.isFinished ? 0 : byteReader.data[byteReader.offset]
+        self.currentByte = byteReader.isFinished ? 0 : byteReader.source[byteReader.offset]
     }
 
     /**
@@ -321,7 +321,7 @@ public final class MsbBitReader: BitReader {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt8 in
             defer { offset += 1 }
             return data[offset]
-        } (self.data, &self.offset, self.bitMask)
+        } (self.source, &self.offset, self.bitMask)
     }
 
     /**
@@ -334,7 +334,7 @@ public final class MsbBitReader: BitReader {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> [UInt8] in
             defer { offset += count }
             return data[offset..<offset + count].toByteArray(count)
-        } (self.data, &self.offset, self.bitMask)
+        } (self.source, &self.offset, self.bitMask)
     }
 
     /**
@@ -347,7 +347,7 @@ public final class MsbBitReader: BitReader {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt64 in
             defer { offset += 8 }
             return data[offset..<offset + 8].toU64()
-        } (self.data, &self.offset, self.bitMask)
+        } (self.source, &self.offset, self.bitMask)
     }
 
     /**
@@ -366,7 +366,7 @@ public final class MsbBitReader: BitReader {
                 offset += 1
             }
             return result
-        } (self.data, &self.offset, self.bitMask)
+        } (self.source, &self.offset, self.bitMask)
     }
 
     /**
@@ -379,7 +379,7 @@ public final class MsbBitReader: BitReader {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt32 in
             defer { offset += 4 }
             return data[offset..<offset + 4].toU32()
-        } (self.data, &self.offset, self.bitMask)
+        } (self.source, &self.offset, self.bitMask)
     }
 
     /**
@@ -398,7 +398,7 @@ public final class MsbBitReader: BitReader {
                 offset += 1
             }
             return result
-        } (self.data, &self.offset, self.bitMask)
+        } (self.source, &self.offset, self.bitMask)
     }
 
     /**
@@ -411,7 +411,7 @@ public final class MsbBitReader: BitReader {
         return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt16 in
             defer { offset += 2 }
             return data[offset..<offset + 2].toU16()
-        } (self.data, &self.offset, self.bitMask)
+        } (self.source, &self.offset, self.bitMask)
     }
 
     /**
@@ -430,7 +430,7 @@ public final class MsbBitReader: BitReader {
                 offset += 1
             }
             return result
-        } (self.data, &self.offset, self.bitMask)
+        } (self.source, &self.offset, self.bitMask)
     }
 
 }
