@@ -40,7 +40,7 @@ extension ByteReader {
     
 }
 
-extension ByteReader where BinarySource: Collection, BinarySource.Index == Int {
+extension ByteReader where BinarySource == Data {
 
     public var bytesLeft: Int {
         return { (data: BinarySource, offset: Int) -> Int in
