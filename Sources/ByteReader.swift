@@ -70,4 +70,12 @@ extension ByteReader where BinarySource == Data {
         }
     }
 
+    public var data: Data {
+        return self.source
+    }
+
+    public init(data: Data) {
+        self.init(source: data)
+    }
+
 }
