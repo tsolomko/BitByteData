@@ -70,7 +70,7 @@ class BenchmarkResult:
         self.iter_count = iter_count
 
     def __str__(self):
-        return "{test_name}   {avg} {rsd}%".format(test_name=self.test_name, avg=self.avg, rsd=self.rel_std_dev)
+        return " {avg:<6s} {rsd:>6s}%   {test_name}".format(test_name=self.test_name, avg=self.avg, rsd=self.rel_std_dev)
 
     @classmethod
     def from_json_dict(cls, dct: dict):
@@ -82,44 +82,44 @@ class BenchmarkResult:
         return float(self.avg) * float(self.rel_std_dev) / 100
 
     def str_compare(self, base) -> str:
-        output = str(self)
-        output += "  |  {avg} {rsd}% | ".format(avg=base.avg, rsd=base.rel_std_dev)
+        output = ""
         p_value_stat = PvalueStat(self, base)
         diff = (float(self.avg) / float(base.avg) - 1) * 100
         if diff > 0:
             if p_value_stat.res == PvalueResult.GREATER:
-                output += "OK (p-value > 0.05)"
+                output += "OK  {0:>+6.2f}% (p-value > 0.05)".format(diff)
                 stat_keeper.ok()
             elif p_value_stat.res is None:
-                output += "REG +{0:.2f}% (df={1}, t-stat={2:.2f})".format(diff, p_value_stat.df, p_value_stat.t_stat)
+                output += "REG {0:>+6.2f}% (df={1}, t-stat={2:.2f})".format(diff, p_value_stat.df, p_value_stat.t_stat)
                 stat_keeper.reg()
             elif p_value_stat.res == PvalueResult.LESS:
-                output += "REG +{0:.2f}% (p-value < 0.05)".format(diff)
+                output += "REG {0:>+6.2f}% (p-value < 0.05)".format(diff)
                 stat_keeper.reg()
             elif p_value_stat.res == PvalueResult.EQUAL:
-                output += "REG +{0:.2f}% (p-value = 0.05)".format(diff)
+                output += "REG {0:>+6.2f}% (p-value = 0.05)".format(diff)
                 stat_keeper.reg()
             else:
                 raise RuntimeError("Unknown p-value result")
         elif diff < 0:
-            diff = abs(diff)
             if p_value_stat.res == PvalueResult.GREATER:
-                output += "OK (p-value > 0.05)"
+                output += "OK  {0:>+6.2f}% (p-value > 0.05)".format(diff)
                 stat_keeper.ok()
             elif p_value_stat.res is None:
-                output += "IMP -{0:.2f}% (df={1}, t-stat={2:.2f})".format(diff, p_value_stat.df, p_value_stat.t_stat)
+                output += "IMP {0:>+6.2f}% (df={1}, t-stat={2:.2f})".format(diff, p_value_stat.df, p_value_stat.t_stat)
                 stat_keeper.imp()
             elif p_value_stat.res == PvalueResult.LESS:
-                output += "IMP -{0:.2f}% (p-value < 0.05)".format(diff)
+                output += "IMP {0:>+6.2f}% (p-value < 0.05)".format(diff)
                 stat_keeper.imp()
             elif p_value_stat.res == PvalueResult.EQUAL:
-                output += "IMP -{0:.2f}% (p-value = 0.05)".format(diff)
+                output += "IMP {0:>+6.2f}% (p-value = 0.05)".format(diff)
                 stat_keeper.imp()
             else:
                 raise RuntimeError("Unknown p-value result")
         else:
-            output += "OK"
+            output += "OK                          "
             stat_keeper.ok()
+        output += " | {self_avg:<6s} {self_rsd:6s}% | {base_avg:<6s} {base_rsd:>6s}% | {name}".format(self_avg=self.avg, 
+            self_rsd=self.rel_std_dev, base_avg=base.avg, base_rsd=base.rel_std_dev, name=self.test_name)
         return output
 
 class BenchmarkGroup:
@@ -164,7 +164,7 @@ class BenchmarkRun:
         for group_name, group in self.groups.items():
             output += "\n" + group_name + ":\n"
             for result_name, result in group.results.items():
-                output += "  {test_name}   {avg} {rsd}%".format(test_name=result_name, avg=result.avg,
+                output += " {avg:<6s} {rsd:>6s}%   {test_name}".format(test_name=result_name, avg=result.avg,
                                                                 rsd=result.rel_std_dev) + "\n"
         return output
 
