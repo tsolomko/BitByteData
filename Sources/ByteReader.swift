@@ -54,4 +54,14 @@ extension ByteReader {
         } (self.data, self.offset)
     }
 
+    public func int(fromBytes count: Int) -> Int {
+        if MemoryLayout<Int>.size == 8 {
+            return Int(truncatingIfNeeded: self.uint64(fromBytes: count))
+        } else if MemoryLayout<Int>.size == 4 {
+            return Int(truncatingIfNeeded: self.uint32(fromBytes: count))
+        } else {
+            fatalError("Unknown Int bit width")
+        }
+    }
+
 }
