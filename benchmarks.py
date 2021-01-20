@@ -70,7 +70,8 @@ class BenchmarkResult:
         self.iter_count = iter_count
 
     def __str__(self):
-        return " {avg:<6s} {rsd:>6s}%   {test_name}".format(test_name=self.test_name, avg=self.avg, rsd=self.rel_std_dev)
+        return " {avg:<6s} {rsd:>6s}%   {group}/{name}".format(group=self.group_name, name=self.test_name, avg=self.avg,
+                                                                rsd=self.rel_std_dev)
 
     @classmethod
     def from_json_dict(cls, dct: dict):
@@ -82,7 +83,7 @@ class BenchmarkResult:
         return float(self.avg) * float(self.rel_std_dev) / 100
 
     def str_compare(self, base) -> str:
-        output = ""
+        output = "  "
         p_value_stat = PvalueStat(self, base)
         diff = (float(self.avg) / float(base.avg) - 1) * 100
         if diff > 0:
@@ -118,8 +119,8 @@ class BenchmarkResult:
         else:
             output += "OK                          "
             stat_keeper.ok()
-        output += " | {self_avg:<6s} {self_rsd:6s}% | {base_avg:<6s} {base_rsd:>6s}% | {name}".format(self_avg=self.avg, 
-            self_rsd=self.rel_std_dev, base_avg=base.avg, base_rsd=base.rel_std_dev, name=self.test_name)
+        output += " | {self_avg:<6s} {self_rsd:6s}% | {base_avg:<6s} {base_rsd:>6s}% | {group}/{name}".format(self_avg=self.avg, 
+            self_rsd=self.rel_std_dev, base_avg=base.avg, base_rsd=base.rel_std_dev, name=self.test_name, group=self.group_name)
         return output
 
 class BenchmarkGroup:
@@ -314,6 +315,7 @@ def action_run(args):
     run = BenchmarkRun(swift_ver, timestamp, binary_size, args.desc)
 
     bench_command = swift_command + ["test", "-c", "release", "--filter"]
+    print("NEW | BASE")
     for group, benches in groups.items():
         base_group = None
         if base is not None:
@@ -336,9 +338,9 @@ def action_run(args):
                     result = BenchmarkResult(group, bench, matches[0][2], matches[0][3], iter_count)
                     run.new_result(result)
                     if base_result is not None:
-                        print("{0}/{1}".format(group, result.str_compare(base_result)))
+                        print(result.str_compare(base_result))
                     else:
-                        print("{0}/{1}".format(group, result))
+                        print(result)
     
     if base is not None:
         print(stat_keeper.summary())
