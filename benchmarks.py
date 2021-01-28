@@ -88,36 +88,36 @@ class BenchmarkResult:
         diff = (float(self.avg) / float(base.avg) - 1) * 100
         if diff > 0:
             if p_value_stat.res == PvalueResult.GREATER:
-                output += "OK  {0:>+6.2f}% (p-value > 0.05)".format(diff)
+                output += "OK  {0:>+7.2f}% (p-value > 0.05)".format(diff)
                 stat_keeper.ok()
             elif p_value_stat.res is None:
-                output += "REG {0:>+6.2f}% (df={1}, t-stat={2:.2f})".format(diff, p_value_stat.df, p_value_stat.t_stat)
+                output += "REG {0:>+7.2f}% (df={1}, t-stat={2:.2f})".format(diff, p_value_stat.df, p_value_stat.t_stat)
                 stat_keeper.reg()
             elif p_value_stat.res == PvalueResult.LESS:
-                output += "REG {0:>+6.2f}% (p-value < 0.05)".format(diff)
+                output += "REG {0:>+7.2f}% (p-value < 0.05)".format(diff)
                 stat_keeper.reg()
             elif p_value_stat.res == PvalueResult.EQUAL:
-                output += "REG {0:>+6.2f}% (p-value = 0.05)".format(diff)
+                output += "REG {0:>+7.2f}% (p-value = 0.05)".format(diff)
                 stat_keeper.reg()
             else:
                 raise RuntimeError("Unknown p-value result")
         elif diff < 0:
             if p_value_stat.res == PvalueResult.GREATER:
-                output += "OK  {0:>+6.2f}% (p-value > 0.05)".format(diff)
+                output += "OK  {0:>+7.2f}% (p-value > 0.05)".format(diff)
                 stat_keeper.ok()
             elif p_value_stat.res is None:
-                output += "IMP {0:>+6.2f}% (df={1}, t-stat={2:.2f})".format(diff, p_value_stat.df, p_value_stat.t_stat)
+                output += "IMP {0:>+7.2f}% (df={1}, t-stat={2:.2f})".format(diff, p_value_stat.df, p_value_stat.t_stat)
                 stat_keeper.imp()
             elif p_value_stat.res == PvalueResult.LESS:
-                output += "IMP {0:>+6.2f}% (p-value < 0.05)".format(diff)
+                output += "IMP {0:>+7.2f}% (p-value < 0.05)".format(diff)
                 stat_keeper.imp()
             elif p_value_stat.res == PvalueResult.EQUAL:
-                output += "IMP {0:>+6.2f}% (p-value = 0.05)".format(diff)
+                output += "IMP {0:>+7.2f}% (p-value = 0.05)".format(diff)
                 stat_keeper.imp()
             else:
                 raise RuntimeError("Unknown p-value result")
         else:
-            output += "OK                          "
+            output += "OK                           "
             stat_keeper.ok()
         output += " | {self_avg:<6s} {self_rsd:6s}% | {base_avg:<6s} {base_rsd:>6s}% | {group}/{name}".format(self_avg=self.avg, 
             self_rsd=self.rel_std_dev, base_avg=base.avg, base_rsd=base.rel_std_dev, name=self.test_name, group=self.group_name)
@@ -138,13 +138,13 @@ class BenchmarkGroup:
         self.results[result.test_name] = result
 
     def str_compare(self, base) -> str:
-        output = "{0}: NEW | BASE\n".format(self.name)
+        output = ""
         for result_name, result in self.results.items():
             base_result = base.results.get(result_name)
             if base_result is None:
                 output += "  {0} | N/A\n".format(result)
             else:
-                output += "  " + result.str_compare(base_result) + "\n"
+                output += result.str_compare(base_result) + "\n"
         return output
 
 class BenchmarkRun:
@@ -182,7 +182,7 @@ class BenchmarkRun:
                 output += str(group) + "\n"
                 output += "warning: " + group_name + " not found in base benchmarks\n"
             else:
-                output += group.str_compare(base_group) + "\n"
+                output += group.str_compare(base_group)
             if not ignore_missing and base_group is not None:
                 missing_results = []
                 for result in base_group.results.values():
@@ -225,6 +225,7 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
         elif len(obj.items()) == 2 and "group_name" in obj:
             group = BenchmarkGroup(obj["group_name"])
             for result in obj["results"]:
+                result.group_name = group.name
                 group.add_result(result)
             return group
         elif len(obj.items()) >= 3 and "BitByteDataBenchmarks" in obj and "swift_ver" in obj and "timestamp" in obj and "binary_size" in obj:
@@ -314,7 +315,7 @@ def action_run(args):
     print("Binary size: {0}".format(binary_size))
     run = BenchmarkRun(swift_ver, timestamp, binary_size, args.desc)
 
-    bench_command = swift_command + ["test", "-c", "release", "--filter"]
+    bench_command = swift_command + ["test", "-c", "release", "--skip-build", "--skip-update", "--filter"]
     print("NEW | BASE")
     for group, benches in groups.items():
         base_group = None
@@ -370,6 +371,7 @@ def action_show(args):
         print("Binary size: {0}".format(o.binary_size))
         if o.description is not None:
             print("Description: {0}".format(o.description))
+        print("NEW | BASE")
         print(o.str_compare(base))
     else:
         print(o)
