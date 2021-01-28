@@ -375,19 +375,14 @@ def action_show(args):
         print(o)
 
 def action_emit(args):
-    # TODO: Line breaks in output?
-    print("Emitting sil-gen")
-    subprocess.run("rm -rf .build/", shell=True, check=True)
-    subprocess.run("swift build --verbose -c release -Xswiftc -emit-silgen -Xswiftc -O -Xswiftc -v > " + args.filename + ".sil-gen",
-                    shell=True)
+    # It seems like swiftc emits directly into /dev/tty instead of stdout or stderr, since we're unable to capture its
+    #  output with ">" or "&>". To save its output into a file anyway we utilize "script" utility tool.
     print("Emitting SIL")
     subprocess.run("rm -rf .build/", shell=True, check=True)
-    subprocess.run("swift build --verbose -c release -Xswiftc -emit-sil -Xswiftc -O -Xswiftc -v > " + args.filename + ".sil",
-                    shell=True)
+    _sprun(["script", "-q", args.filename + ".sil", "swift", "build", "-c", "release", "-Xswiftc", "-emit-sil", "-Xswiftc", "-O"])
     print("Emitting ASM")
     subprocess.run("rm -rf .build/", shell=True, check=True)
-    subprocess.run("swift build --verbose -c release -Xswiftc -S -Xswiftc -O -Xswiftc -v > " + args.filename + ".asm",
-                    shell=True)
+    _sprun(["script", "-q", args.filename + ".asm", "swift", "build", "-c", "release", "-Xswiftc", "-S", "-Xswiftc", "-O"])
 
 parser = argparse.ArgumentParser(description="A benchmarking tool for BitByteData")
 subparsers = parser.add_subparsers(title="commands", help="a command to perform", metavar="CMD")
@@ -417,8 +412,7 @@ parser_show.set_defaults(func=action_show)
 
 # Parser for 'emit' command.
 parser_emit = subparsers.add_parser("emit", help="emits SIL and ASM representations",
-                                    description=("generates two SIL representations as well as the final ASM code and"
-                                                "saves them into the output.[sil-gen,sil,asm] files"))
+                                    description=("saves the SIL representation and the final ASM code into the FILENAME.[sil,asm] files"))
 parser_emit.add_argument("--filename", "-f", action="store", metavar="FILENAME", default="output",
                         help="base name of the output file without extensions (default: output)")
 parser_emit.set_defaults(func=action_emit)
