@@ -1,6 +1,6 @@
 # 2.0 Plans
 
-_Last updated: 07.01.2021._
+_Last updated: 28.01.2021._
 
 In this document I am going to outline changes that I am planning to implement in the next major update of BitByteData,
 version 2.0. I am writing this document with two goals in mind. First, to provide an opportunity to give feedback on
@@ -210,16 +210,18 @@ will be included, since they are more general and the existence of no-argument v
 reasons. If it becomes possible to make with-argument versions as efficient, the no-argument versions can instead be made
 to call the with-argument ones, and in the future they can be more or less easily removed.
 
-## Check if a bit reader is aligned in `offset`'s `willSet` observer
+## Check if a bit reader is aligned in the willSet observer of the `offset` property
 
 The current philosophy for byte reading in bit readers is that it is only possible to read _bytes_ (and, probably, the
 only case when it makes sense) when a bit reader is "aligned" to the byte boundary. This is a carefully maintained
 invariant in all _methods_ of both `L/MsbBitReader`, but not in the `offset`'s setter. In other words, it is currently
 possible to change `L/MsbBitReader.offset` property when said bit reader is not aligned. This can lead to surprising and
-unpredictable behavior, and I am going to explicitly ban this by adding a precondition to the `offset`'s `willSet`
-property observer.
+unpredictable behavior, and I am going to prevent this by adding a precondition to the willSet observer of the `offset`
+property.
 
-__TODO:__ Measure the impact on performance of this change.
+Additionally, it seems like having two property observers (both willSet and didSet) instead of only one (didSet in our
+case) actually _improves_ performance. The reason for this is still unknown to me, but it's a very good argument in
+support of adding the willSet observer.
 
 ## Add methods for reading and writing bits of a negative number
 
