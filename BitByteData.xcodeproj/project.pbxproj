@@ -243,7 +243,7 @@
 			attributes = {
 				DefaultBuildSystemTypeForWorkspace = Latest;
 				LastSwiftUpdateCheck = 1000;
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Timofey Solomko";
 				TargetAttributes = {
 					065DD5DE21673BC100704028 = {
