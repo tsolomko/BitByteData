@@ -24,7 +24,7 @@ stages:
           DEVELOPER_DIR: '/Applications/Xcode_11.4.1.app'
         macosSwift53:
           imageName: 'macOS-10.15'
-          DEVELOPER_DIR: '/Applications/Xcode_12.3.app'
+          DEVELOPER_DIR: '/Applications/Xcode_12.4.app'
     pool:
       vmImage: $(imageName)
     steps:
@@ -40,6 +40,7 @@ stages:
     - script: |
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+      # For Swift 5.3 watchOS simulator is called differently.
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch - 38mm" clean build
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
       displayName: 'Build & Test Darwin Platforms'
@@ -57,7 +58,7 @@ stages:
           SWIFT_VERSION: '5.2.5'
         linuxSwift53:
           imageName: 'ubuntu-20.04'
-          SWIFT_VERSION: '5.3.2'
+          SWIFT_VERSION: '5.3.3'
     pool:
       vmImage: $(imageName)
     steps:

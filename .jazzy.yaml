@@ -1,4 +1,4 @@
-# Run: sourcekitten doc --spm-module BitByteData > docs.json
+# Run: sourcekitten doc --spm --module-name BitByteData > docs.json
 sourcekitten_sourcefile: docs.json
 clean: true
 author: Timofey Solomko
