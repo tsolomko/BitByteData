@@ -37,21 +37,15 @@ extension ByteReader {
     }
 
     public var bytesLeft: Int {
-        return { (data: Data, offset: Int) -> Int in
-            return data.endIndex - offset
-        } (self.data, self.offset)
+        return data.endIndex - offset
     }
 
     public var bytesRead: Int {
-        return { (data: Data, offset: Int) -> Int in
-            return offset - data.startIndex
-        } (self.data, self.offset)
+        return offset - data.startIndex
     }
 
     public var isFinished: Bool {
-        return { (data: Data, offset: Int) -> Bool in
-            return data.endIndex <= offset
-        } (self.data, self.offset)
+        return data.endIndex <= offset
     }
 
     public func int(fromBytes count: Int) -> Int {

@@ -31,9 +31,7 @@ public final class MsbBitReader: BitReader {
         }
         didSet {
             if !self.isFinished {
-                { (data: Data, offset: Int, currentByte: inout UInt8) in
-                    currentByte = data[offset]
-                } (self.data, self.offset, &self.currentByte)
+                currentByte = data[offset]
             }
         }
     }
@@ -45,18 +43,14 @@ public final class MsbBitReader: BitReader {
 
     /// Amount of bits left to read.
     public var bitsLeft: Int {
-        return { (data: Data, offset: Int, bitMask: UInt8) in
-            let bytesLeft = data.endIndex - offset
-            return bytesLeft * 8 - bitMask.leadingZeroBitCount
-        } (self.data, self.offset, self.bitMask)
+        let bytesLeft = data.endIndex - offset
+        return bytesLeft * 8 - bitMask.leadingZeroBitCount
     }
 
     /// Amount of bits that were already read.
     public var bitsRead: Int {
-        return { (data: Data, offset: Int, bitMask: UInt8) in
-            let bytesRead = offset - data.startIndex
-            return bytesRead * 8 + bitMask.leadingZeroBitCount
-        } (self.data, self.offset, self.bitMask)
+        let bytesRead = offset - data.startIndex
+        return bytesRead * 8 + bitMask.leadingZeroBitCount
     }
 
     /// Creates an instance for reading bits (and bytes) from `data`.
@@ -318,10 +312,8 @@ public final class MsbBitReader: BitReader {
      - Precondition: There MUST be enough data left.
      */
     public func byte() -> UInt8 {
-        return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt8 in
-            defer { offset += 1 }
-            return data[offset]
-        } (self.data, &self.offset, self.bitMask)
+        defer { offset += 1 }
+        return data[offset]
     }
 
     /**
@@ -331,10 +323,8 @@ public final class MsbBitReader: BitReader {
      - Precondition: There MUST be enough data left.
      */
     public func bytes(count: Int) -> [UInt8] {
-        return { (data: Data, offset: inout Int, bitMask: UInt8) -> [UInt8] in
-            defer { offset += count }
-            return data[offset..<offset + count].toByteArray(count)
-        } (self.data, &self.offset, self.bitMask)
+        defer { offset += count }
+        return data[offset..<offset + count].toByteArray(count)
     }
 
     /**
@@ -344,10 +334,8 @@ public final class MsbBitReader: BitReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint64() -> UInt64 {
-        return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt64 in
-            defer { offset += 8 }
-            return data[offset..<offset + 8].toU64()
-        } (self.data, &self.offset, self.bitMask)
+        defer { offset += 8 }
+        return data[offset..<offset + 8].toU64()
     }
 
     /**
@@ -359,14 +347,12 @@ public final class MsbBitReader: BitReader {
      */
     public func uint64(fromBytes count: Int) -> UInt64 {
         precondition(0...8 ~= count)
-        return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt64 in
-            var result = 0 as UInt64
-            for i in 0..<count {
-                result += UInt64(truncatingIfNeeded: data[offset]) << (8 * i)
-                offset += 1
-            }
-            return result
-        } (self.data, &self.offset, self.bitMask)
+        var result = 0 as UInt64
+        for i in 0..<count {
+            result += UInt64(truncatingIfNeeded: data[offset]) << (8 * i)
+            offset += 1
+        }
+        return result
     }
 
     /**
@@ -376,10 +362,8 @@ public final class MsbBitReader: BitReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint32() -> UInt32 {
-        return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt32 in
-            defer { offset += 4 }
-            return data[offset..<offset + 4].toU32()
-        } (self.data, &self.offset, self.bitMask)
+        defer { offset += 4 }
+        return data[offset..<offset + 4].toU32()
     }
 
     /**
@@ -391,14 +375,12 @@ public final class MsbBitReader: BitReader {
      */
     public func uint32(fromBytes count: Int) -> UInt32 {
         precondition(0...4 ~= count)
-        return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt32 in
-            var result = 0 as UInt32
-            for i in 0..<count {
-                result += UInt32(truncatingIfNeeded: data[offset]) << (8 * i)
-                offset += 1
-            }
-            return result
-        } (self.data, &self.offset, self.bitMask)
+        var result = 0 as UInt32
+        for i in 0..<count {
+            result += UInt32(truncatingIfNeeded: data[offset]) << (8 * i)
+            offset += 1
+        }
+        return result
     }
 
     /**
@@ -408,10 +390,8 @@ public final class MsbBitReader: BitReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint16() -> UInt16 {
-        return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt16 in
-            defer { offset += 2 }
-            return data[offset..<offset + 2].toU16()
-        } (self.data, &self.offset, self.bitMask)
+        defer { offset += 2 }
+        return data[offset..<offset + 2].toU16()
     }
 
     /**
@@ -423,14 +403,12 @@ public final class MsbBitReader: BitReader {
      */
     public func uint16(fromBytes count: Int) -> UInt16 {
         precondition(0...2 ~= count)
-        return { (data: Data, offset: inout Int, bitMask: UInt8) -> UInt16 in
-            var result = 0 as UInt16
-            for i in 0..<count {
-                result += UInt16(truncatingIfNeeded: data[offset]) << (8 * i)
-                offset += 1
-            }
-            return result
-        } (self.data, &self.offset, self.bitMask)
+        var result = 0 as UInt16
+        for i in 0..<count {
+            result += UInt16(truncatingIfNeeded: data[offset]) << (8 * i)
+            offset += 1
+        }
+        return result
     }
 
 }

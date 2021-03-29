@@ -30,10 +30,8 @@ public final class LittleEndianByteReader: ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func byte() -> UInt8 {
-        return { (data: Data, offset: inout Int) -> UInt8 in
-            defer { offset += 1 }
-            return data[offset]
-        } (self.data, &self.offset)
+        defer { offset += 1 }
+        return data[offset]
     }
 
     /**
@@ -44,10 +42,8 @@ public final class LittleEndianByteReader: ByteReader {
      */
     public func bytes(count: Int) -> [UInt8] {
         precondition(count >= 0)
-        return { (data: Data, offset: inout Int) -> [UInt8] in
-            defer { offset += count }
-            return data[offset..<offset + count].toByteArray(count)
-        } (self.data, &self.offset)
+        defer { offset += count }
+        return data[offset..<offset + count].toByteArray(count)
     }
 
     /**
@@ -56,10 +52,8 @@ public final class LittleEndianByteReader: ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint64() -> UInt64 {
-        return { (data: Data, offset: inout Int) -> UInt64 in
-            defer { offset += 8 }
-            return data[offset..<offset + 8].toU64()
-        } (self.data, &self.offset)
+        defer { offset += 8 }
+        return data[offset..<offset + 8].toU64()
     }
 
     /**
@@ -73,14 +67,12 @@ public final class LittleEndianByteReader: ByteReader {
      */
     public func uint64(fromBytes count: Int) -> UInt64 {
         precondition(0...8 ~= count)
-        return { (data: Data, offset: inout Int) -> UInt64 in
-            var result = 0 as UInt64
-            for i in 0..<count {
-                result += UInt64(truncatingIfNeeded: data[offset]) << (8 * i)
-                offset += 1
-            }
-            return result
-        } (self.data, &self.offset)
+        var result = 0 as UInt64
+        for i in 0..<count {
+            result += UInt64(truncatingIfNeeded: data[offset]) << (8 * i)
+            offset += 1
+        }
+        return result
     }
 
     /**
@@ -89,10 +81,8 @@ public final class LittleEndianByteReader: ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint32() -> UInt32 {
-        return { (data: Data, offset: inout Int) -> UInt32 in
-            defer { offset += 4 }
-            return data[offset..<offset + 4].toU32()
-        } (self.data, &self.offset)
+        defer { offset += 4 }
+        return data[offset..<offset + 4].toU32()
     }
 
     /**
@@ -106,14 +96,12 @@ public final class LittleEndianByteReader: ByteReader {
      */
     public func uint32(fromBytes count: Int) -> UInt32 {
         precondition(0...4 ~= count)
-        return { (data: Data, offset: inout Int) -> UInt32 in
-            var result = 0 as UInt32
-            for i in 0..<count {
-                result += UInt32(truncatingIfNeeded: data[offset]) << (8 * i)
-                offset += 1
-            }
-            return result
-        } (self.data, &self.offset)
+        var result = 0 as UInt32
+        for i in 0..<count {
+            result += UInt32(truncatingIfNeeded: data[offset]) << (8 * i)
+            offset += 1
+        }
+        return result
     }
 
     /**
@@ -122,10 +110,8 @@ public final class LittleEndianByteReader: ByteReader {
      - Precondition: There MUST be enough data left.
      */
     public func uint16() -> UInt16 {
-        return { (data: Data, offset: inout Int) -> UInt16 in
-            defer { offset += 2 }
-            return data[offset..<offset + 2].toU16()
-        } (self.data, &self.offset)
+        defer { offset += 2 }
+        return data[offset..<offset + 2].toU16()
     }
 
     /**
@@ -139,14 +125,12 @@ public final class LittleEndianByteReader: ByteReader {
      */
     public func uint16(fromBytes count: Int) -> UInt16 {
         precondition(0...2 ~= count)
-        return { (data: Data, offset: inout Int) -> UInt16 in
-            var result = 0 as UInt16
-            for i in 0..<count {
-                result += UInt16(truncatingIfNeeded: data[offset]) << (8 * i)
-                offset += 1
-            }
-            return result
-        } (self.data, &self.offset)
+        var result = 0 as UInt16
+        for i in 0..<count {
+            result += UInt16(truncatingIfNeeded: data[offset]) << (8 * i)
+            offset += 1
+        }
+        return result
     }
 
 }
