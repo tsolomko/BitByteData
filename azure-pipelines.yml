@@ -10,7 +10,7 @@ stages:
 - stage: test
   displayName: 'Build & Test'
   jobs:
-  - job: macos
+  - job: macosLegacy
     strategy:
       matrix:
         macosSwift50:
@@ -22,6 +22,29 @@ stages:
         macosSwift52:
           imageName: 'macOS-10.15'
           DEVELOPER_DIR: '/Applications/Xcode_11.4.1.app'
+    pool:
+      vmImage: $(imageName)
+    steps:
+    - script: |
+        swift --version
+        swift build
+        swift test --filter BitByteDataTests
+      displayName: 'Build & Test'
+    - script: |
+        swift --version
+        swift build -c release # Check Release build just in case.
+      displayName: 'Build Release'
+    - script: |
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch - 38mm" clean build
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
+      displayName: 'Build & Test Darwin Platforms'
+  - job: macosNew
+    # We split macOS Swift 5.3 into a separate job because watchos simulator has a different name in this version.
+    # Future versions of Swift will also probably be added to this job.
+    strategy:
+      matrix:
         macosSwift53:
           imageName: 'macOS-10.15'
           DEVELOPER_DIR: '/Applications/Xcode_12.4.app'
@@ -40,8 +63,7 @@ stages:
     - script: |
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
-      # For Swift 5.3 watchOS simulator is called differently.
-        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch - 38mm" clean build
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch Series 6 - 44mm" clean build
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
       displayName: 'Build & Test Darwin Platforms'
   - job: linux
