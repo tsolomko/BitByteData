@@ -10,6 +10,7 @@ class LsbBitReaderTests: XCTestCase {
 
     func testAdvance() {
         let reader = LsbBitReader(data: TestHelper.bitData)
+        reader.advance(by: 0)
         XCTAssertEqual(reader.bit(), 0)
         reader.advance()
         XCTAssertEqual(reader.bit(), 0)
@@ -60,6 +61,7 @@ class LsbBitReaderTests: XCTestCase {
             XCTFail("Unsupported Int bit width.")
             return
         }
+        XCTAssertEqual(reader.int(fromBits: 0), 0)
         XCTAssertEqual(reader.int(fromBits: 8), 127)
         XCTAssertEqual(reader.int(fromBits: 3), 0)
         XCTAssertEqual(reader.int(fromBits: 4), 4)
@@ -85,6 +87,7 @@ class LsbBitReaderTests: XCTestCase {
             XCTFail("Unsupported Int bit width.")
             return
         }
+        XCTAssertEqual(reader.signedInt(fromBits: 0, representation: repr), 0)
         XCTAssertEqual(reader.signedInt(fromBits: 8, representation: repr), 127)
         XCTAssertEqual(reader.signedInt(fromBits: 3, representation: repr), 0)
         XCTAssertEqual(reader.signedInt(fromBits: 4, representation: repr), 4)
@@ -112,6 +115,7 @@ class LsbBitReaderTests: XCTestCase {
             XCTFail("Unsupported Int bit width.")
             return
         }
+        XCTAssertEqual(reader.signedInt(fromBits: 0, representation: repr), 0)
         XCTAssertEqual(reader.signedInt(fromBits: 8, representation: repr), 127)
         XCTAssertEqual(reader.signedInt(fromBits: 3, representation: repr), 0)
         XCTAssertEqual(reader.signedInt(fromBits: 4, representation: repr), 4)
@@ -139,6 +143,7 @@ class LsbBitReaderTests: XCTestCase {
             XCTFail("Unsupported Int bit width.")
             return
         }
+        XCTAssertEqual(reader.signedInt(fromBits: 0, representation: repr), 0)
         XCTAssertEqual(reader.signedInt(fromBits: 8, representation: repr), 127)
         XCTAssertEqual(reader.signedInt(fromBits: 3, representation: repr), 0)
         XCTAssertEqual(reader.signedInt(fromBits: 4, representation: repr), 4)
@@ -164,6 +169,7 @@ class LsbBitReaderTests: XCTestCase {
             XCTFail("Unsupported Int bit width.")
             return
         }
+        XCTAssertEqual(reader.signedInt(fromBits: 0, representation: repr), 0)
         XCTAssertEqual(reader.signedInt(fromBits: 8, representation: repr), 126)
         XCTAssertEqual(reader.signedInt(fromBits: 8, representation: repr), 6)
         XCTAssertEqual(reader.signedInt(fromBits: 8, representation: repr), 56)
@@ -186,6 +192,7 @@ class LsbBitReaderTests: XCTestCase {
             XCTFail("Unsupported Int bit width.")
             return
         }
+        XCTAssertEqual(reader.signedInt(fromBits: 0, representation: repr), 0)
         XCTAssertEqual(reader.signedInt(fromBits: 4, representation: repr), -3)
         XCTAssertFalse(reader.isAligned)
         XCTAssertEqual(reader.signedInt(fromBits: 4, representation: repr), 12)
@@ -212,6 +219,7 @@ class LsbBitReaderTests: XCTestCase {
             XCTFail("Unsupported Int bit width.")
             return
         }
+        XCTAssertEqual(reader.signedInt(fromBits: 0, representation: repr), 0)
         XCTAssertEqual(reader.signedInt(fromBits: 11, representation: repr), -1023)
         XCTAssertFalse(reader.isAligned)
         reader.align()
@@ -226,6 +234,7 @@ class LsbBitReaderTests: XCTestCase {
     func testSignedIntFromBits_RN2() {
         let repr = SignedNumberRepresentation.radixNegativeTwo
         let reader = LsbBitReader(data: Data([90, 1, 12]))
+        XCTAssertEqual(reader.signedInt(fromBits: 0, representation: repr), 0)
         XCTAssertEqual(reader.signedInt(fromBits: 5, representation: repr), 6)
         XCTAssertFalse(reader.isAligned)
         XCTAssertEqual(reader.signedInt(fromBits: 3, representation: repr), -2)
