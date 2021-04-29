@@ -10,60 +10,55 @@ stages:
 - stage: test
   displayName: 'Build & Test'
   jobs:
-  - job: macosLegacy
+  - job: macos
+    # TODO: Add Xcode 12.5/Swift 5.4. It requires macOS 11 which is currently unavailable on AZP. For Xcode 12.5 we can also enable testing on watchos.
     strategy:
       matrix:
         macosSwift50:
           imageName: 'macOS-10.14'
           DEVELOPER_DIR: '/Applications/Xcode_10.3.app'
+          WATCHOS_ACTIONS: 'clean build'
+          WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
         macosSwift51:
           imageName: 'macOS-10.15'
           DEVELOPER_DIR: '/Applications/Xcode_11.3.1.app'
+          WATCHOS_ACTIONS: 'clean build'
+          WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
         macosSwift52:
           imageName: 'macOS-10.15'
           DEVELOPER_DIR: '/Applications/Xcode_11.4.1.app'
-    pool:
-      vmImage: $(imageName)
-    steps:
-    - script: |
-        swift --version
-        swift build
-        swift test --filter BitByteDataTests
-      displayName: 'Build & Test'
-    - script: |
-        swift --version
-        swift build -c release # Check Release build just in case.
-      displayName: 'Build Release'
-    - script: |
-        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
-        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
-        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch - 38mm" clean build
-        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
-      displayName: 'Build & Test Darwin Platforms'
-  - job: macosNew
-    # We split macOS Swift 5.3 into a separate job because watchos simulator has a different name in this version.
-    # Future versions of Swift will also probably be added to this job.
-    strategy:
-      matrix:
+          WATCHOS_ACTIONS: 'clean build'
+          WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
         macosSwift53:
           imageName: 'macOS-10.15'
           DEVELOPER_DIR: '/Applications/Xcode_12.4.app'
+          WATCHOS_ACTIONS: 'clean build'
+          WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
+        # macosSwift54:
+        #   imageName: 'macOS-11.3'
+        #   DEVELOPER_DIR: '/Applications/Xcode_12.5.app'
+        #   WATCHOS_ACTIONS: 'clean test'
+        #   WATCHOS_SIMULATOR: 'Apple Watch Series 6 - 44mm'
     pool:
       vmImage: $(imageName)
     steps:
     - script: |
+        set -e
         swift --version
         swift build
         swift test --filter BitByteDataTests
       displayName: 'Build & Test'
     - script: |
+        set -e
         swift --version
         swift build -c release # Check Release build just in case.
       displayName: 'Build Release'
     - script: |
+        set -e
+        xcodebuild -version
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
-        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch Series 6 - 44mm" clean build
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=$WATCHOS_SIMULATOR" $WATCHOS_ACTIONS
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
       displayName: 'Build & Test Darwin Platforms'
   - job: linux
@@ -81,12 +76,16 @@ stages:
         linuxSwift53:
           imageName: 'ubuntu-20.04'
           SWIFT_VERSION: '5.3.3'
+        # linuxSwift54:
+        #   imageName: 'ubuntu-20.04'
+        #   SWIFT_VERSION: '5.4'
     pool:
       vmImage: $(imageName)
     steps:
     - script: eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       displayName: 'Install Swift'
     - script: |
+        set -e
         export SWIFTENV_ROOT="$HOME/.swiftenv"
         export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
         swift --version
@@ -94,6 +93,7 @@ stages:
         swift test --filter BitByteDataTests
       displayName: 'Build & Test'
     - script: |
+        set -e
         export SWIFTENV_ROOT="$HOME/.swiftenv"
         export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
         swift --version
