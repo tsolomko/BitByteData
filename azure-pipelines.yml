@@ -74,10 +74,10 @@ stages:
           imageName: 'ubuntu-18.04'
           SWIFT_VERSION: '5.2.5'
         linuxSwift53:
-          imageName: 'ubuntu-20.04'
+          imageName: 'ubuntu-18.04'
           SWIFT_VERSION: '5.3.3'
         # linuxSwift54:
-        #   imageName: 'ubuntu-20.04'
+        #   imageName: 'ubuntu-18.04'
         #   SWIFT_VERSION: '5.4'
     pool:
       vmImage: $(imageName)

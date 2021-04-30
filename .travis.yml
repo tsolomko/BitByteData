@@ -114,7 +114,7 @@ jobs:
     - stage: test
       language: generic
       os: linux
-      dist: focal
+      dist: bionic
       env:
       - SWIFT_VERSION=5.3.3
       install:
@@ -127,7 +127,7 @@ jobs:
     # - stage: test
     #   language: generic
     #   os: linux
-    #   dist: focal
+    #   dist: bionic
     #   env:
     #   - SWIFT_VERSION=5.4
     #   install:
