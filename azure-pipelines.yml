@@ -43,18 +43,18 @@ stages:
       vmImage: $(imageName)
     steps:
     - script: |
-        set -e
+        set -e -o xtrace
         swift --version
         swift build
         swift test --filter BitByteDataTests
       displayName: 'Build & Test'
     - script: |
-        set -e
+        set -e -o xtrace
         swift --version
         swift build -c release # Check Release build just in case.
       displayName: 'Build Release'
     - script: |
-        set -e
+        set -e -o xtrace
         xcodebuild -version
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
@@ -76,16 +76,16 @@ stages:
         linuxSwift53:
           imageName: 'ubuntu-18.04'
           SWIFT_VERSION: '5.3.3'
-        # linuxSwift54:
-        #   imageName: 'ubuntu-18.04'
-        #   SWIFT_VERSION: '5.4'
+        linuxSwift54:
+          imageName: 'ubuntu-18.04'
+          SWIFT_VERSION: '5.4'
     pool:
       vmImage: $(imageName)
     steps:
     - script: eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       displayName: 'Install Swift'
     - script: |
-        set -e
+        set -e -o xtrace
         export SWIFTENV_ROOT="$HOME/.swiftenv"
         export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
         swift --version
@@ -93,7 +93,7 @@ stages:
         swift test --filter BitByteDataTests
       displayName: 'Build & Test'
     - script: |
-        set -e
+        set -e -o xtrace
         export SWIFTENV_ROOT="$HOME/.swiftenv"
         export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
         swift --version

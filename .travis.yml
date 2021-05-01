@@ -124,19 +124,19 @@ jobs:
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
-    # - stage: test
-    #   language: generic
-    #   os: linux
-    #   dist: bionic
-    #   env:
-    #   - SWIFT_VERSION=5.4
-    #   install:
-    #   - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
-    #   script:
-    #   - swift --version
-    #   - swift build
-    #   - swift test --filter BitByteDataTests
-    #   - swift build -c release # Check Release build just in case.
+    - stage: test
+      language: generic
+      os: linux
+      dist: bionic
+      env:
+      - SWIFT_VERSION=5.4
+      install:
+      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+      script:
+      - swift --version
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
     - stage: deploy
       # Don't deploy if it is a test release.
       if: (tag IS present) AND (tag =~ /^\d+\.\d+\.\d+$/)
