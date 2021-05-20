@@ -6,7 +6,7 @@
 import Foundation
 
 /// A type that contains functions for reading `Data` bit-by-bit and byte-by-byte.
-public protocol BitReader: class {
+public protocol BitReader: AnyObject {
 
     /// True, if reader's BIT pointer is aligned with the BYTE border.
     var isAligned: Bool { get }
