@@ -6,6 +6,7 @@ jobs:
       os: osx
       osx_image: xcode10.1 # Swift 4.2
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
@@ -14,180 +15,173 @@ jobs:
       os: osx
       osx_image: xcode10.3 # Swift 5.0
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
+      - xcodebuild -version
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch Series 4 - 44mm" clean build
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
     - stage: test
       language: swift
       os: osx
       osx_image: xcode11.3 # Swift 5.1
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
+      - xcodebuild -version
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch Series 4 - 44mm" clean build
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
     - stage: test
       language: swift
       os: osx
       osx_image: xcode11.4 # Swift 5.2
       script:
+      - swift --version
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
+      - xcodebuild -version
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch Series 4 - 44mm" clean build
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
+    - stage: test
+      language: swift
+      os: osx
+      osx_image: xcode12.4 # Swift 5.3.2
+      script:
+      - swift --version
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
+      - xcodebuild -version
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch Series 6 - 44mm" clean build
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
+    - stage: test
+      language: swift
+      os: osx
+      osx_image: xcode12.5 # Swift 5.4
+      script:
+      - swift --version
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
+      - xcodebuild -version
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+      # Since Xcode 12.5 watchos supports testing.
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=Apple Watch Series 6 - 44mm" clean test
+      - xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
+    - stage: test
+      language: generic
+      os: linux
+      dist: bionic
+      env:
+      - SWIFT_VERSION=4.2.3
+      install:
+      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+      script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
     - stage: test
       language: generic
       os: linux
-      dist: xenial
+      dist: bionic
       env:
-      - SWIFT_VERSION=4.2
+      - SWIFT_VERSION=5.0.3
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
     - stage: test
       language: generic
       os: linux
-      dist: xenial
+      dist: bionic
       env:
-      - SWIFT_VERSION=5.0
+      - SWIFT_VERSION=5.1.5
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
     - stage: test
       language: generic
       os: linux
-      dist: xenial
+      dist: bionic
       env:
-      - SWIFT_VERSION=5.1
+      - SWIFT_VERSION=5.2.5
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
     - stage: test
       language: generic
       os: linux
-      dist: xenial
+      dist: bionic
       env:
-      - SWIFT_VERSION=5.2
+      - SWIFT_VERSION=5.3.3
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
+      - swift --version
       - swift build
       - swift test --filter BitByteDataTests
       - swift build -c release # Check Release build just in case.
-    - stage: benchmark
-      language: swift
-      os: osx
-      osx_image: xcode10.1 # Swift 4.2
-      script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      language: swift
-      os: osx
-      osx_image: xcode10.3 # Swift 5.0
-      script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      language: swift
-      os: osx
-      osx_image: xcode11.3 # Swift 5.1
-      script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      language: swift
-      os: osx
-      osx_image: xcode11.4 # Swift 5.2
-      script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      if: NOT (tag IS present)
+    - stage: test
       language: generic
       os: linux
-      dist: xenial
+      dist: bionic
       env:
-      - SWIFT_VERSION=4.2
+      - SWIFT_VERSION=5.4
       install:
       - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      if: NOT (tag IS present)
-      language: generic
-      os: linux
-      dist: xenial
-      env:
-      - SWIFT_VERSION=5.0
-      install:
-      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
-      script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      if: NOT (tag IS present)
-      language: generic
-      os: linux
-      dist: xenial
-      env:
-      - SWIFT_VERSION=5.1
-      install:
-      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
-      script:
-      - ./benchmarks.py run
-    - stage: benchmark
-      if: NOT (tag IS present)
-      language: generic
-      os: linux
-      dist: xenial
-      env:
-      - SWIFT_VERSION=5.2
-      install:
-      - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
-      script:
-      - ./benchmarks.py run
+      - swift --version
+      - swift build
+      - swift test --filter BitByteDataTests
+      - swift build -c release # Check Release build just in case.
     - stage: deploy
-      if: tag IS present
+      # Don't deploy if it is a test release.
+      if: (tag IS present) AND (tag =~ /^\d+\.\d+\.\d+$/)
       language: generic
       os: osx
-      osx_image: xcode11.4
+      osx_image: xcode12
       env:
         secure: fmKQgrPRx2iisNPzxDhOTfXPsnQMJxDgIMItVNjl1AKByraOpiDAGVESySvy+vwQqITCB/BfvdkW7smAPcvFJxIPRx1v4J0VY9kGHdnafMw35XY0Vj9soYkzNS4zrUebxY2gWkGM6Q6dgLOGT/9MSEyWqXBTtVz9sLwA7yr3ZI72yZDbcSz3XGa1fFZRVfwv3I+bmuozG7dq7tyqcSKgRZnHg1VvaRdxcaGqSGSUsNu0YLzmNedujNcU+gTXcxMdrXA1eaheHc2pwNA0TDf3KkefJpaVMXrA/Un8e9MaJ1lMnPlIiEI3dPTuogtQY7p59vgulBNBPEJovTHI0jCaNyLUkTkHgGcUuOwHqwUIKZCEiiqM1j12sdLo4O2tAdNaNHDtd8D3bCakrdJxXlUWVfjrCwvBB555gd0drRirQgYX+5gGFwnTQE8tOcjK4qUvJaOAouHsnm/DmW+fLJPX76KoU6QOtGJt6PQ92yBgKRhaSg/sQ28WPuCmF2p7BuUSuULxcM2LU5eA5aFxayoZvR2E9uvfFxnFh01iV6clcZo25U03AuxJmuI7Mhl83amj8bm5CRBbuRw5sIljXfBujFUel+kz/HXalS7lStqH9iPyiQvh24WkPzHKNQdjRI7v3kyrVSXJ3Xl6+fopXqr/25MwqD4bt57QgglJ2IQtnLM=
       addons:
         homebrew:
           packages:
-          - carthage
           - sourcekitten
           update: true
       install:
       - gem install -N jazzy
       - gem update -N cocoapods
       before_deploy:
-      - >
-        if ! [ "$BEFORE_DEPLOY_RUN" ]; then
-          export BEFORE_DEPLOY_RUN=1;
-          # Build Carthage archive.
-          carthage build --no-skip-current
-          carthage archive BitByteData
-          # Generate documentation.
-          sourcekitten doc --spm-module BitByteData > docs.json
-          jazzy
-        fi
+      - sourcekitten doc --spm --module-name BitByteData > docs.json
+      - jazzy
       deploy:
-      - provider: releases
-        skip_cleanup: true
-        api_key: $GITHUB_TOKEN
-        file: "BitByteData.framework.zip"
-        on:
-          tags: true
       - provider: pages
-        skip_cleanup: true
         github_token: $GITHUB_TOKEN
         local_dir: docs
+        skip_cleanup: true
         on:
           tags: true
-          # Don't upload documentation if it is a test release.
-          condition: $(git describe) != *"test"*
