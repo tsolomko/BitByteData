@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.4
+
+- Fixed a compilation warning about "deprecated class keyword" appearing when using Swift 5.4.
+
 ## 1.4.3
 
 - Fixed incompatibility with Swift Package Manager from Swift 4.2.
