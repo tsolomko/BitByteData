@@ -5,6 +5,8 @@ trigger:
   tags:
     include:
     - '*'
+    exclude:
+    - '*-test*'
 
 stages:
 - stage: test
@@ -66,39 +68,56 @@ stages:
       matrix:
         linuxSwift50:
           imageName: 'ubuntu-18.04'
-          SWIFT_VERSION: '5.0.3'
+          containerImage: 'swift:5.0.3-bionic'
         linuxSwift51:
           imageName: 'ubuntu-18.04'
-          SWIFT_VERSION: '5.1.5'
+          containerImage: 'swift:5.1.5-bionic'
         linuxSwift52:
           imageName: 'ubuntu-18.04'
-          SWIFT_VERSION: '5.2.5'
+          containerImage: 'swift:5.2.5-bionic'
         linuxSwift53:
           imageName: 'ubuntu-18.04'
-          SWIFT_VERSION: '5.3.3'
+          containerImage: 'swift:5.3.3-bionic'
         linuxSwift54:
           imageName: 'ubuntu-18.04'
-          SWIFT_VERSION: '5.4'
+          containerImage: 'swift:5.4.1-bionic'
     pool:
       vmImage: $(imageName)
+    container: $[ variables['containerImage'] ]
     steps:
-    - script: eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
-      displayName: 'Install Swift'
     - script: |
         set -e -o xtrace
-        export SWIFTENV_ROOT="$HOME/.swiftenv"
-        export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
         swift --version
         swift build
         swift test --filter BitByteDataTests
       displayName: 'Build & Test'
     - script: |
         set -e -o xtrace
-        export SWIFTENV_ROOT="$HOME/.swiftenv"
-        export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
         swift --version
         swift build -c release # Check Release build just in case.
       displayName: 'Build Release'
+#   - job: windows
+#     strategy:
+#       matrix:
+#         windowsSwift54:
+#           imageName: 'windows-2019'
+#           # SWIFT_VERSION: '5.4.1'
+#     pool:
+#       vmImage: $(imageName)
+#     steps:
+#     - pwsh: |
+#         Invoke-WebRequest -Uri https://swift.org/builds/swift-5.4.1-release/windows10/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-windows10.exe -OutFile swift-install.exe
+#         Start-Process -FilePath '.\swift-install.exe' -Wait
+#       displayName: 'Install Swift'
+#     - script: |
+#         swift --version
+#         swift build
+#         swift test --filter BitByteDataTests
+#       displayName: 'Build & Test'
+#     - script: |
+#         swift --version
+#         swift build -c release
+#       displayName: 'Build Release'
 # - stage: Deploy
 #   dependsOn: Test
 #   condition: startsWith(variables['Build.SourceBranch'], 'refs/tags') # Deploy on tags only
