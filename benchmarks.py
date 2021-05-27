@@ -377,14 +377,12 @@ def action_show(args):
         print(o)
 
 def action_emit(args):
-    # It seems like swiftc emits directly into /dev/tty instead of stdout or stderr, since we're unable to capture its
-    #  output with ">" or "&>". To save its output into a file anyway we utilize "script" utility tool.
     print("Emitting SIL")
     subprocess.run("rm -rf .build/", shell=True, check=True)
-    _sprun(["script", "-q", args.filename + ".sil", "swift", "build", "-c", "release", "-Xswiftc", "-emit-sil", "-Xswiftc", "-O"])
+    _sprun(["swift", "build", "-c", "release", "-Xswiftc", "-emit-sil", "-Xswiftc", "-O", "-Xswiftc", "-o", "-Xswiftc", args.filename + ".sil"])
     print("Emitting ASM")
     subprocess.run("rm -rf .build/", shell=True, check=True)
-    _sprun(["script", "-q", args.filename + ".asm", "swift", "build", "-c", "release", "-Xswiftc", "-S", "-Xswiftc", "-O"])
+    _sprun(["swift", "build", "-c", "release", "-Xswiftc", "-S", "-Xswiftc", "-O", "-Xswiftc", "-o", "-Xswiftc", args.filename + ".asm",])
 
 parser = argparse.ArgumentParser(description="A benchmarking tool for BitByteData")
 subparsers = parser.add_subparsers(title="commands", help="a command to perform", metavar="CMD")
