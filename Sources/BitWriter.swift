@@ -55,7 +55,7 @@ extension BitWriter {
         self.write(unsignedNumber: UInt(bitPattern: number), bitsCount: bitsCount)
     }
 
-    public func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplement) {
+    public func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplementNegatives) {
         var magnitude = signedNumber.magnitude
         switch representation {
         case .signMagnitude:
@@ -63,14 +63,14 @@ extension BitWriter {
                    "\(signedNumber) will be truncated when represented by Sign-Magnitude using \(bitsCount) bits")
             magnitude += signedNumber < 0 ? (1 << (bitsCount - 1)) : 0
             self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
-        case .oneComplement:
+        case .oneComplementNegatives:
             assert(magnitude < (1 << (bitsCount - 1)),
                    "\(signedNumber) will be truncated when represented by 1-complement using \(bitsCount) bits")
             if signedNumber < 0 {
                 magnitude = ~magnitude
             }
             self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
-        case .twoComplement:
+        case .twoComplementNegatives:
             assert((signedNumber >= 0 && magnitude <= (1 << (bitsCount - 1)) - 1) ||
                 (signedNumber < 0 && magnitude <= 1 << (bitsCount - 1)),
                    "\(signedNumber) will be truncated when represented by 2-complement using \(bitsCount) bits")

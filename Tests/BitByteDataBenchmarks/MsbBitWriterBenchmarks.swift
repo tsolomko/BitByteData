@@ -64,7 +64,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
             let writer = MsbBitWriter()
 
             for _ in 0..<1_000_000 {
-                writer.write(signedNumber: 3256, bitsCount: 13, representation: .oneComplement)
+                writer.write(signedNumber: 3256, bitsCount: 13, representation: .oneComplementNegatives)
             }
         }
     }
@@ -74,7 +74,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
             let writer = MsbBitWriter()
 
             for _ in 0..<1_000_000 {
-                writer.write(signedNumber: -3256, bitsCount: 13, representation: .oneComplement)
+                writer.write(signedNumber: -3256, bitsCount: 13, representation: .oneComplementNegatives)
             }
         }
     }
@@ -84,7 +84,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
             let writer = MsbBitWriter()
 
             for _ in 0..<1_000_000 {
-                writer.write(signedNumber: 3256, bitsCount: 13, representation: .twoComplement)
+                writer.write(signedNumber: 3256, bitsCount: 13, representation: .twoComplementNegatives)
             }
         }
     }
@@ -94,7 +94,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
             let writer = MsbBitWriter()
 
             for _ in 0..<1_000_000 {
-                writer.write(signedNumber: -3256, bitsCount: 13, representation: .twoComplement)
+                writer.write(signedNumber: -3256, bitsCount: 13, representation: .twoComplementNegatives)
             }
         }
     }

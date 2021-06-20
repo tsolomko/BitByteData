@@ -5,8 +5,8 @@
 
 public enum SignedNumberRepresentation {
     case signMagnitude
-    case oneComplement
-    case twoComplement
+    case oneComplementNegatives
+    case twoComplementNegatives
     case biased(bias: Int)
     case radixNegativeTwo
 }

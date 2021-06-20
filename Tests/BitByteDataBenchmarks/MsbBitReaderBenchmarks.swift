@@ -102,7 +102,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
             let reader = MsbBitReader(data: Data(bytes))
 
             for _ in 0..<5_000_000 {
-                _ = reader.signedInt(fromBits: 16, representation: .oneComplement)
+                _ = reader.signedInt(fromBits: 16, representation: .oneComplementNegatives)
             }
         }
     }
@@ -118,7 +118,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
             let reader = MsbBitReader(data: Data(bytes))
 
             for _ in 0..<5_000_000 {
-                _ = reader.signedInt(fromBits: 16, representation: .oneComplement)
+                _ = reader.signedInt(fromBits: 16, representation: .oneComplementNegatives)
             }
         }
     }
@@ -134,7 +134,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
             let reader = MsbBitReader(data: Data(bytes))
 
             for _ in 0..<5_000_000 {
-                _ = reader.signedInt(fromBits: 16, representation: .twoComplement)
+                _ = reader.signedInt(fromBits: 16, representation: .twoComplementNegatives)
             }
         }
     }
@@ -150,7 +150,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
             let reader = MsbBitReader(data: Data(bytes))
 
             for _ in 0..<5_000_000 {
-                _ = reader.signedInt(fromBits: 16, representation: .twoComplement)
+                _ = reader.signedInt(fromBits: 16, representation: .twoComplementNegatives)
             }
         }
     }

@@ -82,7 +82,7 @@ class LsbBitWriterTests: XCTestCase {
     }
 
     func testWriteSignedNumber_1C() {
-        let repr = SignedNumberRepresentation.oneComplement
+        let repr = SignedNumberRepresentation.oneComplementNegatives
         let writer = LsbBitWriter()
         writer.write(signedNumber: 127, bitsCount: 8, representation: repr)
         XCTAssertEqual(writer.data, Data([127]))
@@ -110,7 +110,7 @@ class LsbBitWriterTests: XCTestCase {
     }
 
     func testWriteSignedNumber_2C() {
-        let repr = SignedNumberRepresentation.twoComplement
+        let repr = SignedNumberRepresentation.twoComplementNegatives
         let writer = LsbBitWriter()
         writer.write(signedNumber: 127, bitsCount: 8, representation: repr)
         XCTAssertEqual(writer.data, Data([127]))

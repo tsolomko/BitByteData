@@ -103,7 +103,7 @@ class LsbBitReaderTests: XCTestCase {
     }
 
     func testSignedIntFromBits_1C() {
-        let repr = SignedNumberRepresentation.oneComplement
+        let repr = SignedNumberRepresentation.oneComplementNegatives
         let reader: LsbBitReader
         if MemoryLayout<Int>.size == 8 {
             reader = LsbBitReader(data: Data([127, 160, 15, 128, 132, 199, 15,
@@ -131,7 +131,7 @@ class LsbBitReaderTests: XCTestCase {
     }
 
     func testSignedIntFromBits_2C() {
-        let repr = SignedNumberRepresentation.twoComplement
+        let repr = SignedNumberRepresentation.twoComplementNegatives
         let reader: LsbBitReader
         if MemoryLayout<Int>.size == 8 {
             reader = LsbBitReader(data: Data([127, 160, 15, 128, 133, 200, 15,

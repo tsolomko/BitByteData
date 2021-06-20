@@ -133,7 +133,7 @@ public final class MsbBitReader: BitReader {
      width on the current platform.
      - Precondition: There MUST be enough data left.
      */
-    public func signedInt(fromBits count: Int, representation: SignedNumberRepresentation = .twoComplement) -> Int {
+    public func signedInt(fromBits count: Int, representation: SignedNumberRepresentation = .twoComplementNegatives) -> Int {
         precondition(0...Int.bitWidth ~= count)
         precondition(bitsLeft >= count)
 
@@ -146,7 +146,7 @@ public final class MsbBitReader: BitReader {
             let sign = self.bit()
             result = self.int(fromBits: count - 1)
             result = sign > 0 ? -result : result
-        case .oneComplement:
+        case .oneComplementNegatives:
             let sign = self.bit()
             result = self.int(fromBits: count - 1)
             if sign > 0 {
@@ -154,7 +154,7 @@ public final class MsbBitReader: BitReader {
                 result &+= 1
                 result &-= 1 << (count - 1)
             }
-        case .twoComplement:
+        case .twoComplementNegatives:
             let sign = self.bit()
             result = self.int(fromBits: count - 1)
             result &-= sign > 0 ? (1 << (count - 1)) : 0
