@@ -169,15 +169,12 @@ public final class MsbBitReader: BitReader {
             result = self.int(fromBits: count)
             result &-= bias
         case .radixNegativeTwo:
-            let bits = self.bits(count: count)
-            var mult = 1
-            var sign = 1
-            result = bits[0..<count].reversed().reduce(0) {
-                defer {
-                    mult <<= 1
-                    sign *= -1
-                }
-                return $0 &+ ($1 > 0 ? (sign * mult) : 0)
+            var mult = 1 << (count - 1)
+            var sign = (count - 1) % 2 == 0 ? 1 : -1
+            for _ in 0..<count {
+                result &+= Int(truncatingIfNeeded: self.bit()) * sign * mult
+                mult >>= 1
+                sign *= -1
             }
         }
 

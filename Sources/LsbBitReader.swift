@@ -167,15 +167,12 @@ public final class LsbBitReader: BitReader {
             result = self.int(fromBits: count)
             result &-= bias
         case .radixNegativeTwo:
-            let bits = self.bits(count: count)
             var mult = 1
             var sign = 1
-            result = bits[0..<count].reduce(0) {
-                defer {
-                    mult <<= 1
-                    sign *= -1
-                }
-                return $0 &+ ($1 > 0 ? (sign * mult) : 0)
+            for _ in 0..<count {
+                result &+= Int(truncatingIfNeeded: self.bit()) * sign * mult
+                mult <<= 1
+                sign *= -1
             }
         }
 
