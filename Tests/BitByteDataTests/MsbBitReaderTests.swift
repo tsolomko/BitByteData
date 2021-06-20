@@ -162,9 +162,9 @@ class MsbBitReaderTests: XCTestCase {
         let repr = SignedNumberRepresentation.biased(bias: 127)
         let reader: MsbBitReader
         if MemoryLayout<Int>.size == 8 {
-            reader = MsbBitReader(data: Data([253, 133, 183, 127, 4, 71, 0, 0x80, 0, 0, 0, 0, 0, 0, 0x7E]))
+            reader = MsbBitReader(data: Data([253, 133, 183, 127, 4, 71, 0, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
         } else if MemoryLayout<Int>.size == 4 {
-            reader = MsbBitReader(data: Data([253, 133, 183, 127, 4, 71, 0, 0x80, 0, 0, 0x7E]))
+            reader = MsbBitReader(data: Data([253, 133, 183, 127, 4, 71, 0, 0x7F, 0xFF, 0xFF, 0xFF]))
         } else {
             XCTFail("Unsupported Int bit width.")
             return
@@ -178,16 +178,16 @@ class MsbBitReaderTests: XCTestCase {
         XCTAssertEqual(reader.signedInt(fromBits: 12, representation: repr), 1009)
         XCTAssertFalse(reader.isAligned)
         reader.align()
-        XCTAssertEqual(reader.signedInt(fromBits: Int.bitWidth, representation: repr), Int.max)
+        XCTAssertEqual(reader.signedInt(fromBits: Int.bitWidth, representation: repr), Int.max - 127)
     }
 
     func testSignedIntFromBits_Biased_E3() {
         let repr = SignedNumberRepresentation.biased(bias: 3)
         let reader: MsbBitReader
         if MemoryLayout<Int>.size == 8 {
-            reader = MsbBitReader(data: Data([240, 129, 9, 176, 3, 3, 0x80, 0, 0, 0, 0, 0, 0, 2]))
+            reader = MsbBitReader(data: Data([240, 129, 9, 176, 3, 3, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
         } else if MemoryLayout<Int>.size == 4 {
-            reader = MsbBitReader(data: Data([240, 129, 9, 176, 3, 3, 0x80, 0, 0, 2]))
+            reader = MsbBitReader(data: Data([240, 129, 9, 176, 3, 3, 0x7F, 0xFF, 0xFF, 0xFF]))
         } else {
             XCTFail("Unsupported Int bit width.")
             return
@@ -205,16 +205,16 @@ class MsbBitReaderTests: XCTestCase {
         reader.align()
         XCTAssertTrue(reader.isAligned)
         XCTAssertEqual(reader.signedInt(fromBits: 8, representation: repr), 0)
-        XCTAssertEqual(reader.signedInt(fromBits: Int.bitWidth, representation: repr), Int.max)
+        XCTAssertEqual(reader.signedInt(fromBits: Int.bitWidth, representation: repr), Int.max - 3)
     }
 
     func testSignedIntFromBits_Biased_E1023() {
         let repr = SignedNumberRepresentation.biased(bias: 1023)
         let reader: MsbBitReader
         if MemoryLayout<Int>.size == 8 {
-            reader = MsbBitReader(data: Data([0, 0, 255, 3, 0x80, 0, 0, 0, 0, 0, 3, 0xFE]))
+            reader = MsbBitReader(data: Data([0, 0, 255, 3, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
         } else if MemoryLayout<Int>.size == 4 {
-            reader = MsbBitReader(data: Data([0, 0, 255, 3, 0x80, 0, 3, 0xFE]))
+            reader = MsbBitReader(data: Data([0, 0, 255, 3, 0x7F, 0xFF, 0xFF, 0xFF]))
         } else {
             XCTFail("Unsupported Int bit width.")
             return
@@ -228,7 +228,7 @@ class MsbBitReaderTests: XCTestCase {
         XCTAssertFalse(reader.isAligned)
         reader.align()
         XCTAssertTrue(reader.isAligned)
-        XCTAssertEqual(reader.signedInt(fromBits: Int.bitWidth, representation: repr), Int.max)
+        XCTAssertEqual(reader.signedInt(fromBits: Int.bitWidth, representation: repr), Int.max - 1023)
     }
 
     func testSignedIntFromBits_RN2() {

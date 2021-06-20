@@ -156,11 +156,11 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 71]))
         writer.align()
         XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 71, 0]))
-        writer.write(signedNumber: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        writer.write(signedNumber: Int.max - 127, bitsCount: Int.bitWidth, representation: repr)
         if Int.bitWidth == 64 {
-            XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 71, 0, 0x7E, 0, 0, 0, 0, 0, 0, 0x80]))
+            XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 71, 0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F]))
         } else if Int.bitWidth == 32 {
-            XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 71, 0, 0x7E, 0, 0, 0x80]))
+            XCTAssertEqual(writer.data, Data([253, 133, 183, 127, 4, 71, 0, 0xFF, 0xFF, 0xFF, 0x7F]))
         }
     }
 
@@ -185,11 +185,11 @@ class LsbBitWriterTests: XCTestCase {
         XCTAssertEqual(writer.data, Data([240, 129, 9, 176, 3]))
         writer.write(signedNumber: 0, bitsCount: 8, representation: repr)
         XCTAssertEqual(writer.data, Data([240, 129, 9, 176, 3, 3]))
-        writer.write(signedNumber: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        writer.write(signedNumber: Int.max - 3, bitsCount: Int.bitWidth, representation: repr)
         if Int.bitWidth == 64 {
-            XCTAssertEqual(writer.data, Data([240, 129, 9, 176, 3, 3, 2, 0, 0, 0, 0, 0, 0, 0x80]))
+            XCTAssertEqual(writer.data, Data([240, 129, 9, 176, 3, 3, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F]))
         } else if Int.bitWidth == 32 {
-            XCTAssertEqual(writer.data, Data([240, 129, 9, 176, 3, 3, 2, 0, 0, 0x80]))
+            XCTAssertEqual(writer.data, Data([240, 129, 9, 176, 3, 3, 0xFF, 0xFF, 0xFF, 0x7F]))
         }
     }
 
@@ -208,11 +208,11 @@ class LsbBitWriterTests: XCTestCase {
         writer.align()
         XCTAssertTrue(writer.isAligned)
         XCTAssertEqual(writer.data, Data([0, 0, 255, 3]))
-        writer.write(signedNumber: Int.max, bitsCount: Int.bitWidth, representation: repr)
+        writer.write(signedNumber: Int.max - 1023, bitsCount: Int.bitWidth, representation: repr)
         if Int.bitWidth == 64 {
-            XCTAssertEqual(writer.data, Data([0, 0, 255, 3, 0xFE, 3, 0, 0, 0, 0, 0, 0x80]))
+            XCTAssertEqual(writer.data, Data([0, 0, 255, 3, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F]))
         } else if Int.bitWidth == 32 {
-            XCTAssertEqual(writer.data, Data([0, 0, 255, 3, 0xFE, 3, 0, 0x80]))
+            XCTAssertEqual(writer.data, Data([0, 0, 255, 3, 0xFF, 0xFF, 0xFF, 0x7F]))
         }
     }
 
