@@ -146,19 +146,11 @@ public final class LsbBitReader: BitReader {
             result = self.int(fromBits: count - 1)
             result = self.bit() > 0 ? -result : result
         case .oneComplement:
-            let bits = self.bits(count: count)
-            var mult = 1
-            if bits[count - 1] > 0 {
-                result = bits[0..<count].reduce(0) {
-                    defer { mult <<= 1 }
-                    return $0 &+ ($1 > 0 ? 0 : mult)
-                }
-                result.negate()
-            } else {
-                result = bits[0..<count].reduce(0) {
-                    defer { mult <<= 1 }
-                    return $0 &+ ($1 > 0 ? mult : 0)
-                }
+            result = self.int(fromBits: count - 1)
+            if self.bit() > 0 {
+                // First, we convert to 2's-complement, and then we proceed as in the 2's-complement case.
+                result &+= 1
+                result &-= 1 << (count - 1)
             }
         case .twoComplement:
             result = self.int(fromBits: count - 1)
