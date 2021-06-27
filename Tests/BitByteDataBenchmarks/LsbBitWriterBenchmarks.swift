@@ -134,7 +134,7 @@ class LsbBitWriterBenchmarks: XCTestCase {
             let writer = LsbBitWriter()
 
             for _ in 0..<1_000_000 {
-                writer.write(signedNumber: -3256, bitsCount: 13, representation: .radixNegativeTwo)
+                writer.write(signedNumber: -2549, bitsCount: 13, representation: .radixNegativeTwo)
             }
         }
     }

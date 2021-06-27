@@ -104,7 +104,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
             let writer = MsbBitWriter()
 
             for _ in 0..<1_000_000 {
-                writer.write(signedNumber: 3256, bitsCount: 13, representation: .biased(bias: 127))
+                writer.write(signedNumber: 123, bitsCount: 13, representation: .biased(bias: 127))
             }
         }
     }
@@ -114,7 +114,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
             let writer = MsbBitWriter()
 
             for _ in 0..<1_000_000 {
-                writer.write(signedNumber: -3256, bitsCount: 13, representation: .biased(bias: 127))
+                writer.write(signedNumber: -123, bitsCount: 13, representation: .biased(bias: 127))
             }
         }
     }
@@ -134,7 +134,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
             let writer = MsbBitWriter()
 
             for _ in 0..<1_000_000 {
-                writer.write(signedNumber: -3256, bitsCount: 13, representation: .radixNegativeTwo)
+                writer.write(signedNumber: -2549, bitsCount: 13, representation: .radixNegativeTwo)
             }
         }
     }
