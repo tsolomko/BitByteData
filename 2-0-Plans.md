@@ -237,27 +237,44 @@ way. To resolve these problems, I would like to do several changes.
 ```swift
 public enum SignedNumberRepresentation {
     case signMagnitude
-    case oneComplement
-    case twoComplement
+    case oneComplementNegatives
+    case twoComplementNegatives
     case biased(bias: Int)
     case radixNegativeTwo
 }
 ```
 
-2. Add methods to bit readers and writers which will allow to read signed integers using the specified representation:
+Alternatively, one can name 1's and 2's complement cases as just `oneComplement` and `twoComplement` correspondingly.
+We believe that the current naming is better, since it emphasizes the fact that only negative numbers are encoded as the
+complements, and positive numbers are encoded as is.
+
+2. Add instance methods to this new enum which will allow to query the minimum and maximum numbers that can be represented
+by a given representation using the specified amount of bits:
+
+```swift
+public enum SignedNumberRepresentation {
+    // ...
+
+    public func minRepresentableNumber(bitsCount: Int) -> Int { ... }
+
+    public func maxRepresentableNumber(bitsCount: Int) -> Int { ... }
+}
+```
+
+3. Add methods to bit readers and writers which will allow to read signed integers using the specified representation:
 
 ``` swift
 // BitWriter:
-func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplement)
+func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplementNegatives)
 
 // BitReader:
-func signedInt(fromBits count: Int, representation: SignedNumberRepresentation = .twoComplement) -> Int
+func signedInt(fromBits count: Int, representation: SignedNumberRepresentation = .twoComplementNegatives) -> Int
 ```
 
-The default value of the `representation` argument is `.twoComplement` since it the most common way to encode signed
-integers (it is even used internally by Swift).
+The default value of the `representation` argument is `.twoComplementNegatives` since it the most common way to encode
+signed integers (it is even used internally by Swift).
 
-3. Modify the behavior of the existing functions as following:
+4. Modify the behavior of the existing functions as following:
 
 ```swift
 // BitWriter:
