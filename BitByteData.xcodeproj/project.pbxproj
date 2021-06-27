@@ -35,6 +35,7 @@
 		06FA0DC421935115009B4DEB /* LsbBitWriterBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A81B0E2177947600B6B7BB /* LsbBitWriterBenchmarks.swift */; };
 		06FA0DC521935115009B4DEB /* MsbBitWriterBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A81B102177955500B6B7BB /* MsbBitWriterBenchmarks.swift */; };
 		E608AB16253740C60036626D /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E608AB15253740C60036626D /* TestHelper.swift */; };
+		E6425642267FA97E002D75D8 /* SignedNumberRepresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6425641267FA97E002D75D8 /* SignedNumberRepresentationTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		06F0656C1FFAEA4B00312A82 /* BitByteData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BitByteData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		06F065811FFAEAA000312A82 /* TestBitByteData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestBitByteData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E608AB15253740C60036626D /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
+		E6425641267FA97E002D75D8 /* SignedNumberRepresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedNumberRepresentationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 				06F065641FFAEA1F00312A82 /* LsbBitWriterTests.swift */,
 				06F065621FFAEA1F00312A82 /* MsbBitWriterTests.swift */,
 				E608AB15253740C60036626D /* TestHelper.swift */,
+				E6425641267FA97E002D75D8 /* SignedNumberRepresentationTests.swift */,
 			);
 			path = BitByteDataTests;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06F0658F1FFAEAA900312A82 /* LsbBitReaderTests.swift in Sources */,
+				E6425642267FA97E002D75D8 /* SignedNumberRepresentationTests.swift in Sources */,
 				06F065901FFAEAA900312A82 /* LittleEndianByteReaderTests.swift in Sources */,
 				E608AB16253740C60036626D /* TestHelper.swift in Sources */,
 				06F0658C1FFAEAA900312A82 /* MsbBitWriterTests.swift in Sources */,
