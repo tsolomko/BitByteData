@@ -31,15 +31,23 @@ public enum SignedNumberRepresentation {
             precondition(bias >= 0)
             return -bias
         case .radixNegativeTwo:
-            if bitsCount >= Int.bitWidth {
-                return Int.min
-            }
             // Minimum corresponds to all of the odd bits being set.
             var result = 0
             var mult = 2
-            for _ in stride(from: 1, to: bitsCount, by: 2) {
+            for i in stride(from: 1, to: bitsCount, by: 2) {
                 result -= mult
-                mult *= 4
+                let (newMult, overflow) = mult.multipliedReportingOverflow(by: 4)
+                if overflow {
+                    // This means that we reached the Int.min limit.
+                    // Since, the last, 63rd, bit is an odd bit, Int.min is encodable within 64 bits using RN2.
+                    // So if the loop would continue in the absence of the overflow, which would result in even smaller
+                    // values, we need to return Int.min as the correct answer.
+                    if i + 2 < bitsCount {
+                        result = Int.min
+                    }
+                    break
+                }
+                mult = newMult
             }
             return result
         }
@@ -67,6 +75,8 @@ public enum SignedNumberRepresentation {
                 let (newMult, overflow) = mult.multipliedReportingOverflow(by: 4)
                 if overflow {
                     // This means that we reached the Int.max limit.
+                    // Since, the last, 63rd, bit is an odd bit, we cannot encode Int.max within 64 bits using RN2,
+                    // so the correct answer is always "all even bits set".
                     break
                 }
                 mult = newMult
