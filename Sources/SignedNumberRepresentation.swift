@@ -21,17 +21,17 @@ public enum SignedNumberRepresentation {
         case .signMagnitude:
             fallthrough
         case .oneComplementNegatives:
-            return bitsCount == Int.bitWidth ? Int.min : -(1 << (bitsCount - 1) - 1)
+            return bitsCount >= Int.bitWidth ? Int.min : -(1 << (bitsCount - 1) - 1)
         case .twoComplementNegatives:
             // Technically, we don't need to be extremely careful in the 2's-complement case, since it is the
             // representation used internally by Swift, however, in practice, we still get arithmetic overflow
             // in the bitsCount == Int.bitWidth case, if we use the formula, so we check for this case specifically.
-            return bitsCount == Int.bitWidth ? Int.min : -(1 << (bitsCount - 1))
+            return bitsCount >= Int.bitWidth ? Int.min : -(1 << (bitsCount - 1))
         case .biased(let bias):
             precondition(bias >= 0)
             return -bias
         case .radixNegativeTwo:
-            if bitsCount == Int.bitWidth {
+            if bitsCount >= Int.bitWidth {
                 return Int.min
             }
             // Minimum corresponds to all of the odd bits being set.
@@ -54,11 +54,12 @@ public enum SignedNumberRepresentation {
         case .oneComplementNegatives:
             fallthrough
         case .twoComplementNegatives:
-            return bitsCount == Int.bitWidth ? Int.max : 1 << (bitsCount - 1) - 1
+            return bitsCount >= Int.bitWidth ? Int.max : 1 << (bitsCount - 1) - 1
         case .biased(let bias):
             precondition(bias >= 0)
-            return bitsCount == Int.bitWidth ? Int.max - bias : (1 << bitsCount) - 1 - bias
+            return bitsCount >= Int.bitWidth ? Int.max - bias : (1 << bitsCount) - 1 - bias
         case .radixNegativeTwo:
+            // Maximum corresponds to all of the even bits being set.
             var result = 0
             var mult = 1
             for _ in stride(from: 0, to: bitsCount, by: 2) {
