@@ -18,6 +18,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 15), -16383)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 23), -4194303)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: Int.bitWidth), Int.min)
+        XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 335), Int.min)
     }
 
     func testMinRepresentableNumber_1C() {
@@ -28,6 +29,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 15), -16383)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 23), -4194303)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: Int.bitWidth), Int.min)
+        XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 335), Int.min)
     }
 
     func testMinRepresentableNumber_2C() {
@@ -38,6 +40,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 15), -16384)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 23), -4194304)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: Int.bitWidth), Int.min)
+        XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 335), Int.min)
     }
 
     func testMinRepresentableNumber_Biased_E3() {
@@ -48,6 +51,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 15), -3)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 23), -3)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: Int.bitWidth), -3)
+        XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 335), -3)
     }
 
     func testMinRepresentableNumber_Biased_E127() {
@@ -58,6 +62,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 15), -127)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 23), -127)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: Int.bitWidth), -127)
+        XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 335), -127)
     }
 
     func testMinRepresentableNumber_Biased_E1023() {
@@ -68,6 +73,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 15), -1023)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 23), -1023)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: Int.bitWidth), -1023)
+        XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 335), -1023)
     }
 
     func testMinRepresentableNumber_RN2() {
@@ -78,6 +84,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 15), -10922)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 23), -2796202)
         XCTAssertEqual(repr.minRepresentableNumber(bitsCount: Int.bitWidth), Int.min)
+        XCTAssertEqual(repr.minRepresentableNumber(bitsCount: 335), Int.min)
     }
 
     // MARK: maxRepresentableNumber
@@ -90,6 +97,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 15), 16383)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 23), 4194303)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: Int.bitWidth), Int.max)
+        XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 335), Int.max)
     }
 
     func testMaxRepresentableNumber_1C() {
@@ -100,6 +108,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 15), 16383)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 23), 4194303)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: Int.bitWidth), Int.max)
+        XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 335), Int.max)
     }
 
     func testMaxRepresentableNumber_2C() {
@@ -110,6 +119,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 15), 16383)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 23), 4194303)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: Int.bitWidth), Int.max)
+        XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 335), Int.max)
     }
 
     func testMaxRepresentableNumber_Biased_E3() {
@@ -120,6 +130,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 15), 32764)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 23), 8388604)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: Int.bitWidth), Int.max - 3)
+        XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 335), Int.max - 3)
     }
 
     func testMaxRepresentableNumber_Biased_E127() {
@@ -130,6 +141,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 15), 32640)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 23), 8388480)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: Int.bitWidth), Int.max - 127)
+        XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 335), Int.max - 127)
     }
 
     func testMaxRepresentableNumber_Biased_E1023() {
@@ -140,6 +152,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 15), 31744)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 23), 8387584)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: Int.bitWidth), Int.max - 1023)
+        XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 335), Int.max - 1023)
     }
 
     func testMaxRepresentableNumber_RN2() {
@@ -150,6 +163,7 @@ class SignedNumberRepresentationTests: XCTestCase {
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 15), 21845)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 23), 5592405)
         XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: Int.bitWidth), 6148914691236517205)
+        XCTAssertEqual(repr.maxRepresentableNumber(bitsCount: 335), 6148914691236517205)
     }
 
 }
