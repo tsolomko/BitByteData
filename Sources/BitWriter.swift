@@ -56,44 +56,32 @@ extension BitWriter {
     }
 
     public func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplementNegatives) {
+        precondition(signedNumber >= representation.minRepresentableNumber(bitsCount: bitsCount) &&
+                        signedNumber <= representation.maxRepresentableNumber(bitsCount: bitsCount),
+                     "\(signedNumber) cannot be represented by \(representation) using \(bitsCount) bits")
+
         var magnitude = signedNumber.magnitude
         switch representation {
         case .signMagnitude:
-            assert(magnitude < (1 << (bitsCount - 1)),
-                   "\(signedNumber) will be truncated when represented by Sign-Magnitude using \(bitsCount) bits")
             magnitude += signedNumber < 0 ? (1 << (bitsCount - 1)) : 0
             self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
         case .oneComplementNegatives:
-            assert(magnitude < (1 << (bitsCount - 1)),
-                   "\(signedNumber) will be truncated when represented by 1-complement using \(bitsCount) bits")
             if signedNumber < 0 {
                 magnitude = ~magnitude
             }
             self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
         case .twoComplementNegatives:
-            assert((signedNumber >= 0 && magnitude <= (1 << (bitsCount - 1)) - 1) ||
-                (signedNumber < 0 && magnitude <= 1 << (bitsCount - 1)),
-                   "\(signedNumber) will be truncated when represented by 2-complement using \(bitsCount) bits")
             if signedNumber < 0 {
                 magnitude = ~magnitude &+ 1
             }
             self.write(unsignedNumber: magnitude, bitsCount: bitsCount)
         case .biased(let bias):
-            assert(bias >= 0, "Bias cannot be less than zero.")
-            assert(signedNumber >= -bias,
-                   "\(signedNumber) is too small to be encoded by biased representation with \(bias) bias")
-            let encoded = UInt(bitPattern: signedNumber &+ bias)
-            let encodedUpperBound = bitsCount == UInt.bitWidth ? UInt.max : (1 << bitsCount) - 1
-            assert(encoded <= encodedUpperBound,
-                   "\(signedNumber) is too big to be encoded by biased representation with \(bias) bias using \(bitsCount) bits")
-            self.write(unsignedNumber: encoded, bitsCount: bitsCount)
+            precondition(bias >= 0, "Bias cannot be less than zero.")
+            self.write(unsignedNumber: UInt(bitPattern: signedNumber &+ bias), bitsCount: bitsCount)
         case .radixNegativeTwo:
             let mask = UInt(truncatingIfNeeded: 0xAA_AA_AA_AA_AA_AA_AA_AA as UInt64)
             let unsignedBitPattern = UInt(bitPattern: signedNumber)
             let encoded = (unsignedBitPattern &+ mask) ^ mask
-            let encodedBound = bitsCount == UInt.bitWidth ? UInt.max : ((1 << bitsCount) - 1)
-            assert(encoded <= encodedBound,
-                   "\(signedNumber) will be truncated when represented by -2 radix using \(bitsCount) bits")
             self.write(unsignedNumber: encoded, bitsCount: bitsCount)
         }
     }
