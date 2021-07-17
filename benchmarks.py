@@ -342,6 +342,8 @@ def action_run(args):
                         print(result.str_compare(base_result))
                     else:
                         print(result)
+                else:
+                    raise RuntimeError("Unexpected format of the output")
     
     if base is not None:
         print(stat_keeper.summary())
