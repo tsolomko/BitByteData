@@ -169,7 +169,9 @@ stages:
       displayName: 'Install an SSH key'
     - script: git worktree add docs gh-pages
       displayName: 'Prepare Worktree'
-    - script: ./utils.py ci before-deploy
+    - script: |
+        sourcekitten doc --spm --module-name BitByteData > docs.json
+        jazzy
       displayName: 'Before Deploy'
     - script: |
         set -e -o xtrace
