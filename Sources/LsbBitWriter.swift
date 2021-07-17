@@ -50,7 +50,8 @@ public final class LsbBitWriter: BitWriter {
      thus, crashes when converting to an `Int` if `write(number:bitsCount:)` method is used.
      */
     public func write(unsignedNumber: UInt, bitsCount: Int) {
-        var mask: UInt = 1
+        precondition(0...UInt.bitWidth ~= bitsCount)
+        var mask = 1 as UInt
         for _ in 0..<bitsCount {
             self.write(bit: unsignedNumber & mask > 0 ? 1 : 0)
             mask <<= 1

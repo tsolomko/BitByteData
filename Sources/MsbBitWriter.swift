@@ -50,7 +50,8 @@ public final class MsbBitWriter: BitWriter {
      thus, crashes when converting to an `Int` if `write(number:bitsCount:)` method is used.
      */
     public func write(unsignedNumber: UInt, bitsCount: Int) {
-        var mask: UInt = 1 << (UInt(truncatingIfNeeded: bitsCount) - 1)
+        precondition(0...UInt.bitWidth ~= bitsCount)
+        var mask = (1 as UInt) << (bitsCount - 1)
         for _ in 0..<bitsCount {
             self.write(bit: unsignedNumber & mask > 0 ? 1 : 0)
             mask >>= 1

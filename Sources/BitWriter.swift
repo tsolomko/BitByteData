@@ -52,6 +52,7 @@ extension BitWriter {
     }
 
     public func write(number: Int, bitsCount: Int) {
+        precondition(0...Int.bitWidth ~= bitsCount)
         self.write(unsignedNumber: UInt(bitPattern: number), bitsCount: bitsCount)
     }
 
