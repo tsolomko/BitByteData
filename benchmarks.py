@@ -396,10 +396,7 @@ parser_run.add_argument("--compare", action="store", metavar="BASE", help="compa
 parser_run.add_argument("--desc", action="store", metavar="DESC", help="add a description to the results")
 parser_run.add_argument("--no-clean", action="store_false", dest="clean", help="don't perform cleaning stage")
 parser_run.add_argument("--cmsa", action="store_true", dest="cmsa", help="compile with the -Xllvm -sil-cross-module-serialize-all option")
-
-toolchain_option_group = parser_run.add_mutually_exclusive_group()
-toolchain_option_group.add_argument("--toolchain", action="store", metavar="ID",
-                                    help="use swift from the toolchain with specified identifier")
+parser_run.add_argument("--toolchain", action="store", metavar="ID", help="use swift from the toolchain with specified identifier")
 
 parser_run.set_defaults(func=action_run)
 
@@ -412,7 +409,7 @@ parser_show.set_defaults(func=action_show)
 
 # Parser for 'emit' command.
 parser_emit = subparsers.add_parser("emit", help="emits SIL and ASM representations",
-                                    description=("saves the SIL representation and the final ASM code into the FILENAME.[sil,asm] files"))
+                                    description="saves the SIL representation and the final ASM code into the FILENAME.[sil,asm] files")
 parser_emit.add_argument("--filename", "-f", action="store", metavar="FILENAME", default="output",
                         help="base name of the output file without extensions (default: output)")
 parser_emit.set_defaults(func=action_emit)
