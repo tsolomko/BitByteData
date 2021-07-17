@@ -464,4 +464,18 @@ class MsbBitReaderTests: XCTestCase {
         XCTAssertEqual(reader.bitsRead, 16)
     }
 
+    func testIsFinished() {
+        let reader = MsbBitReader(data: TestHelper.bitData)
+        _ = reader.bytes(count: 4)
+        XCTAssertFalse(reader.isFinished)
+        _ = reader.bytes(count: 5)
+        XCTAssertFalse(reader.isFinished)
+        _ = reader.bits(count: 5)
+        XCTAssertFalse(reader.isFinished)
+        XCTAssertTrue(reader.bitsLeft > 0)
+        _ = reader.bits(count: 3)
+        XCTAssertTrue(reader.isFinished)
+        XCTAssertTrue(reader.bitsLeft == 0)
+    }
+
 }
