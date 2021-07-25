@@ -3,17 +3,30 @@
 //
 // See LICENSE for license information
 
+/// Represents a method to encode signed integers in a binary format.
 public enum SignedNumberRepresentation {
 
+    /// Signed magnitude representation.
     case signMagnitude
+    /// One's complement representation of negative integers.
     case oneComplementNegatives
+    /// Two's complement representation of negative integers.
     case twoComplementNegatives
+    /// Biased representation with a custom `bias`.
     case biased(bias: Int)
+    /// Base (radix) -2 representation.
     case radixNegativeTwo
 
     // Generally speaking, there is a natural limit of the maximum and minimum values that Swift's Int type can hold.
     // So when the bitsCount matches the bit width of the Int type we need to be careful.
 
+    /**
+     Returns a minimum signed integer that is possible to represent in a binary format within `bitsCount` bits using the
+     current representation.
+
+     - Precondition: Parameter `bitsCount` must be greater than zero.
+     - Precondition: For the `SignedNumberRepresentation.biased` representation, the `bias` must be non-negative.
+     */
     public func minRepresentableNumber(bitsCount: Int) -> Int {
         precondition(bitsCount > 0)
 
@@ -53,6 +66,13 @@ public enum SignedNumberRepresentation {
         }
     }
 
+    /**
+     Returns a maximum signed integer that is possible to represent in a binary format within `bitsCount` bits using the
+     current representation.
+
+     - Precondition: Parameter `bitsCount` must be greater than zero.
+     - Precondition: For the `SignedNumberRepresentation.biased` representation, the `bias` must be non-negative.
+     */
     public func maxRepresentableNumber(bitsCount: Int) -> Int {
         precondition(bitsCount > 0)
 
