@@ -5,7 +5,7 @@
 
 import Foundation
 
-/// A type that contains functions for reading `Data` byte-by-byte in the Little endian order.
+/// A type that contains functions for reading `Data` byte-by-byte in the Little Endian order.
 public final class LittleEndianByteReader: ByteReader {
 
     /// Size of the `data` (in bytes).
@@ -14,10 +14,10 @@ public final class LittleEndianByteReader: ByteReader {
     /// Data which is being read.
     public let data: Data
 
-    /// Offset to the byte in `data` which will be read next.
+    /// Offset to a byte in the `data` which will be read next.
     public var offset: Int
 
-    /// Creates an instance for reading bytes from `data`.
+    /// Creates an instance for reading bytes from the `data`.
     public init(data: Data) {
         self.size = data.count
         self.data = data
@@ -25,9 +25,9 @@ public final class LittleEndianByteReader: ByteReader {
     }
 
     /**
-     Reads byte and returns it, advancing by one position.
+     Reads a byte and returns it, advancing by one position.
 
-     - Precondition: There MUST be enough data left.
+     - Precondition: There must be enough bytes left.
      */
     public func byte() -> UInt8 {
         defer { offset += 1 }
@@ -35,10 +35,10 @@ public final class LittleEndianByteReader: ByteReader {
     }
 
     /**
-     Reads `count` bytes and returns them as an array of `UInt8`, advancing by `count` positions.
+     Reads `count` bytes and returns them as a `[UInt8]` array, advancing by `count` positions.
 
-     - Precondition: Parameter `count` MUST not be less than 0.
-     - Precondition: There MUST be enough data left.
+     - Precondition: Parameter `count` must be non-negative.
+     - Precondition: There must be enough bytes left.
      */
     public func bytes(count: Int) -> [UInt8] {
         precondition(count >= 0)
@@ -49,7 +49,7 @@ public final class LittleEndianByteReader: ByteReader {
     /**
      Reads 8 bytes and returns them as a `UInt64` number, advancing by 8 positions.
 
-     - Precondition: There MUST be enough data left.
+     - Precondition: There must be enough bytes left.
      */
     public func uint64() -> UInt64 {
         defer { offset += 8 }
@@ -57,13 +57,12 @@ public final class LittleEndianByteReader: ByteReader {
     }
 
     /**
-     Reads `fromBytes` bytes and returns them as an `UInt64` number, advancing by `fromBytes` positions.
+     Reads `fromBytes` bytes and returns them as a `UInt64` number, advancing by `fromBytes` positions.
 
-     - Note: If it is known that `fromBytes` is exactly 8, then consider using `uint64()` function (without argument),
-     since it has better performance in this situation.
-     - Precondition: Parameter `fromBits` MUST be from `0..8` range, i.e. it MUST not exceed maximum possible amount of
-     bytes that `UInt64` type can represent.
-     - Precondition: There MUST be enough data left.
+     - Note: If it is known that the `fromBytes` is exactly 8 then consider using the `uint64()` function (without an
+     argument), since it may provide better performance.
+     - Precondition: Parameter `fromBytes` must be in the `0...8` range.
+     - Precondition: There must be enough bytes left.
      */
     public func uint64(fromBytes count: Int) -> UInt64 {
         precondition(0...8 ~= count)
@@ -78,7 +77,7 @@ public final class LittleEndianByteReader: ByteReader {
     /**
      Reads 4 bytes and returns them as a `UInt32` number, advancing by 4 positions.
 
-     - Precondition: There MUST be enough data left.
+     - Precondition: There must be enough bytes left.
      */
     public func uint32() -> UInt32 {
         defer { offset += 4 }
@@ -86,13 +85,12 @@ public final class LittleEndianByteReader: ByteReader {
     }
 
     /**
-     Reads `fromBytes` bytes and returns them as an `UInt32` number, advancing by `fromBytes` positions.
+     Reads `fromBytes` bytes and returns them as a `UInt32` number, advancing by `fromBytes` positions.
 
-     - Note: If it is known that `fromBytes` is exactly 4, then consider using `uint32()` function (without argument),
-     since it has better performance in this situation.
-     - Precondition: Parameter `fromBits` MUST be from `0..4` range, i.e. it MUST not exceed maximum possible amount of
-     bytes that `UInt32` type can represent.
-     - Precondition: There MUST be enough data left.
+     - Note: If it is known that the `fromBytes` is exactly 4 then consider using the `uint32()` function (without an
+     argument), since it may provide better performance.
+     - Precondition: Parameter `fromBytes` must be in the `0...4` range.
+     - Precondition: There must be enough bytes left.
      */
     public func uint32(fromBytes count: Int) -> UInt32 {
         precondition(0...4 ~= count)
@@ -107,7 +105,7 @@ public final class LittleEndianByteReader: ByteReader {
     /**
      Reads 2 bytes and returns them as a `UInt16` number, advancing by 2 positions.
 
-     - Precondition: There MUST be enough data left.
+     - Precondition: There must be enough bytes left.
      */
     public func uint16() -> UInt16 {
         defer { offset += 2 }
@@ -115,13 +113,12 @@ public final class LittleEndianByteReader: ByteReader {
     }
 
     /**
-     Reads `fromBytes` bytes and returns them as an `UInt16` number, advancing by `fromBytes` positions.
+     Reads `fromBytes` bytes and returns them as a `UInt16` number, advancing by `fromBytes` positions.
 
-     - Note: If it is known that `fromBytes` is exactly 2, then consider using `uint16()` function (without argument),
-     since it has better performance in this situation.
-     - Precondition: Parameter `fromBits` MUST be from `0..2` range, i.e. it MUST not exceed maximum possible amount of
-     bytes that `UInt16` type can represent.
-     - Precondition: There MUST be enough data left.
+     - Note: If it is known that the `fromBytes` is exactly 2 then consider using the `uint16()` function (without an
+     argument), since it may provide better performance.
+     - Precondition: Parameter `fromBytes` must be in the `0...2` range.
+     - Precondition: There must be enough bytes left.
      */
     public func uint16(fromBytes count: Int) -> UInt16 {
         precondition(0...2 ~= count)
