@@ -7,7 +7,7 @@ import Foundation
 
 /**
  A type that contains functions for reading `Data` bit-by-bit using "MSB0" bit numbering scheme and byte-by-byte in the
- Little endian order.
+ Little Endian order.
  */
 public final class MsbBitReader: BitReader {
 
@@ -21,9 +21,9 @@ public final class MsbBitReader: BitReader {
     public let data: Data
 
     /**
-     The offset to the byte in `data` right after the `currentByte`.
+     Offset to a byte in the `data` which will be read next.
 
-     - Precondition: The reader MUST be aligned when accessing the setter of `offset`.
+     - Precondition: The reader must be aligned when accessing the setter of `offset`.
      */
     public var offset: Int {
         willSet {
@@ -36,7 +36,7 @@ public final class MsbBitReader: BitReader {
         }
     }
 
-    /// True, if reader's BIT pointer is aligned with the BYTE border.
+    /// True, if a bit pointer is aligned to a byte boundary.
     public var isAligned: Bool {
         return self.bitMask == 128
     }
@@ -53,7 +53,7 @@ public final class MsbBitReader: BitReader {
         return bytesRead * 8 + bitMask.leadingZeroBitCount
     }
 
-    /// Creates an instance for reading bits (and bytes) from `data`.
+    /// Creates an instance for reading bits (and bytes) from the `data`.
     public init(data: Data) {
         self.size = data.count
         self.data = data
@@ -62,8 +62,8 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Converts a `ByteReader` instance into `MsbBitReader`, enabling bit reading capabilities. Current `offset` value of
-     `byteReader` is preserved.
+     Converts a `ByteReader` instance into a `LsbBitReader`, enabling bit reading capabilities. The current `offset`
+     value of the `byteReader` is preserved.
      */
     public convenience init(_ byteReader: ByteReader) {
         self.init(data: byteReader.data)
@@ -72,10 +72,10 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Advances reader's BIT pointer by specified amount of bits (default is 1).
+     Advances a bit pointer by the specified amount of bits (the default value is 1).
 
-     - Warning: Doesn't check if there is any data left. It is advised to use `isFinished` AFTER calling this method
-     to check if the end was reached.
+     - Warning: This function doesn't check if there is any data left. It is advised to use `isFinished` after calling
+     this method to check if the end was reached.
      */
     public func advance(by count: Int = 1) {
         for _ in 0..<count {
@@ -89,9 +89,9 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads bit and returns it, advancing by one BIT position.
+     Reads a bit and returns it, advancing by one bit position.
 
-     - Precondition: There MUST be enough data left.
+     - Precondition: There must be enough data left.
      */
     public func bit() -> UInt8 {
         precondition(bitsLeft >= 1)
@@ -108,10 +108,10 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads `count` bits and returns them as an array of `UInt8`, advancing by `count` BIT positions.
+     Reads `count` bits and returns them as a `[UInt8]` array, advancing by `count` bit positions.
 
-     - Precondition: Parameter `count` MUST not be less than 0.
-     - Precondition: There MUST be enough data left.
+     - Precondition: Parameter `count` must non-negative
+     - Precondition: There must be enough data left.
      */
     public func bits(count: Int) -> [UInt8] {
         precondition(count >= 0)
@@ -127,11 +127,16 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads `fromBits` bits and returns them as an `Int` number, advancing by `fromBits` BIT positions.
+     Reads `fromBits` bits, treating them as a binary `represenation` of a signed integer, and returns the result as a
+     `Int` number, advancing by `fromBits` bit positions.
 
-     - Precondition: Parameter `fromBits` MUST be from `0...Int.bitWidth` range, i.e. it MUST not exceed maximum bit
-     width on the current platform.
-     - Precondition: There MUST be enough data left.
+     If the `representation` doesn't match the representation that was used to produce the data then the result may be
+     incorrect.
+
+     The default value of `representation` is `SignedNumberRepresentation.twoComplementNegatives`.
+
+     - Precondition: Parameter `fromBits` must be in the `0...Int.bitWidth` range.
+     - Precondition: There must be enough data left.
      */
     public func signedInt(fromBits count: Int, representation: SignedNumberRepresentation = .twoComplementNegatives) -> Int {
         precondition(0...Int.bitWidth ~= count)
@@ -175,11 +180,10 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads `fromBits` bits and returns them as an `UInt8` number, advancing by `fromBits` BIT positions.
+     Reads `fromBits` bits and returns them as a `UInt8` number, advancing by `fromBits` bit positions.
 
-     - Precondition: Parameter `fromBits` MUST be from `0...8` range, i.e. it MUST not exceed maximum bit width of
-     `UInt8` type on the current platform.
-     - Precondition: There MUST be enough data left.
+     - Precondition: Parameter `fromBits` must be in the `0...8` range.
+     - Precondition: There must be enough data left.
      */
     public func byte(fromBits count: Int) -> UInt8 {
         precondition(0...8 ~= count)
@@ -202,13 +206,12 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads `fromBits` bits and returns them as an `UInt16` number, advancing by `fromBits` BIT positions.
+     Reads `fromBits` bits and returns them as a `UInt16` number, advancing by `fromBits` bit positions.
 
-     - Precondition: Parameter `fromBits` MUST be from `0...16` range, i.e. it MUST not exceed maximum bit width of
-     `UInt16` type on the current platform.
-     - Precondition: There MUST be enough data left.
+     - Precondition: Parameter `fromBits` must be in the `0...16` range.
+     - Precondition: There must be enough data left.
      */
-    public func uint16(fromBits count: Int) -> UInt16 {
+public func uint16(fromBits count: Int) -> UInt16 {
         precondition(0...16 ~= count)
         precondition(bitsLeft >= count)
 
@@ -229,11 +232,10 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads `fromBits` bits and returns them as an `UInt32` number, advancing by `fromBits` BIT positions.
+     Reads `fromBits` bits and returns them as a `UInt32` number, advancing by `fromBits` bit positions.
 
-     - Precondition: Parameter `fromBits` MUST be from `0...32` range, i.e. it MUST not exceed maximum bit width of
-     `UInt32` type on the current platform.
-     - Precondition: There MUST be enough data left.
+     - Precondition: Parameter `fromBits` must be in the `0...32` range.
+     - Precondition: There must be enough data left.
      */
     public func uint32(fromBits count: Int) -> UInt32 {
         precondition(0...32 ~= count)
@@ -256,11 +258,10 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads `fromBits` bits and returns them as an `UInt64` number, advancing by `fromBits` BIT positions.
+     Reads `fromBits` bits and returns them as a `UInt64` number, advancing by `fromBits` bit positions.
 
-     - Precondition: Parameter `fromBits` MUST be from `0...64` range, i.e. it MUST not exceed maximum bit width of
-     `UInt64` type on the current platform.
-     - Precondition: There MUST be enough data left.
+     - Precondition: Parameter `fromBits` must be from `0...64` range.
+     - Precondition: There must be enough data left.
      */
     public func uint64(fromBits count: Int) -> UInt64 {
         precondition(0...64 ~= count)
@@ -283,10 +284,11 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Moves BIT pointer to the first BIT of the next BYTE. If the reader is already aligned, then does nothing.
+     Aligns a bit pointer to a byte boundary, i.e. moves the bit pointer to the first bit of the next byte. If the
+     reader is already aligned, then does nothing.
 
-     - Warning: Doesn't check if there is any data left. It is advised to use `isFinished` after calling this method
-     to check if the end was reached.
+     - Warning: This function doesn't check if there is any data left. It is advised to use `isFinished` after calling
+     this method to check if the end was reached.
      */
     public func align() {
         if self.bitMask != 128 {
@@ -296,10 +298,10 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads byte and returns it, advancing by one BYTE position.
+     Reads a byte and returns it, advancing by one byte position.
 
-     - Precondition: The reader MUST be aligned.
-     - Precondition: There MUST be enough data left.
+     - Precondition: The reader must be aligned.
+     - Precondition: There must be enough bytes left.
      */
     public func byte() -> UInt8 {
         defer { offset += 1 }
@@ -307,10 +309,11 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads `count` bytes and returns them as an array of `UInt8`, advancing by `count` BYTE positions.
+     Reads `count` bytes and returns them as a `[UInt8]` array, advancing by `count` byte positions.
 
-     - Precondition: The reader MUST be aligned.
-     - Precondition: There MUST be enough data left.
+     - Precondition: The reader must be aligned.
+     - Precondition: Parameter `count` must be non-negative.
+     - Precondition: There must be enough bytes left.
      */
     public func bytes(count: Int) -> [UInt8] {
         defer { offset += count }
@@ -318,10 +321,10 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads 8 bytes and returns them as a `UInt64` number, advancing by 8 BYTE positions.
+     Reads 8 bytes and returns them as a `UInt64` number, advancing by 8 byte positions.
 
-     - Precondition: The reader MUST be aligned.
-     - Precondition: There MUST be enough data left.
+     - Precondition: The reader must be aligned.
+     - Precondition: There must be enough bytes left.
      */
     public func uint64() -> UInt64 {
         defer { offset += 8 }
@@ -329,11 +332,13 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads `fromBytes` bytes and returns them as a `UInt64` number, advancing by `fromBytes` BYTE positions.
+     Reads `fromBytes` bytes and returns them as a `UInt64` number, advancing by `fromBytes` byte positions.
 
-     - Precondition: The reader MUST be aligned.
-     - Precondition: Parameter `fromBytes` MUST not be less than 0.
-     - Precondition: There MUST be enough data left.
+     - Note: If it is known that the `fromBytes` is exactly 8 then consider using the `uint64()` function (without an
+     argument), since it may provide better performance.
+     - Precondition: The reader must be aligned.
+     - Precondition: Parameter `fromBytes` must be in the `0...8` range.
+     - Precondition: There must be enough bytes left.
      */
     public func uint64(fromBytes count: Int) -> UInt64 {
         precondition(0...8 ~= count)
@@ -346,10 +351,10 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads 4 bytes and returns them as a `UInt32` number, advancing by 4 BYTE positions.
+     Reads 4 bytes and returns them as a `UInt32` number, advancing by 4 byte positions.
 
-     - Precondition: The reader MUST be aligned.
-     - Precondition: There MUST be enough data left.
+     - Precondition: The reader must be aligned.
+     - Precondition: There must be enough bytes left.
      */
     public func uint32() -> UInt32 {
         defer { offset += 4 }
@@ -357,11 +362,13 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads `fromBytes` bytes and returns them as a `UInt32` number, advancing by `fromBytes` BYTE positions.
+     Reads `fromBytes` bytes and returns them as a `UInt32` number, advancing by `fromBytes` byte positions.
 
-     - Precondition: The reader MUST be aligned.
-     - Precondition: Parameter `fromBytes` MUST not be less than 0.
-     - Precondition: There MUST be enough data left.
+     - Note: If it is known that the `fromBytes` is exactly 4 then consider using the `uint32()` function (without an
+     argument), since it may provide better performance.
+     - Precondition: The reader must be aligned.
+     - Precondition: Parameter `fromBytes` must be in the `0...4` range.
+     - Precondition: There must be enough bytes left.
      */
     public func uint32(fromBytes count: Int) -> UInt32 {
         precondition(0...4 ~= count)
@@ -374,10 +381,10 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads 2 bytes and returns them as a `UInt16` number, advancing by 2 BYTE positions.
+     Reads 2 bytes and returns them as a `UInt16` number, advancing by 2 byte positions.
 
-     - Precondition: The reader MUST be aligned.
-     - Precondition: There MUST be enough data left.
+     - Precondition: The reader must be aligned.
+     - Precondition: There must be enough data left.
      */
     public func uint16() -> UInt16 {
         defer { offset += 2 }
@@ -385,11 +392,13 @@ public final class MsbBitReader: BitReader {
     }
 
     /**
-     Reads `fromBytes` bytes and returns them as a `UInt16` number, advancing by `fromBytes` BYTE positions.
+     Reads `fromBytes` bytes and returns them as a `UInt16` number, advancing by `fromBytes` byte positions.
 
-     - Precondition: The reader MUST be aligned.
-     - Precondition: Parameter `fromBytes` MUST not be less than 0.
-     - Precondition: There MUST be enough data left.
+     - Note: If it is known that the `fromBytes` is exactly 2 then consider using the `uint16()` function (without an
+     argument), since it may provide better performance.
+     - Precondition: The reader must be aligned.
+     - Precondition: Parameter `fromBytes` must be in the `0...2` range.
+     - Precondition: There must be enough bytes left.
      */
     public func uint16(fromBytes count: Int) -> UInt16 {
         precondition(0...2 ~= count)
