@@ -71,6 +71,8 @@ public final class LsbBitReader: BitReader {
         self.currentByte = byteReader.isFinished ? 0 : byteReader.data[byteReader.offset]
     }
 
+    // MARK: Bit reading methods
+
     /**
      Advances a bit pointer by the specified amount of bits (the default value is 1).
 
@@ -293,6 +295,8 @@ public final class LsbBitReader: BitReader {
             self.offset += 1
         }
     }
+
+    // MARK: Byte reading methods
 
     /**
      Reads a byte and returns it, advancing by one byte position.

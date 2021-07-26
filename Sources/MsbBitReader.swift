@@ -71,6 +71,8 @@ public final class MsbBitReader: BitReader {
         self.currentByte = byteReader.isFinished ? 0 : byteReader.data[byteReader.offset]
     }
 
+    // MARK: Bit reading methods
+
     /**
      Advances a bit pointer by the specified amount of bits (the default value is 1).
 
@@ -211,7 +213,7 @@ public final class MsbBitReader: BitReader {
      - Precondition: Parameter `fromBits` must be in the `0...16` range.
      - Precondition: There must be enough data left.
      */
-public func uint16(fromBits count: Int) -> UInt16 {
+    public func uint16(fromBits count: Int) -> UInt16 {
         precondition(0...16 ~= count)
         precondition(bitsLeft >= count)
 
@@ -296,6 +298,8 @@ public func uint16(fromBits count: Int) -> UInt16 {
             self.offset += 1
         }
     }
+
+    // MARK: Byte reading methods
 
     /**
      Reads a byte and returns it, advancing by one byte position.
