@@ -5,39 +5,42 @@
 
 import Foundation
 
-/// A type that contains functions for writing `Data` bit-by-bit (and byte-by-byte).
+/// A type that contains functions for writing `Data` bit-by-bit and byte-by-byte.
 public protocol BitWriter {
 
-    /// Data which contains writer's output (the last byte in progress is not included).
+    /// Data which contains the writer's output (the last byte, that is currently being written, is not included).
     var data: Data { get }
 
-    /// True, if writer's BIT pointer is aligned with the BYTE border.
+    /// True, if a bit pointer is aligned to a byte boundary.
     var isAligned: Bool { get }
 
-    /// Creates an instance for writing bits (and bytes).
+    /// Creates an instance for writing bits and bytes.
     init()
 
-    /// Writes `bit`, advancing by one BIT position.
+    /// Writes a `bit`, advancing by one bit position.
     func write(bit: UInt8)
 
-    /// Writes `bits`, advancing by `bits.count` BIT positions.
+    /// Writes `bits`, advancing by `bits.count` bit positions.
     func write(bits: [UInt8])
 
-    /// Writes `number`, using and advancing by `bitsCount` BIT positions.
+    /// Writes a `number` into `bitsCount` amount of bits, advancing by `bitsCount` bit positions.
     func write(number: Int, bitsCount: Int)
 
-    /// Writes signed `number`, using and advancing by `bitsCount` BIT positions.
+    /**
+     Writes a signed integer `number` into `bitsCount` amount of bits, advancing by `bitsCount` bit positions, while
+     using a `representation` as a method to represent the signed integer in a binary format.
+     */
     func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation)
 
-    /// Writes unsigned `number`, using and advancing by `bitsCount` BIT positions.
+    /// Writes an unsigned `number`, advancing by `bitsCount` bit positions.
     func write(unsignedNumber: UInt, bitsCount: Int)
 
-    /// Writes `byte`, advancing by one BYTE position.
+    /// Writes a `byte`, advancing by one byte position.
     func append(byte: UInt8)
 
     /**
-     Aligns writer's BIT pointer to the BYTE border, i.e. moves BIT pointer to the first BIT of the next BYTE,
-     filling all skipped BIT positions with zeros.
+     Aligns a bit pointer to a byte boundary, i.e. moves the bit pointer to the first bit of the next byte, filling all
+     skipped bit positions with zeros.
      */
     func align()
 
@@ -45,17 +48,37 @@ public protocol BitWriter {
 
 extension BitWriter {
 
+    /// Writes `bits`, advancing by `bits.count` bit positions, using the `write(bit:)` function.
     public func write(bits: [UInt8]) {
         for bit in bits {
             self.write(bit: bit)
         }
     }
 
+    /**
+     Converts a `number` into an `UInt` integer, and writes it into `bitsCount` amount of bits by using the
+     `write(unsignedNumber:bitsCount:)` function, advancing by `bitsCount` bit positions.
+
+     - Note: If the data is supposed to represent a signed integer (i.e. it is important to preserve the sign), it is
+     recommended to use the `write(signedNumber:bitsCount:representation:)` function.
+     - Precondition: Parameter `bitsCount` must be in the `0...Int.bitWidth` range.
+     */
     public func write(number: Int, bitsCount: Int) {
         precondition(0...Int.bitWidth ~= bitsCount)
         self.write(unsignedNumber: UInt(bitPattern: number), bitsCount: bitsCount)
     }
 
+    /**
+     Writes a signed integer `number` into `bitsCount` amount of bits, advancing by `bitsCount` bit positions, while
+     using a `representation` as a method to represent the signed integer in a binary format. This implementation uses
+     the `write(unsignedNumber:bitsCount:)` function in the final stage of writing.
+
+     The default value of `representation` is `SignedNumberRepresentation.twoComplementNegatives`.
+
+     - Precondition: The `signedNumber` must be representable within `bitsCount` bits using the `representation`, i.e.
+     it must be in the `representation.minRepresentableNumber...representation.maxRepresentableNumber` range.
+     - Precondition: For the `SignedNumberRepresentation.biased` representation, the `bias` must be non-negative.
+     */
     public func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplementNegatives) {
         precondition(signedNumber >= representation.minRepresentableNumber(bitsCount: bitsCount) &&
                         signedNumber <= representation.maxRepresentableNumber(bitsCount: bitsCount),
