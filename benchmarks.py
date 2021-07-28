@@ -332,6 +332,7 @@ def action_run(args):
             output = _sprun(command).stdout.decode().splitlines()
             for line in output:
                 matches = p.findall(line.rstrip())
+                # We're interested only in the lines in the output that look like that they contain benchmark results.
                 if len(matches) == 1 and len(matches[0]) == 5:
                     if matches[0][0] != group or matches[0][1] != bench:
                         raise RuntimeError("Seems like swift executed wrong benchmark")
@@ -342,8 +343,6 @@ def action_run(args):
                         print(result.str_compare(base_result))
                     else:
                         print(result)
-                else:
-                    raise RuntimeError("Unexpected format of the output")
     
     if base is not None:
         print(stat_keeper.summary())
