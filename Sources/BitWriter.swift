@@ -75,6 +75,9 @@ extension BitWriter {
 
      The default value of `representation` is `SignedNumberRepresentation.twoComplementNegatives`.
 
+     For the representations where zero can be represented in two ways (namely, `.signMagnitude` and
+     `.oneComplementNegatives`), zero is encoded as +0 (i.e. all bits are set to zero).
+
      - Precondition: The `signedNumber` must be representable within `bitsCount` bits using the `representation`, i.e.
      it must be in the `representation.minRepresentableNumber...representation.maxRepresentableNumber` range.
      - Precondition: For the `SignedNumberRepresentation.biased` representation, the `bias` must be non-negative.
