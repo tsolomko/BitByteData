@@ -5,8 +5,8 @@ trigger:
   tags:
     include:
     - '*'
-    exclude:
-    - '*-test*'
+    # exclude:
+    # - '*-test*'
 
 stages:
 - stage: test
