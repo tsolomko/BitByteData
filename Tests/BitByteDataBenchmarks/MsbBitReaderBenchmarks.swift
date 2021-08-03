@@ -1,4 +1,4 @@
-// Copyright (c) 2020 Timofey Solomko
+// Copyright (c) 2021 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -10,80 +10,219 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testAdvance() {
         self.measure {
-            let bitReader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<5_000_000 * 8 {
-                bitReader.advance()
+                reader.advance()
+            }
+        }
+    }
+
+    func testAdvanceRealistic() {
+        self.measure {
+            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+
+            for _ in 0..<9_300_000 {
+                reader.advance(by: 6)
+                reader.advance(by: 3)
             }
         }
     }
 
     func testBit() {
         self.measure {
-            let bitReader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<5_000_000 * 8 {
-                _ = bitReader.bit()
+                _ = reader.bit()
             }
         }
     }
 
     func testBits() {
         self.measure {
-            let bitReader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 * 8 {
-                _ = bitReader.bits(count: 5)
+                _ = reader.bits(count: 5)
             }
         }
     }
 
     func testIntFromBits() {
         self.measure {
-            let bitReader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 * 4 {
-                _ = bitReader.int(fromBits: 10)
+                _ = reader.int(fromBits: 10)
+            }
+        }
+    }
+
+    func testSignedInt_SM_pos() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0xD)
+            bytes.append(0x37)
+        }
+
+        self.measure {
+            let reader = MsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .signMagnitude)
+            }
+        }
+    }
+
+    func testSignedInt_SM_neg() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0x8D)
+            bytes.append(0x37)
+        }
+
+        self.measure {
+            let reader = MsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .signMagnitude)
+            }
+        }
+    }
+
+    func testSignedInt_1C_pos() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0xD)
+            bytes.append(0x37)
+        }
+
+        self.measure {
+            let reader = MsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .oneComplementNegatives)
+            }
+        }
+    }
+
+    func testSignedInt_1C_neg() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0x8D)
+            bytes.append(0x37)
+        }
+
+        self.measure {
+            let reader = MsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .oneComplementNegatives)
+            }
+        }
+    }
+
+    func testSignedInt_2C_pos() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0xD)
+            bytes.append(0x37)
+        }
+
+        self.measure {
+            let reader = MsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .twoComplementNegatives)
+            }
+        }
+    }
+
+    func testSignedInt_2C_neg() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0x8D)
+            bytes.append(0x37)
+        }
+
+        self.measure {
+            let reader = MsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 16, representation: .twoComplementNegatives)
+            }
+        }
+    }
+
+    func testSignedInt_E127() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0x6D)
+            bytes.append(0xB7)
+        }
+
+        self.measure {
+            let reader = MsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 7, representation: .biased(bias: 127))
+            }
+        }
+    }
+
+    func testSignedInt_RN2() {
+        var bytes = [UInt8]()
+        for _ in 0..<5_242_880 { // 5 MB * 2
+            bytes.append(0x6D)
+            bytes.append(0xB7)
+        }
+
+        self.measure {
+            let reader = MsbBitReader(data: Data(bytes))
+
+            for _ in 0..<5_000_000 {
+                _ = reader.signedInt(fromBits: 13, representation: .radixNegativeTwo)
             }
         }
     }
 
     func testByteFromBits() {
         self.measure {
-            let bitReader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 * 8 {
-                _ = bitReader.byte(fromBits: 6)
+                _ = reader.byte(fromBits: 6)
             }
         }
     }
 
     func testUint16FromBits() {
         self.measure {
-            let bitReader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 * 4 {
-                _ = bitReader.uint16(fromBits: 13)
+                _ = reader.uint16(fromBits: 13)
             }
         }
     }
 
     func testUint32FromBits() {
         self.measure {
-            let bitReader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 * 3 {
-                _ = bitReader.uint32(fromBits: 23)
+                _ = reader.uint32(fromBits: 23)
             }
         }
     }
 
     func testUint64FromBits() {
         self.measure {
-            let bitReader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
 
             for _ in 0..<1_000_000 {
-                _ = bitReader.uint64(fromBits: 52)
+                _ = reader.uint64(fromBits: 52)
             }
         }
     }
