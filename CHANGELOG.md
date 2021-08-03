@@ -1,5 +1,48 @@
 # Changelog
 
+## 2.0.0
+
+- Swift 4.2 is no longer supported.
+- Minimum iOS deployment version (when installed via CocoaPods or Carthage) is now 9.0.
+- Renamed the `ByteReader` class to `LittleEndianByteReader`.
+- `LittleEndianByteReader` (ex-`ByteReader`) is now a final class.
+  - `LsbBitReader` and `MsbBitReader` are no longer its subclasses.
+- Added a new `BigEndianByteReader` class with the same set of APIs as `LittleEndianByteReader`.
+- Added a `ByteReader` protocol which inherits `AnyObject`.
+  - Most of the methods and properties of the previously existing `ByteReader` _class_ are now requirements of the new
+  protocol.
+  - `ByteReader` provides a default implementation for the initializer which implements conversion from a `BitReader`
+  (this initializer is not a protocol requirement).
+  - `ByteReader` provides default implementations for the `bytesLeft`, `bytesRead`, and `isFinished` properties (these
+  properties are not protocol requirements).
+  - `ByteReader` provides a default implementation for the `int(fromBytes:)` method.
+  - Both `LittleEndianByteReader` and `BigEndianByteReader` now conform to the `ByteReader` protocol.
+- Added a `SignedNumberRepresentation` enum with five cases and two instance methods.
+- The `BitReader` protocol now inherits the `ByteReader` protocol.
+  - Two new method requirements have been added to the `BitReader` protocol: `signedInt(fromBits:representation:)` and
+  `advance(by:)`.
+  - `BitReader` now provides a default implementation for `int(fromBits:)`.
+- It is no longer possible to set the `offset` property of the `LsbBitReader` and `MsbBitReader` classes if they are not
+aligned (a precondition crash occurs instead).
+- The `signedInt(fromBits:representation:)` function has been added to the `LsbBitReader` and `MsbBitReader` classes
+with the default value of `SignedNumberRepresentation.twoComplementNegatives` for the `representation` argument.
+- Two new method requirements have been added to the `BitWriter` protocol: `write(unsignedNumber:bitsCount:)` and
+`write(signedNumber:bitsCount:representation:)`.
+- `BitWriter` now provides default implementations for `write(signedNumber:bitsCount:representation:)` and
+`write(number:bitsCount:)`.
+  - The default implementation of the `write(number:bitsCount:)` function has a precondition crash if the `bitsCount`
+  argument exceeds the bit width of the integer type on the current platform.
+- The `write(unsignedNumber:bitsCount:)` function of the `LsbBitWriter` and `MsbBitWriter` classes functions now have a
+precondition crash if the `bitsCount` argument exceeds the bit width of the integer type on the current platform.
+- Documentation has been updated.
+  - Added documentation for new APIs.
+  - A couple of missing precondition checks are now properly documented.
+  - Existing documentation has been made more concise and slightly more grammatically correct.
+
+## 1.4.4
+
+- Fixed a compilation warning about "deprecated class keyword" appearing when using Swift 5.4.
+
 ## 1.4.3
 
 - Fixed incompatibility with Swift Package Manager from Swift 4.2.

@@ -8,7 +8,7 @@ import Foundation
 /// A type that contains functions for reading `Data` bit-by-bit and byte-by-byte.
 public protocol BitReader: ByteReader {
 
-    /// True, if reader's BIT pointer is aligned with the BYTE border.
+    /// True, if a bit pointer is aligned to a byte boundary.
     var isAligned: Bool { get }
 
     /// Amount of bits left to read.
@@ -18,45 +18,55 @@ public protocol BitReader: ByteReader {
     var bitsRead: Int { get }
 
     /**
-     Converts a `ByteReader` instance into `BitReader`, enabling bits reading capabilities. Current `offset` value of
-     `byteReader` is preserved.
+     Converts a `ByteReader` instance into a `BitReader`, enabling bits reading capabilities. The current `offset` value
+     of the `byteReader` is preserved.
      */
     init(_ byteReader: ByteReader)
 
-    // Advances reader's BIT pointer by the specified amount of bits.
+    /// Advances a bit pointer by the amount of bits.
     func advance(by count: Int)
 
-    /// Reads bit and returns it, advancing by one BIT position.
+    /// Reads a bit and returns it, advancing by one bit position.
     func bit() -> UInt8
 
-    /// Reads `count` bits and returns them as an array of `UInt8`, advancing by `count` BIT positions.
+    /// Reads `count` bits and returns them as a `[UInt8]` array, advancing by `count` bit positions.
     func bits(count: Int) -> [UInt8]
 
-    /// Reads `fromBits` bits and returns them as an `Int` number, advancing by `fromBits` BIT positions.
+    /// Reads `fromBits` bits and returns them as a `Int` number, advancing by `fromBits` bit positions.
     func int(fromBits count: Int) -> Int
 
-    /// Reads `fromBits` bits and returns them as an `Int` number, advancing by `fromBits` BIT positions.
+    /**
+     Reads `fromBits` bits, treating them as a binary `represenation` of a signed integer, and returns the result as a
+     `Int` number, advancing by `fromBits` bit positions.
+     */
     func signedInt(fromBits count: Int, representation: SignedNumberRepresentation) -> Int
 
-    /// Reads `fromBits` bits and returns them as an `UInt8` number, advancing by `fromBits` BIT positions.
+    /// Reads `fromBits` bits and returns them as a `UInt8` number, advancing by `fromBits` bit positions.
     func byte(fromBits count: Int) -> UInt8
 
-    /// Reads `fromBits` bits and returns them as an `UInt16` number, advancing by `fromBits` BIT positions.
+    /// Reads `fromBits` bits and returns them as a `UInt16` number, advancing by `fromBits` bit positions.
     func uint16(fromBits count: Int) -> UInt16
 
-    /// Reads `fromBits` bits and returns them as an `UInt32` number, advancing by `fromBits` BIT positions.
+    /// Reads `fromBits` bits and returns them as a `UInt32` number, advancing by `fromBits` bit positions.
     func uint32(fromBits count: Int) -> UInt32
 
-    /// Reads `fromBits` bits and returns them as an `UInt64` number, advancing by `fromBits` BIT positions.
+    /// Reads `fromBits` bits and returns them as a `UInt64` number, advancing by `fromBits` bit positions.
     func uint64(fromBits count: Int) -> UInt64
 
-    /// Aligns reader's BIT pointer to the BYTE border, i.e. moves BIT pointer to the first BIT of the next BYTE.
+    /// Aligns a bit pointer to a byte boundary, i.e. moves the bit pointer to the first bit of the next byte.
     func align()
 
 }
 
 extension BitReader {
 
+    /**
+     Reads `fromBits` bits by either using `uint64(fromBits:)` or `uint32(fromBits:)` depending on the platform's
+     integer bit width, converts the result to `Int`, and returns it, advancing by `fromBits` bit positions.
+
+     - Note: If the data is supposed to represent a signed integer, it is recommended to use the
+     `signedInt(fromBits:representation:)` function to get a correct result.
+     */
     public func int(fromBits count: Int) -> Int {
         if MemoryLayout<Int>.size == 8 {
             return Int(truncatingIfNeeded: self.uint64(fromBits: count))
