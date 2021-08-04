@@ -51,6 +51,7 @@ public final class MsbBitWriter: BitWriter {
      - Note: The `number` will be truncated if the `bitsCount` is less than the amount of bits required to fully
      represent the value of `number`.
      - Note: Bits of the `number` are processed using the same bit-numbering scheme as of the writer (i.e. "MSB 0").
+     - Precondition: Parameter `bitsCount` must be in the `0...UInt.bitWidth` range.
      */
     public func write(unsignedNumber: UInt, bitsCount: Int) {
         precondition(0...UInt.bitWidth ~= bitsCount)

@@ -81,11 +81,13 @@ extension BitWriter {
      - Precondition: The `signedNumber` must be representable within `bitsCount` bits using the `representation`, i.e.
      it must be in the `representation.minRepresentableNumber...representation.maxRepresentableNumber` range.
      - Precondition: For the `SignedNumberRepresentation.biased` representation, the `bias` must be non-negative.
+     - Precondition: Parameter `bitsCount` must be in the `0...Int.bitWidth` range.
      */
     public func write(signedNumber: Int, bitsCount: Int, representation: SignedNumberRepresentation = .twoComplementNegatives) {
         precondition(signedNumber >= representation.minRepresentableNumber(bitsCount: bitsCount) &&
                         signedNumber <= representation.maxRepresentableNumber(bitsCount: bitsCount),
                      "\(signedNumber) cannot be represented by \(representation) using \(bitsCount) bits")
+        precondition(0...Int.bitWidth ~= bitsCount)
 
         var magnitude = signedNumber.magnitude
         switch representation {

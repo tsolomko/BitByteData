@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1
+
+- Added an explicit precondition on `bitsCount` argument in the default implementation of the
+`BitWriter.write(signedNumber:bitsCount:representation:)` function.
+- Added missing documentation about a precondition in `L/MsbBitWriter.write(unsignedNumber:bitsCount:)`.
+
 ## 2.0.0
 
 - Swift 4.2 is no longer supported.
@@ -11,10 +17,8 @@
 - Added a `ByteReader` protocol which inherits `AnyObject`.
   - Most of the methods and properties of the previously existing `ByteReader` _class_ are now requirements of the new
   protocol.
-  - `ByteReader` provides a default implementation for the initializer which implements conversion from a `BitReader`
-  (this initializer is not a protocol requirement).
-  - `ByteReader` provides default implementations for the `bytesLeft`, `bytesRead`, and `isFinished` properties (these
-  properties are not protocol requirements).
+  - `ByteReader` provides default implementations for the initializer, which implements conversion from a `BitReader`,
+  and for the `bytesLeft`, `bytesRead`, and `isFinished` properties (all of these are not protocol requirements).
   - `ByteReader` provides a default implementation for the `int(fromBytes:)` method.
   - Both `LittleEndianByteReader` and `BigEndianByteReader` now conform to the `ByteReader` protocol.
 - Added a `SignedNumberRepresentation` enum with five cases and two instance methods.
@@ -30,9 +34,9 @@ with the default value of `SignedNumberRepresentation.twoComplementNegatives` fo
 `write(signedNumber:bitsCount:representation:)`.
 - `BitWriter` now provides default implementations for `write(signedNumber:bitsCount:representation:)` and
 `write(number:bitsCount:)`.
-  - The default implementation of the `write(number:bitsCount:)` function has a precondition crash if the `bitsCount`
+  - The default implementation of the `write(number:bitsCount:)` function now has a precondition crash if the `bitsCount`
   argument exceeds the bit width of the integer type on the current platform.
-- The `write(unsignedNumber:bitsCount:)` function of the `LsbBitWriter` and `MsbBitWriter` classes functions now have a
+- The `write(unsignedNumber:bitsCount:)` function of the `LsbBitWriter` and `MsbBitWriter` classes now has a
 precondition crash if the `bitsCount` argument exceeds the bit width of the integer type on the current platform.
 - Documentation has been updated.
   - Added documentation for new APIs.
