@@ -296,6 +296,8 @@ def action_run(args):
     build_command = swift_command + ["build", "--build-tests", "-c", "release"]
     if args.cmsa:
         build_command += ["-Xswiftc", "-Xllvm", "-Xswiftc", "-sil-cross-module-serialize-all"]
+    if args.unchecked:
+        build_command += ["-Xswiftc", "-Ounchecked"]
     _sprun(build_command)
 
     bench_list = _sprun(swift_command + ["test", "-c", "release", "-l", "--filter", args.filter]).stdout.decode().splitlines()
@@ -397,6 +399,7 @@ parser_run.add_argument("--compare", action="store", metavar="BASE", help="compa
 parser_run.add_argument("--desc", action="store", metavar="DESC", help="add a description to the results")
 parser_run.add_argument("--no-clean", action="store_false", dest="clean", help="don't perform cleaning stage")
 parser_run.add_argument("--cmsa", action="store_true", dest="cmsa", help="compile with the -Xllvm -sil-cross-module-serialize-all option")
+parser_run.add_argument("--unchecked", action="store_true", dest="unchecked", help="compile with the -Ounchecked option")
 parser_run.add_argument("--toolchain", action="store", metavar="ID", help="use swift from the toolchain with specified identifier")
 
 parser_run.set_defaults(func=action_run)
