@@ -247,6 +247,7 @@ def _group_benches(benches: list) -> dict:
             group.append(name_parts[1])
             groups[name_parts[0]] = group
         else:
+            # This message is a bit misleading: it is printed when parsing other SPM output, like build progress.
             print("warning: non-benchmark test was returned by --filter, skipping.")
     return groups
 
