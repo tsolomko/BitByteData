@@ -23,7 +23,7 @@ extension Data {
     }
 
     @inlinable @inline(__always)
-    func toByteArray(_ count: Int) -> [UInt8] {
+    func toByteArray() -> [UInt8] {
         return self.withUnsafeBytes { $0.map { $0 } }
     }
 

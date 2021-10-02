@@ -318,7 +318,7 @@ public final class LsbBitReader: BitReader {
      */
     public func bytes(count: Int) -> [UInt8] {
         defer { offset += count }
-        return data[offset..<offset + count].toByteArray(count)
+        return data[offset..<offset + count].toByteArray()
     }
 
     /**
