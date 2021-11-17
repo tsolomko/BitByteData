@@ -419,5 +419,9 @@ parser_emit.add_argument("--filename", "-f", action="store", metavar="FILENAME",
                         help="base name of the output file without extensions (default: output)")
 parser_emit.set_defaults(func=action_emit)
 
+if len(sys.argv) == 1:
+    parser.print_help()
+    sys.exit(1)
+
 args = parser.parse_args()
 args.func(args)
