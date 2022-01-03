@@ -111,7 +111,7 @@ stages:
           SWIFT_VERSION: '5.4.3'
         windowsSwift55:
           imageName: 'windows-2019'
-          SWIFT_VERSION: '5.5.2'
+          SWIFT_VERSION: '5.5.1'
     pool:
       vmImage: $(imageName)
     variables:
