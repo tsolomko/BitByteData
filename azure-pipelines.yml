@@ -15,11 +15,6 @@ stages:
   - job: macos
     strategy:
       matrix:
-        macosSwift50:
-          imageName: 'macOS-10.15'
-          DEVELOPER_DIR: '/Applications/Xcode_10.3.app'
-          WATCHOS_ACTIONS: 'clean build'
-          WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
         macosSwift51:
           imageName: 'macOS-10.15'
           DEVELOPER_DIR: '/Applications/Xcode_11.3.1.app'
@@ -70,9 +65,6 @@ stages:
   - job: linux
     strategy:
       matrix:
-        linuxSwift50:
-          imageName: 'ubuntu-18.04'
-          containerImage: 'swift:5.0.3-bionic'
         linuxSwift51:
           imageName: 'ubuntu-18.04'
           containerImage: 'swift:5.1.5-bionic'
