@@ -16,7 +16,7 @@ stages:
     strategy:
       matrix:
         macosSwift50:
-          imageName: 'macOS-10.14'
+          imageName: 'macOS-10.15'
           DEVELOPER_DIR: '/Applications/Xcode_10.3.app'
           WATCHOS_ACTIONS: 'clean build'
           WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
