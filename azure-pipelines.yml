@@ -15,18 +15,13 @@ stages:
   - job: macos
     strategy:
       matrix:
-        macosSwift51:
-          imageName: 'macOS-10.15'
-          DEVELOPER_DIR: '/Applications/Xcode_11.3.1.app'
-          WATCHOS_ACTIONS: 'clean build'
-          WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
         macosSwift52:
-          imageName: 'macOS-10.15'
-          DEVELOPER_DIR: '/Applications/Xcode_11.4.1.app'
+          imageName: 'macOS-11'
+          DEVELOPER_DIR: '/Applications/Xcode_11.7.app'
           WATCHOS_ACTIONS: 'clean build'
           WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
         macosSwift53:
-          imageName: 'macOS-10.15'
+          imageName: 'macOS-11'
           DEVELOPER_DIR: '/Applications/Xcode_12.4.app'
           WATCHOS_ACTIONS: 'clean build'
           WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
@@ -75,27 +70,24 @@ stages:
   - job: linux
     strategy:
       matrix:
-        linuxSwift51:
-          imageName: 'ubuntu-18.04'
-          containerImage: 'swift:5.1.5-bionic'
         linuxSwift52:
-          imageName: 'ubuntu-18.04'
-          containerImage: 'swift:5.2.5-bionic'
+          imageName: 'ubuntu-20.04'
+          containerImage: 'swift:5.2.5-focal'
         linuxSwift53:
-          imageName: 'ubuntu-18.04'
-          containerImage: 'swift:5.3.3-bionic'
+          imageName: 'ubuntu-20.04'
+          containerImage: 'swift:5.3.3-focal'
         linuxSwift54:
-          imageName: 'ubuntu-18.04'
-          containerImage: 'swift:5.4.3-bionic'
+          imageName: 'ubuntu-20.04'
+          containerImage: 'swift:5.4.3-focal'
         linuxSwift55:
-          imageName: 'ubuntu-18.04'
-          containerImage: 'swift:5.5.3-bionic'
+          imageName: 'ubuntu-20.04'
+          containerImage: 'swift:5.5.3-focal'
         linuxSwift56:
-          imageName: 'ubuntu-18.04'
-          containerImage: 'swift:5.6.3-bionic'
+          imageName: 'ubuntu-20.04'
+          containerImage: 'swift:5.6.3-focal'
         linuxSwift57:
-          imageName: 'ubuntu-18.04'
-          containerImage: 'swift:5.7-bionic'
+          imageName: 'ubuntu-20.04'
+          containerImage: 'swift:5.7-focal'
     pool:
       vmImage: $(imageName)
     container: $[ variables['containerImage'] ]
@@ -163,7 +155,7 @@ stages:
   - job: ghPages
     displayName: 'Publish API docs to GH Pages'
     pool:
-      vmImage: 'macOS-10.15'
+      vmImage: 'macOS-11'
     variables:
       DEVELOPER_DIR: '/Applications/Xcode_12.4.app'
     steps:
