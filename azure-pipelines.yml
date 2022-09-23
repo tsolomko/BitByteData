@@ -111,21 +111,25 @@ stages:
           SWIFT_VERSION: '5.4.3'
           ICU_PATH: 'C:\Library\icu-67\usr\bin'
           SWIFT_DEV_PATH: 'C:\Library\Swift-development\bin'
+          XCTEST_LIB_PATH: ''
         windowsSwift55:
           imageName: 'windows-2019'
           SWIFT_VERSION: '5.5.3'
           ICU_PATH: 'C:\Library\icu-67\usr\bin'
           SWIFT_DEV_PATH: 'C:\Library\Swift-development\bin'
+          XCTEST_LIB_PATH: ''
         windowsSwift56:
           imageName: 'windows-2019'
           SWIFT_VERSION: '5.6.3'
           ICU_PATH: 'C:\Library\icu-69.1\usr\bin'
           SWIFT_DEV_PATH: 'C:\Library\Swift-development\bin'
+          XCTEST_LIB_PATH: ''
         windowsSwift57:
           imageName: 'windows-2019'
           SWIFT_VERSION: '5.7'
           ICU_PATH: 'C:\Program Files\swift\icu-69.1\usr\bin'
           SWIFT_DEV_PATH: 'C:\Program Files\swift\runtime-development\usr\bin'
+          XCTEST_LIB_PATH: '\x86_64'
     pool:
       vmImage: $(imageName)
     variables:
@@ -133,7 +137,7 @@ stages:
       SDKROOT: 'C:\Library\Developer\Platforms\Windows.platform\Developer\SDKs\Windows.sdk'
       SWIFTFLAGS: '--sdk $(SDKROOT)'
       XCTEST_DIR: 'C:\Library\Developer\Platforms\Windows.platform\Developer\Library\XCTest-development'
-      SWIFTTESTFLAGS: '-Xswiftc -I -Xswiftc $(XCTEST_DIR)\usr\lib\swift\windows\x86_64 -Xswiftc -L -Xswiftc $(XCTEST_DIR)\usr\lib\swift\windows -Xswiftc -sdk -Xswiftc $(SDKROOT)'
+      SWIFTTESTFLAGS: '-Xswiftc -I -Xswiftc $(XCTEST_DIR)\usr\lib\swift\windows\x86_64 -Xswiftc -L -Xswiftc $(XCTEST_DIR)\usr\lib\swift\windows$(XCTEST_LIB_PATH) -Xswiftc -sdk -Xswiftc $(SDKROOT)'
     steps:
     - pwsh: Invoke-WebRequest -Uri https://swift.org/builds/swift-$(SWIFT_VERSION)-release/windows10/swift-$(SWIFT_VERSION)-RELEASE/swift-$(SWIFT_VERSION)-RELEASE-windows10.exe -OutFile swift-install.exe
       displayName: 'Download Swift'
