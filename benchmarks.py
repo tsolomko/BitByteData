@@ -119,7 +119,7 @@ class BenchmarkResult:
         else:
             output += "OK                           "
             stat_keeper.ok()
-        output += " | {self_avg:<6s} {self_rsd:6s}% | {base_avg:<6s} {base_rsd:>6s}% | {group}/{name}".format(self_avg=self.avg, 
+        output += " | {self_avg:<6s} {self_rsd:6s}% | {base_avg:<6s} {base_rsd:>6s}% | {group}/{name}".format(self_avg=self.avg,
             self_rsd=self.rel_std_dev, base_avg=base.avg, base_rsd=base.rel_std_dev, name=self.test_name, group=self.group_name)
         return output
 
@@ -202,8 +202,8 @@ class BenchmarkJSONEncoder(json.JSONEncoder):
             for group_name, group in o.groups.items():
                 results_out = []
                 for result in group.results.values():
-                    results_out.append({"name": result.test_name, 
-                                        "avg": result.avg, 
+                    results_out.append({"name": result.test_name,
+                                        "avg": result.avg,
                                         "rel_std_dev": result.rel_std_dev,
                                         "iter_count": result.iter_count})
                 group_out = {"group_name": group_name, "results": results_out}
@@ -247,6 +247,7 @@ def _group_benches(benches: list) -> dict:
             group.append(name_parts[1])
             groups[name_parts[0]] = group
         else:
+            # This message is a bit misleading: it is printed when parsing other SPM output, like build progress.
             print("warning: non-benchmark test was returned by --filter, skipping.")
     return groups
 
@@ -254,7 +255,7 @@ def _sprun(command):
     result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     if result.returncode != 0:
         raise subprocess.CalledProcessError(result.returncode, command, output=result.stdout, stderr=result.stderr)
-    return result 
+    return result
 
 def action_run(args):
     # Output format of 'swift test' differs between macOS and Linux platforms.
@@ -266,7 +267,7 @@ def action_run(args):
         regex = (r"Test Case '(.+Benchmarks)\.(test.+)'.+average: (\d+.\d+), "
                  r"relative standard deviation: (\d+.\d+)\%, values: \[(.*)\]")
     else:
-        raise RuntimeError("Unknown platform: " + sys.platform) 
+        raise RuntimeError("Unknown platform: " + sys.platform)
     p = re.compile(regex)
     iter_p = re.compile(r"(\d+.\d+)")# For calculating number of iterations.
 
@@ -296,6 +297,8 @@ def action_run(args):
     build_command = swift_command + ["build", "--build-tests", "-c", "release"]
     if args.cmsa:
         build_command += ["-Xswiftc", "-Xllvm", "-Xswiftc", "-sil-cross-module-serialize-all"]
+    if args.unchecked:
+        build_command += ["-Xswiftc", "-Ounchecked"]
     _sprun(build_command)
 
     bench_list = _sprun(swift_command + ["test", "-c", "release", "-l", "--filter", args.filter]).stdout.decode().splitlines()
@@ -303,12 +306,12 @@ def action_run(args):
     if len(groups) == 0:
         print("No benchmarks have been found according to the specified options. Exiting...")
         return
-    
+
     print("Benchmarking...")
     swift_ver = subprocess.run(swift_command + ["--version"], stdout=subprocess.PIPE, check=True,
                                universal_newlines=True).stdout
     timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    bin_path = _sprun(swift_command + ["build", "--show-bin-path", "-c", "release"]).stdout.decode().splitlines()[0] + "/BitByteData.swiftmodule" 
+    bin_path = _sprun(swift_command + ["build", "--show-bin-path", "-c", "release"]).stdout.decode().splitlines()[0] + "/BitByteData.swiftmodule"
     binary_size = str(os.stat(bin_path).st_size)
     print(swift_ver, end="")
     print("Timestamp: {0}".format(timestamp))
@@ -343,7 +346,7 @@ def action_run(args):
                         print(result.str_compare(base_result))
                     else:
                         print(result)
-    
+
     if base is not None:
         print(stat_keeper.summary())
 
@@ -397,6 +400,7 @@ parser_run.add_argument("--compare", action="store", metavar="BASE", help="compa
 parser_run.add_argument("--desc", action="store", metavar="DESC", help="add a description to the results")
 parser_run.add_argument("--no-clean", action="store_false", dest="clean", help="don't perform cleaning stage")
 parser_run.add_argument("--cmsa", action="store_true", dest="cmsa", help="compile with the -Xllvm -sil-cross-module-serialize-all option")
+parser_run.add_argument("--unchecked", action="store_true", dest="unchecked", help="compile with the -Ounchecked option")
 parser_run.add_argument("--toolchain", action="store", metavar="ID", help="use swift from the toolchain with specified identifier")
 
 parser_run.set_defaults(func=action_run)
@@ -414,6 +418,10 @@ parser_emit = subparsers.add_parser("emit", help="emits SIL and ASM representati
 parser_emit.add_argument("--filename", "-f", action="store", metavar="FILENAME", default="output",
                         help="base name of the output file without extensions (default: output)")
 parser_emit.set_defaults(func=action_emit)
+
+if len(sys.argv) == 1:
+    parser.print_help()
+    sys.exit(1)
 
 args = parser.parse_args()
 args.func(args)
