@@ -87,6 +87,7 @@
 		06F065811FFAEAA000312A82 /* TestBitByteData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestBitByteData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E608AB15253740C60036626D /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
 		E6425641267FA97E002D75D8 /* SignedNumberRepresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedNumberRepresentationTests.swift; sourceTree = "<group>"; };
+		E6C168EA28DF190200E7345D /* BitByteData.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = BitByteData.xctestplan; path = BitByteData.xcodeproj/BitByteData.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +130,7 @@
 			children = (
 				06F065561FFAEA1F00312A82 /* Sources */,
 				06F0655F1FFAEA1F00312A82 /* Tests */,
+				E6C168EA28DF190200E7345D /* BitByteData.xctestplan */,
 				06F0656D1FFAEA4B00312A82 /* Products */,
 			);
 			sourceTree = "<group>";
