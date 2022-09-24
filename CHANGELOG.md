@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.2
+
+- Swift 5.0 and 5.1 is no longer supported.
+- Increased minimum deployment versions (when installed via CocoaPods or Carthage) for Darwin platforms: macOS from 10.10
+to 10.13, iOS from 9.0 to 11.0, tvOS from 9.0 to 11.0, and watchOS from 2.0 to 4.0.
+
 ## 2.0.1
 
 - Added an explicit precondition on `bitsCount` argument in the default implementation of the
