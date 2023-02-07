@@ -4,7 +4,7 @@ clean: false
 author: Timofey Solomko
 module: BitByteData
 module_version: 2.0.2
-copyright: '© 2022 Timofey Solomko'
+copyright: '© 2023 Timofey Solomko'
 readme: README.md
 github_url: https://github.com/tsolomko/BitByteData
 github_file_prefix: https://github.com/tsolomko/BitByteData/tree/2.0.2
