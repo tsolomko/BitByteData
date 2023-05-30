@@ -18,36 +18,43 @@ stages:
         macosSwift52:
           imageName: 'macOS-11'
           DEVELOPER_DIR: '/Applications/Xcode_11.7.app'
+          IOS_SIMULATOR: 'iPhone 8'
           WATCHOS_ACTIONS: 'clean build'
           WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
         macosSwift53:
           imageName: 'macOS-11'
           DEVELOPER_DIR: '/Applications/Xcode_12.4.app'
+          IOS_SIMULATOR: 'iPhone 8'
           WATCHOS_ACTIONS: 'clean build'
           WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
         macosSwift54:
           imageName: 'macOS-11'
           DEVELOPER_DIR: '/Applications/Xcode_12.5.1.app'
+          IOS_SIMULATOR: 'iPhone 8'
           WATCHOS_ACTIONS: 'clean test'
           WATCHOS_SIMULATOR: 'Apple Watch Series 6 - 44mm'
         macosSwift55:
           imageName: 'macOS-12'
           DEVELOPER_DIR: '/Applications/Xcode_13.2.1.app'
+          IOS_SIMULATOR: 'iPhone 8'
           WATCHOS_ACTIONS: 'clean test'
           WATCHOS_SIMULATOR: 'Apple Watch Series 6 - 44mm'
         macosSwift56:
           imageName: 'macOS-12'
           DEVELOPER_DIR: '/Applications/Xcode_13.4.1.app'
+          IOS_SIMULATOR: 'iPhone 8'
           WATCHOS_ACTIONS: 'clean test'
           WATCHOS_SIMULATOR: 'Apple Watch Series 6 - 44mm'
         macosSwift57:
           imageName: 'macOS-13'
           DEVELOPER_DIR: '/Applications/Xcode_14.2.app'
+          IOS_SIMULATOR: 'iPhone 14'
           WATCHOS_ACTIONS: 'clean test'
           WATCHOS_SIMULATOR: 'Apple Watch Series 6 (44mm)'
         macosSwift58:
           imageName: 'macOS-13'
           DEVELOPER_DIR: '/Applications/Xcode_14.3.app'
+          IOS_SIMULATOR: 'iPhone 14'
           WATCHOS_ACTIONS: 'clean test'
           WATCHOS_SIMULATOR: 'Apple Watch Series 6 (44mm)'
     pool:
@@ -68,7 +75,7 @@ stages:
         set -e -o xtrace
         xcodebuild -version
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
-        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=$IOS_SIMULATOR" clean test
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=$WATCHOS_SIMULATOR" $WATCHOS_ACTIONS
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
       displayName: 'Build & Test Darwin Platforms'
