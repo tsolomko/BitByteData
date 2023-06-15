@@ -1,4 +1,4 @@
-// Copyright (c) 2022 Timofey Solomko
+// Copyright (c) 2023 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -7,7 +7,7 @@ import XCTest
 import BitByteData
 
 class BigEndianByteReaderTests: XCTestCase {
-    
+
     func testByte() {
         let randomByte = UInt8.random(in: 0...UInt8.max)
         let reader = BigEndianByteReader(data: Data([randomByte, UInt8.min, UInt8.max]))

@@ -18,31 +18,43 @@ stages:
         macosSwift52:
           imageName: 'macOS-11'
           DEVELOPER_DIR: '/Applications/Xcode_11.7.app'
+          IOS_SIMULATOR: 'iPhone 8'
           WATCHOS_ACTIONS: 'clean build'
           WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
         macosSwift53:
           imageName: 'macOS-11'
           DEVELOPER_DIR: '/Applications/Xcode_12.4.app'
+          IOS_SIMULATOR: 'iPhone 8'
           WATCHOS_ACTIONS: 'clean build'
           WATCHOS_SIMULATOR: 'Apple Watch Series 4 - 44mm'
         macosSwift54:
           imageName: 'macOS-11'
           DEVELOPER_DIR: '/Applications/Xcode_12.5.1.app'
+          IOS_SIMULATOR: 'iPhone 8'
           WATCHOS_ACTIONS: 'clean test'
           WATCHOS_SIMULATOR: 'Apple Watch Series 6 - 44mm'
         macosSwift55:
-          imageName: 'macOS-11'
+          imageName: 'macOS-12'
           DEVELOPER_DIR: '/Applications/Xcode_13.2.1.app'
+          IOS_SIMULATOR: 'iPhone 8'
           WATCHOS_ACTIONS: 'clean test'
           WATCHOS_SIMULATOR: 'Apple Watch Series 6 - 44mm'
         macosSwift56:
           imageName: 'macOS-12'
           DEVELOPER_DIR: '/Applications/Xcode_13.4.1.app'
+          IOS_SIMULATOR: 'iPhone 8'
           WATCHOS_ACTIONS: 'clean test'
           WATCHOS_SIMULATOR: 'Apple Watch Series 6 - 44mm'
         macosSwift57:
-          imageName: 'macOS-12'
-          DEVELOPER_DIR: '/Applications/Xcode_14.0.app'
+          imageName: 'macOS-13'
+          DEVELOPER_DIR: '/Applications/Xcode_14.2.app'
+          IOS_SIMULATOR: 'iPhone 14'
+          WATCHOS_ACTIONS: 'clean test'
+          WATCHOS_SIMULATOR: 'Apple Watch Series 6 (44mm)'
+        macosSwift58:
+          imageName: 'macOS-13'
+          DEVELOPER_DIR: '/Applications/Xcode_14.3.1.app'
+          IOS_SIMULATOR: 'iPhone 14'
           WATCHOS_ACTIONS: 'clean test'
           WATCHOS_SIMULATOR: 'Apple Watch Series 6 (44mm)'
     pool:
@@ -63,7 +75,7 @@ stages:
         set -e -o xtrace
         xcodebuild -version
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
-        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=iPhone 8" clean test
+        xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=$IOS_SIMULATOR" clean test
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=$WATCHOS_SIMULATOR" $WATCHOS_ACTIONS
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
       displayName: 'Build & Test Darwin Platforms'
@@ -73,9 +85,11 @@ stages:
         linuxSwift52:
           imageName: 'ubuntu-20.04'
           containerImage: 'swift:5.2.5-focal'
+          SWIFT_TEST_DISCOVERY: '--enable-test-discovery'
         linuxSwift53:
           imageName: 'ubuntu-20.04'
           containerImage: 'swift:5.3.3-focal'
+          SWIFT_TEST_DISCOVERY: '--enable-test-discovery'
         linuxSwift54:
           imageName: 'ubuntu-20.04'
           containerImage: 'swift:5.4.3-focal'
@@ -87,7 +101,10 @@ stages:
           containerImage: 'swift:5.6.3-focal'
         linuxSwift57:
           imageName: 'ubuntu-20.04'
-          containerImage: 'swift:5.7-focal'
+          containerImage: 'swift:5.7.3-focal'
+        linuxSwift58:
+          imageName: 'ubuntu-20.04'
+          containerImage: 'swift:5.8.1-focal'
     pool:
       vmImage: $(imageName)
     container: $[ variables['containerImage'] ]
@@ -95,13 +112,13 @@ stages:
     - script: |
         set -e -o xtrace
         swift --version
-        swift build
-        swift test --filter BitByteDataTests
+        swift build $SWIFT_TEST_DISCOVERY
+        swift test --filter BitByteDataTests $SWIFT_TEST_DISCOVERY
       displayName: 'Build & Test'
     - script: |
         set -e -o xtrace
         swift --version
-        swift build -c release # Check Release build just in case.
+        swift build -c release $SWIFT_TEST_DISCOVERY # Check Release build just in case.
       displayName: 'Build Release'
   - job: windows
     strategy:
@@ -126,7 +143,13 @@ stages:
           XCTEST_LIB_PATH: ''
         windowsSwift57:
           imageName: 'windows-2019'
-          SWIFT_VERSION: '5.7'
+          SWIFT_VERSION: '5.7.3'
+          ICU_PATH: 'C:\Program Files\swift\icu-69.1\usr\bin'
+          SWIFT_DEV_PATH: 'C:\Program Files\swift\runtime-development\usr\bin'
+          XCTEST_LIB_PATH: '\x86_64'
+        windowsSwift58:
+          imageName: 'windows-2019'
+          SWIFT_VERSION: '5.8.1'
           ICU_PATH: 'C:\Program Files\swift\icu-69.1\usr\bin'
           SWIFT_DEV_PATH: 'C:\Program Files\swift\runtime-development\usr\bin'
           XCTEST_LIB_PATH: '\x86_64'
@@ -167,9 +190,9 @@ stages:
   - job: ghPages
     displayName: 'Publish API docs to GH Pages'
     pool:
-      vmImage: 'macOS-11'
+      vmImage: 'macOS-12'
     variables:
-      DEVELOPER_DIR: '/Applications/Xcode_12.4.app'
+      DEVELOPER_DIR: '/Applications/Xcode_14.2.app'
     steps:
     - script: |
         set -e -o xtrace

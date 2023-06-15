@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3
+
+- There are now minimum deployment targets specified in Swift Package Manager manifest.
+
 ## 2.0.2
 
 - Swift 5.0 and 5.1 is no longer supported.
