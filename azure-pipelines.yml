@@ -173,13 +173,13 @@ stages:
     - script: |
         set PATH=C:\Library\Developer\Toolchains\unknown-Asserts-development.xctoolchain\usr\bin;%SWIFT_DEV_PATH%;%ICU_PATH%;%PATH%
         swift.exe --version
-        swift.exe build %SWIFTFLAGS%
-        swift.exe test --filter BitByteDataTests %SWIFTFLAGS% %SWIFTTESTFLAGS%
+        swift.exe build %SWIFTFLAGS% || exit /b %errorlevel%
+        swift.exe test --filter BitByteDataTests %SWIFTFLAGS% %SWIFTTESTFLAGS% || exit /b %errorlevel%
       displayName: 'Build & Test'
     - script: |
         set PATH=C:\Library\Developer\Toolchains\unknown-Asserts-development.xctoolchain\usr\bin;%SWIFT_DEV_PATH%;%ICU_PATH%;%PATH%
         swift.exe --version
-        swift.exe build -c release %SWIFTFLAGS%
+        swift.exe build -c release %SWIFTFLAGS% || exit /b %errorlevel%
       displayName: 'Build Release'
 - stage: deploy
   displayName: Deploy
