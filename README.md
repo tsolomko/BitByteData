@@ -1,6 +1,6 @@
 # BitByteData
 
-[![Swift 5.2+](https://img.shields.io/badge/Swift-5.2+-blue.svg)](https://developer.apple.com/swift/)
+[![Swift 5.3+](https://img.shields.io/badge/Swift-5.3+-blue.svg)](https://developer.apple.com/swift/)
 [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/tsolomko/BitByteData/master/LICENSE)
 [![Build Status](https://dev.azure.com/tsolomko/BitByteData/_apis/build/status/tsolomko.BitByteData?branchName=develop)](https://dev.azure.com/tsolomko/BitByteData/_build/latest?definitionId=2&branchName=develop)
 

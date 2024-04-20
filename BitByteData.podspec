@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "BitByteData"
-  s.version      = "2.0.3"
+  s.version      = "2.0.4"
   s.summary      = "Read and write bits and bytes in Swift."
 
   s.description  = "A Swift framework with classes for reading and writing bits and bytes."
@@ -19,9 +19,11 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = "10.13"
   s.tvos.deployment_target = "11.0"
   s.watchos.deployment_target = "4.0"
+  s.visionos.deployment_target = "1.0"
 
   s.swift_versions = ["5"]
 
   s.source_files = "Sources/*.swift"
+  s.resource_bundles = {"BitByteData" => ["Sources/PrivacyInfo.xcprivacy"]}
 
 end
