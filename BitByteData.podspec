@@ -24,5 +24,6 @@ Pod::Spec.new do |s|
   s.swift_versions = ["5"]
 
   s.source_files = "Sources/*.swift"
+  s.resource_bundles = {"BitByteData" => ["Sources/PrivacyInfo.xcprivacy"]}
 
 end

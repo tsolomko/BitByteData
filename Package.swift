@@ -17,7 +17,7 @@ let package = Package(
             targets: ["BitByteData"])
     ],
     targets: [
-        .target(name: "BitByteData", path: "Sources"),
+        .target(name: "BitByteData", path: "Sources", resources: [.copy("PrivacyInfo.xcprivacy")]),
         .testTarget(name: "BitByteDataTests", dependencies: ["BitByteData"]),
         .testTarget(name: "BitByteDataBenchmarks", dependencies: ["BitByteData"])
     ],

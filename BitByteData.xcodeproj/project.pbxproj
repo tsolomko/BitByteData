@@ -35,6 +35,7 @@
 		06FA0DC421935115009B4DEB /* LsbBitWriterBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A81B0E2177947600B6B7BB /* LsbBitWriterBenchmarks.swift */; };
 		06FA0DC521935115009B4DEB /* MsbBitWriterBenchmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A81B102177955500B6B7BB /* MsbBitWriterBenchmarks.swift */; };
 		E608AB16253740C60036626D /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E608AB15253740C60036626D /* TestHelper.swift */; };
+		E62333132BD3ED6B005469A8 /* PrivacyInfo.xcprivacy in CopyFiles */ = {isa = PBXBuildFile; fileRef = E62333112BD3ECC2005469A8 /* PrivacyInfo.xcprivacy */; };
 		E6425642267FA97E002D75D8 /* SignedNumberRepresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6425641267FA97E002D75D8 /* SignedNumberRepresentationTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,19 @@
 			remoteInfo = BitByteData;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E62333122BD3ED52005469A8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				E62333132BD3ED6B005469A8 /* PrivacyInfo.xcprivacy in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0602483B225A0416006143B1 /* ByteReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReader.swift; sourceTree = "<group>"; };
@@ -85,6 +99,7 @@
 		06F0656C1FFAEA4B00312A82 /* BitByteData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BitByteData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		06F065811FFAEAA000312A82 /* TestBitByteData.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestBitByteData.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E608AB15253740C60036626D /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
+		E62333112BD3ECC2005469A8 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		E6425641267FA97E002D75D8 /* SignedNumberRepresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedNumberRepresentationTests.swift; sourceTree = "<group>"; };
 		E6C168EA28DF190200E7345D /* BitByteData.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = BitByteData.xctestplan; path = BitByteData.xcodeproj/BitByteData.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,6 +163,7 @@
 				06F0655D1FFAEA1F00312A82 /* BitWriter.swift */,
 				06F0655E1FFAEA1F00312A82 /* LsbBitWriter.swift */,
 				06F0655C1FFAEA1F00312A82 /* MsbBitWriter.swift */,
+				E62333112BD3ECC2005469A8 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -211,6 +227,7 @@
 			buildConfigurationList = 06F065721FFAEA4C00312A82 /* Build configuration list for PBXNativeTarget "BitByteData" */;
 			buildPhases = (
 				06F065671FFAEA4B00312A82 /* Sources */,
+				E62333122BD3ED52005469A8 /* CopyFiles */,
 			);
 			buildRules = (
 			);
