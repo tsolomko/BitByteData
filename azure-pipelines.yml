@@ -58,8 +58,11 @@ stages:
         set -e -o xtrace
         xcodebuild -version
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=OS X" clean test
+        xcodebuild -downloadPlatform iOS
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=iOS Simulator,name=$IOS_SIMULATOR" clean test
+        xcodebuild -downloadPlatform watchOS
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=watchOS Simulator,name=$WATCHOS_SIMULATOR" clean test
+        xcodebuild -downloadPlatform tvOS
         xcodebuild -quiet -project BitByteData.xcodeproj -scheme BitByteData -destination "platform=tvOS Simulator,name=Apple TV" clean test
       displayName: 'Build & Test Darwin Platforms'
   - job: linux
