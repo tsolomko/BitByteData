@@ -104,9 +104,9 @@ stages:
         windowsSwift59:
           imageName: 'windows-2022'
           containerImage: 'swift:5.9.2-windowsservercore-ltsc2022'
-        windowsSwift510:
-          imageName: 'windows-2022'
-          containerImage: 'swift:5.10.1-windowsservercore-ltsc2022'
+        # windowsSwift510:
+        #   imageName: 'windows-2022'
+        #   containerImage: 'swift:5.10.1-windowsservercore-ltsc2022'
         windowsSwift60:
           imageName: 'windows-2022'
           containerImage: 'swift:6.0.3-windowsservercore-ltsc2022'
