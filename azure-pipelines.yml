@@ -21,7 +21,7 @@ stages:
           IOS_SIMULATOR: 'iPhone 15'
           WATCHOS_SIMULATOR: 'Apple Watch Series 6 (44mm)'
         macosSwift510:
-          imageName: 'macOS-15'
+          imageName: 'macOS-14'
           DEVELOPER_DIR: '/Applications/Xcode_15.4.app'
           IOS_SIMULATOR: 'iPhone 15'
           WATCHOS_SIMULATOR: 'Apple Watch Series 6 (44mm)'
