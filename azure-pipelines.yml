@@ -30,6 +30,16 @@ stages:
           DEVELOPER_DIR: '/Applications/Xcode_16.2.app'
           IOS_SIMULATOR: 'iPhone 16'
           WATCHOS_SIMULATOR: 'Apple Watch Series 10 (42mm)'
+        macosSwift61:
+          imageName: 'macOS-15'
+          DEVELOPER_DIR: '/Applications/Xcode_16.4.app'
+          IOS_SIMULATOR: 'iPhone 16'
+          WATCHOS_SIMULATOR: 'Apple Watch Series 10 (42mm)'
+        macosSwift62:
+          imageName: 'macOS-15'
+          DEVELOPER_DIR: '/Applications/Xcode_26.2.app'
+          IOS_SIMULATOR: 'iPhone 16'
+          WATCHOS_SIMULATOR: 'Apple Watch Series 10 (42mm)'
     pool:
       vmImage: $(imageName)
     steps:
@@ -64,6 +74,12 @@ stages:
         linuxSwift60:
           imageName: 'ubuntu-24.04'
           containerImage: 'swift:6.0.3-noble'
+        linuxSwift61:
+          imageName: 'ubuntu-24.04'
+          containerImage: 'swift:6.1.3-noble'
+        linuxSwift62:
+          imageName: 'ubuntu-24.04'
+          containerImage: 'swift:6.2.3-noble'
     pool:
       vmImage: $(imageName)
     container: $[ variables['containerImage'] ]
@@ -125,6 +141,12 @@ stages:
         windowsSwift60:
           imageName: 'windows-2022'
           containerImage: 'swift:6.0.3-windowsservercore-ltsc2022'
+        windowsSwift61:
+          imageName: 'windows-2022'
+          containerImage: 'swift:6.1.3-windowsservercore-ltsc2022'
+        windowsSwift62:
+          imageName: 'windows-2022'
+          containerImage: 'swift:6.2.3-windowsservercore-ltsc2022'
     pool:
       vmImage: $(imageName)
     container: $[ variables['containerImage'] ]
