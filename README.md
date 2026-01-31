@@ -48,15 +48,9 @@ To complete installation, run `pod install`.
 
 Add to your Cartfile `github "tsolomko/BitByteData" ~> 2.0`.
 
-Then:
-
-1. If you use Xcode 12 or later you should run `carthage update --use-xcframeworks`. After that drag
-and drop the `BitByteData.xcframework` file from the `Carthage/Build/` directory into the "Frameworks, Libraries, and
-Embedded Content" section of your target's "General" tab in Xcode.
-
-2. If you use Xcode 11 or earlier you should run `carthage update`. After that drag and drop the
-`BitByteData.framework` file from from the `Carthage/Build/<platform>/` directory into the "Embedded Binaries" section
-of your target's "General" tab in Xcode.
+Then you should run `carthage update --use-xcframeworks`. After that drag and drop the `BitByteData.xcframework` file
+from the `Carthage/Build/` directory into the "Frameworks, Libraries, and Embedded Content" section of your target's
+"General" tab in Xcode.
 
 ## Migration to 2.0
 
