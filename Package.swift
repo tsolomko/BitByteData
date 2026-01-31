@@ -1,4 +1,4 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.9
 import PackageDescription
 
 let package = Package(
@@ -8,8 +8,7 @@ let package = Package(
         .iOS(.v14),
         .tvOS(.v14),
         .watchOS(.v7),
-        // TODO: Enable after upgrading to Swift 5.9.
-        // .visionOS(.v1)
+        .visionOS(.v1)
     ],
     products: [
         .library(
