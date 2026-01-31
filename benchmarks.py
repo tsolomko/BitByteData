@@ -301,7 +301,7 @@ def action_run(args):
         build_command += ["-Xswiftc", "-Ounchecked"]
     _sprun(build_command)
 
-    bench_list = _sprun(swift_command + ["test", "-c", "release", "-l", "--filter", args.filter]).stdout.decode().splitlines()
+    bench_list = _sprun(swift_command + ["test", "list", "-c", "release", "--filter", args.filter]).stdout.decode().splitlines()
     groups = _group_benches(bench_list)
     if len(groups) == 0:
         print("No benchmarks have been found according to the specified options. Exiting...")
@@ -311,7 +311,7 @@ def action_run(args):
     swift_ver = subprocess.run(swift_command + ["--version"], stdout=subprocess.PIPE, check=True,
                                universal_newlines=True).stdout
     timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    bin_path = _sprun(swift_command + ["build", "--show-bin-path", "-c", "release"]).stdout.decode().splitlines()[0] + "/BitByteData.swiftmodule"
+    bin_path = _sprun(swift_command + ["build", "--show-bin-path", "-c", "release"]).stdout.decode().splitlines()[0] + "/Modules/BitByteData.swiftmodule"
     binary_size = str(os.stat(bin_path).st_size)
     print(swift_ver, end="")
     print("Timestamp: {0}".format(timestamp))
