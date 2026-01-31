@@ -122,9 +122,6 @@ them on the [Discussions](https://github.com/tsolomko/BitByteData/discussions) p
 
 If you'd like to contribute, please [create a pull request](https://github.com/tsolomko/BitByteData/pulls) on GitHub.
 
-__Note:__ If you are considering working on BitByteData, please note that the Xcode project (BitByteData.xcodeproj)
-was created manually and you shouldn't use the `swift package generate-xcodeproj` command.
-
 ### Performance and benchmarks
 
 One of the most important goals of BitByteData's development is high speed performance. To help achieve this goal there
