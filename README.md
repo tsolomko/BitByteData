@@ -13,6 +13,7 @@ BitByteData can be integrated into your project using either Swift Package Manag
 
 __Note:__ Due to [upcoming](https://blog.cocoapods.org/CocoaPods-Specs-Repo/) deprecation of CocoaPods no new releases
 of BitByteData will be published using CocoaPods. The last release of BitByteData made available via CocoaPods was 2.0.4.
+Consider switching to Swift Package Manager instead.
 
 ### Swift Package Manager
 
