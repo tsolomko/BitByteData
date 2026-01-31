@@ -11,6 +11,9 @@ Linux, __and Windows__.
 
 BitByteData can be integrated into your project using either Swift Package Manager, CocoaPods, or Carthage.
 
+__Note:__ Due to [upcoming](https://blog.cocoapods.org/CocoaPods-Specs-Repo/) deprecation of CocoaPods no new releases
+of BitByteData will be published using CocoaPods. The last release of BitByteData made available via CocoaPods was 2.0.4.
+
 ### Swift Package Manager
 
 To install using SPM, add BitByteData to you package dependencies and specify it as a dependency for your target, e.g.:
