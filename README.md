@@ -9,15 +9,12 @@ Linux, __and Windows__.
 
 ## Installation
 
-BitByteData can be integrated into your project using either Swift Package Manager, CocoaPods, or Carthage.
+BitByteData can be integrated into your project using Swift Package Manager.
 
-__Note:__ Due to [upcoming](https://blog.cocoapods.org/CocoaPods-Specs-Repo/) deprecation of CocoaPods no new releases
-of BitByteData will be published using CocoaPods. The last release of BitByteData made available via CocoaPods was 2.0.4.
-Consider switching to Swift Package Manager instead.
+__Note:__ BitByteData versions 2.0.4 and earlier were also made available via CocoaPods or Carthage.
 
-### Swift Package Manager
-
-To install using SPM, add BitByteData to you package dependencies and specify it as a dependency for your target, e.g.:
+To install with Swift Package Manager, add BitByteData to you package dependencies and specify it as a dependency for
+your target, e.g.:
 
 ```swift
 import PackageDescription
@@ -38,20 +35,6 @@ let package = Package(
 ```
 
 More details you can find in [Swift Package Manager's Documentation](https://github.com/apple/swift-package-manager/tree/main/Documentation).
-
-### CocoaPods
-
-Add `pod 'BitByteData', '~> 2.0'` and `use_frameworks!` lines to your Podfile.
-
-To complete installation, run `pod install`.
-
-### Carthage
-
-Add to your Cartfile `github "tsolomko/BitByteData" ~> 2.0`.
-
-Then you should run `carthage update --use-xcframeworks`. After that drag and drop the `BitByteData.xcframework` file
-from the `Carthage/Build/` directory into the "Frameworks, Libraries, and Embedded Content" section of your target's
-"General" tab in Xcode.
 
 ## Migration to 2.0
 
