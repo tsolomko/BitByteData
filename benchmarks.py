@@ -235,9 +235,12 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
             return run
         return obj
 
-def _group_benches(benches: list) -> dict:
+def _group_benches(benches: list, filter: str) -> dict:
+    p = re.compile(filter)
+    filtered_benches = [ s for s in benches if p.search(s) ]
+
     groups = {}
-    for bench in benches:
+    for bench in filtered_benches:
         if bench.startswith("BitByteDataBenchmarks."):
             name_parts = bench[22:].split("/")
             if len(name_parts) > 2:
@@ -248,7 +251,7 @@ def _group_benches(benches: list) -> dict:
             groups[name_parts[0]] = group
         else:
             # This message is a bit misleading: it is printed when parsing other SPM output, like build progress.
-            print("warning: non-benchmark test was returned by --filter, skipping.")
+            print("warning: non-benchmark test passed by the supplied filter, skipping.")
     return groups
 
 def _sprun(command):
@@ -301,8 +304,8 @@ def action_run(args):
         build_command += ["-Xswiftc", "-Ounchecked"]
     _sprun(build_command)
 
-    bench_list = _sprun(swift_command + ["test", "list", "-c", "release", "--filter", args.filter]).stdout.decode().splitlines()
-    groups = _group_benches(bench_list)
+    bench_list = _sprun(swift_command + ["test", "list", "-c", "release"]).stdout.decode().splitlines()
+    groups = _group_benches(bench_list, args.filter)
     if len(groups) == 0:
         print("No benchmarks have been found according to the specified options. Exiting...")
         return
@@ -319,7 +322,8 @@ def action_run(args):
     run = BenchmarkRun(swift_ver, timestamp, binary_size, args.desc)
 
     bench_command = swift_command + ["test", "-c", "release", "--skip-build", "--skip-update", "--filter"]
-    print("NEW | BASE")
+    if base is not None:
+        print("NEW | BASE")
     for group, benches in groups.items():
         base_group = None
         if base is not None:
@@ -393,8 +397,7 @@ subparsers = parser.add_subparsers(title="commands", help="a command to perform"
 
 # Parser for 'run' command.
 parser_run = subparsers.add_parser("run", help="run benchmarks", description="run benchmarks")
-parser_run.add_argument("--filter", action="store", default="BitByteDataBenchmarks",
-                        help="filter benchmarks (passed as --filter option to 'swift test')")
+parser_run.add_argument("--filter", action="store", default="BitByteDataBenchmarks\.", help="filter benchmarks with regex")
 parser_run.add_argument("--save", action="store", metavar="FILE", help="save output in a file")
 parser_run.add_argument("--compare", action="store", metavar="BASE", help="compare results with base benchmarks")
 parser_run.add_argument("--desc", action="store", metavar="DESC", help="add a description to the results")
