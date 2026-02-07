@@ -12,7 +12,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<4_000_000 {
+            for _ in 0..<200_000_000 {
                 writer.write(bit: 0)
                 writer.write(bit: 1)
             }
@@ -23,7 +23,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<50_000_000 {
                 writer.write(number: 55, bitsCount: 7)
             }
         }
@@ -33,7 +33,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<50_000_000 {
                 writer.write(unsignedNumber: 55, bitsCount: 7)
             }
         }
@@ -43,7 +43,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
             
-            for _ in 0..<2_500_000 {
+            for _ in 0..<12_500_000 {
                 writer.write(unsignedNumber: 0x1234567890ABCDEF, bitsCount: 61)
             }
         }
@@ -53,7 +53,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<50_000_000 {
                 writer.write(signedNumber: 3256, bitsCount: 13, representation: .signMagnitude)
             }
         }
@@ -63,7 +63,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<50_000_000 {
                 writer.write(signedNumber: -3256, bitsCount: 13, representation: .signMagnitude)
             }
         }
@@ -73,7 +73,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<50_000_000 {
                 writer.write(signedNumber: 3256, bitsCount: 13, representation: .oneComplementNegatives)
             }
         }
@@ -83,7 +83,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<50_000_000 {
                 writer.write(signedNumber: -3256, bitsCount: 13, representation: .oneComplementNegatives)
             }
         }
@@ -93,7 +93,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<50_000_000 {
                 writer.write(signedNumber: 3256, bitsCount: 13, representation: .twoComplementNegatives)
             }
         }
@@ -103,7 +103,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<50_000_000 {
                 writer.write(signedNumber: -3256, bitsCount: 13, representation: .twoComplementNegatives)
             }
         }
@@ -113,7 +113,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<70_000_000 {
                 writer.write(signedNumber: 123, bitsCount: 13, representation: .biased(bias: 127))
             }
         }
@@ -123,7 +123,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<70_000_000 {
                 writer.write(signedNumber: -123, bitsCount: 13, representation: .biased(bias: 127))
             }
         }
@@ -133,7 +133,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<50_000_000 {
                 writer.write(signedNumber: 3256, bitsCount: 13, representation: .radixNegativeTwo)
             }
         }
@@ -143,7 +143,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<50_000_000 {
                 writer.write(signedNumber: -2549, bitsCount: 13, representation: .radixNegativeTwo)
             }
         }
@@ -153,7 +153,7 @@ class MsbBitWriterBenchmarks: XCTestCase {
         self.measure {
             let writer = MsbBitWriter()
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<200_000_000 {
                 writer.append(byte: 37)
             }
         }
