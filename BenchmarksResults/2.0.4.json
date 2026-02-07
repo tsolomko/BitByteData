@@ -1,6 +1,6 @@
 {
   "swift_ver": "Apple Swift version 6.2.3 (swiftlang-6.2.3.3.21 clang-1700.6.3.2)\nTarget: arm64-apple-macosx26.0\n",
-  "timestamp": "2026-01-31 08:01 UTC",
+  "timestamp": "2026-02-19 05:39 UTC",
   "binary_size": "169192",
   "description": "Benchmarks of the 2.0.4 release version with Swift 6.2.3",
   "BitByteDataBenchmarks": [
@@ -9,74 +9,74 @@
       "results": [
         {
           "name": "testByte",
-          "avg": "0.012",
-          "rel_std_dev": "28.908",
+          "avg": "0.099",
+          "rel_std_dev": "7.395",
           "iter_count": 10
         },
         {
           "name": "testBytes",
-          "avg": "0.027",
-          "rel_std_dev": "28.801",
+          "avg": "0.566",
+          "rel_std_dev": "6.241",
           "iter_count": 10
         },
         {
           "name": "testIntFromBytes",
-          "avg": "0.024",
-          "rel_std_dev": "29.540",
+          "avg": "0.205",
+          "rel_std_dev": "3.641",
           "iter_count": 10
         },
         {
           "name": "testUint16",
-          "avg": "0.014",
-          "rel_std_dev": "40.521",
+          "avg": "0.536",
+          "rel_std_dev": "1.966",
           "iter_count": 10
         },
         {
           "name": "testUint16_FB",
-          "avg": "0.011",
-          "rel_std_dev": "39.146",
+          "avg": "0.405",
+          "rel_std_dev": "4.444",
           "iter_count": 10
         },
         {
           "name": "testUint16FromBytes",
-          "avg": "0.008",
-          "rel_std_dev": "25.213",
+          "avg": "0.290",
+          "rel_std_dev": "2.789",
           "iter_count": 10
         },
         {
           "name": "testUint32",
-          "avg": "0.013",
-          "rel_std_dev": "36.214",
+          "avg": "0.213",
+          "rel_std_dev": "4.605",
           "iter_count": 10
         },
         {
           "name": "testUint32_FB",
-          "avg": "0.015",
-          "rel_std_dev": "21.203",
+          "avg": "0.284",
+          "rel_std_dev": "2.948",
           "iter_count": 10
         },
         {
           "name": "testUint32FromBytes",
-          "avg": "0.014",
-          "rel_std_dev": "32.564",
+          "avg": "0.218",
+          "rel_std_dev": "3.675",
           "iter_count": 10
         },
         {
           "name": "testUint64",
-          "avg": "0.013",
-          "rel_std_dev": "32.240",
+          "avg": "0.219",
+          "rel_std_dev": "7.884",
           "iter_count": 10
         },
         {
           "name": "testUint64_FB",
-          "avg": "0.025",
-          "rel_std_dev": "25.571",
+          "avg": "0.460",
+          "rel_std_dev": "1.589",
           "iter_count": 10
         },
         {
           "name": "testUint64FromBytes",
-          "avg": "0.022",
-          "rel_std_dev": "24.100",
+          "avg": "0.417",
+          "rel_std_dev": "1.926",
           "iter_count": 10
         }
       ]
@@ -86,74 +86,74 @@
       "results": [
         {
           "name": "testByte",
-          "avg": "0.013",
-          "rel_std_dev": "31.515",
+          "avg": "0.099",
+          "rel_std_dev": "5.678",
           "iter_count": 10
         },
         {
           "name": "testBytes",
-          "avg": "0.027",
-          "rel_std_dev": "25.030",
+          "avg": "0.550",
+          "rel_std_dev": "4.606",
           "iter_count": 10
         },
         {
           "name": "testIntFromBytes",
-          "avg": "0.020",
-          "rel_std_dev": "26.033",
+          "avg": "0.184",
+          "rel_std_dev": "4.518",
           "iter_count": 10
         },
         {
           "name": "testUint16",
-          "avg": "0.013",
-          "rel_std_dev": "36.402",
+          "avg": "0.524",
+          "rel_std_dev": "2.074",
           "iter_count": 10
         },
         {
           "name": "testUint16_FB",
-          "avg": "0.010",
-          "rel_std_dev": "28.881",
+          "avg": "0.410",
+          "rel_std_dev": "3.440",
           "iter_count": 10
         },
         {
           "name": "testUint16FromBytes",
-          "avg": "0.009",
-          "rel_std_dev": "32.017",
+          "avg": "0.290",
+          "rel_std_dev": "3.040",
           "iter_count": 10
         },
         {
           "name": "testUint32",
-          "avg": "0.012",
-          "rel_std_dev": "28.901",
+          "avg": "0.211",
+          "rel_std_dev": "3.308",
           "iter_count": 10
         },
         {
           "name": "testUint32_FB",
-          "avg": "0.015",
-          "rel_std_dev": "31.336",
+          "avg": "0.247",
+          "rel_std_dev": "2.996",
           "iter_count": 10
         },
         {
           "name": "testUint32FromBytes",
-          "avg": "0.013",
-          "rel_std_dev": "34.690",
+          "avg": "0.206",
+          "rel_std_dev": "3.159",
           "iter_count": 10
         },
         {
           "name": "testUint64",
-          "avg": "0.012",
-          "rel_std_dev": "29.677",
+          "avg": "0.214",
+          "rel_std_dev": "5.065",
           "iter_count": 10
         },
         {
           "name": "testUint64_FB",
-          "avg": "0.022",
-          "rel_std_dev": "24.468",
+          "avg": "0.406",
+          "rel_std_dev": "2.507",
           "iter_count": 10
         },
         {
           "name": "testUint64FromBytes",
-          "avg": "0.021",
-          "rel_std_dev": "30.933",
+          "avg": "0.367",
+          "rel_std_dev": "2.809",
           "iter_count": 10
         }
       ]
@@ -164,103 +164,103 @@
         {
           "name": "testAdvance",
           "avg": "0.226",
-          "rel_std_dev": "3.002",
+          "rel_std_dev": "4.822",
           "iter_count": 10
         },
         {
           "name": "testAdvanceRealistic",
-          "avg": "0.134",
-          "rel_std_dev": "6.554",
+          "avg": "0.201",
+          "rel_std_dev": "4.008",
           "iter_count": 10
         },
         {
           "name": "testBit",
           "avg": "0.188",
-          "rel_std_dev": "3.898",
+          "rel_std_dev": "5.257",
           "iter_count": 10
         },
         {
           "name": "testBits",
-          "avg": "0.390",
-          "rel_std_dev": "2.265",
+          "avg": "0.346",
+          "rel_std_dev": "2.796",
           "iter_count": 10
         },
         {
           "name": "testByteFromBits",
-          "avg": "0.087",
-          "rel_std_dev": "8.346",
+          "avg": "0.162",
+          "rel_std_dev": "5.523",
           "iter_count": 10
         },
         {
           "name": "testIntFromBits",
-          "avg": "0.048",
-          "rel_std_dev": "15.213",
+          "avg": "0.460",
+          "rel_std_dev": "1.748",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_1C_neg",
-          "avg": "0.130",
-          "rel_std_dev": "4.875",
+          "avg": "0.261",
+          "rel_std_dev": "2.667",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_1C_pos",
-          "avg": "0.130",
-          "rel_std_dev": "5.543",
+          "avg": "0.261",
+          "rel_std_dev": "3.551",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_2C_neg",
-          "avg": "0.129",
-          "rel_std_dev": "5.787",
+          "avg": "0.257",
+          "rel_std_dev": "3.767",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_2C_pos",
-          "avg": "0.128",
-          "rel_std_dev": "4.519",
+          "avg": "0.257",
+          "rel_std_dev": "3.189",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_E127",
-          "avg": "0.071",
-          "rel_std_dev": "8.776",
+          "avg": "0.277",
+          "rel_std_dev": "3.400",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_RN2",
-          "avg": "0.132",
-          "rel_std_dev": "7.017",
+          "avg": "0.260",
+          "rel_std_dev": "3.862",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_SM_neg",
-          "avg": "0.131",
-          "rel_std_dev": "3.997",
+          "avg": "0.262",
+          "rel_std_dev": "3.494",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_SM_pos",
-          "avg": "0.131",
-          "rel_std_dev": "2.967",
+          "avg": "0.263",
+          "rel_std_dev": "3.569",
           "iter_count": 10
         },
         {
           "name": "testUint16FromBits",
-          "avg": "0.067",
-          "rel_std_dev": "12.465",
+          "avg": "0.650",
+          "rel_std_dev": "1.207",
           "iter_count": 10
         },
         {
           "name": "testUint32FromBits",
-          "avg": "0.065",
-          "rel_std_dev": "14.948",
+          "avg": "0.627",
+          "rel_std_dev": "1.459",
           "iter_count": 10
         },
         {
           "name": "testUint64FromBits",
-          "avg": "0.045",
-          "rel_std_dev": "16.956",
+          "avg": "0.428",
+          "rel_std_dev": "2.502",
           "iter_count": 10
         }
       ]
@@ -270,74 +270,74 @@
       "results": [
         {
           "name": "testByte",
-          "avg": "0.034",
-          "rel_std_dev": "20.230",
+          "avg": "0.315",
+          "rel_std_dev": "2.260",
           "iter_count": 10
         },
         {
           "name": "testBytes",
-          "avg": "0.029",
-          "rel_std_dev": "23.492",
+          "avg": "0.247",
+          "rel_std_dev": "6.151",
           "iter_count": 10
         },
         {
           "name": "testIntFromBytes",
-          "avg": "0.038",
-          "rel_std_dev": "15.937",
+          "avg": "0.363",
+          "rel_std_dev": "2.249",
           "iter_count": 10
         },
         {
           "name": "testUint16",
-          "avg": "0.017",
-          "rel_std_dev": "29.779",
+          "avg": "0.292",
+          "rel_std_dev": "2.550",
           "iter_count": 10
         },
         {
           "name": "testUint16_FB",
-          "avg": "0.014",
-          "rel_std_dev": "15.700",
+          "avg": "0.259",
+          "rel_std_dev": "2.610",
           "iter_count": 10
         },
         {
           "name": "testUint16FromBytes",
-          "avg": "0.010",
-          "rel_std_dev": "23.366",
+          "avg": "0.162",
+          "rel_std_dev": "3.549",
           "iter_count": 10
         },
         {
           "name": "testUint32",
-          "avg": "0.017",
-          "rel_std_dev": "33.421",
+          "avg": "0.149",
+          "rel_std_dev": "6.660",
           "iter_count": 10
         },
         {
           "name": "testUint32_FB",
-          "avg": "0.025",
-          "rel_std_dev": "23.619",
+          "avg": "0.230",
+          "rel_std_dev": "2.605",
           "iter_count": 10
         },
         {
           "name": "testUint32FromBytes",
-          "avg": "0.021",
-          "rel_std_dev": "25.335",
+          "avg": "0.186",
+          "rel_std_dev": "3.028",
           "iter_count": 10
         },
         {
           "name": "testUint64",
-          "avg": "0.018",
-          "rel_std_dev": "36.702",
+          "avg": "0.148",
+          "rel_std_dev": "6.080",
           "iter_count": 10
         },
         {
           "name": "testUint64_FB",
-          "avg": "0.042",
-          "rel_std_dev": "17.475",
+          "avg": "0.406",
+          "rel_std_dev": "1.870",
           "iter_count": 10
         },
         {
           "name": "testUint64FromBytes",
-          "avg": "0.039",
-          "rel_std_dev": "24.177",
+          "avg": "0.362",
+          "rel_std_dev": "2.455",
           "iter_count": 10
         }
       ]
@@ -347,86 +347,92 @@
       "results": [
         {
           "name": "testAppendByte",
-          "avg": "0.034",
-          "rel_std_dev": "23.559",
+          "avg": "6.567",
+          "rel_std_dev": "1.096",
           "iter_count": 10
         },
         {
           "name": "testWriteBit",
-          "avg": "0.044",
-          "rel_std_dev": "19.850",
+          "avg": "2.181",
+          "rel_std_dev": "0.719",
           "iter_count": 10
         },
         {
           "name": "testWriteNumberBitsCount",
-          "avg": "0.034",
-          "rel_std_dev": "21.132",
+          "avg": "1.634",
+          "rel_std_dev": "1.531",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_1C_neg",
-          "avg": "0.058",
-          "rel_std_dev": "16.740",
+          "avg": "3.008",
+          "rel_std_dev": "1.379",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_1C_pos",
-          "avg": "0.056",
-          "rel_std_dev": "3.540",
+          "avg": "2.998",
+          "rel_std_dev": "1.553",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_2C_neg",
-          "avg": "0.058",
-          "rel_std_dev": "12.315",
+          "avg": "2.945",
+          "rel_std_dev": "0.451",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_2C_pos",
-          "avg": "0.058",
-          "rel_std_dev": "14.709",
+          "avg": "3.022",
+          "rel_std_dev": "0.881",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_E127_neg",
-          "avg": "0.058",
-          "rel_std_dev": "16.095",
+          "avg": "4.139",
+          "rel_std_dev": "1.219",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_E127_pos",
-          "avg": "0.057",
-          "rel_std_dev": "8.012",
+          "avg": "4.240",
+          "rel_std_dev": "0.975",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_RN2_neg",
-          "avg": "0.064",
-          "rel_std_dev": "14.935",
+          "avg": "3.204",
+          "rel_std_dev": "1.950",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_RN2_pos",
-          "avg": "0.063",
-          "rel_std_dev": "12.443",
+          "avg": "3.278",
+          "rel_std_dev": "0.504",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_SM_neg",
-          "avg": "0.058",
-          "rel_std_dev": "14.048",
+          "avg": "2.958",
+          "rel_std_dev": "1.100",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_SM_pos",
-          "avg": "0.058",
-          "rel_std_dev": "13.440",
+          "avg": "2.952",
+          "rel_std_dev": "0.443",
           "iter_count": 10
         },
         {
           "name": "testWriteUnsignedNumberBitsCount",
-          "avg": "0.033",
-          "rel_std_dev": "15.775",
+          "avg": "1.640",
+          "rel_std_dev": "1.495",
+          "iter_count": 10
+        },
+        {
+          "name": "testWriteUnsignedNumberLarge",
+          "avg": "2.947",
+          "rel_std_dev": "0.446",
           "iter_count": 10
         }
       ]
@@ -436,104 +442,104 @@
       "results": [
         {
           "name": "testAdvance",
-          "avg": "0.224",
-          "rel_std_dev": "2.973",
+          "avg": "0.227",
+          "rel_std_dev": "4.862",
           "iter_count": 10
         },
         {
           "name": "testAdvanceRealistic",
-          "avg": "0.136",
-          "rel_std_dev": "7.029",
+          "avg": "0.201",
+          "rel_std_dev": "3.374",
           "iter_count": 10
         },
         {
           "name": "testBit",
-          "avg": "0.186",
-          "rel_std_dev": "4.843",
+          "avg": "0.185",
+          "rel_std_dev": "4.469",
           "iter_count": 10
         },
         {
           "name": "testBits",
-          "avg": "0.387",
-          "rel_std_dev": "3.661",
+          "avg": "0.354",
+          "rel_std_dev": "6.637",
           "iter_count": 10
         },
         {
           "name": "testByteFromBits",
-          "avg": "0.082",
-          "rel_std_dev": "8.549",
+          "avg": "0.167",
+          "rel_std_dev": "4.459",
           "iter_count": 10
         },
         {
           "name": "testIntFromBits",
-          "avg": "0.059",
-          "rel_std_dev": "14.170",
+          "avg": "0.565",
+          "rel_std_dev": "1.379",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_1C_neg",
-          "avg": "0.133",
-          "rel_std_dev": "6.166",
+          "avg": "0.266",
+          "rel_std_dev": "4.445",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_1C_pos",
-          "avg": "0.132",
-          "rel_std_dev": "3.805",
+          "avg": "0.262",
+          "rel_std_dev": "3.740",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_2C_neg",
-          "avg": "0.131",
-          "rel_std_dev": "3.930",
+          "avg": "0.263",
+          "rel_std_dev": "3.888",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_2C_pos",
-          "avg": "0.134",
-          "rel_std_dev": "3.918",
+          "avg": "0.263",
+          "rel_std_dev": "4.002",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_E127",
-          "avg": "0.078",
-          "rel_std_dev": "5.923",
+          "avg": "0.310",
+          "rel_std_dev": "3.433",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_RN2",
-          "avg": "0.132",
-          "rel_std_dev": "4.334",
+          "avg": "0.265",
+          "rel_std_dev": "4.034",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_SM_neg",
-          "avg": "0.132",
-          "rel_std_dev": "6.257",
+          "avg": "0.260",
+          "rel_std_dev": "3.014",
           "iter_count": 10
         },
         {
           "name": "testSignedInt_SM_pos",
-          "avg": "0.132",
-          "rel_std_dev": "6.432",
+          "avg": "0.261",
+          "rel_std_dev": "2.859",
           "iter_count": 10
         },
         {
           "name": "testUint16FromBits",
-          "avg": "0.069",
-          "rel_std_dev": "11.043",
+          "avg": "0.666",
+          "rel_std_dev": "1.363",
           "iter_count": 10
         },
         {
           "name": "testUint32FromBits",
-          "avg": "0.077",
-          "rel_std_dev": "7.042",
+          "avg": "0.758",
+          "rel_std_dev": "1.775",
           "iter_count": 10
         },
         {
           "name": "testUint64FromBits",
-          "avg": "0.052",
-          "rel_std_dev": "17.691",
+          "avg": "0.497",
+          "rel_std_dev": "2.155",
           "iter_count": 10
         }
       ]
@@ -543,74 +549,74 @@
       "results": [
         {
           "name": "testByte",
-          "avg": "0.034",
-          "rel_std_dev": "21.821",
+          "avg": "0.315",
+          "rel_std_dev": "2.112",
           "iter_count": 10
         },
         {
           "name": "testBytes",
-          "avg": "0.030",
-          "rel_std_dev": "27.658",
+          "avg": "0.237",
+          "rel_std_dev": "4.419",
           "iter_count": 10
         },
         {
           "name": "testIntFromBytes",
-          "avg": "0.038",
-          "rel_std_dev": "16.507",
+          "avg": "0.364",
+          "rel_std_dev": "2.281",
           "iter_count": 10
         },
         {
           "name": "testUint16",
-          "avg": "0.018",
-          "rel_std_dev": "35.557",
+          "avg": "0.293",
+          "rel_std_dev": "2.384",
           "iter_count": 10
         },
         {
           "name": "testUint16_FB",
-          "avg": "0.016",
-          "rel_std_dev": "31.815",
+          "avg": "0.260",
+          "rel_std_dev": "2.552",
           "iter_count": 10
         },
         {
           "name": "testUint16FromBytes",
-          "avg": "0.011",
-          "rel_std_dev": "35.156",
+          "avg": "0.163",
+          "rel_std_dev": "4.180",
           "iter_count": 10
         },
         {
           "name": "testUint32",
-          "avg": "0.017",
-          "rel_std_dev": "36.569",
+          "avg": "0.148",
+          "rel_std_dev": "5.026",
           "iter_count": 10
         },
         {
           "name": "testUint32_FB",
-          "avg": "0.025",
-          "rel_std_dev": "24.180",
+          "avg": "0.235",
+          "rel_std_dev": "2.711",
           "iter_count": 10
         },
         {
           "name": "testUint32FromBytes",
-          "avg": "0.021",
-          "rel_std_dev": "23.466",
+          "avg": "0.190",
+          "rel_std_dev": "3.293",
           "iter_count": 10
         },
         {
           "name": "testUint64",
-          "avg": "0.017",
-          "rel_std_dev": "35.144",
+          "avg": "0.149",
+          "rel_std_dev": "6.594",
           "iter_count": 10
         },
         {
           "name": "testUint64_FB",
-          "avg": "0.042",
-          "rel_std_dev": "14.887",
+          "avg": "0.409",
+          "rel_std_dev": "2.139",
           "iter_count": 10
         },
         {
           "name": "testUint64FromBytes",
-          "avg": "0.038",
-          "rel_std_dev": "19.487",
+          "avg": "0.364",
+          "rel_std_dev": "1.811",
           "iter_count": 10
         }
       ]
@@ -620,86 +626,92 @@
       "results": [
         {
           "name": "testAppendByte",
-          "avg": "0.036",
-          "rel_std_dev": "20.056",
+          "avg": "6.651",
+          "rel_std_dev": "1.011",
           "iter_count": 10
         },
         {
           "name": "testWriteBit",
-          "avg": "0.049",
-          "rel_std_dev": "20.566",
+          "avg": "2.185",
+          "rel_std_dev": "0.946",
           "iter_count": 10
         },
         {
           "name": "testWriteNumberBitsCount",
-          "avg": "0.038",
-          "rel_std_dev": "17.246",
+          "avg": "1.665",
+          "rel_std_dev": "1.377",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_1C_neg",
-          "avg": "0.061",
-          "rel_std_dev": "9.721",
+          "avg": "2.979",
+          "rel_std_dev": "1.611",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_1C_pos",
-          "avg": "0.058",
-          "rel_std_dev": "12.810",
+          "avg": "2.960",
+          "rel_std_dev": "0.588",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_2C_neg",
-          "avg": "0.062",
-          "rel_std_dev": "19.341",
+          "avg": "3.010",
+          "rel_std_dev": "0.534",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_2C_pos",
-          "avg": "0.061",
-          "rel_std_dev": "17.642",
+          "avg": "2.996",
+          "rel_std_dev": "0.657",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_E127_neg",
-          "avg": "0.063",
-          "rel_std_dev": "17.202",
+          "avg": "4.298",
+          "rel_std_dev": "0.857",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_E127_pos",
-          "avg": "0.059",
-          "rel_std_dev": "9.244",
+          "avg": "4.215",
+          "rel_std_dev": "0.440",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_RN2_neg",
-          "avg": "0.065",
-          "rel_std_dev": "13.808",
+          "avg": "3.289",
+          "rel_std_dev": "0.464",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_RN2_pos",
-          "avg": "0.065",
-          "rel_std_dev": "15.450",
+          "avg": "3.256",
+          "rel_std_dev": "0.476",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_SM_neg",
-          "avg": "0.059",
-          "rel_std_dev": "11.432",
+          "avg": "2.962",
+          "rel_std_dev": "0.548",
           "iter_count": 10
         },
         {
           "name": "testWriteSignedNumber_SM_pos",
-          "avg": "0.059",
-          "rel_std_dev": "10.296",
+          "avg": "3.028",
+          "rel_std_dev": "0.650",
           "iter_count": 10
         },
         {
           "name": "testWriteUnsignedNumberBitsCount",
-          "avg": "0.035",
-          "rel_std_dev": "27.687",
+          "avg": "1.686",
+          "rel_std_dev": "0.580",
+          "iter_count": 10
+        },
+        {
+          "name": "testWriteUnsignedNumberLarge",
+          "avg": "3.034",
+          "rel_std_dev": "0.443",
           "iter_count": 10
         }
       ]
