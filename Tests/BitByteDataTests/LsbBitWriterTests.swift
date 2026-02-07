@@ -233,10 +233,34 @@ class LsbBitWriterTests: XCTestCase {
     func testWriteUnsignedNumber() {
         let writer = LsbBitWriter()
         writer.write(unsignedNumber: UInt.max, bitsCount: UInt.bitWidth)
+        writer.write(unsignedNumber: 6, bitsCount: 32)
+        writer.write(unsignedNumber: 192, bitsCount: 8)
+        writer.write(unsignedNumber: 65421, bitsCount: 16)
+        writer.write(unsignedNumber: 7675820, bitsCount: 23)
+        writer.write(unsignedNumber: 3791193058, bitsCount: 32)
         if UInt.bitWidth == 64 {
-            XCTAssertEqual(writer.data, Data([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
+            writer.write(unsignedNumber: 497963469099, bitsCount: 39)
+            writer.write(unsignedNumber: 86895823317332, bitsCount: 47)
+            writer.write(unsignedNumber: 64821994651559947, bitsCount: 56)
+            writer.write(unsignedNumber: 8967943930706880334, bitsCount: 63)
+        }
+        writer.align()
+        if UInt.bitWidth == 64 {
+            XCTAssertEqual(writer.data, Data([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+                                              6, 0, 0, 0, 0xC0,
+                                              0x8D, 0xFF,
+                                              0xAC, 0x1F, 0x75,
+                                              0xF1, 0x81, 0xFC, 0xF0,
+                                              0x95, 0xC4, 0x77, 0xF8, 0x39,
+                                              0x55, 0x9A, 0xAB, 0, 0xC2, 0x73,
+                                              0x01, 0xD5, 0x9A, 0x57, 0x68, 0xC9, 0xDC,
+                                              0xE9, 0xEC, 0x6C, 0xB4, 0x2F, 0x91, 0x8E, 0x0F]))
         } else if UInt.bitWidth == 32 {
-            XCTAssertEqual(writer.data, Data([0xFF, 0xFF, 0xFF, 0xFF]))
+            XCTAssertEqual(writer.data, Data([0xFF, 0xFF, 0xFF, 0xFF,
+                                              6, 0, 0, 0, 0xC0,
+                                              0x8D, 0xFF,
+                                              0xAC, 0x1F, 0x75,
+                                              0xF1, 0x81, 0xFC, 0x70]))
         }
     }
 

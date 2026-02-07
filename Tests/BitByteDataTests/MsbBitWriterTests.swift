@@ -233,10 +233,34 @@ class MsbBitWriterTests: XCTestCase {
     func testWriteUnsignedNumber() {
         let writer = MsbBitWriter()
         writer.write(unsignedNumber: UInt.max, bitsCount: UInt.bitWidth)
+        writer.write(unsignedNumber: 6, bitsCount: 32)
+        writer.write(unsignedNumber: 192, bitsCount: 8)
+        writer.write(unsignedNumber: 65421, bitsCount: 16)
+        writer.write(unsignedNumber: 7675820, bitsCount: 23)
+        writer.write(unsignedNumber: 3791193058, bitsCount: 32)
         if UInt.bitWidth == 64 {
-            XCTAssertEqual(writer.data, Data([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
+            writer.write(unsignedNumber: 497963469099, bitsCount: 39)
+            writer.write(unsignedNumber: 86895823317332, bitsCount: 47)
+            writer.write(unsignedNumber: 64821994651559947, bitsCount: 56)
+            writer.write(unsignedNumber: 8967943930706880334, bitsCount: 63)
+        }
+        writer.align()
+        if UInt.bitWidth == 64 {
+            XCTAssertEqual(writer.data, Data([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+                                              0, 0, 0, 6, 0xC0,
+                                              0xFF, 0x8D,
+                                              0xEA, 0x3F, 0x59,
+                                              0xC3, 0xF2, 0x07, 0xC5,
+                                              0xCF, 0xC3, 0xBE, 0x24, 0xAE,
+                                              0x78, 0x40, 0x15, 0x73, 0x4A, 0xA7,
+                                              0x32, 0x5A, 0x15, 0xE6, 0xB5, 0x40, 0x5F,
+                                              0xC7, 0x48, 0x97, 0xDA, 0x36, 0x76, 0x74, 0xE0]))
         } else if UInt.bitWidth == 32 {
-            XCTAssertEqual(writer.data, Data([0xFF, 0xFF, 0xFF, 0xFF]))
+            XCTAssertEqual(writer.data, Data([0xFF, 0xFF, 0xFF, 0xFF,
+                                              0, 0, 0, 6, 0xC0,
+                                              0xFF, 0x8D,
+                                              0xEA, 0x3F, 0x59,
+                                              0xC3, 0xF2, 0x07, 0xC4]))
         }
     }
 
