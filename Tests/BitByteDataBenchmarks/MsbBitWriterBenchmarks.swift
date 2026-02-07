@@ -39,6 +39,16 @@ class MsbBitWriterBenchmarks: XCTestCase {
         }
     }
 
+    func testWriteUnsignedNumberLarge() {
+        self.measure {
+            let writer = MsbBitWriter()
+            
+            for _ in 0..<2_500_000 {
+                writer.write(unsignedNumber: 0x1234567890ABCDEF, bitsCount: 61)
+            }
+        }
+    }
+
     func testWriteSignedNumber_SM_pos() {
         self.measure {
             let writer = MsbBitWriter()
