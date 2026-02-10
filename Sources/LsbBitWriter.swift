@@ -32,7 +32,7 @@ public final class LsbBitWriter: BitWriter {
     public func write(bit: UInt8) {
         precondition(bit <= 1, "A bit must be either 0 or 1.")
 
-        self.currentByte += self.bitMask * bit
+        self.currentByte |= self.bitMask * bit
 
         if self.bitMask == 128 {
             self.bitMask = 1
@@ -55,11 +55,45 @@ public final class LsbBitWriter: BitWriter {
      */
     public func write(unsignedNumber: UInt, bitsCount: Int) {
         precondition(0...UInt.bitWidth ~= bitsCount)
-        var mask = 1 as UInt
-        for _ in 0..<bitsCount {
-            self.write(bit: unsignedNumber & mask > 0 ? 1 : 0)
-            mask <<= 1
+
+        // The idea behind this implementation is to reduce as much as possible the amount of time we access the
+        // properties of a BitWriter (since the writer is a class property access has a lot of overhead). To achieve
+        // that we attempt to process the bits of `unsignedNumber` in bulk with some clever bit math.
+
+        /// Amount of available bits in `currentByte`.
+        let currentByteBitsLeft = self.bitMask.leadingZeroBitCount &+ 1
+        // Check if `unsignedNumber` can fully fit into `currentByte`.
+        if currentByteBitsLeft > bitsCount {
+            // We do not consider the case of `currentByteBitsLeft == bitsCount` because it would require resetting
+            // `currentByte` and `bitMask` at the end which would introduce additional branching. This case is perfectly
+            // handled by the remainder of this function.
+            self.currentByte |= UInt8(truncatingIfNeeded: unsignedNumber << (8 &- currentByteBitsLeft))
+            self.bitMask <<= bitsCount
+            return
         }
+
+        /// Mutable copy of `unsignedNumber`.
+        var input = unsignedNumber
+        let lowestBitsMask: UInt = (1 << currentByteBitsLeft) &- 1
+        self.data.append(self.currentByte | UInt8(truncatingIfNeeded: (input & lowestBitsMask) << (8 &- currentByteBitsLeft)))
+        // After writing the bits that filled `currentByte` we remove them from the input.
+        input >>= currentByteBitsLeft
+
+        var bitsLeftToWrite = bitsCount &- currentByteBitsLeft
+        let byteMask: UInt = 0xFF
+        // Full bytes from the input can be written directly by proper masking without considering separate bits.
+        while bitsLeftToWrite >= 8 {
+            bitsLeftToWrite &-= 8
+            self.data.append(UInt8(truncatingIfNeeded: input & byteMask))
+            input >>= 8
+        }
+
+        // There might be some bits left that do not fill an entire byte. We put them into the new value of `currentByte`
+        // and reset `bitMask` appropriately. This actually works even if `bitsLeftToWrite == 0`. In this case the
+        // effective mask is 0x0 so nothing is written into `currentByte`.
+        self.currentByte = UInt8(truncatingIfNeeded: input & ((1 << bitsLeftToWrite) &- 1))
+        // Similarly, `bitMask` is set to its default value of 1 for `bitsLeftToWrite == 0`.
+        self.bitMask = 1 << bitsLeftToWrite
     }
 
     /**

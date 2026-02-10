@@ -32,7 +32,7 @@ public final class MsbBitWriter: BitWriter {
     public func write(bit: UInt8) {
         precondition(bit <= 1, "A bit must be either 0 or 1.")
 
-        self.currentByte += self.bitMask * bit
+        self.currentByte |= self.bitMask * bit
 
         if self.bitMask == 1 {
             self.bitMask = 128
@@ -55,11 +55,45 @@ public final class MsbBitWriter: BitWriter {
      */
     public func write(unsignedNumber: UInt, bitsCount: Int) {
         precondition(0...UInt.bitWidth ~= bitsCount)
-        var mask = (1 as UInt) << (bitsCount - 1)
-        for _ in 0..<bitsCount {
-            self.write(bit: unsignedNumber & mask > 0 ? 1 : 0)
-            mask >>= 1
+
+        // The idea behind this implementation is to reduce as much as possible the amount of time we access the
+        // properties of a BitWriter (since the writer is a class property access has a lot of overhead). To achieve
+        // that we attempt to process the bits of `unsignedNumber` in bulk with some clever bit math.
+
+        /// Amount of available bits in `currentByte`.
+        let currentByteBitsLeft = self.bitMask.trailingZeroBitCount &+ 1
+        // Check if `unsignedNumber` can fully fit into `currentByte`.
+        if currentByteBitsLeft > bitsCount {
+            // We do not consider the case of `currentByteBitsLeft == bitsCount` because it would require resetting
+            // `currentByte` and `bitMask` at the end which would introduce additional branching. This case is perfectly
+            // handled by the remainder of this function.
+            self.currentByte |= UInt8(truncatingIfNeeded: unsignedNumber << (currentByteBitsLeft &- bitsCount))
+            self.bitMask >>= bitsCount
+            return
         }
+
+        // Rotate `unsignedNumber` such that the bits that would fill `currentByte` end up in the lowest byte.
+        var rotated = rotateLeft(num: unsignedNumber, count: currentByteBitsLeft, bits: bitsCount)
+        let lowestBitsMask: UInt = (1 << currentByteBitsLeft) &- 1
+        self.data.append(self.currentByte | UInt8(truncatingIfNeeded: rotated & lowestBitsMask))
+        // After writing the bits that filled `currentByte` we remove them from the input.
+        rotated >>= currentByteBitsLeft
+
+        var bitsLeftToWrite = bitsCount &- currentByteBitsLeft
+        // Full bytes from the input can be written directly by proper masking without considering separate bits.
+        while bitsLeftToWrite >= 8 {
+            bitsLeftToWrite &-= 8
+            let byteMask: UInt = 0xFF << bitsLeftToWrite
+            self.data.append(UInt8(truncatingIfNeeded: (rotated & byteMask) >> bitsLeftToWrite))
+        }
+
+        // There might be some bits left that do not fill an entire byte. We put them into the new value of `currentByte`
+        // and reset `bitMask` appropriately. This actually works even if `bitsLeftToWrite == 0`. In this case shifting
+        // `rotated` left by 8 fills its lowest byte with zeros which after masking produces the default value of 0 for
+        // `currentByte`.
+        self.currentByte = UInt8(truncatingIfNeeded: (rotated << (8 &- bitsLeftToWrite)) & 0xFF)
+        // Similarly, `bitMask` is set to its default value of 128 for `bitsLeftToWrite == 0`.
+        self.bitMask = 128 >> bitsLeftToWrite
     }
 
     /**
@@ -85,4 +119,11 @@ public final class MsbBitWriter: BitWriter {
         self.bitMask = 128
     }
 
+}
+
+@inline(__always)
+fileprivate func rotateLeft(num: UInt, count: Int, bits: Int) -> UInt {
+    let m0: UInt = (1 << (bits - count)) - 1
+    let m1: UInt = (1 << count) - 1
+    return ((num & m0) << count) | ((num >> (bits - count)) & m1)
 }
