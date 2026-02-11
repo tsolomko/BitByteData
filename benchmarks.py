@@ -62,12 +62,13 @@ class PvalueStat:
             self.res = None
 
 class BenchmarkResult:
-    def __init__(self, group: str, bench: str, avg: str, rsd: str, iter_count: int):
+    def __init__(self, group: str, bench: str, avg: str, rsd: str, iter_count: int, iters: list):
         self.group_name = group
         self.test_name = bench
         self.avg = avg
         self.rel_std_dev = rsd
         self.iter_count = iter_count
+        self.iters = iters
 
     def __str__(self):
         return " {avg:<6s} {rsd:>6s}%   {group}/{name}".format(group=self.group_name, name=self.test_name, avg=self.avg,
@@ -75,7 +76,7 @@ class BenchmarkResult:
 
     @classmethod
     def from_json_dict(cls, dct: dict):
-        return cls("", dct["name"], dct["avg"], dct["rel_std_dev"], dct.get("iter_count"))
+        return cls("", dct["name"], dct["avg"], dct["rel_std_dev"], dct.get("iter_count"), dct.get("iters"))
 
     # Standard deviation
     @property
@@ -205,7 +206,8 @@ class BenchmarkJSONEncoder(json.JSONEncoder):
                     results_out.append({"name": result.test_name,
                                         "avg": result.avg,
                                         "rel_std_dev": result.rel_std_dev,
-                                        "iter_count": result.iter_count})
+                                        "iter_count": result.iter_count,
+                                        "iters": result.iters})
                 group_out = {"group_name": group_name, "results": results_out}
                 run_out.append(group_out)
             d = {"swift_ver": o.swift_ver, "timestamp": o.timestamp, "binary_size": o.binary_size}
@@ -220,7 +222,8 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
         json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
 
     def object_hook(self, obj):
-        if len(obj.items()) == 4 and "name" in obj and "avg" in obj and "rel_std_dev" in obj and "iter_count" in obj:
+        # "iters" field was introduced later, so may not be present in older saved results.
+        if len(obj.items()) >= 4 and "name" in obj and "avg" in obj and "rel_std_dev" in obj and "iter_count" in obj:
             return BenchmarkResult.from_json_dict(obj)
         elif len(obj.items()) == 2 and "group_name" in obj:
             group = BenchmarkGroup(obj["group_name"])
@@ -342,9 +345,10 @@ def action_run(args):
                 # We're interested only in the lines in the output that look like that they contain benchmark results.
                 if len(matches) == 1 and len(matches[0]) == 5:
                     if matches[0][0] != group or matches[0][1] != bench:
-                        raise RuntimeError("Seems like swift executed wrong benchmark")
+                        raise RuntimeError("Seems like swift executed a wrong benchmark")
                     iter_count = len(iter_p.findall(matches[0][4]))
-                    result = BenchmarkResult(group, bench, matches[0][2], matches[0][3], iter_count)
+                    iters = [float(s) for s in matches[0][4].split(", ")]
+                    result = BenchmarkResult(group, bench, matches[0][2], matches[0][3], iter_count, iters)
                     run.new_result(result)
                     if base_result is not None:
                         print(result.str_compare(base_result))
