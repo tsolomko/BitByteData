@@ -11,8 +11,11 @@ import Foundation
 public final class MsbBitWriter: BitWriter {
 
     /// Data which contains the writer's output (the last byte, that is currently being written, is not included).
-    public private(set) var data: Data = Data()
+    public var data: Data {
+        return Data(self.buffer)
+    }
 
+    private var buffer: [UInt8] = []
     private var bitMask: UInt8 = 128
     private var currentByte: UInt8 = 0
 
@@ -36,7 +39,7 @@ public final class MsbBitWriter: BitWriter {
 
         if self.bitMask == 1 {
             self.bitMask = 128
-            self.data.append(self.currentByte)
+            self.buffer.append(self.currentByte)
             self.currentByte = 0
         } else {
             self.bitMask >>= 1
@@ -75,7 +78,7 @@ public final class MsbBitWriter: BitWriter {
         // Rotate `unsignedNumber` such that the bits that would fill `currentByte` end up in the lowest byte.
         var rotated = rotateLeft(num: unsignedNumber, count: currentByteBitsLeft, bits: bitsCount)
         let lowestBitsMask: UInt = (1 << currentByteBitsLeft) &- 1
-        self.data.append(self.currentByte | UInt8(truncatingIfNeeded: rotated & lowestBitsMask))
+        self.buffer.append(self.currentByte | UInt8(truncatingIfNeeded: rotated & lowestBitsMask))
         // After writing the bits that filled `currentByte` we remove them from the input.
         rotated >>= currentByteBitsLeft
 
@@ -84,7 +87,7 @@ public final class MsbBitWriter: BitWriter {
         while bitsLeftToWrite >= 8 {
             bitsLeftToWrite &-= 8
             let byteMask: UInt = 0xFF << bitsLeftToWrite
-            self.data.append(UInt8(truncatingIfNeeded: (rotated & byteMask) >> bitsLeftToWrite))
+            self.buffer.append(UInt8(truncatingIfNeeded: (rotated & byteMask) >> bitsLeftToWrite))
         }
 
         // There might be some bits left that do not fill an entire byte. We put them into the new value of `currentByte`
@@ -103,7 +106,7 @@ public final class MsbBitWriter: BitWriter {
      */
     public func append(byte: UInt8) {
         precondition(isAligned, "BitWriter is not aligned.")
-        self.data.append(byte)
+        self.buffer.append(byte)
     }
 
     /**
@@ -114,7 +117,7 @@ public final class MsbBitWriter: BitWriter {
         guard self.bitMask != 128
             else { return }
 
-        self.data.append(self.currentByte)
+        self.buffer.append(self.currentByte)
         self.currentByte = 0
         self.bitMask = 128
     }

@@ -11,8 +11,11 @@ import Foundation
 public final class LsbBitWriter: BitWriter {
 
     /// Data which contains the writer's output (the last byte, that is currently being written, is not included).
-    public private(set) var data: Data = Data()
+    public var data: Data {
+        return Data(self.buffer)
+    }
 
+    private var buffer: [UInt8] = []
     private var bitMask: UInt8 = 1
     private var currentByte: UInt8 = 0
 
@@ -36,7 +39,7 @@ public final class LsbBitWriter: BitWriter {
 
         if self.bitMask == 128 {
             self.bitMask = 1
-            self.data.append(self.currentByte)
+            self.buffer.append(self.currentByte)
             self.currentByte = 0
         } else {
             self.bitMask <<= 1
@@ -75,7 +78,7 @@ public final class LsbBitWriter: BitWriter {
         /// Mutable copy of `unsignedNumber`.
         var input = unsignedNumber
         let lowestBitsMask: UInt = (1 << currentByteBitsLeft) &- 1
-        self.data.append(self.currentByte | UInt8(truncatingIfNeeded: (input & lowestBitsMask) << (8 &- currentByteBitsLeft)))
+        self.buffer.append(self.currentByte | UInt8(truncatingIfNeeded: (input & lowestBitsMask) << (8 &- currentByteBitsLeft)))
         // After writing the bits that filled `currentByte` we remove them from the input.
         input >>= currentByteBitsLeft
 
@@ -84,7 +87,7 @@ public final class LsbBitWriter: BitWriter {
         // Full bytes from the input can be written directly by proper masking without considering separate bits.
         while bitsLeftToWrite >= 8 {
             bitsLeftToWrite &-= 8
-            self.data.append(UInt8(truncatingIfNeeded: input & byteMask))
+            self.buffer.append(UInt8(truncatingIfNeeded: input & byteMask))
             input >>= 8
         }
 
@@ -103,7 +106,7 @@ public final class LsbBitWriter: BitWriter {
      */
     public func append(byte: UInt8) {
         precondition(isAligned, "BitWriter is not aligned.")
-        self.data.append(byte)
+        self.buffer.append(byte)
     }
 
     /**
@@ -114,7 +117,7 @@ public final class LsbBitWriter: BitWriter {
         guard self.bitMask != 1
             else { return }
 
-        self.data.append(self.currentByte)
+        self.buffer.append(self.currentByte)
         self.currentByte = 0
         self.bitMask = 1
     }
