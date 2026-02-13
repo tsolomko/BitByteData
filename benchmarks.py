@@ -120,7 +120,7 @@ class BenchmarkResult:
         else:
             output += "OK                           "
             stat_keeper.ok()
-        output += " | {self_avg:<6s} {self_rsd:6s}% | {base_avg:<6s} {base_rsd:>6s}% | {group}/{name}".format(self_avg=self.avg,
+        output += " | {self_avg:<6s} {self_rsd:>6s}% | {base_avg:<6s} {base_rsd:>6s}% | {group}/{name}".format(self_avg=self.avg,
             self_rsd=self.rel_std_dev, base_avg=base.avg, base_rsd=base.rel_std_dev, name=self.test_name, group=self.group_name)
         return output
 
