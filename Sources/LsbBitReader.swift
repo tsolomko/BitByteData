@@ -188,19 +188,22 @@ public final class LsbBitReader: BitReader {
         precondition(0...8 ~= count)
         precondition(bitsLeft >= count)
 
-        var result = 0 as UInt8
-        for i in 0..<count {
-            let bit: UInt8 = self.currentByte & self.bitMask > 0 ? 1 : 0
-            result += (1 << i) * bit
-
-            if self.bitMask == 128 {
-                self.bitMask = 1
-                self.offset += 1
-            } else {
-                self.bitMask <<= 1
-            }
+        let currentByteBitsLeft = self.bitMask.leadingZeroBitCount &+ 1
+        if currentByteBitsLeft > count {
+            let result = ((1 << count) &- 1) & (self.currentByte >> (8 &- currentByteBitsLeft))
+            self.bitMask <<= count
+            return result
         }
 
+        let lowestBitsMask: UInt8 = (1 << currentByteBitsLeft) &- 1
+        var result = lowestBitsMask & (self.currentByte >> (8 &- currentByteBitsLeft))
+        let bitsLeftToRead = count &- currentByteBitsLeft
+        // `bitMask` has to be aligned before updating `offset` property.
+        self.bitMask = 1
+        // Updating `offset` property updates `currentByte`.
+        self.offset &+= 1
+        result |= (((1 << bitsLeftToRead) &- 1) & self.currentByte) << currentByteBitsLeft
+        self.bitMask <<= bitsLeftToRead
         return result
     }
 
@@ -214,18 +217,31 @@ public final class LsbBitReader: BitReader {
         precondition(0...16 ~= count)
         precondition(bitsLeft >= count)
 
-        var result = 0 as UInt16
-        for i in 0..<count {
-            let bit: UInt16 = self.currentByte & self.bitMask > 0 ? 1 : 0
-            result += (1 << i) * bit
-
-            if self.bitMask == 128 {
-                self.bitMask = 1
-                self.offset += 1
-            } else {
-                self.bitMask <<= 1
-            }
+        let currentByteBitsLeft = self.bitMask.leadingZeroBitCount &+ 1
+        if currentByteBitsLeft > count {
+            let result = ((1 << count) &- 1) & (self.currentByte >> (8 &- currentByteBitsLeft))
+            self.bitMask <<= count
+            return UInt16(truncatingIfNeeded: result)
         }
+
+        let lowestBitsMask: UInt8 = (1 << currentByteBitsLeft) &- 1
+        var result = UInt16(truncatingIfNeeded: lowestBitsMask & (self.currentByte >> (8 &- currentByteBitsLeft)))
+
+        var bitsLeftToRead = count &- currentByteBitsLeft
+        // Local copy of `self.offset` is required because of the setter property observers.
+        var offset = self.offset &+ 1
+        while bitsLeftToRead >= 8 {
+            result |= UInt16(truncatingIfNeeded: self.data[offset]) << (count &- bitsLeftToRead)
+            bitsLeftToRead &-= 8
+            offset &+= 1
+        }
+
+        // `bitMask` has to be aligned before updating `offset` property.
+        self.bitMask = 1
+        // Updating `offset` property updates `currentByte`.
+        self.offset = offset
+        result |= UInt16(truncatingIfNeeded: ((1 << bitsLeftToRead) &- 1) & self.currentByte) << (count &- bitsLeftToRead)
+        self.bitMask <<= bitsLeftToRead
 
         return result
     }
@@ -240,18 +256,31 @@ public final class LsbBitReader: BitReader {
         precondition(0...32 ~= count)
         precondition(bitsLeft >= count)
 
-        var result = 0 as UInt32
-        for i in 0..<count {
-            let bit: UInt32 = self.currentByte & self.bitMask > 0 ? 1 : 0
-            result += (1 << i) * bit
-
-            if self.bitMask == 128 {
-                self.bitMask = 1
-                self.offset += 1
-            } else {
-                self.bitMask <<= 1
-            }
+        let currentByteBitsLeft = self.bitMask.leadingZeroBitCount &+ 1
+        if currentByteBitsLeft > count {
+            let result = ((1 << count) &- 1) & (self.currentByte >> (8 &- currentByteBitsLeft))
+            self.bitMask <<= count
+            return UInt32(truncatingIfNeeded: result)
         }
+
+        let lowestBitsMask: UInt8 = (1 << currentByteBitsLeft) &- 1
+        var result = UInt32(truncatingIfNeeded: lowestBitsMask & (self.currentByte >> (8 &- currentByteBitsLeft)))
+
+        var bitsLeftToRead = count &- currentByteBitsLeft
+        // Local copy of `self.offset` is required because of the setter property observers.
+        var offset = self.offset &+ 1
+        while bitsLeftToRead >= 8 {
+            result |= UInt32(truncatingIfNeeded: self.data[offset]) << (count &- bitsLeftToRead)
+            bitsLeftToRead &-= 8
+            offset &+= 1
+        }
+
+        // `bitMask` has to be aligned before updating `offset` property.
+        self.bitMask = 1
+        // Updating `offset` property updates `currentByte`.
+        self.offset = offset
+        result |= UInt32(truncatingIfNeeded: ((1 << bitsLeftToRead) &- 1) & self.currentByte) << (count &- bitsLeftToRead)
+        self.bitMask <<= bitsLeftToRead
 
         return result
     }
@@ -266,18 +295,31 @@ public final class LsbBitReader: BitReader {
         precondition(0...64 ~= count)
         precondition(bitsLeft >= count)
 
-        var result = 0 as UInt64
-        for i in 0..<count {
-            let bit: UInt64 = self.currentByte & self.bitMask > 0 ? 1 : 0
-            result += (1 << i) * bit
-
-            if self.bitMask == 128 {
-                self.bitMask = 1
-                self.offset += 1
-            } else {
-                self.bitMask <<= 1
-            }
+        let currentByteBitsLeft = self.bitMask.leadingZeroBitCount &+ 1
+        if currentByteBitsLeft > count {
+            let result = ((1 << count) &- 1) & (self.currentByte >> (8 &- currentByteBitsLeft))
+            self.bitMask <<= count
+            return UInt64(truncatingIfNeeded: result)
         }
+
+        let lowestBitsMask: UInt8 = (1 << currentByteBitsLeft) &- 1
+        var result = UInt64(truncatingIfNeeded: lowestBitsMask & (self.currentByte >> (8 &- currentByteBitsLeft)))
+
+        var bitsLeftToRead = count &- currentByteBitsLeft
+        // Local copy of `self.offset` is required because of the setter property observers.
+        var offset = self.offset &+ 1
+        while bitsLeftToRead >= 8 {
+            result |= UInt64(truncatingIfNeeded: self.data[offset]) << (count &- bitsLeftToRead)
+            bitsLeftToRead &-= 8
+            offset &+= 1
+        }
+
+        // `bitMask` has to be aligned before updating `offset` property.
+        self.bitMask = 1
+        // Updating `offset` property updates `currentByte`.
+        self.offset = offset
+        result |= UInt64(truncatingIfNeeded: ((1 << bitsLeftToRead) &- 1) & self.currentByte) << (count &- bitsLeftToRead)
+        self.bitMask <<= bitsLeftToRead
 
         return result
     }
