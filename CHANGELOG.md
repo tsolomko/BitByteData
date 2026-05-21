@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.1.0
+
+- Swift version from 5.3 up to and including 5.8 are no longer supported.
+- Cocoapods and Carthage installation methods are no longer supported.
+- Enabled visionOS platform for SPM.
+- Increased minimum deployment versions for Darwin platforms: macOS from 10.13 to 14.0, iOS from 11.0 to 17.0, tvOS from
+11.0 to 17.0, and watchOS from 4.0 to 10.0.
+- Improved performance of `L/MsbBitWriter.write(unsignedNumber:bitsCount:)` and reliant functions.
+- General performance improvement of all `L/MsbiBitWriter` functions.
+- Improved performance of `L/MsbBitReader` number reading functions.
+
 ## 2.0.4
 
 - Swift 5.2 is no longer supported.
