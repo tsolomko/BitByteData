@@ -62,12 +62,13 @@ class PvalueStat:
             self.res = None
 
 class BenchmarkResult:
-    def __init__(self, group: str, bench: str, avg: str, rsd: str, iter_count: int):
+    def __init__(self, group: str, bench: str, avg: str, rsd: str, iter_count: int, iters: list):
         self.group_name = group
         self.test_name = bench
         self.avg = avg
         self.rel_std_dev = rsd
         self.iter_count = iter_count
+        self.iters = iters
 
     def __str__(self):
         return " {avg:<6s} {rsd:>6s}%   {group}/{name}".format(group=self.group_name, name=self.test_name, avg=self.avg,
@@ -75,7 +76,7 @@ class BenchmarkResult:
 
     @classmethod
     def from_json_dict(cls, dct: dict):
-        return cls("", dct["name"], dct["avg"], dct["rel_std_dev"], dct.get("iter_count"))
+        return cls("", dct["name"], dct["avg"], dct["rel_std_dev"], dct.get("iter_count"), dct.get("iters"))
 
     # Standard deviation
     @property
@@ -119,7 +120,7 @@ class BenchmarkResult:
         else:
             output += "OK                           "
             stat_keeper.ok()
-        output += " | {self_avg:<6s} {self_rsd:6s}% | {base_avg:<6s} {base_rsd:>6s}% | {group}/{name}".format(self_avg=self.avg,
+        output += " | {self_avg:<6s} {self_rsd:>6s}% | {base_avg:<6s} {base_rsd:>6s}% | {group}/{name}".format(self_avg=self.avg,
             self_rsd=self.rel_std_dev, base_avg=base.avg, base_rsd=base.rel_std_dev, name=self.test_name, group=self.group_name)
         return output
 
@@ -205,7 +206,8 @@ class BenchmarkJSONEncoder(json.JSONEncoder):
                     results_out.append({"name": result.test_name,
                                         "avg": result.avg,
                                         "rel_std_dev": result.rel_std_dev,
-                                        "iter_count": result.iter_count})
+                                        "iter_count": result.iter_count,
+                                        "iters": result.iters})
                 group_out = {"group_name": group_name, "results": results_out}
                 run_out.append(group_out)
             d = {"swift_ver": o.swift_ver, "timestamp": o.timestamp, "binary_size": o.binary_size}
@@ -220,7 +222,8 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
         json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
 
     def object_hook(self, obj):
-        if len(obj.items()) == 4 and "name" in obj and "avg" in obj and "rel_std_dev" in obj and "iter_count" in obj:
+        # "iters" field was introduced later, so may not be present in older saved results.
+        if len(obj.items()) >= 4 and "name" in obj and "avg" in obj and "rel_std_dev" in obj and "iter_count" in obj:
             return BenchmarkResult.from_json_dict(obj)
         elif len(obj.items()) == 2 and "group_name" in obj:
             group = BenchmarkGroup(obj["group_name"])
@@ -235,9 +238,12 @@ class BenchmarkJSONDecoder(json.JSONDecoder):
             return run
         return obj
 
-def _group_benches(benches: list) -> dict:
+def _group_benches(benches: list, filter: str) -> dict:
+    p = re.compile(filter)
+    filtered_benches = [ s for s in benches if p.search(s) ]
+
     groups = {}
-    for bench in benches:
+    for bench in filtered_benches:
         if bench.startswith("BitByteDataBenchmarks."):
             name_parts = bench[22:].split("/")
             if len(name_parts) > 2:
@@ -248,7 +254,7 @@ def _group_benches(benches: list) -> dict:
             groups[name_parts[0]] = group
         else:
             # This message is a bit misleading: it is printed when parsing other SPM output, like build progress.
-            print("warning: non-benchmark test was returned by --filter, skipping.")
+            print("warning: non-benchmark test passed by the supplied filter, skipping.")
     return groups
 
 def _sprun(command):
@@ -301,8 +307,8 @@ def action_run(args):
         build_command += ["-Xswiftc", "-Ounchecked"]
     _sprun(build_command)
 
-    bench_list = _sprun(swift_command + ["test", "-c", "release", "-l", "--filter", args.filter]).stdout.decode().splitlines()
-    groups = _group_benches(bench_list)
+    bench_list = _sprun(swift_command + ["test", "list", "-c", "release"]).stdout.decode().splitlines()
+    groups = _group_benches(bench_list, args.filter)
     if len(groups) == 0:
         print("No benchmarks have been found according to the specified options. Exiting...")
         return
@@ -311,7 +317,7 @@ def action_run(args):
     swift_ver = subprocess.run(swift_command + ["--version"], stdout=subprocess.PIPE, check=True,
                                universal_newlines=True).stdout
     timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    bin_path = _sprun(swift_command + ["build", "--show-bin-path", "-c", "release"]).stdout.decode().splitlines()[0] + "/BitByteData.swiftmodule"
+    bin_path = _sprun(swift_command + ["build", "--show-bin-path", "-c", "release"]).stdout.decode().splitlines()[0] + "/Modules/BitByteData.swiftmodule"
     binary_size = str(os.stat(bin_path).st_size)
     print(swift_ver, end="")
     print("Timestamp: {0}".format(timestamp))
@@ -319,7 +325,8 @@ def action_run(args):
     run = BenchmarkRun(swift_ver, timestamp, binary_size, args.desc)
 
     bench_command = swift_command + ["test", "-c", "release", "--skip-build", "--skip-update", "--filter"]
-    print("NEW | BASE")
+    if base is not None:
+        print("NEW | BASE")
     for group, benches in groups.items():
         base_group = None
         if base is not None:
@@ -338,9 +345,10 @@ def action_run(args):
                 # We're interested only in the lines in the output that look like that they contain benchmark results.
                 if len(matches) == 1 and len(matches[0]) == 5:
                     if matches[0][0] != group or matches[0][1] != bench:
-                        raise RuntimeError("Seems like swift executed wrong benchmark")
+                        raise RuntimeError("Seems like swift executed a wrong benchmark")
                     iter_count = len(iter_p.findall(matches[0][4]))
-                    result = BenchmarkResult(group, bench, matches[0][2], matches[0][3], iter_count)
+                    iters = [float(s) for s in matches[0][4].split(", ")]
+                    result = BenchmarkResult(group, bench, matches[0][2], matches[0][3], iter_count, iters)
                     run.new_result(result)
                     if base_result is not None:
                         print(result.str_compare(base_result))
@@ -393,8 +401,7 @@ subparsers = parser.add_subparsers(title="commands", help="a command to perform"
 
 # Parser for 'run' command.
 parser_run = subparsers.add_parser("run", help="run benchmarks", description="run benchmarks")
-parser_run.add_argument("--filter", action="store", default="BitByteDataBenchmarks",
-                        help="filter benchmarks (passed as --filter option to 'swift test')")
+parser_run.add_argument("--filter", action="store", default="BitByteDataBenchmarks\.", help="filter benchmarks with regex")
 parser_run.add_argument("--save", action="store", metavar="FILE", help="save output in a file")
 parser_run.add_argument("--compare", action="store", metavar="BASE", help="compare results with base benchmarks")
 parser_run.add_argument("--desc", action="store", metavar="DESC", help="add a description to the results")

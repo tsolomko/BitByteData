@@ -1,4 +1,4 @@
-// Copyright (c) 2024 Timofey Solomko
+// Copyright (c) 2026 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -64,6 +64,8 @@ extension BitWriter {
      - Precondition: Parameter `bitsCount` must be in the `0...Int.bitWidth` range.
      */
     public func write(number: Int, bitsCount: Int) {
+        // Since implementations of `BitWriter.write(unsignedNumber:bitsCount:)` are not guaranteed to perform bit width
+        // check, we have to perform it here, even though our own implementations in `L/MsbBitWriter` do have this check.
         precondition(0...Int.bitWidth ~= bitsCount)
         self.write(unsignedNumber: UInt(bitPattern: number), bitsCount: bitsCount)
     }

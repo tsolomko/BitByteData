@@ -1,4 +1,4 @@
-// Copyright (c) 2024 Timofey Solomko
+// Copyright (c) 2026 Timofey Solomko
 // Licensed under MIT License
 //
 // See LICENSE for license information
@@ -20,9 +20,9 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testAdvanceRealistic() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 20_971_520)) // 20 MB
 
-            for _ in 0..<9_300_000 {
+            for _ in 0..<14_000_000 {
                 reader.advance(by: 6)
                 reader.advance(by: 3)
             }
@@ -51,9 +51,9 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testIntFromBits() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 104_857_600)) // 100 MB
 
-            for _ in 0..<1_000_000 * 4 {
+            for _ in 0..<10_000_000 * 4 {
                 _ = reader.int(fromBits: 10)
             }
         }
@@ -61,7 +61,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testSignedInt_SM_pos() {
         var bytes = [UInt8]()
-        for _ in 0..<5_242_880 { // 5 MB * 2
+        for _ in 0..<10_485_760 { // 10 MB * 2
             bytes.append(0xD)
             bytes.append(0x37)
         }
@@ -69,7 +69,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         self.measure {
             let reader = MsbBitReader(data: Data(bytes))
 
-            for _ in 0..<5_000_000 {
+            for _ in 0..<10_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .signMagnitude)
             }
         }
@@ -77,7 +77,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testSignedInt_SM_neg() {
         var bytes = [UInt8]()
-        for _ in 0..<5_242_880 { // 5 MB * 2
+        for _ in 0..<10_485_760 { // 10 MB * 2
             bytes.append(0x8D)
             bytes.append(0x37)
         }
@@ -85,7 +85,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         self.measure {
             let reader = MsbBitReader(data: Data(bytes))
 
-            for _ in 0..<5_000_000 {
+            for _ in 0..<10_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .signMagnitude)
             }
         }
@@ -93,7 +93,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testSignedInt_1C_pos() {
         var bytes = [UInt8]()
-        for _ in 0..<5_242_880 { // 5 MB * 2
+        for _ in 0..<10_485_760 { // 10 MB * 2
             bytes.append(0xD)
             bytes.append(0x37)
         }
@@ -101,7 +101,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         self.measure {
             let reader = MsbBitReader(data: Data(bytes))
 
-            for _ in 0..<5_000_000 {
+            for _ in 0..<10_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .oneComplementNegatives)
             }
         }
@@ -109,7 +109,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testSignedInt_1C_neg() {
         var bytes = [UInt8]()
-        for _ in 0..<5_242_880 { // 5 MB * 2
+        for _ in 0..<10_485_760 { // 10 MB * 2
             bytes.append(0x8D)
             bytes.append(0x37)
         }
@@ -117,7 +117,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         self.measure {
             let reader = MsbBitReader(data: Data(bytes))
 
-            for _ in 0..<5_000_000 {
+            for _ in 0..<10_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .oneComplementNegatives)
             }
         }
@@ -125,7 +125,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testSignedInt_2C_pos() {
         var bytes = [UInt8]()
-        for _ in 0..<5_242_880 { // 5 MB * 2
+        for _ in 0..<10_485_760 { // 10 MB * 2
             bytes.append(0xD)
             bytes.append(0x37)
         }
@@ -133,7 +133,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         self.measure {
             let reader = MsbBitReader(data: Data(bytes))
 
-            for _ in 0..<5_000_000 {
+            for _ in 0..<10_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .twoComplementNegatives)
             }
         }
@@ -141,7 +141,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testSignedInt_2C_neg() {
         var bytes = [UInt8]()
-        for _ in 0..<5_242_880 { // 5 MB * 2
+        for _ in 0..<10_485_760 { // 10 MB * 2
             bytes.append(0x8D)
             bytes.append(0x37)
         }
@@ -149,7 +149,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         self.measure {
             let reader = MsbBitReader(data: Data(bytes))
 
-            for _ in 0..<5_000_000 {
+            for _ in 0..<10_000_000 {
                 _ = reader.signedInt(fromBits: 16, representation: .twoComplementNegatives)
             }
         }
@@ -157,7 +157,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testSignedInt_E127() {
         var bytes = [UInt8]()
-        for _ in 0..<5_242_880 { // 5 MB * 2
+        for _ in 0..<10_485_760 { // 10 MB * 2
             bytes.append(0x6D)
             bytes.append(0xB7)
         }
@@ -165,7 +165,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         self.measure {
             let reader = MsbBitReader(data: Data(bytes))
 
-            for _ in 0..<5_000_000 {
+            for _ in 0..<20_000_000 {
                 _ = reader.signedInt(fromBits: 7, representation: .biased(bias: 127))
             }
         }
@@ -173,7 +173,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testSignedInt_RN2() {
         var bytes = [UInt8]()
-        for _ in 0..<5_242_880 { // 5 MB * 2
+        for _ in 0..<10_485_760 { // 10 MB * 2
             bytes.append(0x6D)
             bytes.append(0xB7)
         }
@@ -181,7 +181,7 @@ class MsbBitReaderBenchmarks: XCTestCase {
         self.measure {
             let reader = MsbBitReader(data: Data(bytes))
 
-            for _ in 0..<5_000_000 {
+            for _ in 0..<10_000_000 {
                 _ = reader.signedInt(fromBits: 13, representation: .radixNegativeTwo)
             }
         }
@@ -189,9 +189,9 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testByteFromBits() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 20_971_520)) // 20 MB
 
-            for _ in 0..<1_000_000 * 8 {
+            for _ in 0..<1_000_000 * 16 {
                 _ = reader.byte(fromBits: 6)
             }
         }
@@ -199,9 +199,9 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testUint16FromBits() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 104_857_600)) // 100 MB
 
-            for _ in 0..<1_000_000 * 4 {
+            for _ in 0..<10_000_000 * 4 {
                 _ = reader.uint16(fromBits: 13)
             }
         }
@@ -209,9 +209,9 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testUint32FromBits() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 104_857_600)) // 100 MB
 
-            for _ in 0..<1_000_000 * 3 {
+            for _ in 0..<10_000_000 * 3 {
                 _ = reader.uint32(fromBits: 23)
             }
         }
@@ -219,9 +219,9 @@ class MsbBitReaderBenchmarks: XCTestCase {
 
     func testUint64FromBits() {
         self.measure {
-            let reader = MsbBitReader(data: Data(count: 10_485_760)) // 10 MB
+            let reader = MsbBitReader(data: Data(count: 104_857_600)) // 100 MB
 
-            for _ in 0..<1_000_000 {
+            for _ in 0..<10_000_000 {
                 _ = reader.uint64(fromBits: 52)
             }
         }

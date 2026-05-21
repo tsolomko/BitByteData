@@ -1,6 +1,6 @@
 # BitByteData
 
-[![Swift 5.3+](https://img.shields.io/badge/Swift-5.3+-blue.svg)](https://developer.apple.com/swift/)
+[![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-blue.svg)](https://developer.apple.com/swift/)
 [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/tsolomko/BitByteData/master/LICENSE)
 [![Build Status](https://dev.azure.com/tsolomko/BitByteData/_apis/build/status/tsolomko.BitByteData?branchName=develop)](https://dev.azure.com/tsolomko/BitByteData/_build/latest?definitionId=2&branchName=develop)
 
@@ -9,11 +9,12 @@ Linux, __and Windows__.
 
 ## Installation
 
-BitByteData can be integrated into your project using either Swift Package Manager, CocoaPods, or Carthage.
+BitByteData can be integrated into your project using Swift Package Manager.
 
-### Swift Package Manager
+__Note:__ BitByteData versions 2.0.4 and earlier were also made available via CocoaPods or Carthage.
 
-To install using SPM, add BitByteData to you package dependencies and specify it as a dependency for your target, e.g.:
+To install with Swift Package Manager, add BitByteData to you package dependencies and specify it as a dependency for
+your target, e.g.:
 
 ```swift
 import PackageDescription
@@ -34,26 +35,6 @@ let package = Package(
 ```
 
 More details you can find in [Swift Package Manager's Documentation](https://github.com/apple/swift-package-manager/tree/main/Documentation).
-
-### CocoaPods
-
-Add `pod 'BitByteData', '~> 2.0'` and `use_frameworks!` lines to your Podfile.
-
-To complete installation, run `pod install`.
-
-### Carthage
-
-Add to your Cartfile `github "tsolomko/BitByteData" ~> 2.0`.
-
-Then:
-
-1. If you use Xcode 12 or later you should run `carthage update --use-xcframeworks`. After that drag
-and drop the `BitByteData.xcframework` file from the `Carthage/Build/` directory into the "Frameworks, Libraries, and
-Embedded Content" section of your target's "General" tab in Xcode.
-
-2. If you use Xcode 11 or earlier you should run `carthage update`. After that drag and drop the
-`BitByteData.framework` file from from the `Carthage/Build/<platform>/` directory into the "Embedded Binaries" section
-of your target's "General" tab in Xcode.
 
 ## Migration to 2.0
 
@@ -124,9 +105,6 @@ Whether you find a bug, have a suggestion, idea, feedback or something else, ple
 them on the [Discussions](https://github.com/tsolomko/BitByteData/discussions) page.
 
 If you'd like to contribute, please [create a pull request](https://github.com/tsolomko/BitByteData/pulls) on GitHub.
-
-__Note:__ If you are considering working on BitByteData, please note that the Xcode project (BitByteData.xcodeproj)
-was created manually and you shouldn't use the `swift package generate-xcodeproj` command.
 
 ### Performance and benchmarks
 
