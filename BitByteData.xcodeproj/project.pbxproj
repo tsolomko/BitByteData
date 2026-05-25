@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -264,7 +264,7 @@
 				BuildIndependentTargetsInParallel = YES;
 				DefaultBuildSystemTypeForWorkspace = Latest;
 				LastSwiftUpdateCheck = 1000;
-				LastUpgradeCheck = 2620;
+				LastUpgradeCheck = 2650;
 				ORGANIZATIONNAME = "Timofey Solomko";
 				TargetAttributes = {
 					065DD5DE21673BC100704028 = {
@@ -283,7 +283,6 @@
 				};
 			};
 			buildConfigurationList = 06F065531FFAE9EC00312A82 /* Build configuration list for PBXProject "BitByteData" */;
-			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -291,6 +290,7 @@
 				Base,
 			);
 			mainGroup = 06F0654F1FFAE9EC00312A82;
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 06F0656D1FFAEA4B00312A82 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
