@@ -20,5 +20,5 @@ let package = Package(
         .testTarget(name: "BitByteDataTests", dependencies: ["BitByteData"]),
         .testTarget(name: "BitByteDataBenchmarks", dependencies: ["BitByteData"])
     ],
-    swiftLanguageModes: [.v5]
+    swiftLanguageModes: [.v6]
 )
